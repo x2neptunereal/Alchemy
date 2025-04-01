@@ -45,7 +45,6 @@ __f = {
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
-    ['__script'] = function(m) return "https://raw.githubusercontent.com/ZoiIntra/__Script/main/__Alchemy/__"..m..".lua" end;
     ['__load'] = function(s) loadstring(game:HttpGet(s))() end;
     ['__ismobile'] = function()
         local uis = game:GetService("UserInputService")
@@ -148,9 +147,9 @@ pcall(function()
     Service.TextChannels.RBXSystem:DisplaySystemMessage("<font color='#00ff80'>Alchemy Hub On Top #1</font>")
     Service.TextChannels.RBXSystem:DisplaySystemMessage("<font color='#9aaaff'>Join our discord at discord.gg/alchemyhub</font>")
 end)]]
-local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoiIntra/__Script/refs/heads/main/__UI1.lua"))()
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
 if game.GameId == 5750914919 then -- for fisch
-    UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoiIntra/__Script/refs/heads/main/__UI2.lua"))()
+    UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
 end
 local Notification = UILibrary:Notification();
 if _G.Premium then
@@ -185,8 +184,7 @@ else
 end
 _G.run_time = true
 local tar;
-pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/ZoiIntra/__Script/refs/heads/main/__Finded.lua"))() end)
 if _G.Aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
 elseif _G.FruitFinder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
 elseif _G.Premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
-else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2-Neptune/AlchemyHub/main/Luarmor/Key") end;
+else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
