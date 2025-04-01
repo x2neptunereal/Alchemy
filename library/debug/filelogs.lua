@@ -1,4 +1,4 @@
-local debug_number = tostring(math.floor(os.clock()))
+local debug_number = tostring(math.floor(os.clock()) * math.random(1000,9999))
 
 local debugFunction = function(name : string, func : any)
     local filename = "alchemy_debugs/" .. os.date('%A, %B %d %Y').." (".. debug_number ..").txt"
