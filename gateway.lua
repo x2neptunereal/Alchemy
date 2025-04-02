@@ -74,6 +74,7 @@ local streamer_mode = streamer_mode
 
 local aimbot = aimbot
 local fruits_finder = fruits_finder
+local arise_afk = arise_afk
 local premium = premium
 
 local setting = setting
@@ -189,5 +190,6 @@ getgenv().run_time = true
 local tar;
 if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
 elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
+elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v3/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
 elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
 else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
