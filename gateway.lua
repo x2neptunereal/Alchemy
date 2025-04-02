@@ -69,19 +69,22 @@ end
     end
 end
 if isNotSupport() then game.Players.LocalPlayer:Kick("⚠️ Detect "..__f['__executor']..", This executor not support please change to highest level executor. ⚠️") end;]]
-_G.AutoRelaunch = auto_rejoin
-_G.StreamerMode = streamer_mode
+local auto_rejoin = auto_rejoin
+local streamer_mode = streamer_mode
 
-_G.Aimbot = aimbot or _G.Aimbot
-_G.FruitFinder = fruits_finder or _G.FruitFinder
-_G.Premium = premium
+local aimbot = aimbot
+local fruits_finder = fruits_finder
+local premium = premium
 
+local setting = setting
+
+-- For Old Script
 _G.Config = setting or _G.Config
 
-if _G.run_time then game:GetService("Players").LocalPlayer:Kick("\n⚠️ Please executor script only 1 times ⚠️") end
+if getgenv().run_time then game:GetService("Players").LocalPlayer:Kick("\n⚠️ Please executor script only 1 times ⚠️") end
 task.spawn(function()
     while true do task.wait()
-        if _G.AutoRelaunch then
+        if auto_rejoin then
             pcall(function()
                 getgenv().re = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
@@ -92,7 +95,7 @@ task.spawn(function()
         end
     end
 end)
-if _G.StreamerMode then
+if streamer_mode then
     pcall(function()
         local allSpace = game:GetDescendants()
         for i=1,#allSpace do
@@ -152,7 +155,7 @@ if game.GameId == 5750914919 then -- for fisch
     UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
 end
 local Notification = UILibrary:Notification();
-if _G.Premium then
+if premium then
     Notification.new({
         Title = "Thank you for Support!",
         Description = "Enjoy scripts and features",
@@ -182,9 +185,9 @@ else
         }
     })
 end
-_G.run_time = true
+getgenv().run_time = true
 local tar;
-if _G.Aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
-elseif _G.FruitFinder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
-elseif _G.Premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
+if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
+elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
+elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
 else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
