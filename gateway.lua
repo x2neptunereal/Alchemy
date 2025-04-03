@@ -1,8 +1,12 @@
 --[[
-
+   _______    __       ________  ___  ___   _______  _______   ________      ___  ___  ________   _______
+  ╱       ╲╲╱╱  ╲     ╱╱  ____ ╲╱  ╱ ╱  ╲╲╱╱       ╲╱       ╲╲╱    ╱   ╲    ╱  ╱ ╱  ╲╲╱     ╱  ╲╱╱  __  ╱
+ ╱  ╱___  ╱╱╱   ╱    ╱╱  ╱     ╱  ╱_╱   ╱╱╱  ╱___  ╱        ╱╱   _╱    ╱   ╱  ╱_╱   ╱╱   __╱   ╱╱       ╲
+╱         ╱    ╱____╱   ╱_____╱   __    ╱     ____╱   ╱  ╱  ╱╲____   ╱╱   ╱   __    ╱         ╱╱   __╱   ╱
+╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
 ALCHEMY HUB NETA EDITION SCRIPT
 
-This made by Alchemy Team ( io.Luable / Alchemy Hub )
+This made by Alchemy Team ( alchemyhub.xyz )
 Modification of the script, including attempting to bypass
 or crack the script for any reason is not allowed.
 
