@@ -14,11 +14,13 @@ local getDate = function()
     return os.date('%A, %B %d %Y')
 end
 
+local fileTime = getTimeOfTheDay("-")
+
 local debugFunction = function(func : any, name : string)
     local func_name = name or "nil"
 
     if isfolder and makefolder and isfile and writefile and appendfile then
-        local filename = "alchemy_debugs/" .. getDate().." (".. getTimeOfTheDay("-") ..").txt"
+        local filename = "alchemy_debugs/" .. getDate().." (".. fileTime ..").txt"
 
         if not isfolder('alchemy_debugs') then
             makefolder('alchemy_debugs')
