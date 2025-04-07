@@ -33,10 +33,7 @@ local catchData = {}
 
 local threadCount = 0
 
-local setting = ({...})[1]--[[{
-    hub = "Normal";
-    average = 10;
-}]]
+local setting = ({...})[1]
 
 print("[ Auto Fishing Speed Test ]")
 print(setting.hub .. " Hub / Rod : "..getRod().Name.." / Ping : "..game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString())
@@ -50,7 +47,7 @@ task.spawn(function()
                 table.foreach(catchData, function(i, v)
                     threadCount = threadCount + v
                 end)
-                print("Average Catch is "..tostring(threadCount / setting.average))
+                print("Average Catch is " .. tostring(threadCount / setting.average) .. "s")
             else
                 local bobber = getRod():FindFirstChild("bobber")
                 if bobber and isBusy() then
@@ -64,7 +61,7 @@ task.spawn(function()
 
                         isCount = false
                         catchCount = catchCount + 1
-                        print("["..catchCount.."] Catch in " .. tostring(catchIn))
+                        print("["..catchCount.."] Catch in " .. tostring(catchIn) .. "s")
                         table.insert(catchData, catchIn)
                     end
                 end
