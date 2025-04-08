@@ -1,6 +1,5 @@
 return {
     "SorryReward",
-    "RFG",
     "NorthernExpedition",
     "NewYear",
     "GOLDENTIDE",
