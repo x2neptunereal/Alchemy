@@ -13,7 +13,10 @@ or crack the script for any reason is not allowed.
 Copyright © 2025 Alchemy Hub - Script. All Rights Reserved.
 
 ]]--
---84221975933832 logo ( NETA )
+
+repeat wait(1) until game:IsLoaded()
+repeat wait(1) until game.Players.LocalPlayer
+
 __f = {
     ['__game'] = function()
         local g = game.GameId
