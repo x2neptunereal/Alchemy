@@ -16,9 +16,7 @@ Copyright © 2025 Alchemy Hub - Script. All Rights Reserved.
 
 repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players.LocalPlayer
-if cometeleport then
-    task.wait(5)
-end
+if cometeleport then task.wait(3) end
 
 __f = {
     ['__game'] = function()
