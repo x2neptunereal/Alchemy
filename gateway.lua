@@ -208,7 +208,7 @@ if not(getgenv().run_time) then
         pcall(function()
             local queueonteleport = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport then
-                queueonteleport('script_key='..script_key..';premium='..premium..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
+                queueonteleport('script_key="'..script_key..'";premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
             end
         end)
     end
