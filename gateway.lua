@@ -79,20 +79,23 @@ end
     end
 end
 if isNotSupport() then game.Players.LocalPlayer:Kick("⚠️ Detect "..__f['__executor']..", This executor not support please change to highest level executor. ⚠️") end;]]
-getgenv().auto_rejoin = auto_rejoin
-getgenv().streamer_mode = streamer_mode
+getgenv().script_key = script_key or nil
+getgenv().disable_auto_exec = disable_auto_exec or false
 
-getgenv().aimbot = aimbot
-getgenv().fruits_finder = fruits_finder
-getgenv().arise_afk = arise_afk
-getgenv().premium = premium
+getgenv().auto_rejoin = auto_rejoin or false
+getgenv().streamer_mode = streamer_mode or false
 
-getgenv().setting = setting
+getgenv().aimbot = aimbot or false
+getgenv().fruits_finder = fruits_finder or false
+getgenv().arise_afk = arise_afk or false
+getgenv().premium = premium or false
+
+getgenv().setting = setting or {}
 
 -- For Old Script
 _G.Config = setting or _G.Config
 
-if getgenv().run_time then game:GetService("Players").LocalPlayer:Kick("\n⚠️ Please executor script only 1 times ⚠️") end
+--if getgenv().run_time then game:GetService("Players").LocalPlayer:Kick("\n⚠️ Please executor script only 1 times ⚠️") end
 task.spawn(function()
     while true do task.wait()
         if auto_rejoin then
@@ -161,45 +164,59 @@ pcall(function()
     Service.TextChannels.RBXSystem:DisplaySystemMessage("<font color='#00ff80'>Alchemy Hub On Top #1</font>")
     Service.TextChannels.RBXSystem:DisplaySystemMessage("<font color='#9aaaff'>Join our discord at discord.gg/alchemyhub</font>")
 end)]]
-local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
-if game.GameId == 5750914919 then -- for fisch
-    UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
-end
-local Notification = UILibrary:Notification();
-if premium then
-    Notification.new({
-        Title = "Thank you for Support!",
-        Description = "Enjoy scripts and features",
-        Duration = 10,
-    })
-else
-    Notification.new({
-        Title = "Wanna Join Discord Server?",
-        Description = "We have big community and news on this server\nWe also have key giveaway too, Thank you for all Support!!",
-        Dialog = true,
-        Buttons = {
-            {
-                Title = "Sure!",
-                Callback = function()
-                    print('discord.gg/alchemyhub')
-                    if setclipboard then
-                        setclipboard("Dont for get to join > https://discord.gg/alchemyhub")
-                    end
-                end,
-            },
-            {
-                Title = "No Thanks",
-                Callback = function()
-                    print('discord.gg/alchemyhub')
-                end,
+
+if not(getgenv().run_time) then
+    local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
+    if game.GameId == 5750914919 then -- for fisch
+        UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
+    end
+    local Notification = UILibrary:Notification();
+    if premium then
+        Notification.new({
+            Title = "Thank you for Support!",
+            Description = "Enjoy scripts and features",
+            Duration = 10,
+        })
+    else
+        Notification.new({
+            Title = "Wanna Join Discord Server?",
+            Description = "We have big community and news on this server\nWe also have key giveaway too, Thank you for all Support!!",
+            Dialog = true,
+            Buttons = {
+                {
+                    Title = "Sure!",
+                    Callback = function()
+                        print('discord.gg/alchemyhub')
+                        if setclipboard then
+                            setclipboard("Dont for get to join > https://discord.gg/alchemyhub")
+                        end
+                    end,
+                },
+                {
+                    Title = "No Thanks",
+                    Callback = function()
+                        print('discord.gg/alchemyhub')
+                    end,
+                }
             }
-        }
-    })
+        })
+    end
+
+    getgenv().run_time = true
+
+    if not(disable_auto_exec) then
+        pcall(function()
+            local queueonteleport = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            if queueonteleport then
+                queueonteleport('script_key='..script_key..';premium='..premium..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
+            end
+        end)
+    end
+
+    local tar;
+    if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
+    elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
+    elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v3/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
+    elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
+    else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
-getgenv().run_time = true
-local tar;
-if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
-elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
-elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v3/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
-elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
-else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
