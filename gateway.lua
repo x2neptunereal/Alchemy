@@ -35,6 +35,7 @@ __f = {
         elseif g == 6761981532 then return "v3/loaders/4246ae8b86fd6988007a6b03841ebf19.lua" -- Anime Power
         elseif g == 7018190066 then return "v3/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
         elseif g == 7314989375 then return "v3/loaders/d52adca9a2085964957acf39a18ee41b.lua" -- Hunters
+        elseif g == 115797356 then return "v3/loaders/a7f5a3bbfce64d9ace1a01d2eab6d6e9.lua" -- Counter Blox
         else
             return "v3/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -55,11 +56,12 @@ __f = {
         elseif g == 6761981532 then return "v3/loaders/03f7172fb9b022d3383d054355f00bb3.lua" -- Anime Power
         elseif g == 7018190066 then return "v3/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
         elseif g == 7314989375 then return "v3/loaders/58596395459995d9635e3bd8184090f0.lua" -- Hunters
+        elseif g == 115797356 then return "v3/loaders/abce48b78b3b674308c0f3ab0f7ead21.lua" -- Counter Blox
         else
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
-    ['__load'] = function(s) loadstring(game:HttpGet(s))() end;
+    ['__load'] = function(s : string) loadstring(game:HttpGet(s))() end;
     ['__ismobile'] = function()
         local uis = game:GetService("UserInputService")
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
@@ -67,7 +69,7 @@ __f = {
     end;
     ['__executor'] = tostring(identifyexecutor())
 }
-local isExecutors = function(txt)
+local isExecutors = function(txt : string)
     local exec = string.lower(__f['__executor'])
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
@@ -103,64 +105,89 @@ _G.Config = setting or _G.Config
 task.spawn(function()
     while true do task.wait()
         if auto_rejoin then
-            pcall(function()
+            xpcall(function()
                 getgenv().re = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
                         game:GetService("TeleportService"):Teleport(game.PlaceId) 
                     end
                 end)
+            end, function(err : string)
+                warn("Auto rejoin function error "..err)
             end)
         end
     end
 end)
 if streamer_mode then
-    pcall(function()
-        local allSpace = game:GetDescendants()
-        for i=1,#allSpace do
-            if allSpace[i].ClassName == "TextLabel" then
-                if string.find(allSpace[i].Text, game.Players.LocalPlayer.Name) then
-                    allSpace[i].Text = string.gsub(allSpace[i].Text, game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
-                    allSpace[i].Changed:Connect(function()
-                        allSpace[i].Text = string.gsub(allSpace[i].Text, game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
-                    end)
-                end
-                if string.find(allSpace[i].Text, game.Players.LocalPlayer.DisplayName) then
-                    allSpace[i].Text = string.gsub(allSpace[i].Text, game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
-                    allSpace[i].Changed:Connect(function()
-                        allSpace[i].Text = string.gsub(allSpace[i].Text, game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
-                    end)
+    xpcall(function()
+        local protectMessage = function(messageTarget : string, messageChange : string)
+            local allSpace = game:GetDescendants()
+        
+            for i=1,#allSpace do
+                if allSpace[i].ClassName == "TextLabel" then
+                    if string.find(allSpace[i].Text, messageTarget) then
+                        allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                        allSpace[i].Changed:Connect(function()
+                            allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                        end)
+                    end
+                elseif allSpace[i].ClassName == "TextButton" then
+                    if string.find(allSpace[i].Text, messageTarget) then
+                        allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                        allSpace[i].Changed:Connect(function()
+                            allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                        end)
+                    end
+                elseif allSpace[i].ClassName == "TextBox" then
+                    if string.find(allSpace[i].Text, messageTarget) then
+                        allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                        allSpace[i].Changed:Connect(function()
+                            allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                        end)
+                    end
                 end
             end
+        
+            game.DescendantAdded:Connect(function(descendant)
+                if descendant.ClassName == "TextLabel" then
+                    if string.find(descendant.Text, messageTarget) then
+                        descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        descendant.Changed:Connect(function()
+                            descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        end)
+                    end
+                elseif descendant.ClassName == "TextButton" then
+                    if string.find(descendant.Text, messageTarget) then
+                        descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        descendant.Changed:Connect(function()
+                            descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        end)
+                    end
+                elseif descendant.ClassName == "TextBox" then
+                    if string.find(descendant.Text, messageTarget) then
+                        descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        descendant.Changed:Connect(function()
+                            descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        end)
+                    end
+                end
+            end)
         end
-        game.DescendantAdded:Connect(function(descendant)
-            if descendant.ClassName == "TextLabel" then
-                if string.find(descendant.Text, game.Players.LocalPlayer.Name) then
-                    descendant.Text = string.gsub(descendant.Text, game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
-                    descendant.Changed:Connect(function()
-                        descendant.Text = string.gsub(descendant.Text, game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
-                    end)
-                end
-            end
-        end)
-        game.DescendantAdded:Connect(function(descendant)
-            if descendant.ClassName == "TextLabel" then
-                if string.find(descendant.Text, game.Players.LocalPlayer.DisplayName) then
-                    descendant.Text = string.gsub(descendant.Text, game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
-                    descendant.Changed:Connect(function()
-                        descendant.Text = string.gsub(descendant.Text, game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
-                    end)
-                end
-            end
-        end)
+        
+        protectMessage(game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
+        protectMessage(game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
+    end, function(err : string)
+        warn("Streamer mode function error "..err)
     end)
 end;
 spawn(function()
-    pcall(function()
+    xpcall(function()
         game:GetService("Players").LocalPlayer.Idled:connect(function()
             game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
             wait(1)
             game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
+    end, function(err : string)
+        warn("Anti afk function error "..err)
     end)
 end)
 --[[
@@ -209,7 +236,7 @@ if not(getgenv().run_time) then
     getgenv().run_time = true
 
     if not(disable_auto_exec) then
-        pcall(function()
+        xpcall(function()
             local queueonteleport = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 if script_key then
@@ -218,6 +245,8 @@ if not(getgenv().run_time) then
                     queueonteleport('getgenv().cometeleport=true;premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
                 end
             end
+        end, function(err : string)
+            warn("Auto execute function error "..err)
         end)
     end
 
