@@ -1,4 +1,4 @@
-local getRod = function()
+local getRod : func = function()
     local playerName = game.Players.LocalPlayer.Name
 	local rod = nil
 	
@@ -15,39 +15,46 @@ local getRod = function()
 	return rod
 end
 
-local isBusy = function()
-	--local RodClientScript = getRod()
-	--local bobber = RodClientScript:FindFirstChild("bobber")
-	if not(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("shakeui")) and not(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("reel")) then
-		return false
-	end
-	return true
+local isBusy : func = function()
+	return game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("shakeui") or game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("reel")
 end
 
-local isCount = false
-local tickCount = nil
+local isCount : boolean = false
+local tickCount : any = nil
 
-local inCount = true
-local catchCount = 0
-local catchData = {}
+local inCount : boolen = true
+local catchCount : number = 0
+local catchData : table = {}
 
-local threadCount = 0
+local threadCount : number = 0
 
-local setting = ({...})[1]
+local config : table = ({...})[1]
+local setting : table = setmetatable(config, {
+    __index = function(table : table, data : any)
+        warn(string.format("Config %s not found!", tostring(data)))
 
-print("[ Auto Fishing Speed Test ]")
-print(setting.hub .. " Hub / Rod : "..getRod().Name.." / Ping : "..game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString())
-print("( Test By x2Neptune )")
+        if data == "average" then
+            return 10
+        else
+            return "N/A"
+        end
+    end
+})
+
+print(string.format(
+    "[ Auto Fishing Speed Test : %s Hub ]\n- Rod : %s\n- Ping : %s\n- Average : %d\n( Test By x2Neptune )",
+    setting.hub, getRod().Name, game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString(), setting.average
+))
 
 task.spawn(function()
     while task.wait() do
         if inCount then
             if #catchData >= setting.average then
                 inCount = false
-                table.foreach(catchData, function(i, v)
+                table.foreach(catchData, function(i : index, v : value)
                     threadCount = threadCount + v
                 end)
-                print("Average Catch is " .. tostring(threadCount / setting.average) .. "s")
+                print(string.format("Average Catch is %ds", threadCount / setting.average))
             else
                 local bobber = getRod():FindFirstChild("bobber")
                 if bobber and isBusy() then
@@ -61,7 +68,7 @@ task.spawn(function()
 
                         isCount = false
                         catchCount = catchCount + 1
-                        print("["..catchCount.."] Catch in " .. tostring(catchIn) .. "s")
+                        print(string.format("[%d] Catch in %ds", catchCount, catchIn))
                         table.insert(catchData, catchIn)
                     end
                 end
