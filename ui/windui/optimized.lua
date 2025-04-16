@@ -4454,77 +4454,77 @@ function Library:CreateWindow(p)
 			IsTheme = v
 			local t = themes[v]
 			Library:setTheme({
-				['Shadow'] = t.Shadow,
-				['Background'] = t.Background,
-				['Page'] = t.Page,
-				['Main'] = t.Main,
-				['Text & Icon'] = t['Text & Icon'],
+				['Shadow'] = Color3.fromRGB(15, 15, 15),
+				['Background'] = Color3.fromRGB(20, 20, 20),
+				['Page'] = Color3.fromRGB(18, 18, 18),
+				['Main'] = Color3.fromRGB(0, 255, 132),
+				['Text & Icon'] = Color3.fromRGB(230, 230, 230),
 				['Function'] = {
 					['Toggle'] = {
-						['Background'] = t.Function.Toggle.Background,
+						['Background'] = Color3.fromRGB(25, 25, 25),
 						['True'] = {
-							['Toggle Background'] = t.Function.Toggle.True['Toggle Background'],
-							['Toggle Value'] = t.Function.Toggle.True['Toggle Value'],
+							['Toggle Background'] = Color3.fromRGB(40, 40, 40),
+							['Toggle Value'] = Color3.fromRGB(0, 255, 132),
 						},
 						['False'] = {
-							['Toggle Background'] = t.Function.Toggle.False['Toggle Background'],
-							['Toggle Value'] = t.Function.Toggle.False['Toggle Value'],
+							['Toggle Background'] = Color3.fromRGB(30, 30, 30),
+							['Toggle Value'] = Color3.fromRGB(40, 40, 40),
 						}
 					},
 					['Label'] = {
-						['Background'] = t.Function.Label.Background,
+						['Background'] = Color3.fromRGB(25, 25, 25),
 					},
 					['Dropdown'] = {
-						['Background'] = t.Function.Dropdown.Background,
-						['Value Background'] = t.Function.Dropdown['Value Background'],
-						['Value Stroke'] = t.Function.Dropdown['Value Stroke'],
+						['Background'] = Color3.fromRGB(25, 25, 25),
+						['Value Background'] = Color3.fromRGB(20, 20, 20),
+						['Value Stroke'] = Color3.fromRGB(230, 230, 230),
 						['Dropdown Select'] = {
-							['Background'] = t.Function.Dropdown['Dropdown Select'].Background,
-							['Search'] = t.Function.Dropdown['Dropdown Select'].Search,
-							['Item Background'] = t.Function.Dropdown['Dropdown Select']['Item Background'],
+							['Background'] = Color3.fromRGB(20, 20, 20),
+							['Search'] = Color3.fromRGB(30, 30, 30),
+							['Item Background'] = Color3.fromRGB(30, 30, 30),
 						}
 					},
 					['Slider'] = {
-						['Background'] = t.Function.Slider.Background,
-						['Value Background'] = t.Function.Slider['Value Background'],
-						['Value Stroke'] = t.Function.Slider['Value Stroke'],
-						['Slider Bar'] = t.Function.Slider['Slider Bar'],
-						['Slider Bar Value'] = t.Function.Slider['Slider Bar Value'],
-						['Circle Value'] = t.Function.Slider['Circle Value'],
+						['Background'] = Color3.fromRGB(25, 25, 25),
+						['Value Background'] = Color3.fromRGB(20, 20, 20),
+						['Value Stroke'] = Color3.fromRGB(230, 230, 230),
+						['Slider Bar'] = Color3.fromRGB(40, 40, 40),
+						['Slider Bar Value'] = Color3.fromRGB(0, 255, 132),
+						['Circle Value'] = Color3.fromRGB(255, 255, 255)
 					},
 					['Code'] = {
-						['Background'] = t.Function.Code.Background,
-						['Background Code'] = t.Function.Code['Background Code'],
-						['Background Code Value'] = t.Function.Code['Background Code Value'],
-						['ScrollingFrame Code'] = t.Function.Code['ScrollingFrame Code'],
+						['Background'] = ColorSequence.new{ColorSequenceKeypoint.new(0, Color3.fromRGB(25, 25, 25)), ColorSequenceKeypoint.new(1, Color3.fromRGB(25, 25, 25))},
+						['Background Code'] = Color3.fromRGB(35, 35, 35),
+						['Background Code Value'] = Color3.fromRGB(28, 28, 28),
+						['ScrollingFrame Code'] = Color3.fromRGB(150, 150, 150)
 					},
 					['Button'] = {
-						['Background'] = t.Function.Button.Background,
-						['Click'] = t.Function.Button.Click,
+						['Background'] = Color3.fromRGB(25, 25, 25),
+						['Click'] = Color3.fromRGB(230, 230, 230)
 					},
 					['Textbox'] = {
-						['Background'] = t.Function.Textbox.Background,
-						['Value Background'] = t.Function.Textbox['Value Background'],
-						['Value Stroke'] = t.Function.Textbox['Value Stroke'],
+						['Background'] = Color3.fromRGB(25, 25, 25),
+						['Value Background'] = Color3.fromRGB(20, 20, 20),
+						['Value Stroke'] = Color3.fromRGB(230, 230, 230),
 					},
 					['Keybind'] = {
-						['Background'] = t.Function.Keybind.Background,
-						['Value Background'] = t.Function.Keybind['Value Background'],
-						['Value Stroke'] = t.Function.Keybind['Value Stroke'],
+						['Background'] = Color3.fromRGB(25, 25, 25),
+						['Value Background'] = Color3.fromRGB(20, 20, 20),
+						['Value Stroke'] = Color3.fromRGB(230, 230, 230),
 						['True'] = {
-							['Toggle Background'] = t.Function.Keybind.True['Toggle Background'],
-							['Toggle Value'] = t.Function.Keybind.True['Toggle Value'],
+							['Toggle Background'] = Color3.fromRGB(40, 40, 40),
+							['Toggle Value'] = Color3.fromRGB(0, 255, 132),
 						},
 						['False'] = {
-							['Toggle Background'] = t.Function.Keybind.False['Toggle Background'],
-							['Toggle Value'] = t.Function.Keybind.False['Toggle Value'],
+							['Toggle Background'] = Color3.fromRGB(30, 30, 30),
+							['Toggle Value'] = Color3.fromRGB(40, 40, 40),
 						}
 					},
 					['Color Picker'] = {
-						['Background'] = t.Function['Color Picker'].Background,
+						['Background'] = Color3.fromRGB(25, 25, 25),
 						['Color Select'] = {
-							['Background'] = t.Function['Color Picker']['Color Select'].Background,
-							['UIStroke'] = t.Function['Color Picker']['Color Select'].UIStroke,
+							['Background'] = Color3.fromRGB(20, 20, 20),
+							['UIStroke'] = Color3.fromRGB(230, 230, 230),
 						}
 					}
 				}
