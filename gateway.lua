@@ -64,7 +64,7 @@ __f = {
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
-    ['__load'] = function(s : string) (load or loadstring)(request({Url = s, Method = "GET"}).Body)() end;
+    ['__load'] = function(s : string) (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function()
         local uis = game:GetService("UserInputService")
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
