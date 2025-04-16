@@ -1663,7 +1663,7 @@ function Library:CreateWindow(p)
 		end
 
 		function Func:Toggle(p)
-			local Value = p.Default or false
+			local Value = p.Value or false
 			local Image = p.Image or ''
 			local Callback = p.Callback or function() end
 			local Title = p.Title or 'null'
