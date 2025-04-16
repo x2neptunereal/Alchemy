@@ -4,7 +4,7 @@ Library = {}
 SaveTheme = {}
 
 local themes = {
-	index = {'Alchemy', 'Dark'},,
+	index = {'Alchemy', 'Dark'},
 	Alchemy = {
 		['Shadow'] = Color3.fromRGB(15, 15, 15),
 		['Background'] = Color3.fromRGB(20, 20, 20),
