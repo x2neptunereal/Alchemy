@@ -83,9 +83,12 @@ local themes = {
 	},
 }
 
+local pgui = protectgui or (syn and syn.protect_gui) or function() end
+
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = not game:GetService("RunService"):IsStudio() and game:GetService("CoreGui") or game:GetService("Players").LocalPlayer.PlayerGui
+ScreenGui.Parent = gethui and gethui() or game.CoreGui or game:GetService("Players").LocalPlayer.PlayerGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+pgui(ScreenGui)
 
 local U, Tw = game:GetService("UserInputService"), game:GetService("TweenService")
 
