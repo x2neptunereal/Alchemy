@@ -1061,7 +1061,7 @@ function Library:CreateWindow(p)
 	local Minisize_1 = Instance.new("ImageButton")
 	local UIListLayout_6 = Instance.new("UIListLayout")
 	local Close_1 = Instance.new("ImageButton")
-	local DropdownValue_1 = Instance.new("Frame")
+	--local DropdownValue_1 = Instance.new("Frame")
 	local Td_1 = Instance.new("Frame")
 	local UIPadding_13 = Instance.new("UIPadding")
 	local UIListLayout_7 = Instance.new("UIListLayout")
@@ -1148,7 +1148,7 @@ function Library:CreateWindow(p)
 	ChSize_1.Image = "rbxassetid://15082210525"
 	ChSize_1.ImageTransparency = 0.5
 
-	DropdownValue_1.Name = "DropdownValue"
+	--[[DropdownValue_1.Name = "DropdownValue"
 	DropdownValue_1.Parent = Ct_1
 	DropdownValue_1.AnchorPoint = Vector2.new(1, 0.5)
 	DropdownValue_1.BackgroundColor3 = Color3.fromRGB(24,24,31)
@@ -1156,7 +1156,7 @@ function Library:CreateWindow(p)
 	DropdownValue_1.BorderSizePixel = 0
 	DropdownValue_1.Position = UDim2.new(1, 0,0.5, 0)
 	DropdownValue_1.Size = UDim2.new(0, 120,0, 20)
-	DropdownValue_1.Transparency = 1
+	DropdownValue_1.Transparency = 1]]
 
 	Td_1.Name = "Td"
 	Td_1.Parent = Topbar_1
@@ -4527,7 +4527,7 @@ function Library:CreateWindow(p)
 				}
 			})
 		end
-		local ThemeDrop = addDropdownSelect(DropdownValue_1, DropdownValue_1, false, CallTheme, Theme, themes.index)
+		--local ThemeDrop = addDropdownSelect(DropdownValue_1, DropdownValue_1, false, CallTheme, Theme, themes.index)
 
 		Close_1.MouseButton1Click:Connect(function()
 			Tabs:Dialog({
