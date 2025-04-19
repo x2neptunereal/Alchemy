@@ -657,7 +657,7 @@ do
 		ScrollingFrame_1.ElasticBehavior = Enum.ElasticBehavior.WhenScrollable
 		ScrollingFrame_1.HorizontalScrollBarInset = Enum.ScrollBarInset.None
 		ScrollingFrame_1.MidImage = "rbxasset://textures/ui/Scroll/scroll-middle.png"
-		ScrollingFrame_1.ScrollBarImageColor3 = Color3.fromRGB(107,84,255)
+		ScrollingFrame_1.ScrollBarImageColor3 = Color3.fromRGB(0, 255, 132)
 		ScrollingFrame_1.ScrollBarImageTransparency = 0
 		ScrollingFrame_1.ScrollBarThickness = 2
 		ScrollingFrame_1.ScrollingDirection = Enum.ScrollingDirection.XY
@@ -4453,6 +4453,83 @@ function Library:CreateWindow(p)
 		local CallTheme = function(v)
 			IsTheme = v
 			local t = themes[v]
+			--[[Library:setTheme({
+				['Shadow'] = t.Shadow,
+				['Background'] = t.Background,
+				['Page'] = t.Page,
+				['Main'] = t.Main,
+				['Text & Icon'] = t['Text & Icon'],
+				['Function'] = {
+					['Toggle'] = {
+						['Background'] = t.Function.Toggle.Background,
+						['True'] = {
+							['Toggle Background'] = t.Function.Toggle.True['Toggle Background'],
+							['Toggle Value'] = t.Function.Toggle.True['Toggle Value'],
+						},
+						['False'] = {
+							['Toggle Background'] = t.Function.Toggle.False['Toggle Background'],
+							['Toggle Value'] = t.Function.Toggle.False['Toggle Value'],
+						}
+					},
+					['Label'] = {
+						['Background'] = t.Function.Label.Background,
+					},
+					['Dropdown'] = {
+						['Background'] = t.Function.Dropdown.Background,
+						['Value Background'] = t.Function.Dropdown['Value Background'],
+						['Value Stroke'] = t.Function.Dropdown['Value Stroke'],
+						['Dropdown Select'] = {
+							['Background'] = t.Function.Dropdown['Dropdown Select'].Background,
+							['Search'] = t.Function.Dropdown['Dropdown Select'].Search,
+							['Item Background'] = t.Function.Dropdown['Dropdown Select']['Item Background'],
+						}
+					},
+					['Slider'] = {
+						['Background'] = t.Function.Slider.Background,
+						['Value Background'] = t.Function.Slider['Value Background'],
+						['Value Stroke'] = t.Function.Slider['Value Stroke'],
+						['Slider Bar'] = t.Function.Slider['Slider Bar'],
+						['Slider Bar Value'] = t.Function.Slider['Slider Bar Value'],
+						['Circle Value'] = t.Function.Slider['Circle Value'],
+					},
+					['Code'] = {
+						['Background'] = t.Function.Code.Background,
+						['Background Code'] = t.Function.Code['Background Code'],
+						['Background Code Value'] = t.Function.Code['Background Code Value'],
+						['ScrollingFrame Code'] = t.Function.Code['ScrollingFrame Code'],
+					},
+					['Button'] = {
+						['Background'] = t.Function.Button.Background,
+						['Click'] = t.Function.Button.Click,
+					},
+					['Textbox'] = {
+						['Background'] = t.Function.Textbox.Background,
+						['Value Background'] = t.Function.Textbox['Value Background'],
+						['Value Stroke'] = t.Function.Textbox['Value Stroke'],
+					},
+					['Keybind'] = {
+						['Background'] = t.Function.Keybind.Background,
+						['Value Background'] = t.Function.Keybind['Value Background'],
+						['Value Stroke'] = t.Function.Keybind['Value Stroke'],
+						['True'] = {
+							['Toggle Background'] = t.Function.Keybind.True['Toggle Background'],
+							['Toggle Value'] = t.Function.Keybind.True['Toggle Value'],
+						},
+						['False'] = {
+							['Toggle Background'] = t.Function.Keybind.False['Toggle Background'],
+							['Toggle Value'] = t.Function.Keybind.False['Toggle Value'],
+						}
+					},
+					['Color Picker'] = {
+						['Background'] = t.Function['Color Picker'].Background,
+						['Color Select'] = {
+							['Background'] = t.Function['Color Picker']['Color Select'].Background,
+							['UIStroke'] = t.Function['Color Picker']['Color Select'].UIStroke,
+						}
+					}
+				}
+			})]]
+
 			Library:setTheme({
 				['Shadow'] = Color3.fromRGB(15, 15, 15),
 				['Background'] = Color3.fromRGB(20, 20, 20),
