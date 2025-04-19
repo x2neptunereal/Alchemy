@@ -109,7 +109,7 @@ getgenv().setting = setting or {}
 _G.Config = setting or _G.Config
 
 -- x2Neptune's Software
-task.delay(10, function()
+task.delay(6, function()
     pcall(function()
         (load or loadstring)(request({
             Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/refs/heads/main/software/_rbx.lua",
