@@ -271,6 +271,10 @@ if not(getgenv().run_time) then
         end)
     end
 
+    if script_key then
+        print("Key : ".. script_key)
+    end
+    
     local tar;
     if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
     elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
