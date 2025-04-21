@@ -109,6 +109,9 @@ getgenv().setting = setting or {}
 -- For Old Script
 _G.Config = setting or _G.Config
 
+-- Disable Debug Files
+getgenv().diableFile = true
+
 -- x2Neptune's Software
 task.delay(6, function()
     pcall(function()
