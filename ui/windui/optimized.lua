@@ -132,6 +132,10 @@ do
 			end
 		end
 	end
+	function Library:Deleted()
+		ScreenGui.Enabled = false
+		SereenGui:Destroy()
+	end
 
 	local IconList = loadstring(game:HttpGet('https://raw.githubusercontent.com/Dummyrme/Library/refs/heads/main/Icon.lua'))()
 	function gl(i)
@@ -4431,11 +4435,6 @@ function Library:CreateWindow(p)
 
 			if not firsttime then
 				firsttime = true
-				Tabs:Notify({
-					Title = 'Dummy UI',
-					Content = 'Press the <font color="#FF77A5" size="14">('..tostring(Keybind):gsub("Enum.KeyCode.", "")..')</font> button to hide and show the UI',
-					Duration = 10
-				})
 			end
 		end
 
