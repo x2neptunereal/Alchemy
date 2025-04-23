@@ -293,9 +293,9 @@ if not(getgenv().run_time) then
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 print("Set Auto Execute")
                 if script_key then
-                    queueonteleport('getgenv().cometeleport=true;script_key="'..script_key..'";premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
+                    queueonteleport('getgenv().cometeleport=true;script_key="'..script_key..'";premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()')
                 else
-                    queueonteleport('getgenv().cometeleport=true;premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
+                    queueonteleport('getgenv().cometeleport=true;premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()')
                 end
             end
         end, function(err : string)
