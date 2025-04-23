@@ -18,6 +18,8 @@ repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players.LocalPlayer
 if cometeleport then task.wait(5) end
 
+---------/// Wait For Load ///---------
+
 __f = {
     ['__game'] = function()
         local g = game.GameId
@@ -77,27 +79,20 @@ __f = {
     end;
     ['__executor'] = tostring(identifyexecutor())
 }
+
 local isExecutors = function(txt : string)
     local exec = string.lower(__f['__executor'])
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
---local Service = game:GetService("TextChatService")
---[[local isNotSupport = function()
-    local exec = string.lower(__f['__executor'])
-    if exec == "luna" or string.find(exec, "luna") then
-        return true
-    elseif exec == "jjsploit" or string.find(exec, "jjsploit") then
-        return true
-    else
-        return false
-    end
-end
-if isNotSupport() then game.Players.LocalPlayer:Kick("⚠️ Detect "..__f['__executor']..", This executor not support please change to highest level executor. ⚠️") end;]]
+
+---------/// Set All Config to Global ///---------
+
 getgenv().script_key = script_key or nil
 getgenv().disable_auto_exec = disable_auto_exec or false
 
 getgenv().auto_rejoin = auto_rejoin or false
 getgenv().streamer_mode = streamer_mode or false
+getgenv().fully_rejoin = fully_rejoin or false
 
 getgenv().aimbot = aimbot or false
 getgenv().fruits_finder = fruits_finder or false
@@ -106,13 +101,16 @@ getgenv().premium = premium or false
 
 getgenv().setting = setting or {}
 
--- For Old Script
+---------/// Old Script Config ///---------
+
 _G.Config = setting or _G.Config
 
--- Disable Debug Files
+---------/// Disable Debug File ///---------
+
 getgenv().diableFile = true
 
--- x2Neptune's Software
+---------/// x2Neptune's Software ///---------
+
 task.delay(6, function()
     pcall(function()
         (load or loadstring)(request({
@@ -122,12 +120,13 @@ task.delay(6, function()
     end)
 end)
 
---if getgenv().run_time then game:GetService("Players").LocalPlayer:Kick("\n⚠️ Please executor script only 1 times ⚠️") end
-task.spawn(function()
-    while true do task.wait()
-        if auto_rejoin then
+---------/// Auto Rejoin ///---------
+
+if auto_rejoin then
+    task.spawn(function()
+        while true do task.wait()
             xpcall(function()
-                getgenv().re = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child)
+                game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
                         game:GetService("TeleportService"):Teleport(game.PlaceId) 
                     end
@@ -136,8 +135,11 @@ task.spawn(function()
                 warn("Auto rejoin function error "..err)
             end)
         end
-    end
-end)
+    end)
+end
+
+---------/// Streamer Mode ///---------
+
 if streamer_mode then
     xpcall(function()
         local protectMessage = function(messageTarget : string, messageChange : string)
@@ -200,6 +202,27 @@ if streamer_mode then
         warn("Streamer mode function error "..err)
     end)
 end;
+
+---------/// Fully Rejoin ///---------
+
+if fully_rejoin then
+    getgenv().start_fully_rejoin = tick()
+
+    task.spawn(function()
+        while true do task.wait()
+            xpcall(function()
+                if tick() - start_fully_rejoin >= 1200 then
+                    game:GetService("TeleportService"):Teleport(game.PlaceId) 
+                end
+            end, function(err : string)
+                warn("Auto rejoin function error "..err)
+            end)
+        end
+    end)
+end
+
+---------/// Anit AFK ///---------
+
 spawn(function()
     xpcall(function()
         game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -211,18 +234,22 @@ spawn(function()
         warn("Anti afk function error "..err)
     end)
 end)
---[[
-pcall(function()
-    Service.TextChannels.RBXSystem:DisplaySystemMessage("<font color='#00ff80'>Alchemy Hub On Top #1</font>")
-    Service.TextChannels.RBXSystem:DisplaySystemMessage("<font color='#9aaaff'>Join our discord at discord.gg/alchemyhub</font>")
-end)]]
+
+---------/// Check if not execute 2 times ///---------
 
 if not(getgenv().run_time) then
     local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
+    
+    ---------/// Notify For Fisch ///---------
+
     if game.GameId == 5750914919 then -- for fisch
         UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
     end
+
     local Notification = UILibrary:Notification();
+    
+    ---------/// Send Notify ///---------
+
     if premium then
         Notification.new({
             Title = "Thank you for Support!",
@@ -254,7 +281,11 @@ if not(getgenv().run_time) then
         })
     end
 
+    ---------/// Mark as already execute ///---------
+
     getgenv().run_time = true
+
+    ---------/// Auto Execute ///---------
 
     if not(disable_auto_exec) then
         xpcall(function()
@@ -271,10 +302,14 @@ if not(getgenv().run_time) then
         end)
     end
 
+    ---------/// Print Script Key Config ///---------
+
     if script_key then
         print("Key : ".. script_key)
     end
     
+    ---------/// Load Scripts ///---------
+
     local tar;
     if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
     elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
