@@ -1,9 +1,9 @@
-return function()
+local createAlchemyToggle = function()
     local ioToggle = Instance.new("ScreenGui")
     local ImageButton = Instance.new("ImageButton")
     local UICorner = Instance.new("UICorner")
 
-    local pgui = protectgui or (syn and syn.protect__Alchemyui) or function() end
+    local pgui = protectgui or (syn and syn.protect_gui) or function() end
 
     ioToggle.Name = "Alchemy"
     ioToggle.Parent = gethui and gethui() or game.CoreGui
@@ -25,16 +25,16 @@ return function()
     UICorner.Parent = ImageButton
 
     ImageButton.MouseButton1Down:connect(function()
-        game:GetService("VirtualInputManager"):SendKeyEvent(true,305,false,game)
-        game:GetService("VirtualInputManager"):SendKeyEvent(false,305,false,game)
-        game:GetService('TweenService'):Create(ImageButton,TweenInfo.new(0.4),{
+		game:GetService("VirtualInputManager"):SendKeyEvent(true, 305, false, game)
+		game:GetService("VirtualInputManager"):SendKeyEvent(false, 305, false, game)
+        game:GetService('TweenService'):Create(ImageButton, TweenInfo.new(0.4), {
             Position = MainPos,
             Size = UDim2.new(0, 60, 0, 60)
         }):Play();
     end)
 
     ImageButton.MouseButton1Up:connect(function()
-        game:GetService('TweenService'):Create(ImageButton,TweenInfo.new(0.4),{
+        game:GetService('TweenService'):Create(ImageButton, TweenInfo.new(0.4), {
             Size = UDim2.new(0, 50, 0, 50)
         }):Play();
     end)
@@ -48,9 +48,11 @@ return function()
         function updateInput(input)
             Delta = input.Position - dragStart
             Position =
-                UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-            game:GetService("TweenService"):Create(object, TweenInfo.new(dragSpeed), {Position = Position}):Play()
+                UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale,
+                    startPos.Y.Offset + Delta.Y)
+            game:GetService("TweenService"):Create(object, TweenInfo.new(dragSpeed), { Position = Position }):Play()
         end
+
         Frame.InputBegan:Connect(
             function(input)
                 if
@@ -81,12 +83,15 @@ return function()
             end
         )
         game:GetService("UserInputService").InputChanged:Connect(
-        function(input)
-            if (input == dragInput and dragToggle) then
-                updateInput(input)
+            function(input)
+                if (input == dragInput and dragToggle) then
+                    updateInput(input)
+                end
             end
-        end
         )
     end
+
     dragify(ImageButton, ImageButton)
 end
+
+return createAlchemyToggle
