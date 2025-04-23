@@ -22,7 +22,7 @@ if cometeleport then task.wait(5) end
 
 __f = {
     ['__game'] = function()
-        local g = game.GameId
+        local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
         elseif g == 6325068386 then return "v3/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
@@ -47,7 +47,7 @@ __f = {
         end
     end;
     ['__premium'] = function()
-        local g = game.GameId
+        local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
         elseif g == 6325068386 then return "v3/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
@@ -73,15 +73,15 @@ __f = {
     end;
     ['__load'] = function(s : string) (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function()
-        local uis = game:GetService("UserInputService")
+        local uis : userdata = game:GetService("UserInputService")
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
         elseif not uis.TouchEnabled and uis.KeyboardEnabled and uis.MouseEnabled then return false end
     end;
     ['__executor'] = tostring(identifyexecutor())
 }
 
-local isExecutors = function(txt : string)
-    local exec = string.lower(__f['__executor'])
+local isExecutors : func = function(txt : string)
+    local exec : string = string.lower(__f['__executor'])
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
 
@@ -142,8 +142,8 @@ end
 
 if streamer_mode then
     xpcall(function()
-        local protectMessage = function(messageTarget : string, messageChange : string)
-            local allSpace = game:GetDescendants()
+        local protectMessage : func = function(messageTarget : string, messageChange : string)
+            local allSpace : userdata = game:GetDescendants()
         
             for i=1,#allSpace do
                 if allSpace[i].ClassName == "TextLabel" then
@@ -238,7 +238,7 @@ end)
 ---------/// Check if not execute 2 times ///---------
 
 if not(getgenv().run_time) then
-    local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
+    local UILibrary : any = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
     
     ---------/// Notify For Fisch ///---------
 
@@ -246,7 +246,7 @@ if not(getgenv().run_time) then
         UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
     end
 
-    local Notification = UILibrary:Notification();
+    local Notification : any = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
 
@@ -289,7 +289,7 @@ if not(getgenv().run_time) then
 
     if not(disable_auto_exec) then
         xpcall(function()
-            local queueonteleport = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            local queueonteleport : func = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 if script_key then
                     queueonteleport('getgenv().cometeleport=true;script_key="'..script_key..'";premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.lua"))()')
@@ -310,7 +310,7 @@ if not(getgenv().run_time) then
     
     ---------/// Load Scripts ///---------
 
-    local tar;
+    local tar : any = nil;
     if aimbot then __f['__load']("https://api.luarmor.net/files/v3/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
     elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
     elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v3/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
