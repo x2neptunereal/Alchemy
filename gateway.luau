@@ -267,7 +267,7 @@ if not(getgenv().run_time) then
                     Callback = function()
                         print('discord.gg/alchemyhub')
                         if setclipboard then
-                            setclipboard("Dont for get to join > https://discord.gg/alchemyhub")
+                            setclipboard("https://discord.gg/alchemyhub")
                         end
                     end,
                 },
@@ -281,6 +281,32 @@ if not(getgenv().run_time) then
         })
     end
 
+    
+    Notification.new({
+        Title = "Wanna Remove Workspace?",
+        Description = "This will delete all your setting and config.",
+        Dialog = true,
+        Buttons = {
+            {
+                Title = "Yes",
+                Callback = function()
+                    if isfolder and delfolder then
+                        if isfolder("alchemyhub_neta") then
+                            delfolder("alchemyhub_neta")
+                            print("Delete Workspace Done!")
+                        end
+                    end
+                end,
+            },
+            {
+                Title = "No",
+                Callback = function()
+                    print('Nothing.')
+                end,
+            }
+        }
+    })
+
     ---------/// Mark as already execute ///---------
 
     getgenv().run_time = true
@@ -289,7 +315,7 @@ if not(getgenv().run_time) then
 
     if not(disable_auto_exec) then
         xpcall(function()
-            local queueonteleport = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            local queueonteleport : func = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 print("Set Auto Execute")
                 if script_key then
