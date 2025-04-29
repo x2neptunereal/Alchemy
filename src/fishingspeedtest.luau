@@ -22,7 +22,7 @@ end
 local isCount : boolean = false
 local tickCount : any = nil
 
-local inCount : boolen = true
+local inCount : boolean = true
 local catchCount : number = 0
 local catchData : {} = {}
 
