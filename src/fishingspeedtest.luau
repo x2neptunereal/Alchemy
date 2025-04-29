@@ -1,4 +1,4 @@
-local getRod : func = function()
+local getRod : () -> Instance = function()
     local playerName = game.Players.LocalPlayer.Name
 	local rod = nil
 	
@@ -15,7 +15,7 @@ local getRod : func = function()
 	return rod
 end
 
-local isBusy : func = function()
+local isBusy : () -> Instance = function()
 	return game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("shakeui") or game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("reel")
 end
 
@@ -24,13 +24,13 @@ local tickCount : any = nil
 
 local inCount : boolen = true
 local catchCount : number = 0
-local catchData : table = {}
+local catchData : {} = {}
 
 local threadCount : number = 0
 
-local config : table = ({...})[1]
-local setting : table = setmetatable(config, {
-    __index = function(table : table, data : any)
+local config : {} = ({...})[1]
+local setting : {} = setmetatable(config, {
+    __index = function(table : {}, data : any)
         warn(string.format("Config %s not found!", tostring(data)))
 
         if data == "average" then
@@ -56,7 +56,7 @@ task.spawn(function()
                 end)
                 print(string.format("Average Catch is %ds", threadCount / setting.average))
             else
-                local bobber = getRod():FindFirstChild("bobber")
+                local bobber : Instance = getRod():FindFirstChild("bobber")
                 if bobber and isBusy() then
                     if not isCount then
                         isCount = true
