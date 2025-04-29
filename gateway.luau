@@ -18,10 +18,12 @@ repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players.LocalPlayer
 if cometeleport then task.wait(5) end
 
+type array<I,V> = {[I]: V}
+
 ---------/// Wait For Load ///---------
 
-__f = {
-    ['__game'] = function()
+local __f : array<string, ()> = {
+    ['__game'] = function() : string
         local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
@@ -47,7 +49,7 @@ __f = {
             return "v3/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
     end;
-    ['__premium'] = function()
+    ['__premium'] = function() : string
         local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
@@ -73,23 +75,23 @@ __f = {
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
-    ['__load'] = function(s : string) (load or loadstring)(game:HttpGet(s))() end;
-    ['__ismobile'] = function()
-        local uis : userdata = game:GetService("UserInputService")
+    ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
+    ['__ismobile'] = function() : boolean
+        local uis : Instance = game:GetService("UserInputService")
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
         elseif not uis.TouchEnabled and uis.KeyboardEnabled and uis.MouseEnabled then return false end
     end;
-    ['__executor'] = tostring(identifyexecutor())
+    ['__executor'] = function() : string return tostring(identifyexecutor()) end;
 }
 
-local isExecutors : func = function(txt : string)
-    local exec : string = string.lower(__f['__executor'])
+local isExecutors : (txt : string) -> boolean = function(txt : string)
+    local exec : string = string.lower(__f['__executor']())
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
 
 ---------/// Set All Config to Global ///---------
 
-getgenv().script_key = script_key or nil
+getgenv().script_key= script_key or nil
 getgenv().disable_auto_exec = disable_auto_exec or false
 
 getgenv().auto_rejoin = auto_rejoin or false
@@ -124,7 +126,7 @@ end)
 
 ---------/// Loading Screen ///---------
 
-LoaderLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
+local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
 
 LoaderLib:LoadInit({
     Color = Color3.fromRGB(0, 255, 128),
@@ -138,7 +140,7 @@ if auto_rejoin then
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
-                game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child)
+                game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child : Instance)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
                         game:GetService("TeleportService"):Teleport(game.PlaceId) 
                     end
@@ -154,8 +156,8 @@ end
 
 if streamer_mode then
     xpcall(function()
-        local protectMessage : func = function(messageTarget : string, messageChange : string)
-            local allSpace : userdata = game:GetDescendants()
+        local protectMessage : (messageTarget : string, messageChange : string) -> nil = function(messageTarget : string, messageChange : string)
+            local allSpace : {Instance} = game:GetDescendants()
         
             for i=1,#allSpace do
                 if allSpace[i].ClassName == "TextLabel" then
@@ -250,7 +252,7 @@ end)
 ---------/// Check if not execute 2 times ///---------
 
 if not(getgenv().run_time) then
-    local UILibrary : any = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
+    local UILibrary : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
     
     ---------/// Notify For Fisch ///---------
 
@@ -258,7 +260,7 @@ if not(getgenv().run_time) then
         UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
     end
 
-    local Notification : any = UILibrary:Notification();
+    local Notification : {new : () -> nil} = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
 
@@ -327,7 +329,7 @@ if not(getgenv().run_time) then
 
     if not(disable_auto_exec) then
         xpcall(function()
-            local queueonteleport : func = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 print("Set Auto Execute")
                 if script_key then
