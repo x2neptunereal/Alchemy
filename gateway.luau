@@ -22,7 +22,7 @@ type array<I,V> = {[I]: V}
 
 ---------/// Wait For Load ///---------
 
-local __f : array<string, ()> = {
+local __f : array<string, any> = {
     ['__game'] = function() : string
         local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
