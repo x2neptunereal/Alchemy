@@ -122,6 +122,16 @@ task.delay(6, function()
     end)
 end)
 
+---------/// Loading Screen ///---------
+
+LoaderLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
+
+LoaderLib:LoadInit({
+    Color = Color3.fromRGB(0, 255, 128),
+    Duration = 1.5,
+    Size =  87,
+});
+
 ---------/// Auto Rejoin ///---------
 
 if auto_rejoin then
