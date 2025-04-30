@@ -137,11 +137,32 @@ task.delay(6, function()
     end)
 end)
 
+---------/// Sound Set Up ///---------
+
+if not isfolder('alchemyhub_sound') then
+    makefolder('alchemyhub_sound')
+end
+
+local playSound : (name : string, link : string) -> nil = function(name : string, link : string)
+    if not isfile("alchemyhub_sound/".. name ..".mp3") then
+        writefile("alchemyhub_sound/".. name ..".mp3", game:HttpGet(link))
+    end
+
+    local soundName : string = name..".mp3"
+    
+    local SoundSFX : Instance = Instance.new("Sound")
+    SoundSFX.Parent = workspace
+    SoundSFX.SoundId = getcustomasset("alchemyhub_sound/" .. soundName)
+
+    SoundSFX:Play()
+end
+
 ---------/// Loading Screen ///---------
 
 xpcall(function()
     local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
     
+    task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
     LoaderLib:LoadInit({
         Color = Color3.fromRGB(0, 255, 128),
         Duration = 1.5,
