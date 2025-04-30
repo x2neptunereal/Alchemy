@@ -93,7 +93,7 @@ local isExecutors : (txt : string) -> boolean = function(txt : string)
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
 
-print(string.format("EXECUTOR DETECTED : %s", __f['__executor']()))
+print(string.format("\nEXECUTOR DETECTED : %s", __f['__executor']()))
 if hookfunction then print("</> Support [HOOKFUNCTION]") else warn("</> Not Support [HOOKFUNCTION]") end
 if hookmetamethod then print("</> Support [HOOKMETAMETHOD]") else warn("</> Not Support [HOOKMETAMETHOD]") end
 if writefile then print("</> Support [WRITEFILE]") else warn("</> Not Support [WRITEFILE]") end
