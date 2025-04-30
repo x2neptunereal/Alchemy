@@ -118,23 +118,29 @@ getgenv().diableFile = true
 ---------/// x2Neptune's Software ///---------
 
 task.delay(6, function()
-    pcall(function()
+    xpcall(function()
         (load or loadstring)(request({
             Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/refs/heads/main/software/_rbx.lua",
             Method = "GET"
         }).Body)()
+    end, function(err : string)
+        warn("Software function error "..err)
     end)
 end)
 
 ---------/// Loading Screen ///---------
 
-local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
-
-LoaderLib:LoadInit({
-    Color = Color3.fromRGB(0, 255, 128),
-    Duration = 1.5,
-    Size =  87,
-});
+xpcall(function()
+    local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
+    
+    LoaderLib:LoadInit({
+        Color = Color3.fromRGB(0, 255, 128),
+        Duration = 1.5,
+        Size =  87,
+    });
+end, function(err : string)
+    warn("Loading screen function error "..err)
+end)
 
 ---------/// Auto Rejoin ///---------
 
