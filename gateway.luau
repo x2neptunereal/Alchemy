@@ -86,10 +86,19 @@ local __f : array<string, any> = {
     ['__executor'] = function() : string return tostring(identifyexecutor()) end;
 }
 
+---------/// Check Executor ///---------
+
 local isExecutors : (txt : string) -> boolean = function(txt : string)
     local exec : string = string.lower(__f['__executor']())
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
+
+print(string.format("EXECUTOR DETECTED : %s", __f['__executor']()))
+if hookfunction then print("</> Support [HOOKFUNCTION]") else warn("</> Not Support [HOOKFUNCTION]") end
+if hookmetamethod then print("</> Support [HOOKMETAMETHOD]") else warn("</> Not Support [HOOKMETAMETHOD]") end
+if writefile then print("</> Support [WRITEFILE]") else warn("</> Not Support [WRITEFILE]") end
+if readfile then print("</> Support [READFILE]") else warn("</> Not Support [READFILE]") end
+if request then print("</> Support [REQUEST]\n") else warn("</> Not Support [REQUEST]\n") end
 
 ---------/// Set All Config to Global ///---------
 
@@ -339,7 +348,7 @@ if not(getgenv().run_time) then
         xpcall(function()
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
-                print("Set Auto Execute")
+                print("Set Auto Execute\n")
                 if script_key then
                     queueonteleport('getgenv().cometeleport=true;script_key="'..script_key..'";premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()')
                 else
@@ -354,7 +363,7 @@ if not(getgenv().run_time) then
     ---------/// Print Script Key Config ///---------
 
     if script_key then
-        print("Key : ".. script_key)
+        print(string.format("Key : %s\n", script_key))
     end
     
     ---------/// Load Scripts ///---------
