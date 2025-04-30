@@ -104,6 +104,7 @@ if request then print("</> Support [REQUEST]\n") else warn("</> Not Support [REQ
 
 getgenv().script_key= script_key or nil
 getgenv().disable_auto_exec = disable_auto_exec or false
+getgenv().mute_sound = mute_sound or false
 
 getgenv().auto_rejoin = auto_rejoin or false
 getgenv().streamer_mode = streamer_mode or false
@@ -162,7 +163,9 @@ end
 xpcall(function()
     local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
     
-    task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
+    if not(mute_sound) then
+        task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
+    end
     LoaderLib:LoadInit({
         Color = Color3.fromRGB(0, 255, 128),
         Duration = 1.5,
