@@ -373,10 +373,12 @@ if not(getgenv().run_time) then
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 print("Set Auto Execute\n")
-                if script_key then
-                    queueonteleport('getgenv().cometeleport=true;script_key="'..script_key..'";premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()')
+                if script_key or premium then                    
+                    queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                    tostring(script_key), tostring(premium), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin)))
                 else
-                    queueonteleport('getgenv().cometeleport=true;premium='..tostring(premium)..';loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()')
+                    queueonteleport(string.format('getgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                    tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin)))
                 end
             end
         end, function(err : string)
