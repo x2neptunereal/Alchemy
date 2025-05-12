@@ -172,16 +172,20 @@ end
 ---------/// Loading Screen ///---------
 
 xpcall(function()
-    local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
-    
-    if not(mute_sound) then
-        task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
+    if not(oneclick or kaitan) then
+        local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
+        
+        if not(mute_sound) then
+            task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
+        end
+        LoaderLib:LoadInit({
+            Color = Color3.fromRGB(0, 255, 128),
+            Duration = 1.5,
+            Size =  87,
+        });
+    else
+        wait(2.5)
     end
-    LoaderLib:LoadInit({
-        Color = Color3.fromRGB(0, 255, 128),
-        Duration = 1.5,
-        Size =  87,
-    });
 end, function(err : string)
     warn("Loading screen function error "..err)
 end)
@@ -200,7 +204,7 @@ end)
 
 ---------/// Auto Rejoin ///---------
 
-if auto_rejoin then
+if auto_rejoin or (oneclick or kaitan) then
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
@@ -328,7 +332,7 @@ if not(getgenv().run_time) then
     
     ---------/// Send Notify ///---------
 
-    if premium then
+    if premium or (oneclick or kaitan) then
         Notification.new({
             Title = "Thank you for Support!",
             Description = "Enjoy scripts and features",
@@ -360,30 +364,32 @@ if not(getgenv().run_time) then
     end
 
     
-    Notification.new({
-        Title = "Wanna Remove Workspace?",
-        Description = "This will delete all your setting and config.",
-        Dialog = true,
-        Buttons = {
-            {
-                Title = "Yes",
-                Callback = function()
-                    if isfolder and delfolder then
-                        if isfolder("alchemyhub_neta") then
-                            delfolder("alchemyhub_neta")
-                            print("Delete Workspace Done!")
+    if not(oneclick or kaitan) then
+        Notification.new({
+            Title = "Wanna Remove Workspace?",
+            Description = "This will delete all your setting and config.",
+            Dialog = true,
+            Buttons = {
+                {
+                    Title = "Yes",
+                    Callback = function()
+                        if isfolder and delfolder then
+                            if isfolder("alchemyhub_neta") then
+                                delfolder("alchemyhub_neta")
+                                print("Delete Workspace Done!")
+                            end
                         end
-                    end
-                end,
-            },
-            {
-                Title = "No",
-                Callback = function()
-                    print('Nothing.')
-                end,
+                    end,
+                },
+                {
+                    Title = "No",
+                    Callback = function()
+                        print('Nothing.')
+                    end,
+                }
             }
-        }
-    })
+        })
+    end
 
     ---------/// Mark as already execute ///---------
 
