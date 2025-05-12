@@ -16,7 +16,7 @@ Copyright © 2025 Alchemy Hub - Script. All Rights Reserved.
 
 repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game.Players.LocalPlayer
-if cometeleport then task.wait(5) end
+if cometeleport or (oneclick or kaitan) then task.wait(5) end
 
 type array<I,V> = {[I]: V}
 
@@ -79,6 +79,14 @@ local __f : array<string, any> = {
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
+    ['__oneclick'] = function() : string
+        local g : number = game.GameId
+        if g == 994732206 then game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅");return "\n" -- Blox Fruits
+        elseif g == 6884266247 then return "v3/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
+        else
+            game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅"); return "\n"
+        end
+    end;
     ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function() : boolean
         local uis : Instance = game:GetService("UserInputService")
@@ -116,6 +124,7 @@ getgenv().aimbot = aimbot or false
 getgenv().fruits_finder = fruits_finder or false
 getgenv().arise_afk = arise_afk or false
 getgenv().premium = premium or false
+getgenv().oneclick = oneclick or kaitan or false
 
 getgenv().setting = setting or {}
 
@@ -175,6 +184,18 @@ xpcall(function()
     });
 end, function(err : string)
     warn("Loading screen function error "..err)
+end)
+
+---------/// Anti Gameplay Paused ///---------
+
+game:GetService("Players").LocalPlayer.Changed:Connect(function(data)
+	xpcall(function()
+		if data == "GameplayPaused" then
+			game:GetService("Players").LocalPlayer.GameplayPaused = false
+		end
+	end, function(err : string)
+        warn("Anit gameplay paused function error "..err)
+    end)
 end)
 
 ---------/// Auto Rejoin ///---------
@@ -373,7 +394,7 @@ if not(getgenv().run_time) then
     if not(disable_auto_exec) then
         xpcall(function()
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
+            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick) then
                 print("Set Auto Execute\n")
                 if script_key or premium then                    
                     queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
@@ -401,5 +422,6 @@ if not(getgenv().run_time) then
     elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v3/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
     elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v3/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
     elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
+    elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
