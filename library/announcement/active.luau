@@ -9,7 +9,7 @@ if (isfile and writefile and isfolder and makefolder) and not(disable) then
     local realfile : string = string.format("alchemyhub_log/%s.txt", filename)
 
     if isfile(realfile) then
-        return {success = false, message = "Already have log"}
+        return {success = false, message = "Already have [".. filename .."] log."}
     end
     writefile(realfile, string.format("Log was create when %d.", tostring(tick())))
 
@@ -23,5 +23,6 @@ if (isfile and writefile and isfolder and makefolder) and not(disable) then
         Description = "Hello World",
         Duration = 10,
     })
+    return {success = true, message = "Done!"}
 end
-return {success = true, message = "Done!"}
+return {success = false, message = "Script got disable or executor not support."}
