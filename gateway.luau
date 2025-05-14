@@ -149,6 +149,21 @@ task.delay(6, function()
     end)
 end)
 
+---------/// Active Announcement ///---------
+
+xpcall(function()
+    task.spawn(function()
+        while true do task.wait(300)
+            table.foreach((load or loadstring)(request({
+                Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/announcement/active.luau",
+                Method = "GET"
+            }).Body)(), print)
+        end
+    end)
+end, function(err : string)
+    warn("Announcement function error "..err)
+end)
+
 ---------/// Sound Set Up ///---------
 
 if not isfolder('alchemyhub_sound') then
@@ -225,12 +240,32 @@ end
 if streamer_mode then
     xpcall(function()
         local protectMessage : (messageTarget : string, messageChange : string) -> nil = function(messageTarget : string, messageChange : string)
-            local allSpace : {Instance} = game:GetDescendants()
+            local allSpace = game:GetDescendants()
         
             for i=1,#allSpace do
                 if allSpace[i].ClassName == "TextLabel" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+                    
+                        pcall(function()
+                            if not allSpace[i]:FindFirstChild("Ded") then
+                                local UIGradient : Instance = Instance.new("UIGradient")
+                                UIGradient.Name = "Ded"
+                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
+                                UIGradient.Rotation = 0
+                                UIGradient.Parent = allSpace[i]
+                
+                                task.spawn(function()
+                                    while true do wait(0.01)
+                                        UIGradient.Rotation = UIGradient.Rotation + 5
+                                        if UIGradient.Rotation >= 360 then
+                                            UIGradient.Rotation = 0
+                                        end
+                                    end
+                                end)
+                            end
+                        end)
+        
                         allSpace[i].Changed:Connect(function()
                             allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
                         end)
@@ -238,6 +273,26 @@ if streamer_mode then
                 elseif allSpace[i].ClassName == "TextButton" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+        
+                        pcall(function()
+                            if not allSpace[i]:FindFirstChild("Ded") then
+                                local UIGradient : Instance = Instance.new("UIGradient")
+                                UIGradient.Name = "Ded"
+                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
+                                UIGradient.Rotation = 0
+                                UIGradient.Parent = allSpace[i]
+                
+                                task.spawn(function()
+                                    while true do wait(0.01)
+                                        UIGradient.Rotation = UIGradient.Rotation + 5
+                                        if UIGradient.Rotation >= 360 then
+                                            UIGradient.Rotation = 0
+                                        end
+                                    end
+                                end)
+                            end
+                        end)
+        
                         allSpace[i].Changed:Connect(function()
                             allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
                         end)
@@ -245,6 +300,26 @@ if streamer_mode then
                 elseif allSpace[i].ClassName == "TextBox" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
+        
+                        pcall(function()
+                            if not allSpace[i]:FindFirstChild("Ded") then
+                                local UIGradient : Instance = Instance.new("UIGradient")
+                                UIGradient.Name = "Ded"
+                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
+                                UIGradient.Rotation = 0
+                                UIGradient.Parent = allSpace[i]
+                
+                                task.spawn(function()
+                                    while true do wait(0.01)
+                                        UIGradient.Rotation = UIGradient.Rotation + 5
+                                        if UIGradient.Rotation >= 360 then
+                                            UIGradient.Rotation = 0
+                                        end
+                                    end
+                                end)
+                            end
+                        end)
+        
                         allSpace[i].Changed:Connect(function()
                             allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
                         end)
@@ -252,10 +327,30 @@ if streamer_mode then
                 end
             end
         
-            game.DescendantAdded:Connect(function(descendant)
+            game.DescendantAdded:Connect(function(descendant : Instance)
                 if descendant.ClassName == "TextLabel" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+        
+                        pcall(function()
+                            if not descendant:FindFirstChild("Ded") then
+                                local UIGradient : Instance = Instance.new("UIGradient")
+                                UIGradient.Name = "Ded"
+                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
+                                UIGradient.Rotation = 0
+                                UIGradient.Parent = descendant
+                
+                                task.spawn(function()
+                                    while true do wait(0.01)
+                                        UIGradient.Rotation = UIGradient.Rotation + 5
+                                        if UIGradient.Rotation >= 360 then
+                                            UIGradient.Rotation = 0
+                                        end
+                                    end
+                                end)
+                            end
+                        end)
+        
                         descendant.Changed:Connect(function()
                             descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         end)
@@ -263,6 +358,26 @@ if streamer_mode then
                 elseif descendant.ClassName == "TextButton" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+        
+                        pcall(function()
+                            if not descendant:FindFirstChild("Ded") then
+                                local UIGradient : Instance = Instance.new("UIGradient")
+                                UIGradient.Name = "Ded"
+                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
+                                UIGradient.Rotation = 0
+                                UIGradient.Parent = descendant
+                
+                                task.spawn(function()
+                                    while true do wait(0.01)
+                                        UIGradient.Rotation = UIGradient.Rotation + 5
+                                        if UIGradient.Rotation >= 360 then
+                                            UIGradient.Rotation = 0
+                                        end
+                                    end
+                                end)
+                            end
+                        end)
+        
                         descendant.Changed:Connect(function()
                             descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         end)
@@ -270,6 +385,26 @@ if streamer_mode then
                 elseif descendant.ClassName == "TextBox" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
+                        
+                        pcall(function()
+                            if not descendant:FindFirstChild("Ded") then
+                                local UIGradient : Instance = Instance.new("UIGradient")
+                                UIGradient.Name = "Ded"
+                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
+                                UIGradient.Rotation = 0
+                                UIGradient.Parent = descendant
+                
+                                task.spawn(function()
+                                    while true do wait(0.01)
+                                        UIGradient.Rotation = UIGradient.Rotation + 5
+                                        if UIGradient.Rotation >= 360 then
+                                            UIGradient.Rotation = 0
+                                        end
+                                    end
+                                end)
+                            end
+                        end)
+        
                         descendant.Changed:Connect(function()
                             descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         end)
