@@ -126,6 +126,9 @@ getgenv().arise_afk = arise_afk or false
 getgenv().premium = premium or false
 getgenv().oneclick = oneclick or kaitan or false
 
+getgenv().rawplugins = rawplugins or nil
+getgenv().linkplugins = linkplugins or nil
+
 getgenv().setting = setting or {}
 
 ---------/// Old Script Config ///---------
@@ -145,7 +148,7 @@ task.delay(6, function()
             Method = "GET"
         }).Body)()
     end, function(err : string)
-        warn("Software function error "..err)
+        warn(string.format("Software function error %s\n", err))
     end)
 end)
 
@@ -161,7 +164,7 @@ xpcall(function()
         end
     end)
 end, function(err : string)
-    warn("Announcement function error "..err)
+    warn(string.format("Announcement function error %s\n", err))
 end)
 
 ---------/// Sound Set Up ///---------
@@ -202,7 +205,7 @@ xpcall(function()
         wait(2.5)
     end
 end, function(err : string)
-    warn("Loading screen function error "..err)
+    warn(string.format("Loading screen function error %s\n", err))
 end)
 
 ---------/// Anti Gameplay Paused ///---------
@@ -213,7 +216,7 @@ game:GetService("Players").LocalPlayer.Changed:Connect(function(data)
 			game:GetService("Players").LocalPlayer.GameplayPaused = false
 		end
 	end, function(err : string)
-        warn("Anit gameplay paused function error "..err)
+        warn(string.format("Anit gameplay paused function error %s\n", err))
     end)
 end)
 
@@ -229,7 +232,7 @@ if auto_rejoin or (oneclick or kaitan) then
                     end
                 end)
             end, function(err : string)
-                warn("Auto rejoin function error "..err)
+                warn(string.format("Auto rejoin function error %s\n", err))
             end)
         end
     end)
@@ -416,7 +419,7 @@ if streamer_mode then
         protectMessage(game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
         protectMessage(game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
     end, function(err : string)
-        warn("Streamer mode function error "..err)
+        warn(string.format("Streamer mode function error %s\n", err))
     end)
 end;
 
@@ -432,7 +435,7 @@ if fully_rejoin then
                     game:GetService("TeleportService"):Teleport(game.PlaceId) 
                 end
             end, function(err : string)
-                warn("Auto rejoin function error "..err)
+                warn(string.format("Fully rejoin function error %s\n", err))
             end)
         end
     end)
@@ -448,7 +451,7 @@ spawn(function()
             game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
     end, function(err : string)
-        warn("Anti afk function error "..err)
+        warn(string.format("Anti afk function error %s\n", err))
     end)
 end)
 
@@ -546,7 +549,7 @@ if not(getgenv().run_time) then
                 end
             end
         end, function(err : string)
-            warn("Auto execute function error "..err)
+            warn(string.format("Auto execute function error %s\n", err))
         end)
     end
 
@@ -556,6 +559,32 @@ if not(getgenv().run_time) then
         print(string.format("Key : %s\n", script_key))
     end
     
+    ---------/// Plugins ///---------
+
+    xpcall(function()
+        if rawplugins then
+            if type(rawplugins) == "string" then
+                getgenv().Alchemy365 = {load = rawplugins}
+            else
+                warn("Raw-Plugins must be string\n")
+            end
+        end
+
+        if linkplugins then
+            if type(linkplugins) == "table" and #linkplugins > 0 then
+                if not getgenv().Alchemy365 then getgenv().Alchemy365 = {load = ""} end
+                
+                for i=1, #linkplugins do
+                    getgenv().Alchemy365.load = getgenv().Alchemy365.load .. string.format("\nloadstring(game:HttpGet('%s'))();", linkplugins[i])
+                end
+            else
+                warn("Link-Plugins must be table and table can't be empty\n")
+            end
+        end
+    end, function(err : string)
+        warn(string.format("Plugins function error %s\n", err))
+    end)
+
     ---------/// Load Scripts ///---------
 
     local tar : any = nil;
