@@ -470,7 +470,7 @@ if not(getgenv().run_time) then
     if premium or (oneclick or kaitan) then
         Notification.new({
             Title = "Thank you for Support!",
-            Description = "Enjoy scripts and features",
+            Description = "Enjoy scripts and features.\nalso don't forget to write a reviews. 👍",
             Duration = 10,
         })
     else
