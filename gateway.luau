@@ -554,32 +554,6 @@ if not(getgenv().run_time) then
     ---------/// Mark as already execute ///---------
 
     getgenv().run_time = true
-
-    ---------/// Auto Execute ///---------
-
-    if not(disable_auto_exec) then
-        xpcall(function()
-            local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick) then
-                print("Set Auto Execute\n")
-                if script_key or premium then                    
-                    queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                    tostring(script_key), tostring(premium), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin)))
-                else
-                    queueonteleport(string.format('getgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                    tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin)))
-                end
-            end
-        end, function(err : string)
-            warn(string.format("Auto execute function error %s\n", err))
-        end)
-    end
-
-    ---------/// Print Script Key Config ///---------
-
-    if script_key then
-        print(string.format("Key : %s\n", script_key))
-    end
     
     ---------/// Plugins ///---------
 
@@ -606,6 +580,42 @@ if not(getgenv().run_time) then
     end, function(err : string)
         warn(string.format("Plugins function error %s\n", err))
     end)
+
+    ---------/// Auto Execute ///---------
+
+    if not(disable_auto_exec) then
+        xpcall(function()
+            local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick) then
+                print("Set Auto Execute\n")
+                if script_key or premium then
+                    if getgenv().Alchemy365 then
+                        queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        tostring(script_key), tostring(premium), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), getgenv().Alchemy365.load))
+                    else
+                        queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        tostring(script_key), tostring(premium), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin)))
+                    end
+                else
+                    if getgenv().Alchemy365 then
+                        queueonteleport(string.format('getgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), getgenv().Alchemy365.load))
+                    else
+                        queueonteleport(string.format('getgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin)))
+                    end
+                end
+            end
+        end, function(err : string)
+            warn(string.format("Auto execute function error %s\n", err))
+        end)
+    end
+
+    ---------/// Print Script Key Config ///---------
+
+    if script_key then
+        print(string.format("Key : %s\n", script_key))
+    end
 
     ---------/// Load Scripts ///---------
 
