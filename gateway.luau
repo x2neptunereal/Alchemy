@@ -101,11 +101,32 @@ local isExecutors : (txt : string) -> boolean = function(txt : string)
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
 
+local someModule : () -> Instance = function()
+    local playerScript : Instance = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerScripts")
+
+    if playerScript then
+        local playerModule : Instance = playerScript:FindFirstChild("PlayerModule")
+        if playerModule then
+            return playerModule
+        end
+    end
+
+    for i, v in pairs(game:GetDescendants()) do
+        if v.ClassName == "ModuleScript" then
+            return v
+        end
+    end
+    
+    return nil
+end
+
 print(string.format("\nEXECUTOR DETECTED : %s", __f['__executor']()))
 if hookfunction then print("</> Support [HOOKFUNCTION]") else warn("</> Not Support [HOOKFUNCTION]") end
 if hookmetamethod then print("</> Support [HOOKMETAMETHOD]") else warn("</> Not Support [HOOKMETAMETHOD]") end
 if writefile then print("</> Support [WRITEFILE]") else warn("</> Not Support [WRITEFILE]") end
 if readfile then print("</> Support [READFILE]") else warn("</> Not Support [READFILE]") end
+if getconnections then print("</> Support [GETCONNECTION]") else warn("</> Not Support [GETCONNECTION]") end
+if pcall(require, someModule()) then print("</> Support [REQUIRE]") else warn("</> Not Support [REQUIRE]") end
 if request then print("</> Support [REQUEST]\n") else warn("</> Not Support [REQUEST]\n") end
 
 ---------/// Set All Config to Global ///---------
