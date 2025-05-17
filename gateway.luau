@@ -28,7 +28,6 @@ local __f : array<string, any> = {
         if g == 994732206 then return "v3/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
         elseif g == 6325068386 then return "v3/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
-        elseif g == 6931042565 then return "v3/loaders/abbbbec4c052ea223f09c7e819748161.lua" -- Volleyball Legends
         elseif g == 6906326545 then return "v3/loaders/34a7bfd841e02f5b30b75712e5da67ae.lua" -- Basketball Showdown
         elseif g == 3110388936 then return "v3/loaders/7101b7a1aa1a20ba3e47459795b9ac15.lua" -- Ninja Time
         elseif g == 1016936714 then return "v3/loaders/a9041aa86c9c312c42632aa43583980f.lua" -- Your Bizarre Adventure
@@ -47,6 +46,7 @@ local __f : array<string, any> = {
         elseif g == 7095682825 then return "v3/loaders/fab21f917b9899567403a11d8007ae37.lua" -- Beaks
         elseif g == 6331902150 then return "v3/loaders/e463ec64d59b61f756a54cfaff7dc702.lua" -- Forsaken
         elseif g == 7513130835 then return "v3/loaders/bb1ad39d55967bb789dc389e87a46a8d.lua" -- Untitled Drill
+        elseif g == 6115988515 then return "v3/loaders/ab054af7f70c1d666e387eb69de5c7ad.lua" -- Anime Saga
         else
             return "v3/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -56,7 +56,6 @@ local __f : array<string, any> = {
         if g == 994732206 then return "v3/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
         elseif g == 6325068386 then return "v3/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
-        elseif g == 6931042565 then return "v3/loaders/2a04962aae55b8e5d6626f949470c40a.lua" -- Volleyball Legends
         elseif g == 6906326545 then return "v3/loaders/f7d7cd2ec55759828c1e25f6feebe028.lua" -- Basketball Showdown
         elseif g == 3110388936 then return "v3/loaders/18610b93f08ff724f43be630135ba68c.lua" -- Ninja Time
         elseif g == 1016936714 then return "v3/loaders/b4542faca4c6d651a16b41d077693ffd.lua" -- Your Bizarre Adventure
@@ -75,6 +74,7 @@ local __f : array<string, any> = {
         elseif g == 7095682825 then return "v3/loaders/aab6bfc5c27c5735baae3ee133e05ac1.lua" -- Beaks
         elseif g == 6331902150 then return "v3/loaders/f7499bae6c8869f692df49670c6af27e.lua" -- Forsaken
         elseif g == 7513130835 then return "v3/loaders/c2b5698ddfa3013b183ad2041e17603b.lua" -- Untitled Drill
+        elseif g == 6115988515 then return "v3/loaders/bcfb87db175e4d836d6b2f8c77fe02d7.lua" -- Anime Saga
         else
             return "v3/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
