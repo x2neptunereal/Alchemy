@@ -81,11 +81,9 @@ local __f : array<string, any> = {
     end;
     ['__oneclick'] = function() : string
         local g : number = game.GameId
-        if g == 994732206 then game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅");return "\n" -- Blox Fruits
-        elseif g == 6884266247 then return "v3/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
-        else
-            game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅"); return "\n"
-        end
+        if g == 6884266247 then return "v3/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
+        elseif g == 7018190066 then return "v3/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
+        else game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅"); return "\n" end
     end;
     ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function() : boolean
