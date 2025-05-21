@@ -442,6 +442,47 @@ if streamer_mode then
     end)
 end;
 
+---------/// WhiteScreen & BlackScreen ///---------
+
+xpcall(function()
+    if whitescreen or blackscreen then
+        local setblackscreen : (state : boolean) -> nil = function(state : boolean) end
+        local Blackscreen : nil = nil
+        local Blackscreen2 : {} = {}
+
+        if blackscreen then
+            Blackscreen = Instance.new("ScreenGui")
+            Blackscreen2 = Instance.new("Frame")
+
+            Blackscreen.Name = "BLACK"
+            Blackscreen.Parent = game:GetService("CoreGui")
+            Blackscreen2.Name = "Blackscreen"
+            Blackscreen2.Parent = Blackscreen
+            Blackscreen2.Size = UDim2.new(500, 0, 500, 0)
+            Blackscreen2.AnchorPoint = Vector2.new(0.5, 0.5)
+            Blackscreen2.Position = UDim2.new(0.5, 0, 0.5, 0)
+            Blackscreen2.BackgroundTransparency = 0
+            Blackscreen2.BackgroundColor3 = Color3.new(0, 0, 0)
+            Blackscreen2.Visible = false
+
+            setblackscreen = function(state : boolean)
+                Blackscreen2.Visible = state
+            end
+        end
+        game:GetService("UserInputService").WindowFocusReleased:Connect(function()
+            game:GetService("RunService"):Set3dRenderingEnabled(false)
+            setblackscreen(true)
+        end)
+
+        game:GetService("UserInputService").WindowFocused:Connect(function()
+            game:GetService("RunService"):Set3dRenderingEnabled(true)
+            setblackscreen(false)
+        end)
+    end
+end, function(err : string)
+    warn(string.format("WhiteScreen function error %s\n", err))
+end)
+
 ---------/// Fully Rejoin ///---------
 
 if fully_rejoin then
