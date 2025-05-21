@@ -135,6 +135,8 @@ getgenv().script_key= script_key or nil
 getgenv().disable_auto_exec = disable_auto_exec or false
 getgenv().mute_sound = mute_sound or false
 
+getgenv().whitescreen = whitescreen or false
+getgenv().blackscreen = blackscreen or false
 getgenv().auto_rejoin = auto_rejoin or false
 getgenv().streamer_mode = streamer_mode or false
 getgenv().fully_rejoin = fully_rejoin or false
