@@ -132,6 +132,7 @@ if request then print("</> Support [REQUEST]\n") else warn("</> Not Support [REQ
 ---------/// Set All Config to Global ///---------
 
 getgenv().script_key= script_key or nil
+getgenv().skip_loading = skip_loading or false
 getgenv().disable_auto_exec = disable_auto_exec or false
 getgenv().mute_sound = mute_sound or false
 
@@ -211,7 +212,7 @@ end
 ---------/// Loading Screen ///---------
 
 xpcall(function()
-    if not(oneclick or kaitan) then
+    if not(oneclick or kaitan) and not(skip_loading) then
         local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
         
         if not(mute_sound) then
@@ -222,8 +223,6 @@ xpcall(function()
             Duration = 1.5,
             Size =  87,
         });
-    else
-        wait(2.5)
     end
 end, function(err : string)
     warn(string.format("Loading screen function error %s\n", err))
