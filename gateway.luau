@@ -217,7 +217,7 @@ end
 ---------/// Loading Screen ///---------
 
 xpcall(function()
-    if not(oneclick or kaitan) and not(skip_loading) then
+    if not(oneclick or kaitan or rollback) and not(skip_loading) then
         local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
         
         if not(mute_sound) then
@@ -247,7 +247,7 @@ end)
 
 ---------/// Auto Rejoin ///---------
 
-if auto_rejoin or (oneclick or kaitan) then
+if auto_rejoin or (oneclick or kaitan or rollback) then
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
@@ -523,7 +523,7 @@ end)
 
 ---------/// Auto Join Discord ///---------
 
-if not(premium or oneclick or kaitan) then
+if not(premium or oneclick or kaitan or rollback) then
     xpcall(function()
         request({
             Url = "http://127.0.0.1:6463/rpc?v=1",
@@ -558,7 +558,7 @@ if not(getgenv().run_time) then
     
     ---------/// Send Notify ///---------
 
-    if premium or (oneclick or kaitan) then
+    if premium or (oneclick or kaitan or rollback) then
         Notification.new({
             Title = "Thank you for Support!",
             Description = "Enjoy scripts and features.\nalso don't forget to write a reviews. 👍",
@@ -590,7 +590,7 @@ if not(getgenv().run_time) then
     end
 
     
-    if not(oneclick or kaitan) then
+    if not(oneclick or kaitan or rollback) then
         Notification.new({
             Title = "Wanna Remove Workspace?",
             Description = "This will delete all your setting and config.",
@@ -652,7 +652,7 @@ if not(getgenv().run_time) then
     if not(disable_auto_exec) then
         xpcall(function()
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick) then
+            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan or rollback) then
                 print("Set Auto Execute\n")
                 if script_key or premium then
                     if getgenv().Alchemy365 then
