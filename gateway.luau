@@ -178,6 +178,8 @@ end, function(err : string)
     warn(string.format("Convert json function error %s\n", err))
 end)
 
+table.foreach(setting, print)
+
 ---------/// x2Neptune's Software ///---------
 
 task.delay(6, function()
