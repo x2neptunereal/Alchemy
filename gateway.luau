@@ -156,8 +156,6 @@ getgenv().oneclick = oneclick or kaitan or false
 getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
-print('test: ' .. json_setting)
-
 getgenv().json_setting = json_setting or nil
 getgenv().setting = setting or {}
 
@@ -174,7 +172,7 @@ getgenv().diableFile = true
 xpcall(function()
     if (setting == {}) and json_setting then
         print(json_setting)
-        setting = game:GetService("HttpService"):JSONDecode(json_setting)
+        getgenv().setting = game:GetService("HttpService"):JSONDecode(json_setting)
     end
 end, function(err : string)
     warn(string.format("Convert json function error %s\n", err))
@@ -674,6 +672,8 @@ if not(getgenv().run_time) then
                     rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
                     tostring(game:GetService("HttpService"):JSONEncode(setting))))
                 end
+
+                print(rawsetting)
 
                 if script_key or premium or rollback then
                     if getgenv().Alchemy365 then
