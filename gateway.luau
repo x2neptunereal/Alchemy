@@ -666,7 +666,7 @@ if not(getgenv().run_time) then
             if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 print("Set Auto Execute\n")
 
-                local rawsetting = ''
+                local rawsetting = 'getgenv().json_setting=nil;'
                 if not(setting == {}) then
                     rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
                     tostring(game:GetService("HttpService"):JSONEncode(setting))))
