@@ -156,6 +156,8 @@ getgenv().oneclick = oneclick or kaitan or false
 getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
+print(json_setting)
+
 getgenv().json_setting = json_setting or nil
 getgenv().setting = setting or {}
 
