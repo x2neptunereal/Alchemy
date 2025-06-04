@@ -156,7 +156,7 @@ getgenv().oneclick = oneclick or kaitan or false
 getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
-getgenv().setting = setting or {}
+getgenv().setting = setting or nil
 
 ---------/// Old Script Config ///---------
 
@@ -169,7 +169,7 @@ getgenv().diableFile = true
 ---------/// Convert Json Setting to Setting Config ///---------
 
 xpcall(function()
-    if (setting == {}) and json_setting then
+    if not(setting) and json_setting then
         print(json_setting)
         getgenv().setting = game:GetService("HttpService"):JSONDecode(json_setting)
     else
@@ -670,13 +670,11 @@ if not(getgenv().run_time) then
                 print("Set Auto Execute\n")
 
                 local rawsetting = 'getgenv().json_setting=nil;'
-                if not(setting == {}) then
+                if setting and typeof(setting) == 'table' then
                     rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
                     tostring(game:GetService("HttpService"):JSONEncode(setting))))
                 end
-
-                print(rawsetting)
-
+                
                 if script_key or premium or rollback then
                     if getgenv().Alchemy365 then
                         queueonteleport(string.format('%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
