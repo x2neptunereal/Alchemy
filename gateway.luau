@@ -664,7 +664,7 @@ if not(getgenv().run_time) then
     if not(disable_auto_exec) then
         xpcall(function()
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
+            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan) then
                 print("Set Auto Execute\n")
 
                 local rawsetting = 'getgenv().json_setting=nil;'
