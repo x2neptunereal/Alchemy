@@ -156,7 +156,6 @@ getgenv().oneclick = oneclick or kaitan or false
 getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
-getgenv().json_setting = json_setting or nil
 getgenv().setting = setting or {}
 
 ---------/// Old Script Config ///---------
@@ -177,8 +176,6 @@ xpcall(function()
 end, function(err : string)
     warn(string.format("Convert json function error %s\n", err))
 end)
-
-table.foreach(setting, print)
 
 ---------/// x2Neptune's Software ///---------
 
