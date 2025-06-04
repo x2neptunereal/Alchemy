@@ -156,6 +156,7 @@ getgenv().oneclick = oneclick or kaitan or false
 getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
+getgenv().json_setting = json_setting or nil
 getgenv().setting = setting or {}
 
 ---------/// Old Script Config ///---------
@@ -165,6 +166,16 @@ _G.Config = setting or _G.Config
 ---------/// Disable Debug File ///---------
 
 getgenv().diableFile = true
+
+---------/// Convert Json Setting to Setting Config ///---------
+
+xpcall(function()
+    if (setting == {}) and json_setting then
+        setting = game:GetService("HttpService"):JSONDecode(json_setting)
+    end
+end, function(err : string)
+    warn(string.format("Convert json function error %s\n", err))
+end)
 
 ---------/// x2Neptune's Software ///---------
 
@@ -652,15 +663,20 @@ if not(getgenv().run_time) then
     if not(disable_auto_exec) then
         xpcall(function()
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan or rollback) then
+            if queueonteleport and not(aimbot or fruits_finder or arise_afk) then
                 print("Set Auto Execute\n")
-                if script_key or premium then
+                if not(setting == {}) then
+                    queueonteleport(string.format('getgenv().json_setting=[=[%s]=];',
+                    tostring(game:GetService("HttpService"):JSONEncode(setting))))
+                end
+
+                if script_key or premium or oneclick or rollback then
                     if getgenv().Alchemy365 then
-                        queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        tostring(script_key), tostring(premium), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
+                        queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;oneclick=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        tostring(script_key), tostring(premium), tostring(oneclick), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
                     else
-                        queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        tostring(script_key), tostring(premium), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
+                        queueonteleport(string.format('getgenv().cometeleport=true;script_key="%s";premium=%s;oneclick=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        tostring(script_key), tostring(premium), tostring(oneclick), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
                     end
                 else
                     if getgenv().Alchemy365 then
