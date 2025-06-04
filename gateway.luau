@@ -10,7 +10,7 @@ This made by Alchemy Team ( alchemyhub.xyz )
 Modification of the script, including attempting to bypass
 or crack the script for any reason is not allowed.
 
-Copyright © 2025 Alchemy Hub - Script. All Rights Reserved.
+Copyright © 2025 Alchemy Team. All Rights Reserved.
 
 ]]--
 
@@ -56,7 +56,6 @@ local __f : array<string, any> = {
         if g == 994732206 then return "v3/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
         elseif g == 6325068386 then return "v3/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
-        elseif g == 6906326545 then return "v3/loaders/f7d7cd2ec55759828c1e25f6feebe028.lua" -- Basketball Showdown
         elseif g == 3110388936 then return "v3/loaders/18610b93f08ff724f43be630135ba68c.lua" -- Ninja Time
         elseif g == 1016936714 then return "v3/loaders/b4542faca4c6d651a16b41d077693ffd.lua" -- Your Bizarre Adventure
         elseif g == 3808081382 then return "v3/loaders/f78d0ecd5263292d62168cddbbbd416a.lua" -- Strongest Battlegrounds
@@ -83,6 +82,12 @@ local __f : array<string, any> = {
         local g : number = game.GameId
         if g == 6884266247 then return "v3/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
         elseif g == 7018190066 then return "v3/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
+        else game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅"); return "\n" end
+    end;
+    ['__rollback'] = function() : string
+        local g : number = game.GameId
+        if g == 7028566528 then return "v3/loaders/a869af605fb4ab6710b0e7a0970cc445.lua" -- Basketball Zero
+        elseif g == 6931042565 then return "v3/loaders/.lua" -- Volleyball Legend
         else game.Players.LocalPlayer:Kick("\n\n😅 Not Support this game! 😅"); return "\n" end
     end;
     ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
@@ -686,5 +691,6 @@ if not(getgenv().run_time) then
     elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v3/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
     elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
+    elseif rollback then tar = __f['__rollback'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
