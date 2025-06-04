@@ -172,6 +172,9 @@ xpcall(function()
     if (setting == {}) and json_setting then
         print(json_setting)
         getgenv().setting = game:GetService("HttpService"):JSONDecode(json_setting)
+    else
+        table.foreach(setting, print)
+        print(json_setting)
     end
 end, function(err : string)
     warn(string.format("Convert json function error %s\n", err))
