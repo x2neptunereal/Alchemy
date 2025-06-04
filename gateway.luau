@@ -171,6 +171,7 @@ getgenv().diableFile = true
 
 xpcall(function()
     if (setting == {}) and json_setting then
+        print(json_setting)
         setting = game:GetService("HttpService"):JSONDecode(json_setting)
     end
 end, function(err : string)
