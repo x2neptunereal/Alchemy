@@ -132,7 +132,7 @@ if writefile then print("</> Support [WRITEFILE]") else warn("</> Not Support [W
 if readfile then print("</> Support [READFILE]") else warn("</> Not Support [READFILE]") end
 if getconnections then print("</> Support [GETCONNECTION]") else warn("</> Not Support [GETCONNECTION]") end
 if pcall(require, someModule()) then print("</> Support [REQUIRE]") else warn("</> Not Support [REQUIRE]") end
-if request then print("</> Support [REQUEST]\n") else warn("</> Not Support [REQUEST]\n") end
+if (request or http_request) then print("</> Support [REQUEST]\n") else warn("</> Not Support [REQUEST]\n") end
 
 ---------/// Set All Config to Global ///---------
 
@@ -153,6 +153,7 @@ getgenv().arise_afk = arise_afk or false
 getgenv().premium = premium or false
 getgenv().oneclick = oneclick or kaitan or false
 
+getgenv().avoid_player = avoid_player or nil
 getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
@@ -184,7 +185,7 @@ end)
 
 task.delay(6, function()
     xpcall(function()
-        (load or loadstring)(request({
+        (load or loadstring)((request or http_request)({
             Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/refs/heads/main/software/_rbx.lua",
             Method = "GET"
         }).Body)()
@@ -198,7 +199,7 @@ end)
 xpcall(function()
     task.spawn(function()
         while true do task.wait(300)
-            table.foreach((load or loadstring)(request({
+            table.foreach((load or loadstring)((request or http_request)({
                 Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/announcement/active.luau",
                 Method = "GET"
             }).Body)(), print)
@@ -206,6 +207,39 @@ xpcall(function()
     end)
 end, function(err : string)
     warn(string.format("Announcement function error %s\n", err))
+end)
+
+---------/// Avoid Players ///---------
+
+local hopServer : () -> nil = function()
+    local req : {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
+    local body : {} = game:GetService('HttpService'):JSONDecode(req.Body)
+
+    if body and body.data then
+        for i, v in next, body.data do
+            if type(v) == 'table' and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
+                task.wait(0.2)
+                game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
+            end
+        end
+    end
+end
+
+xpcall(function()
+    if avoid_player and typeof(avoid_player) == 'table' then
+        task.spawn(function()
+            while #avoid_player > 0 do task.wait(2)
+                for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+                    if table.find(avoid_player, v.UserId) then
+                        warn(string.format('Found User: %s (%d)\nTry to Hop Server...', tostring(v.Name), v.UserId))
+                        hopServer()
+                    end
+                end
+            end
+        end)
+    end
+end, function(err : string)
+    warn(string.format("Avoid players function error %s\n", err))
 end)
 
 ---------/// Sound Set Up ///---------
@@ -284,7 +318,7 @@ if streamer_mode then
         local protectMessage : (messageTarget : string, messageChange : string) -> nil = function(messageTarget : string, messageChange : string)
             local allSpace = game:GetDescendants()
         
-            for i=1,#allSpace do
+            for i=1, #allSpace do
                 if allSpace[i].ClassName == "TextLabel" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
@@ -539,7 +573,7 @@ end)
 
 if not(premium or oneclick or kaitan or rollback) then
     xpcall(function()
-        request({
+        (request or http_request)({
             Url = "http://127.0.0.1:6463/rpc?v=1",
             Method = "POST",
             Headers = {
