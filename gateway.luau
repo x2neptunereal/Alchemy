@@ -209,6 +209,32 @@ end, function(err : string)
     warn(string.format("Announcement function error %s\n", err))
 end)
 
+---------/// Plugins ///---------
+
+xpcall(function()
+    if rawplugins then
+        if type(rawplugins) == "string" then
+            getgenv().Alchemy365 = {load = rawplugins}
+        else
+            warn("Raw-Plugins must be string\n")
+        end
+    end
+
+    if linkplugins then
+        if type(linkplugins) == "table" and #linkplugins > 0 then
+            if not getgenv().Alchemy365 then getgenv().Alchemy365 = {load = ""} end
+            
+            for i=1, #linkplugins do
+                getgenv().Alchemy365.load = getgenv().Alchemy365.load .. string.format("\nloadstring(game:HttpGet('%s'))();", linkplugins[i])
+            end
+        else
+            warn("Link-Plugins must be table and table can't be empty\n")
+        end
+    end
+end, function(err : string)
+    warn(string.format("Plugins function error %s\n", err))
+end)
+
 ---------/// Auto Execute ///---------
 
 if not(disable_auto_exec) and not(already_set_auto_exec) then
@@ -715,32 +741,6 @@ if not(getgenv().run_time) then
     ---------/// Mark as already execute ///---------
 
     getgenv().run_time = true
-    
-    ---------/// Plugins ///---------
-
-    xpcall(function()
-        if rawplugins then
-            if type(rawplugins) == "string" then
-                getgenv().Alchemy365 = {load = rawplugins}
-            else
-                warn("Raw-Plugins must be string\n")
-            end
-        end
-
-        if linkplugins then
-            if type(linkplugins) == "table" and #linkplugins > 0 then
-                if not getgenv().Alchemy365 then getgenv().Alchemy365 = {load = ""} end
-                
-                for i=1, #linkplugins do
-                    getgenv().Alchemy365.load = getgenv().Alchemy365.load .. string.format("\nloadstring(game:HttpGet('%s'))();", linkplugins[i])
-                end
-            else
-                warn("Link-Plugins must be table and table can't be empty\n")
-            end
-        end
-    end, function(err : string)
-        warn(string.format("Plugins function error %s\n", err))
-    end)
 
     ---------/// Print Script Key Config ///---------
 
