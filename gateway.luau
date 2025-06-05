@@ -167,15 +167,15 @@ _G.Config = setting or _G.Config
 
 getgenv().diableFile = true
 
----------/// Convert Json Setting to Setting Config ///---------
+---------/// Convert Json Config to Normal Config ///---------
 
 xpcall(function()
     if not(setting) and json_setting then
-        print(json_setting)
         getgenv().setting = game:GetService("HttpService"):JSONDecode(json_setting)
-    else
-        table.foreach(setting, print)
-        print(json_setting)
+    end
+
+    if not(avoid_player) and json_avoid_player then
+        getgenv().avoid_player = game:GetService("HttpService"):JSONDecode(json_avoid_player)
     end
 end, function(err : string)
     warn(string.format("Convert json function error %s\n", err))
@@ -703,27 +703,35 @@ if not(getgenv().run_time) then
             if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan) then
                 print("Set Auto Execute\n")
 
-                local rawsetting = 'getgenv().json_setting=nil;'
+                local rawsetting : string = 'getgenv().json_setting=nil;'
                 if setting and typeof(setting) == 'table' then
                     rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
                     tostring(game:GetService("HttpService"):JSONEncode(setting))))
                 end
+
+                local raw_avoidplayer : string = 'getgenv().json_avoid_player=nil;'
+                if avoid_player and typeof(avoid_player) == 'table' then
+                    if #avoid_player > 0 then
+                        raw_avoidplayer = (string.format('getgenv().json_avoid_player=[=[%s]=];',
+                        tostring(game:GetService("HttpService"):JSONEncode(avoid_player))))
+                    end
+                end
                 
                 if script_key or premium or rollback then
                     if getgenv().Alchemy365 then
-                        queueonteleport(string.format('%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        rawsetting, tostring(script_key), tostring(premium), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
+                        queueonteleport(string.format('%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
                     else
-                        queueonteleport(string.format('%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        rawsetting, tostring(script_key), tostring(premium), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
+                        queueonteleport(string.format('%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
                     end
                 else
                     if getgenv().Alchemy365 then
-                        queueonteleport(string.format('%sgetgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        rawsetting, tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
+                        queueonteleport(string.format('%s%sgetgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        rawsetting, raw_avoidplayer, tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
                     else
-                        queueonteleport(string.format('%sgetgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        rawsetting, tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
+                        queueonteleport(string.format('%s%sgetgenv().cometeleport=true;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        rawsetting, raw_avoidplayer, tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
                     end
                 end
             end
