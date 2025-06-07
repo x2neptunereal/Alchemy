@@ -88,7 +88,7 @@ local __f : array<string, any> = {
         local g : number = game.GameId
         if g == 7028566528 then return "v3/loaders/a869af605fb4ab6710b0e7a0970cc445.lua" -- Basketball Zero
         elseif g == 6931042565 then return "v3/loaders/76d21b7e287454d6cb3ab5e3245e2b1d.lua" -- Volleyball Legend
-        else "\n" end
+        else return "\n" end
     end;
     ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function() : boolean
