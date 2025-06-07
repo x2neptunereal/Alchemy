@@ -16,6 +16,7 @@ Copyright © 2025 Alchemy Team. All Rights Reserved.
 
 repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game:GetService("Players").LocalPlayer
+if cometeleport then print('Auto Execute Active') end
 if cometeleport or (oneclick or kaitan) then task.wait(5) end
 
 type array<I,V> = {[I]: V}
