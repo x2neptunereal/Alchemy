@@ -28,7 +28,7 @@ local __f : array<string, any> = {
         local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
-        elseif g == 6325068386 then return "v3/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
+        elseif g == 6325068386 then return "v4/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
         elseif g == 6906326545 then return "v3/loaders/34a7bfd841e02f5b30b75712e5da67ae.lua" -- Basketball Showdown
         elseif g == 3110388936 then return "v3/loaders/7101b7a1aa1a20ba3e47459795b9ac15.lua" -- Ninja Time
         elseif g == 1016936714 then return "v3/loaders/a9041aa86c9c312c42632aa43583980f.lua" -- Your Bizarre Adventure
@@ -37,13 +37,13 @@ local __f : array<string, any> = {
         elseif g == 3508322461 then return "v3/loaders/762346416b75d53680cc484c3d37dc10.lua" -- Jujutsu Shenanigans
         elseif g == 7074860883 then return "v3/loaders/d3688644c195bd5fc31b64c51baba92a.lua" -- Arise Crossover
         elseif g == 6761981532 then return "v3/loaders/4246ae8b86fd6988007a6b03841ebf19.lua" -- Anime Power
-        elseif g == 7018190066 then return "v3/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
+        elseif g == 7018190066 then return "v4/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
         elseif g == 7314989375 then return "v3/loaders/d52adca9a2085964957acf39a18ee41b.lua" -- Hunters
         elseif g == 115797356 then return "v3/loaders/a7f5a3bbfce64d9ace1a01d2eab6d6e9.lua" -- Counter Blox
         elseif g == 6035872082 then return "v3/loaders/2ea3230f7a9ef6e2d9650f7d9cfb2892.lua" -- Rivals
         elseif g == 6504986360 then return "v3/loaders/5da5aa0094d43756aecf47101d8a8452.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v3/loaders/87b6e9d734e947eaa39b1c3506a3574f.lua" -- Anime Ranger X
-        elseif g == 7436755782 then return "v3/loaders/4fe5a40278353341e393f053dc19dc69.lua" -- Grow A Garden
+        elseif g == 7436755782 then return "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua" -- Grow A Garden
         elseif g == 7095682825 then return "v3/loaders/fab21f917b9899567403a11d8007ae37.lua" -- Beaks
         elseif g == 6331902150 then return "v3/loaders/e463ec64d59b61f756a54cfaff7dc702.lua" -- Forsaken
         elseif g == 7513130835 then return "v3/loaders/bb1ad39d55967bb789dc389e87a46a8d.lua" -- Untitled Drill
@@ -56,7 +56,7 @@ local __f : array<string, any> = {
         local g : number = game.GameId
         if g == 994732206 then return "v3/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v3/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
-        elseif g == 6325068386 then return "v3/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
+        elseif g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
         elseif g == 3110388936 then return "v3/loaders/18610b93f08ff724f43be630135ba68c.lua" -- Ninja Time
         elseif g == 1016936714 then return "v3/loaders/b4542faca4c6d651a16b41d077693ffd.lua" -- Your Bizarre Adventure
         elseif g == 3808081382 then return "v3/loaders/f78d0ecd5263292d62168cddbbbd416a.lua" -- Strongest Battlegrounds
@@ -64,13 +64,13 @@ local __f : array<string, any> = {
         elseif g == 3508322461 then return "v3/loaders/55691542db5b90140761a85715a079c8.lua" -- Jujutsu Shenanigans
         elseif g == 7074860883 then return "v3/loaders/02f7d67ec12fb8c52571fa98565a693b.lua" -- Arise Crossover
         elseif g == 6761981532 then return "v3/loaders/03f7172fb9b022d3383d054355f00bb3.lua" -- Anime Power
-        elseif g == 7018190066 then return "v3/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
+        elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
         elseif g == 7314989375 then return "v3/loaders/58596395459995d9635e3bd8184090f0.lua" -- Hunters
         elseif g == 115797356 then return "v3/loaders/abce48b78b3b674308c0f3ab0f7ead21.lua" -- Counter Blox
         elseif g == 6035872082 then return "v3/loaders/a3a4bad5f2669451de8eff72561ba546.lua" -- Rivals
         elseif g == 6504986360 then return "v3/loaders/04f899beb187ce109505f383502fbb45.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v3/loaders/375bc929cb2f82a06eab086a0a5bdfa1.lua" -- Anime Ranger X
-        elseif g == 7436755782 then return "v3/loaders/9205a41f0f04e862885e9edcbf4b4040.lua" -- Grow A Garden
+        elseif g == 7436755782 then return "v4/loaders/9205a41f0f04e862885e9edcbf4b4040.lua" -- Grow A Garden
         elseif g == 7095682825 then return "v3/loaders/aab6bfc5c27c5735baae3ee133e05ac1.lua" -- Beaks
         elseif g == 6331902150 then return "v3/loaders/f7499bae6c8869f692df49670c6af27e.lua" -- Forsaken
         elseif g == 7513130835 then return "v3/loaders/c2b5698ddfa3013b183ad2041e17603b.lua" -- Untitled Drill
