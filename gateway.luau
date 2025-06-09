@@ -174,11 +174,6 @@ getgenv().diableFile = true
 xpcall(function()
     if use_code and typeof(use_code) == 'string' then
         print(string.format('Used Code : [%s]\n', string.upper(use_code)))
-
-        (load or loadstring)((request or http_request)({
-            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ud/codes.lua",
-            Method = "GET"
-        }).Body)()
     end
 end, function(err : string)
     warn(string.format("Active code function error %s\n", err))
