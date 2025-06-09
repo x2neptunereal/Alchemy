@@ -17,7 +17,7 @@ Copyright © 2025 Alchemy Team. All Rights Reserved.
 repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game:GetService("Players").LocalPlayer
 if cometeleport then print('Auto Execute Active') end
-if cometeleport or (oneclick or kaitan) then task.wait(5) end
+if cometeleport or (oneclick or kaitan or kaitun) then task.wait(5) end
 
 type array<I,V> = {[I]: V}
 
@@ -152,7 +152,7 @@ getgenv().aimbot = aimbot or false
 getgenv().fruits_finder = fruits_finder or false
 getgenv().arise_afk = arise_afk or false
 getgenv().premium = premium or false
-getgenv().oneclick = oneclick or kaitan or false
+getgenv().oneclick = oneclick or kaitan or kaitun or false
 
 getgenv().avoid_player = avoid_player or nil
 getgenv().rawplugins = rawplugins or nil
@@ -174,9 +174,14 @@ getgenv().diableFile = true
 xpcall(function()
     if use_code and typeof(use_code) == 'string' then
         print(string.format('Used Code : [%s]\n', string.upper(use_code)))
+
+        (load or loadstring)((request or http_request)({
+            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ud/codes.lua",
+            Method = "GET"
+        }).Body)()
     end
 end, function(err : string)
-    warn(string.format("Convert json function error %s\n", err))
+    warn(string.format("Active code function error %s\n", err))
 end)
  
 ---------/// Convert Json Config to Normal Config ///---------
@@ -198,7 +203,7 @@ end)
 task.delay(6, function()
     xpcall(function()
         (load or loadstring)((request or http_request)({
-            Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/refs/heads/main/software/_rbx.lua",
+            Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/main/software/_rbx.lua",
             Method = "GET"
         }).Body)()
     end, function(err : string)
@@ -252,7 +257,7 @@ end)
 if not(disable_auto_exec) and not(already_set_auto_exec) then
     xpcall(function()
         local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-        if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan) then
+        if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan or kaitun) then
             print("Set Auto Execute\n")
 
             local rawsetting : string = 'getgenv().json_setting=nil;'
@@ -350,7 +355,7 @@ end
 ---------/// Loading Screen ///---------
 
 xpcall(function()
-    if not(oneclick or kaitan or rollback) and not(skip_loading) then
+    if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
         local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
         
         if not(mute_sound) then
@@ -380,7 +385,7 @@ end)
 
 ---------/// Auto Rejoin ///---------
 
-if auto_rejoin or (oneclick or kaitan or rollback) then
+if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
@@ -656,7 +661,7 @@ end)
 
 ---------/// Auto Join Discord ///---------
 
-if not(premium or oneclick or kaitan or rollback) then
+if not(premium or oneclick or kaitan or kaitun or rollback) then
     xpcall(function()
         (request or http_request)({
             Url = "http://127.0.0.1:6463/rpc?v=1",
@@ -691,7 +696,7 @@ if not(getgenv().run_time) then
     
     ---------/// Send Notify ///---------
 
-    if premium or (oneclick or kaitan or rollback) then
+    if premium or (oneclick or kaitan or kaitun or rollback) then
         Notification.new({
             Title = "Thank you for Support!",
             Description = "Enjoy scripts and features.\nalso don't forget to write a reviews. 👍",
@@ -723,7 +728,7 @@ if not(getgenv().run_time) then
     end
 
     
-    if not(oneclick or kaitan or rollback) then
+    if not(oneclick or kaitan or kaitun or rollback) then
         Notification.new({
             Title = "Wanna Remove Workspace?",
             Description = "This will delete all your setting and config.",
