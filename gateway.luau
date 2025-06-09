@@ -159,6 +159,7 @@ getgenv().rawplugins = rawplugins or nil
 getgenv().linkplugins = linkplugins or nil
 
 getgenv().setting = setting or nil
+getgenv().use_code = use_code or nil
 
 ---------/// Old Script Config ///---------
 
@@ -168,6 +169,16 @@ _G.Config = setting or _G.Config
 
 getgenv().diableFile = true
 
+---------/// Active Code ///---------
+
+xpcall(function()
+    if use_code and typeof(use_code) == 'string' then
+        print(string.format('Used Code : [%s]\n', string.upper(use_code)))
+    end
+end, function(err : string)
+    warn(string.format("Convert json function error %s\n", err))
+end)
+ 
 ---------/// Convert Json Config to Normal Config ///---------
 
 xpcall(function()
