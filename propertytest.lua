@@ -26,6 +26,12 @@ getgenv().add_total = function(num)
     getgenv().total = getgenv().total + num
 end
 
+getgenv().time = 0
+getgenv().add_time = function(num)
+    local num = num or 1
+    getgenv().time = getgenv().time + num
+end
+
 getgenv().supported = true
 getgenv().unc_success = false
 
@@ -61,17 +67,22 @@ local Requst_Test do
 
         if success and (typeof(response) == 'string' and string.find(response, full_scripts)) then
             print("| Correctly: true")
-            print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+            print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
+            
             pcall(add_score, 40)
+            pcall(add_time, tick() - start)
         else
             print("| Correctly: false")
-            print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+            print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
+
+            pcall(add_time, tick() - start)
         end
     else
         warn("⚠️ Failed ⚠️")
         warn("| Connect With: HttpGet")
         warn(string.format("| Error: %s", response))
 
+        pcall(add_time, tick() - start)
         getgenv().supported = false
     end
 
@@ -99,17 +110,22 @@ local Requst_Test do
         end)
         if success and (typeof(response) == 'string' and string.find(response, full_scripts)) then
             print("| Correctly: true")
-            print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+            print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
+
             pcall(add_score, 40)
+            pcall(add_time, tick() - start)
         else
             print("| Correctly: false")
-            print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+            print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
+
+            pcall(add_time, tick() - start)
         end
     else
         warn("⚠️ Failed ⚠️")
         warn("| Connect With: request")
         warn(string.format("| Error: %s", response))
 
+        pcall(add_time, tick() - start)
         getgenv().supported = false
     end
 end
@@ -158,12 +174,67 @@ local Luarmor_Request_Test do
             pcall(add_score, 20)
         else warn("| Status: incorrect") end
             
-        print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+        print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
+        pcall(add_time, tick() - start)
     else
         warn("| Success: false")
         warn("| Connect With: default")
         warn(string.format("| Error: %s", response))
 
+        pcall(add_time, tick() - start)
+        getgenv().supported = false
+    end
+end
+
+local Modules_Test do
+    pcall(add_total, 50)
+
+    local start = tick()
+    local somemodule = function()
+        local playerscript = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerScripts")
+
+        if playerscript then
+            local playermodule = playerscript:FindFirstChild("PlayerModule")
+            if playermodule then
+                return playermodule
+            end
+        end
+
+        for i, v in pairs(game:GetDescendants()) do
+            if v.ClassName == "ModuleScript" then
+                return v
+            end
+        end
+        
+        return nil
+    end
+
+    local collectmodule = somemodule()
+
+    local success, response = pcall(function()
+        local tab = setmetatable({}, {
+            __index = function()
+                return require(collectmodule)
+            end
+        })
+        return tab.res
+    end)   
+
+    print("🍷 Require Module 🍷")
+
+    if success and typeof(response) == 'table' then
+        print("| Success: true")
+        print("| Modules: ".. tostring(collectmodule:GetFullName()))
+        print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
+
+        pcall(add_score, 50)
+        pcall(add_time, tick() - start)
+    else
+        warn("| Success: false")
+        warn("| Modules: ".. tostring(collectmodule:GetFullName()))
+        warn(string.format("| Error: %s", response))
+
+        pcall(add_time, tick() - start)
         getgenv().supported = false
     end
 end
@@ -233,17 +304,18 @@ local UNC_Test do
         pcall(add_total, (passes + fails + undefined))
 
         print("📑 UNC Test 📑")
-        print("| Rate: " .. tostring(rate) .. "%")
+        print("| Rate: " .. tostring(rate) .. "(%)")
         print("| Success: " .. outOf)
         warn("| Fail: " .. tostring(fails))
         warn("| Missing: " .. tostring(undefined))
         print("| Executor: " .. identifyexecutor())
-        print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+        print("| Taken Time: ".. tostring(tick() - start) .."(seconds)")
 
         if rate < 80 then
             getgenv().supported = false
         end
 
+        pcall(add_time, tick() - start)
         getgenv().unc_success = true
     end)
 
@@ -1052,8 +1124,9 @@ local rate = math.round(score / total * 100)
 local outOf = tostring(score) .. "/" .. tostring(total)
 
 print("🥪 Over-All 🥪")
-print("| Rate: ".. tostring(rate))
+print("| Rate: ".. tostring(rate) .."(%)")
 print("| Score: ".. outOf)
+print("| Time Usage: ".. tostring(time) .."(seconds)")
 print("| Supported: ".. tostring(supported))
 print("⛔ Test Ended ⛔")
 
