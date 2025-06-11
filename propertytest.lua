@@ -1,3 +1,19 @@
+--[[
+   _______    __       ________  ___  ___   _______  _______   ________      ___  ___  ________   _______
+  ╱       ╲╲╱╱  ╲     ╱╱  ____ ╲╱  ╱ ╱  ╲╲╱╱       ╲╱       ╲╲╱    ╱   ╲    ╱  ╱ ╱  ╲╲╱     ╱  ╲╱╱  __  ╱
+ ╱  ╱___  ╱╱╱   ╱    ╱╱  ╱     ╱  ╱_╱   ╱╱╱  ╱___  ╱        ╱╱   _╱    ╱   ╱  ╱_╱   ╱╱   __╱   ╱╱       ╲
+╱         ╱    ╱____╱   ╱_____╱   __    ╱     ____╱   ╱  ╱  ╱╲____   ╱╱   ╱   __    ╱         ╱╱   __╱   ╱
+╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
+ALCHEMY HUB NETA EDITION SCRIPT
+
+This made by Alchemy Team ( alchemyhub.xyz )
+Modification of the script, including attempting to bypass
+or crack the script for any reason is not allowed.
+
+Copyright © 2025 Alchemy Team. All Rights Reserved.
+
+]]--
+
 getgenv().score = 0
 getgenv().add_score = function(num)
     local num = num or 1
@@ -98,7 +114,61 @@ local Requst_Test do
     end
 end
 
-local unc do
+local Luarmor_Request_Test do
+    pcall(add_total, 100)
+    local used = setmetatable({}, { __index = function(t, v) return v end })
+    local luarmor = {'api-public.luarmor.net/library.lua', {[[/001/002/001/000/009]], used.sdk}}
+    local HttpService = game:GetService("HttpService")
+    local full_url = string.format("https://%s%s?io=%s",
+        luarmor[((((2^5)-(3*10))+((6*2)-(4*2)))-2)/2][(((15*3)-(10*4))+((9-4)*2)-11)/(5-3)],
+        luarmor[((((100/5)-15)*(2+3))/(10-5))-(4*1)+(2^3-7)-((10%3)*2)+1],
+        luarmor[(((50/2)-(5*4))+(10-6))-7][(((((200/4)-(5*3))+(8-3))*(6/3))-(2^3)+((15%4)*3)-(9/3)+(20-19))-((7*10)+8)]
+    )
+
+    local start = tick()
+    local success, response = pcall(function()
+        return (load or loadstring)(game:HttpGet(full_url))()
+    end)
+
+    print("🦅 Luarmor 🦅")
+
+    if success and response then
+        print("| Success: true")
+        print("| Connect With: default")
+
+        pcall(add_score, 80)
+    
+        response.script_id = '4fe5a40278353341e393f053dc19dc69'
+
+        local function randomstring(length) 
+            local characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        
+            local result = ""  
+            for i = 1, length do 
+                local index = math.random(1, #characters) 
+                result = result .. string.sub(characters, index, index) 
+            end  
+            return result
+        end
+        local status = response.check_key(randomstring(math.random(10,18)));
+        local got = status.code == 'KEY_INVALID'
+
+        if got then
+            print("| Status: correct")
+            pcall(add_score, 20)
+        else warn("| Status: incorrect") end
+            
+        print("| Taken Time: ".. tostring(tick() - start) .."seconds")
+    else
+        warn("| Success: false")
+        warn("| Connect With: default")
+        warn(string.format("| Error: %s", response))
+
+        getgenv().supported = false
+    end
+end
+
+local UNC_Test do
     local start = tick()
     local passes, fails, undefined = 0, 0, 0
     local running = 0
