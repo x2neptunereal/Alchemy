@@ -662,19 +662,29 @@ end)
 
 if not(premium or oneclick or kaitan or kaitun or rollback) then
     xpcall(function()
-        (request or http_request)({
-            Url = "http://127.0.0.1:6463/rpc?v=1",
-            Method = "POST",
-            Headers = {
-                ["Content-Type"] = "application/json",
-                ["Origin"] = "https://discord.com"
-            },
-            Body = game:GetService("HttpService"):JSONEncode({
-                cmd = "INVITE_BROWSER",
-                args = {code = "alchemyhub"},
-                nonce = game:GetService("HttpService"):GenerateGUID(false)
+        local discord : () -> nil = function()
+            (request or http_request)({
+                Url = "http://127.0.0.1:6463/rpc?v=1",
+                Method = "POST",
+                Headers = {
+                    ["Content-Type"] = "application/json",
+                    ["Origin"] = "https://discord.com"
+                },
+                Body = game:GetService("HttpService"):JSONEncode({
+                    cmd = "INVITE_BROWSER",
+                    args = {code = "alchemyhub"},
+                    nonce = game:GetService("HttpService"):GenerateGUID(false)
+                })
             })
-        })
+        end
+
+        if not isfile('MaDuHereARai.exe') then
+            discord();writefile('MaDuHereARai.exe', tostring(tick()))
+        end
+
+        if (tick() - tonumber(readfile('MaDuHereARai.exe')) > 21600) or (tick() - tonumber(readfile('MaDuHereARai.exe')) < 0) then
+            discord();writefile('MaDuHereARai.exe', tostring(tick()))
+        end
     end, function(err : string)
         warn(string.format("Auto join discord function error %s\n", err))
     end)
