@@ -57,6 +57,13 @@ export type ConfigFunctions = {
 	},
 };
 
+export type Notify = {
+	Icon: string,
+	Title: string,
+	Content: string,
+	Duration: number
+};
+
 export type Watermark = {
 	Icon: string,
 	Text: string
@@ -102,6 +109,15 @@ export type MiniToggle = {
 	Default: boolean,
 	Flag: string | nil,
 	Callback: (Value: boolean) -> any?
+};
+
+export type TextBoxConfig = {
+	Name: string,
+	Default: string,
+	Placeholder: string,
+	Flag: string | nil,
+	Numeric: boolean,
+	Callback: (Text: string) -> any?
 };
 
 export type ColorPicker = {
@@ -307,7 +323,7 @@ local Mouse = LocalPlayer:GetMouse();
 local CurrentCamera = workspace.CurrentCamera;
 
 local Compkiller = {
-	Version = '1.2',
+	Version = '1.3',
 	Logo = "rbxassetid://120245531583106",
 	Windows = {},
 	Scale = {
@@ -323,12 +339,29 @@ Compkiller.Colors = {
 	Highlight = Color3.fromRGB(17, 238, 253),
 	Toggle = Color3.fromRGB(14, 203, 213),
 	Risky = Color3.fromRGB(251, 255, 39),
+	BGDBColor = Color3.fromRGB(22, 24, 29),
+	BlockColor = Color3.fromRGB(28, 29, 34),
+	StrokeColor = Color3.fromRGB(37, 38, 43),
+	SwitchColor = Color3.fromRGB(255, 255, 255),
+	DropColor = Color3.fromRGB(33, 35, 39),
+	MouseEnter = Color3.fromRGB(55, 58, 65),
+	BlockBackground = Color3.fromRGB(39, 40, 47),
+	LineColor = Color3.fromRGB(65, 65, 65),
+	HighStrokeColor = Color3.fromRGB(55, 56, 63),
 };
 
 Compkiller.Elements = {
 	Highlight = {},
 	DropHighlight = {},
 	Risky = {},
+	BGDBColor = {},
+	BlockColor = {},
+	StrokeColor = {},
+	SwitchColor = {},
+	DropColor = {},
+	BlockBackground = {},
+	LineColor = {},
+	HighStrokeColor = {},
 };
 
 Compkiller.DragBlacklist = {};
@@ -1160,7 +1193,7 @@ Compkiller.Lucide = {
 };
 
 function Compkiller:_GetIcon(name : string) : string
-	return Compkiller.Lucide['lucide-'..tostring(name)] or Compkiller.Lucide[name] or Compkiller.Lucide[tostring(name)] or "";
+	return Compkiller.Lucide['lucide-'..tostring(name)] or Compkiller.Lucide[name] or Compkiller.Lucide[tostring(name)] or name;
 end;
 
 function Compkiller:_RandomString() : string
@@ -1467,14 +1500,14 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		Toggle.Name = "Toggle"
 		Toggle.Parent = LinkValues
-		Toggle.BackgroundColor3 = Color3.fromRGB(33, 35, 39)
+		Toggle.BackgroundColor3 = Compkiller.Colors.DropColor
 		Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Toggle.BorderSizePixel = 0
 		Toggle.Size = UDim2.new(0, 30, 0, 16)
 		Toggle.ZIndex = GlobalBlock.ZIndex + 1
 		Toggle.LayoutOrder = -#LinkValues:GetChildren();
 
-		table.insert(Compkiller.Elements , {
+		table.insert(Compkiller.Elements.DropColor , {
 			Element = Toggle,
 			Property = "BackgroundColor3"
 		})
@@ -1482,13 +1515,18 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		UICorner.CornerRadius = UDim.new(1, 0)
 		UICorner.Parent = Toggle
 
-		UIStroke.Color = Color3.fromRGB(41, 43, 45)
+		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = Toggle
+		
+		table.insert(Compkiller.Elements.HighStrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		})
 
 		ToggleValue.Name = "ToggleValue"
 		ToggleValue.Parent = Toggle
 		ToggleValue.AnchorPoint = Vector2.new(0.5, 0.5)
-		ToggleValue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		ToggleValue.BackgroundColor3 = Compkiller.Colors.SwitchColor
 		ToggleValue.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ToggleValue.BorderSizePixel = 0
 		ToggleValue.Position = UDim2.new(0.25, 0, 0.5, 0)
@@ -1522,7 +1560,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 				})
 
 				Compkiller:_Animation(Toggle,rep.Tween,{
-					BackgroundColor3 = Color3.fromRGB(33, 35, 39)
+					BackgroundColor3 = Compkiller.Colors.DropColor
 				})
 			end;
 		end;
@@ -1592,14 +1630,13 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		ColorPicker.Name = "ColorPicker"
 		ColorPicker.Parent = LinkValues
-		ColorPicker.BackgroundColor3 = Color3.fromRGB(33, 35, 39)
 		ColorPicker.BackgroundTransparency = 1.000
 		ColorPicker.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ColorPicker.BorderSizePixel = 0
 		ColorPicker.Size = UDim2.new(0, 16, 0, 16)
 		ColorPicker.ZIndex = GlobalBlock.ZIndex + 1
 		ColorPicker.LayoutOrder = -#LinkValues:GetChildren();
-
+		
 		ColorFrame.Name = "ColorFrame"
 		ColorFrame.Parent = ColorPicker
 		ColorFrame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -1612,9 +1649,14 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		UIScale.Parent = ColorFrame
 
-		UIStroke.Color = Color3.fromRGB(41, 43, 45)
+		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = ColorFrame
-
+		
+		table.insert(Compkiller.Elements.HighStrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		})
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = ColorFrame
 
@@ -1708,7 +1750,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		Keybind.Name = "Keybind"
 		Keybind.Parent = LinkValues
-		Keybind.BackgroundColor3 = Color3.fromRGB(33, 35, 39)
+		Keybind.BackgroundColor3 = Compkiller.Colors.DropColor
 		Keybind.BackgroundTransparency = 0.8
 		Keybind.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Keybind.BorderSizePixel = 0
@@ -1716,16 +1758,26 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		Keybind.ZIndex = GlobalBlock.ZIndex + 2
 		Keybind.ClipsDescendants = true
 		Keybind.LayoutOrder = -#LinkValues:GetChildren();
+		
 
+		table.insert(Compkiller.Elements.DropColor , {
+			Element = Keybind,
+			Property = "BackgroundColor3"
+		})
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = Keybind
 
-		UIStroke.Color = Color3.fromRGB(41, 43, 45)
+		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = Keybind
+		
+		table.insert(Compkiller.Elements.HighStrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		})
 
 		TextLabel.Parent = Keybind
 		TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TextLabel.BackgroundTransparency = 1.000
 		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TextLabel.BorderSizePixel = 0
@@ -1734,10 +1786,15 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		TextLabel.ZIndex = GlobalBlock.ZIndex + 3
 		TextLabel.Font = Enum.Font.Gotham
 		TextLabel.Text = GetItem(Default or "None");
-		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TextLabel.TextSize = 12.000
 		TextLabel.TextTransparency = 0.200
-
+		
+		table.insert(Compkiller.Elements.SwitchColor,{
+			Element = TextLabel,
+			Property = "TextColor3"
+		});
+		
 		local Update = function()
 			local size = TextService:GetTextSize(TextLabel.Text,TextLabel.TextSize,TextLabel.Font,Vector2.new(math.huge,math.huge));
 
@@ -1795,7 +1852,6 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		InfoButton.Name = "InfoButton"
 		InfoButton.Parent = LinkValues
-		InfoButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		InfoButton.BackgroundTransparency = 1.000
 		InfoButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		InfoButton.BorderSizePixel = 0
@@ -1811,7 +1867,13 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		BlockText.Name = "BlockText"
 		BlockText.Parent = InfoButton
 		BlockText.AnchorPoint = Vector2.new(0, 0)
-		BlockText.BackgroundColor3 = Color3.fromRGB(28, 29, 34)
+		BlockText.BackgroundColor3 = Compkiller.Colors.BlockColor
+		
+		table.insert(Compkiller.Elements.BlockColor , {
+			Element = BlockText,
+			Property = "BackgroundColor3"
+		});
+		
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockText.BorderSizePixel = 0
 		BlockText.Position = UDim2.new(0, 5, 0, 0)
@@ -1819,14 +1881,24 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		BlockText.ZIndex = GlobalBlock.ZIndex + 26
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = " "
-		BlockText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 		BlockText.TextSize = 13.000
 		BlockText.TextTransparency = 0.300
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
-		UIStroke.Color = Color3.fromRGB(37, 38, 43)
+		
+		table.insert(Compkiller.Elements.SwitchColor,{
+			Element = BlockText,
+			Property = "TextColor3"
+		});
+		
+		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		UIStroke.Parent = BlockText
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		});
 
 		UICorner_2.CornerRadius = UDim.new(0, 3)
 		UICorner_2.Parent = BlockText
@@ -1868,7 +1940,6 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		OptionButton.Name = "OptionButton"
 		OptionButton.Parent = LinkValues
-		OptionButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		OptionButton.BackgroundTransparency = 1.000
 		OptionButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		OptionButton.BorderSizePixel = 0
@@ -1919,7 +1990,6 @@ function Compkiller:_CreateBlock(Signal)
 	local BlockLine = Instance.new("Frame")
 
 	GlobalBlock.Name = "GlobalBlock"
-	GlobalBlock.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	GlobalBlock.BackgroundTransparency = 1.000
 	GlobalBlock.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	GlobalBlock.BorderSizePixel = 0
@@ -1929,7 +1999,6 @@ function Compkiller:_CreateBlock(Signal)
 	BlockText.Name = "BlockText"
 	BlockText.Parent = GlobalBlock
 	BlockText.AnchorPoint = Vector2.new(0, 0.5)
-	BlockText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	BlockText.BackgroundTransparency = 1.000
 	BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	BlockText.BorderSizePixel = 0
@@ -1938,15 +2007,19 @@ function Compkiller:_CreateBlock(Signal)
 	BlockText.ZIndex = 10
 	BlockText.Font = Enum.Font.GothamMedium
 	BlockText.Text = "Block"
-	BlockText.TextColor3 = Color3.fromRGB(255, 255, 255)
+	BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 	BlockText.TextSize = 14.000
 	BlockText.TextTransparency = 0.300
 	BlockText.TextXAlignment = Enum.TextXAlignment.Left
+	
+	table.insert(Compkiller.Elements.SwitchColor , {
+		Element = BlockText,
+		Property = 'TextColor3'
+	});
 
 	LinkValues.Name = "LinkValues"
 	LinkValues.Parent = GlobalBlock
 	LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
-	LinkValues.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	LinkValues.BackgroundTransparency = 1.000
 	LinkValues.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	LinkValues.BorderSizePixel = 0
@@ -1964,13 +2037,18 @@ function Compkiller:_CreateBlock(Signal)
 	BlockLine.Name = "BlockLine"
 	BlockLine.Parent = GlobalBlock
 	BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-	BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+	BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 	BlockLine.BackgroundTransparency = 0.500
 	BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	BlockLine.BorderSizePixel = 0
 	BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 	BlockLine.Size = UDim2.new(1, -26, 0, 1)
 	BlockLine.ZIndex = 12
+	
+	table.insert(Compkiller.Elements.LineColor,{
+		Element = BlockLine,
+		Property = "BackgroundColor3"
+	});
 
 	local rep = {
 		TextTransparency = 0.300,
@@ -1983,7 +2061,17 @@ function Compkiller:_CreateBlock(Signal)
 	end;
 
 	function rep:SetTextColor(Color)
+		local oldIndex = table.find(Compkiller.Elements.SwitchColor , BlockText);
+		
+		table.remove(Compkiller.Elements.SwitchColor , oldIndex);
+		
 		BlockText.TextColor3 = Color;
+		
+		table.insert(Compkiller.Elements.Risky , {
+			Element = BlockText,
+			Property = 'TextColor3'
+		});
+
 	end;
 
 	function rep:SetLine(visible)
@@ -2072,7 +2160,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 
 	ColorPickerWindow.Name = "ColorPickerWindow"
 	ColorPickerWindow.Parent = Window
-	ColorPickerWindow.BackgroundColor3 = Color3.fromRGB(39, 40, 47)
+	ColorPickerWindow.BackgroundColor3 = Compkiller.Colors.BlockBackground
 	ColorPickerWindow.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	ColorPickerWindow.BorderSizePixel = 0
 	ColorPickerWindow.Position = UDim2.new(123, 0, 123, 0)
@@ -2080,12 +2168,20 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	ColorPickerWindow.ZIndex = 100
 	ColorPickerWindow.AnchorPoint = Vector2.new(0.5,0)
 	ColorPickerWindow.Active = true;
-
+	
+	table.insert(Compkiller.Elements.BlockBackground,{
+		Element = ColorPickerWindow,
+		Property = "BackgroundColor3"
+	});
+	
 	Compkiller:_AddDragBlacklist(ColorPickerWindow)
 
-	UIStroke.Color = Color3.fromRGB(55, 56, 63)
+	UIStroke.Color = Compkiller.Colors.HighStrokeColor
 	UIStroke.Parent = ColorPickerWindow
-
+	table.insert(Compkiller.Elements.HighStrokeColor , {
+		Element = UIStroke,
+		Property = "Color"
+	})
 	UICorner.CornerRadius = UDim.new(0, 6)
 	UICorner.Parent = ColorPickerWindow
 
@@ -2222,7 +2318,6 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 
 	TransparentImage.Name = "TransparentImage"
 	TransparentImage.Parent = ColorOpc
-	TransparentImage.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	TransparentImage.BackgroundTransparency = 1.000
 	TransparentImage.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TransparentImage.BorderSizePixel = 0
@@ -2238,22 +2333,31 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	HexFrame.Name = "HexFrame"
 	HexFrame.Parent = ColorPickerWindow
 	HexFrame.AnchorPoint = Vector2.new(0.5, 1)
-	HexFrame.BackgroundColor3 = Color3.fromRGB(28, 31, 40)
+	HexFrame.BackgroundColor3 = Compkiller.Colors.BlockColor
 	HexFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	HexFrame.BorderSizePixel = 0
 	HexFrame.Position = UDim2.new(0.5, 0, 1, -5)
 	HexFrame.Size = UDim2.new(1, -16, 0, 20)
 	HexFrame.ZIndex = 205
+	
+	table.insert(Compkiller.Elements.BlockColor,{
+		Element = HexFrame,
+		Property = "BackgroundColor3"
+	});
 
 	UICorner_6.CornerRadius = UDim.new(0, 4)
 	UICorner_6.Parent = HexFrame
 
-	UIStroke_8.Color = Color3.fromRGB(46, 47, 53)
+	UIStroke_8.Color = Compkiller.Colors.HighStrokeColor
 	UIStroke_8.Parent = HexFrame
+	
+	table.insert(Compkiller.Elements.HighStrokeColor,{
+		Element = UIStroke_8,
+		Property = "Color"
+	});
 
 	TextLabel.Parent = HexFrame
 	TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-	TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	TextLabel.BackgroundTransparency = 1.000
 	TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TextLabel.BorderSizePixel = 0
@@ -2262,10 +2366,15 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	TextLabel.ZIndex = 206
 	TextLabel.Font = Enum.Font.Gotham
 	TextLabel.Text = "#FFFFFFF"
-	TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 	TextLabel.TextSize = 13.000
 	TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+	
+	table.insert(Compkiller.Elements.SwitchColor , {
+		Element = TextLabel,
+		Property = 'TextColor3'
+	});
+	
 	local Args = {
 		IsHold = false,
 		IsVisible = false,
@@ -2947,7 +3056,7 @@ function Compkiller:_LoadOption(Value , TabSignal)
 
 		ExtractElement.Name = "ExtractElement"
 		ExtractElement.Parent = Window
-		ExtractElement.BackgroundColor3 = Color3.fromRGB(39, 40, 47)
+		ExtractElement.BackgroundColor3 = Compkiller.Colors.BlockBackground
 		ExtractElement.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ExtractElement.BorderSizePixel = 0
 		ExtractElement.ClipsDescendants = true
@@ -2956,17 +3065,26 @@ function Compkiller:_LoadOption(Value , TabSignal)
 		ExtractElement.ZIndex = 100
 		ExtractElement.Visible = false
 		ExtractElement.ClipsDescendants = true
+		
+		table.insert(Compkiller.Elements.BlockBackground,{
+			Element = ExtractElement,
+			Property = "BackgroundColor3"
+		});
 
-		UIStroke.Color = Color3.fromRGB(46, 47, 53)
+		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = ExtractElement
-
+		
+		table.insert(Compkiller.Elements.HighStrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		});
+		
 		UICorner.CornerRadius = UDim.new(0, 6)
 		UICorner.Parent = ExtractElement
 
 		Elements.Name = "Elements"
 		Elements.Parent = ExtractElement
 		Elements.AnchorPoint = Vector2.new(0.5, 0.5)
-		Elements.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Elements.BackgroundTransparency = 1.000
 		Elements.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Elements.BorderSizePixel = 0
@@ -3012,20 +3130,30 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 
 	DropdownWindow.Name = "DropdownWindow"
 	DropdownWindow.Parent = Window
-	DropdownWindow.BackgroundColor3 = Color3.fromRGB(39, 40, 47)
+	DropdownWindow.BackgroundColor3 = Compkiller.Colors.BlockBackground
 	DropdownWindow.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	DropdownWindow.BorderSizePixel = 0
 	DropdownWindow.Position = UDim2.new(123, 0, 123, 0)
 	DropdownWindow.Size = UDim2.new(0, 190, 0, 200)
 	DropdownWindow.ZIndex = 100
+	
+	table.insert(Compkiller.Elements.BlockBackground,{
+		Element = DropdownWindow,
+		Property = "BackgroundColor3"
+	});
 
 	Compkiller:_AddDragBlacklist(DropdownWindow);
 	Compkiller:_AddPropertyEvent(DropdownWindow,function(v)
 		DropdownWindow.Visible = v;
 	end)
 
-	UIStroke.Color = Color3.fromRGB(55, 56, 63)
+	UIStroke.Color = Compkiller.Colors.HighStrokeColor
 	UIStroke.Parent = DropdownWindow
+	
+	table.insert(Compkiller.Elements.HighStrokeColor , {
+		Element = UIStroke,
+		Property = "Color"
+	})
 
 	UICorner.CornerRadius = UDim.new(0, 6)
 	UICorner.Parent = DropdownWindow
@@ -3033,7 +3161,6 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 	ScrollingFrame.Parent = DropdownWindow
 	ScrollingFrame.Active = true
 	ScrollingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	ScrollingFrame.BackgroundTransparency = 1.000
 	ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	ScrollingFrame.BorderSizePixel = 0
@@ -3114,7 +3241,6 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		local BlockLine = Instance.new("Frame")
 
 		DropdownItem.Name = "DropdownItem"
-		DropdownItem.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		DropdownItem.BackgroundTransparency = 1.000
 		DropdownItem.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		DropdownItem.BorderSizePixel = 0
@@ -3124,7 +3250,6 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		BlockText.Name = "BlockText"
 		BlockText.Parent = DropdownItem
 		BlockText.AnchorPoint = Vector2.new(0, 0.5)
-		BlockText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		BlockText.BackgroundTransparency = 1.000
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockText.BorderSizePixel = 0
@@ -3133,21 +3258,31 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		BlockText.ZIndex = 106
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = ""
-		BlockText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 		BlockText.TextSize = 13.000
 		BlockText.TextTransparency = 0.500
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = BlockText,
+			Property = 'TextColor3'
+		});
+		
 		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = DropdownItem
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-		BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 		BlockLine.BackgroundTransparency = 0.500
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -6, 0, 1)
 		BlockLine.ZIndex = 107
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		});
 
 		return {
 			BlockText = BlockText,
@@ -3520,9 +3655,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 			Config.Default = value;
 			Config.Transparency = opc;
 
-			ColorPicker:SetColor(value,opc)
-
-			ColorPicker:Update()
+			ColorPicker:SetColor(value,opc);
+			ColorPicker:Update();
 
 			Config.Callback(value,opc);
 		end;
@@ -3564,7 +3698,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		Button.Name = "Button"
 		Button.Parent = Parent
-		Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Button.BackgroundTransparency = 1.000
 		Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Button.BorderSizePixel = 0
@@ -3574,13 +3707,18 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Button
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-		BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 		BlockLine.BackgroundTransparency = 0.500
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 6
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		});
 
 		Frame.Parent = Button
 		Frame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -3597,15 +3735,19 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 			Property = "BackgroundColor3"
 		});
 
-		UIStroke.Color = Color3.fromRGB(37, 38, 43)
+		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = Frame
-
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		});
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = Frame
 
 		TextLabel.Parent = Frame
 		TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TextLabel.BackgroundTransparency = 1.000
 		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TextLabel.BorderSizePixel = 0
@@ -3614,9 +3756,14 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		TextLabel.ZIndex = Zindex + 8
 		TextLabel.Font = Enum.Font.GothamMedium
 		TextLabel.Text = Config.Name;
-		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TextLabel.TextSize = 12.000
 		TextLabel.TextStrokeTransparency = 0.900
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = TextLabel,
+			Property = 'TextColor3'
+		});
 
 		Compkiller:_Hover(Frame,function()
 			if Signal:GetValue() then
@@ -3711,7 +3858,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		Slider.Name = "Slider"
 		Slider.Parent = Parent
-		Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Slider.BackgroundTransparency = 1.000
 		Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Slider.BorderSizePixel = 0
@@ -3720,7 +3866,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		BlockText.Name = "BlockText"
 		BlockText.Parent = Slider
-		BlockText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		BlockText.BackgroundTransparency = 1.000
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockText.BorderSizePixel = 0
@@ -3729,15 +3874,20 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.ZIndex = Zindex + 2
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = Config.Name
-		BlockText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 		BlockText.TextSize = 14.000
 		BlockText.TextTransparency = 0.100
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = BlockText,
+			Property = 'TextColor3'
+		});
+		
 		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Slider
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-		BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 		BlockLine.BackgroundTransparency = 0.500
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
@@ -3745,22 +3895,37 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 2
 		BlockLine.Visible = EnabledLine or false;
-
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		});
+		
 		SliderBar.Name = "SliderBar"
 		SliderBar.Parent = Slider
 		SliderBar.AnchorPoint = Vector2.new(0.5, 1)
-		SliderBar.BackgroundColor3 = Color3.fromRGB(33, 35, 39)
+		SliderBar.BackgroundColor3 = Compkiller.Colors.DropColor
 		SliderBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		SliderBar.BorderSizePixel = 0
 		SliderBar.ClipsDescendants = true
 		SliderBar.Position = UDim2.new(0.5, 0, 1, -9)
 		SliderBar.Size = UDim2.new(1, -25, 0, 10)
 		SliderBar.ZIndex = Zindex + 3
+		
+		table.insert(Compkiller.Elements.DropColor , {
+			Element = SliderBar,
+			Property = "BackgroundColor3"
+		})
 
 		Compkiller:_AddDragBlacklist(SliderBar)
 
-		UIStroke.Color = Color3.fromRGB(37, 38, 43)
+		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = SliderBar
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		});
 
 		UICorner.CornerRadius = UDim.new(0, 6)
 		UICorner.Parent = SliderBar
@@ -3785,7 +3950,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		Frame.Parent = SliderInput
 		Frame.AnchorPoint = Vector2.new(1, 0.5)
-		Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Frame.BackgroundColor3 = Compkiller.Colors.SwitchColor
 		Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Frame.BorderSizePixel = 0
 		Frame.Position = UDim2.new(1, 5, 0.5, 0)
@@ -3793,7 +3958,12 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Frame.Size = UDim2.new(1, 0, 1, 0)
 		Frame.SizeConstraint = Enum.SizeConstraint.RelativeYY
 		Frame.ZIndex = Zindex + 6
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = Frame,
+			Property = 'BackgroundColor3'
+		});
+		
 		UICorner_3.CornerRadius = UDim.new(3, 0)
 		UICorner_3.Parent = Frame
 
@@ -3802,7 +3972,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		ValueText.Name = "ValueText"
 		ValueText.Parent = Slider
-		ValueText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		ValueText.BackgroundTransparency = 1.000
 		ValueText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ValueText.BorderSizePixel = 0
@@ -3811,11 +3980,16 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		ValueText.ZIndex = Zindex + 4
 		ValueText.Font = Enum.Font.GothamMedium
 		ValueText.Text = tostring(Config.Default)..tostring(Config.Type)
-		ValueText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		ValueText.TextColor3 = Compkiller.Colors.SwitchColor
 		ValueText.TextSize = 12.000
 		ValueText.TextTransparency = 0.750
 		ValueText.TextXAlignment = Enum.TextXAlignment.Right
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = ValueText,
+			Property = 'TextColor3'
+		});
+		
 		Compkiller:_Hover(SliderBar,function()
 			if Signal:GetValue() then
 				Compkiller:_Animation(ValueText,TweenInfo.new(0.2),{
@@ -3999,7 +4173,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		Paragraph.Name = "Paragraph"
 		Paragraph.Parent = Parent
-		Paragraph.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Paragraph.BackgroundTransparency = 1.000
 		Paragraph.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Paragraph.BorderSizePixel = 0
@@ -4010,7 +4183,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.Name = "BlockText"
 		BlockText.Parent = Paragraph
 		BlockText.AnchorPoint = Vector2.new(0, 0.5)
-		BlockText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		BlockText.BackgroundTransparency = 1.000
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockText.BorderSizePixel = 0
@@ -4019,27 +4191,36 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.ZIndex = Zindex + 3
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = Config.Title
-		BlockText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 		BlockText.TextSize = 14.000
 		BlockText.TextTransparency = 0.300
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
 		BlockText.RichText = true
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = BlockText,
+			Property = 'TextColor3'
+		});
 
 		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Paragraph
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-		BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 		BlockLine.BackgroundTransparency = 0.500
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 4
-
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		});
+		
 		DescriptionText.RichText = true
 		DescriptionText.Name = "DescriptionText"
 		DescriptionText.Parent = Paragraph
-		DescriptionText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		DescriptionText.BackgroundTransparency = 1.000
 		DescriptionText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		DescriptionText.BorderSizePixel = 0
@@ -4048,12 +4229,17 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		DescriptionText.ZIndex = Zindex + 5
 		DescriptionText.Font = Enum.Font.GothamMedium
 		DescriptionText.Text = Config.Content
-		DescriptionText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		DescriptionText.TextColor3 = Compkiller.Colors.SwitchColor
 		DescriptionText.TextSize = 13.000
 		DescriptionText.TextTransparency = 0.500
 		DescriptionText.TextXAlignment = Enum.TextXAlignment.Left
 		DescriptionText.TextYAlignment = Enum.TextYAlignment.Top
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = DescriptionText,
+			Property = 'TextColor3'
+		});
+		
 		local Base = 15;
 
 		local UpdateScale = function()
@@ -4118,6 +4304,227 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		return Args;
 	end;
+	
+	function Args:AddTextBox(Config: TextBoxConfig)
+		Config = Compkiller.__CONFIG(Config , {
+			Name = "TextBox",
+			Default = "",
+			Placeholder = "Placeholder",
+			Numberic = false,
+			Callback = function() end,
+		});
+		
+		local TextBox = Instance.new("Frame")
+		local BlockText = Instance.new("TextLabel")
+		local LinkValues = Instance.new("Frame")
+		local UIStroke = Instance.new("UIStroke")
+		local UICorner = Instance.new("UICorner")
+		local TextBox_2 = Instance.new("TextBox")
+		local BlockLine = Instance.new("Frame")
+		
+		TextBox.Name = "TextBox"
+		TextBox.Parent = Parent
+		TextBox.BackgroundTransparency = 1.000
+		TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		TextBox.BorderSizePixel = 0
+		TextBox.Size = UDim2.new(1, -1, 0, 30)
+		TextBox.ZIndex = Zindex + 1
+
+		BlockText.Name = "BlockText"
+		BlockText.Parent = TextBox
+		BlockText.AnchorPoint = Vector2.new(0, 0.5)
+		BlockText.BackgroundTransparency = 1.000
+		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		BlockText.BorderSizePixel = 0
+		BlockText.Position = UDim2.new(0, 12, 0.5, 0)
+		BlockText.Size = UDim2.new(1, -20, 0, 25)
+		BlockText.ZIndex = Zindex + 2
+		BlockText.Font = Enum.Font.GothamMedium
+		BlockText.Text = Config.Name
+		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
+		BlockText.TextSize = 14.000
+		BlockText.TextTransparency = 0.300
+		BlockText.TextXAlignment = Enum.TextXAlignment.Left
+		
+		table.insert(Compkiller.Elements.SwitchColor,{
+			Element = BlockText,
+			Property = "TextColor3"
+		})
+		
+		LinkValues.Name = "LinkValues"
+		LinkValues.Parent = TextBox
+		LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
+		LinkValues.BackgroundColor3 = Compkiller.Colors.DropColor
+		LinkValues.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		LinkValues.BorderSizePixel = 0
+		LinkValues.Position = UDim2.new(1, -12, 0.5, 0)
+		LinkValues.Size = UDim2.new(0, 95, 0, 16)
+		LinkValues.ZIndex = Zindex + 3
+		
+		table.insert(Compkiller.Elements.DropColor,{
+			Element = LinkValues,
+			Property = "BackgroundColor3"
+		})
+		
+		UIStroke.Color = Compkiller.Colors.StrokeColor
+		UIStroke.Parent = LinkValues
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		})
+
+		UICorner.CornerRadius = UDim.new(0, 3)
+		UICorner.Parent = LinkValues
+
+		TextBox_2.Parent = LinkValues
+		TextBox_2.AnchorPoint = Vector2.new(0.5, 0.5)
+		TextBox_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TextBox_2.BackgroundTransparency = 1.000
+		TextBox_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		TextBox_2.BorderSizePixel = 0
+		TextBox_2.ClipsDescendants = true
+		TextBox_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+		TextBox_2.Size = UDim2.new(1, -5, 1, 0)
+		TextBox_2.ZIndex = Zindex + 5
+		TextBox_2.ClearTextOnFocus = false
+		TextBox_2.Font = Enum.Font.GothamMedium
+		TextBox_2.PlaceholderText = Config.Placeholder
+		TextBox_2.Text = Config.Default
+		TextBox_2.TextColor3 = Compkiller.Colors.SwitchColor
+		TextBox_2.TextSize = 11.000
+		
+		table.insert(Compkiller.Elements.SwitchColor,{
+			Element = TextBox_2,
+			Property = "TextColor3"
+		})
+		
+		BlockLine.Name = "BlockLine"
+		BlockLine.Parent = TextBox
+		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
+		BlockLine.BackgroundTransparency = 0.500
+		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		BlockLine.BorderSizePixel = 0
+		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
+		BlockLine.Size = UDim2.new(1, -26, 0, 1)
+		BlockLine.ZIndex = Zindex + 3;
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		})
+		
+		local Update = function()
+			local scale = TextService:GetTextSize(TextBox_2.Text,TextBox_2.TextSize,TextBox_2.Font,Vector2.new(math.huge,math.huge));
+			local Base = TextService:GetTextSize(TextBox_2.PlaceholderText,TextBox_2.TextSize,TextBox_2.Font,Vector2.new(math.huge,math.huge));
+
+			local MainScale = ((scale.X > Base.X) and scale.X) or Base.X;
+			
+			Compkiller:_Animation(LinkValues,TweenInfo.new(0.25),{
+				Size = UDim2.fromOffset(math.clamp(MainScale + 7 , Base.X , TextBox.AbsoluteSize.X / 2) , 16)
+			})
+		end;
+
+		local parse = function(text)
+			if not text then
+				return "";	
+			end;
+
+			if Config.Numeric then
+				local out = string.gsub(tostring(text), '[^0-9.]', '')
+
+				if tonumber(out) then
+					return tonumber(out);
+				end;
+
+				return nil;
+			end;
+
+			return text;
+		end;
+		
+		Update();
+
+		TextBox_2:GetPropertyChangedSignal('Text'):Connect(Update);
+		
+		TextBox_2:GetPropertyChangedSignal('Text'):Connect(function()
+			local value = parse(TextBox_2.Text);
+			
+			if value then
+				
+				TextBox_2.Text = tostring(value);
+
+				task.spawn(Config.Callback,value);
+				
+				Config.Default = value;
+			else
+				TextBox_2.Text = string.gsub(TextBox_2.Text, '[^0-9.]', '');
+				
+				Config.Default = TextBox_2.Text;
+			end;
+		end);
+		
+		local Args = {};
+
+		Args.Flag = Config.Flag;
+
+		function Args:SetValue(Value)
+			Config.Default = Value;
+
+			TextBox_2.Text = tostring(Config.Default);
+			
+			Config.Callback(Value);
+		end;
+
+		Args.Signal = Signal:Connect(function(bool)
+			if bool then
+				Compkiller:_Animation(BlockText,TweenInfo.new(0.2),{
+					TextTransparency = 0.3
+				});
+
+				Compkiller:_Animation(BlockLine,TweenInfo.new(0.2),{
+					BackgroundTransparency = 0.5
+				});
+
+				Compkiller:_Animation(UIStroke,TweenInfo.new(0.2),{
+					Transparency = 0
+				});
+
+				Compkiller:_Animation(LinkValues,TweenInfo.new(0.2),{
+					BackgroundTransparency = 0
+				});
+				
+			else
+				Compkiller:_Animation(BlockText,TweenInfo.new(0.2),{
+					TextTransparency = 1
+				});
+
+				Compkiller:_Animation(BlockLine,TweenInfo.new(0.2),{
+					BackgroundTransparency = 1
+				});
+
+				Compkiller:_Animation(UIStroke,TweenInfo.new(0.2),{
+					Transparency = 1
+				});
+
+				Compkiller:_Animation(LinkValues,TweenInfo.new(0.2),{
+					BackgroundTransparency = 1
+				});
+
+			end;
+		end);
+
+		function Args:GetValue()
+			return Config.Default;
+		end;
+
+		if Config.Flag then
+			Compkiller.Flags[Config.Flag] = Args;
+		end;
+
+		return Args;
+	end;
 
 	function Args:AddDropdown(Config : Dropdown)
 		Config = Compkiller.__CONFIG(Config,{
@@ -4173,7 +4580,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		Dropdown.Name = "Dropdown"
 		Dropdown.Parent = Parent
-		Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Dropdown.BackgroundTransparency = 1.000
 		Dropdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Dropdown.BorderSizePixel = 0
@@ -4182,7 +4588,6 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		BlockText.Name = "BlockText"
 		BlockText.Parent = Dropdown
-		BlockText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		BlockText.BackgroundTransparency = 1.000
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockText.BorderSizePixel = 0
@@ -4191,7 +4596,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.ZIndex = Zindex + 3
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = Config.Name
-		BlockText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 		BlockText.TextSize = 14.000
 		BlockText.TextTransparency = 0.100
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
@@ -4199,22 +4604,31 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		if not BlockText.Text:byte() then
 			Dropdown.Size = UDim2.new(1, -1, 0, 25)
 		end;
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = BlockText,
+			Property = 'TextColor3'
+		});
 
 		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Dropdown
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-		BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 		BlockLine.BackgroundTransparency = 0.500
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 3
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		});
 
 		LinkValues.Name = "LinkValues"
 		LinkValues.Parent = Dropdown
 		LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
-		LinkValues.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		LinkValues.BackgroundTransparency = 1.000
 		LinkValues.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		LinkValues.BorderSizePixel = 0
@@ -4232,24 +4646,33 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		ValueItems.Name = "ValueItems"
 		ValueItems.Parent = Dropdown
 		ValueItems.AnchorPoint = Vector2.new(0.5, 1)
-		ValueItems.BackgroundColor3 = Color3.fromRGB(33, 35, 39)
+		ValueItems.BackgroundColor3 = Compkiller.Colors.DropColor
 		ValueItems.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ValueItems.BorderSizePixel = 0
 		ValueItems.ClipsDescendants = true
 		ValueItems.Position = UDim2.new(0.5, 0, 1, -7)
 		ValueItems.Size = UDim2.new(1, -25, 0, 18)
 		ValueItems.ZIndex = Zindex + 5
-
-		UIStroke.Color = Color3.fromRGB(37, 38, 43)
+		
+		table.insert(Compkiller.Elements.DropColor , {
+			Element = ValueItems,
+			Property = "BackgroundColor3"
+		})
+		
+		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = ValueItems
-
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		});
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = ValueItems
 
 		ValueText.Name = "ValueText"
 		ValueText.Parent = ValueItems
 		ValueText.AnchorPoint = Vector2.new(0.5, 0.5)
-		ValueText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		ValueText.BackgroundTransparency = 1.000
 		ValueText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ValueText.BorderSizePixel = 0
@@ -4258,14 +4681,18 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		ValueText.ZIndex = Zindex + 8
 		ValueText.Font = Enum.Font.Gotham
 		ValueText.Text = DaTabarser(Config.Default)
-		ValueText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		ValueText.TextColor3 = Compkiller.Colors.SwitchColor
 		ValueText.TextSize = 11.000
 		ValueText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = ValueText,
+			Property = 'TextColor3'
+		});
+		
 		MainButton.Name = "MainButton"
 		MainButton.Parent = ValueItems
 		MainButton.AnchorPoint = Vector2.new(1, 0.5)
-		MainButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		MainButton.BackgroundTransparency = 1.000
 		MainButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		MainButton.BorderSizePixel = 0
@@ -4276,11 +4703,11 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		Compkiller:_Hover(ValueItems,function()
 			Compkiller:_Animation(ValueItems,TweenInfo.new(0.3),{
-				BackgroundColor3 = Color3.fromRGB(55, 58, 65)
+				BackgroundColor3 = Compkiller.Colors.MouseEnter
 			});
 		end,function()
 			Compkiller:_Animation(ValueItems,TweenInfo.new(0.3),{
-				BackgroundColor3 = Color3.fromRGB(33, 35, 39)
+				BackgroundColor3 = Compkiller.Colors.DropColor
 			});
 		end);
 
@@ -4408,6 +4835,159 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 	return Args;
 end;
 
+function Compkiller:GetTheme()
+	return Compkiller.Colors;
+end;
+
+function Compkiller:SetTheme(name)
+	if name == "Dark Green" then
+		Compkiller.Colors = {
+			["BGDBColor"] = Color3.new(0.0429964, 0.110345, 0.0727226),
+			["BlockBackground"] = Color3.new(0.159287, 0.234483, 0.201811),
+			["BlockColor"] = Color3.new(0, 0.137931, 0.0951249),
+			["DropColor"] = Color3.new(0, 0.227586, 0.100452),
+			["Highlight"] = Color3.new(0.0666667, 0.992157, 0.628343),
+			["LineColor"] = Color3.new(0.263258, 0.372414, 0.329504),
+			["MouseEnter"] = Color3.new(0, 0.841379, 0.51063),
+			["Risky"] = Color3.new(1, 0.398296, 0.152941),
+			["StrokeColor"] = Color3.new(0.132342, 0.241379, 0.198517),
+			["SwitchColor"] = Color3.new(0.927586, 1, 0.980523),
+			["Toggle"] = Color3.new(0, 0.613793, 0.220119),
+			HighStrokeColor = Color3.new(0, 0.241379, 0.186445),
+		};
+	elseif name == "Default" then
+		Compkiller.Colors = {
+			Highlight = Color3.fromRGB(17, 238, 253),
+			Toggle = Color3.fromRGB(14, 203, 213),
+			Risky = Color3.fromRGB(251, 255, 39),
+			BGDBColor = Color3.fromRGB(22, 24, 29),
+			BlockColor = Color3.fromRGB(28, 29, 34),
+			StrokeColor = Color3.fromRGB(37, 38, 43),
+			SwitchColor = Color3.fromRGB(255, 255, 255),
+			DropColor = Color3.fromRGB(33, 35, 39),
+			MouseEnter = Color3.fromRGB(55, 58, 65),
+			BlockBackground = Color3.fromRGB(39, 40, 47),
+			LineColor = Color3.fromRGB(65, 65, 65),
+			HighStrokeColor = Color3.fromRGB(55, 56, 63),
+		};
+	elseif name == "Dark Blue" then
+		Compkiller.Colors = {
+			["BGDBColor"] = Color3.new(0.0393817, 0.0754204, 0.165517),
+			["BlockBackground"] = Color3.new(0, 0.0618311, 0.172414),
+			["BlockColor"] = Color3.new(0, 0.0172414, 0.103448),
+			["DropColor"] = Color3.new(0, 0.0965518, 0.289655),
+			["HighStrokeColor"] = Color3.new(0, 0.132604, 0.234483),
+			["Highlight"] = Color3.new(0.0666667, 0.781528, 0.992157),
+			["LineColor"] = Color3.new(0, 0.110345, 0.275862),
+			["MouseEnter"] = Color3.new(0, 0.606896, 1),
+			["Risky"] = Color3.new(0.0310345, 0.819572, 1),
+			["StrokeColor"] = Color3.new(0, 0.119857, 0.248276),
+			["SwitchColor"] = Color3.new(1, 1, 1),
+			["Toggle"] = Color3.new(0.054902, 0.463935, 0.835294)
+		}
+	elseif name == "Purple Rose" then
+		Compkiller.Colors = {
+			["BGDBColor"] = Color3.new(0.0459068, 0.030321, 0.117241),
+			["BlockBackground"] = Color3.new(0.156272, 0.119596, 0.324138),
+			["BlockColor"] = Color3.new(0.0948428, 0.0576457, 0.165517),
+			["DropColor"] = Color3.new(0.131034, 0, 0.0813317),
+			["HighStrokeColor"] = Color3.new(0.136259, 0.101237, 0.296552),
+			["Highlight"] = Color3.new(0.992157, 0.0666667, 0.33474),
+			["LineColor"] = Color3.new(0.20872, 0.137408, 0.372414),
+			["MouseEnter"] = Color3.new(0.365517, 0, 0.120999),
+			["Risky"] = Color3.new(1, 0.6086, 0.152941),
+			["StrokeColor"] = Color3.new(0.148499, 0.137836, 0.248276),
+			["SwitchColor"] = Color3.new(1, 1, 1),
+			["Toggle"] = Color3.new(0.835294, 0.054902, 0.248654)
+		}
+	elseif name == "Skeet" then		
+		Compkiller.Colors = {
+			["BGDBColor"] = Color3.new(0.114578, 0.125191, 0.151724),
+			["BlockBackground"] = Color3.new(0.128181, 0.131124, 0.151724),
+			["BlockColor"] = Color3.new(0.0732699, 0.0760008, 0.0896552),
+			["DropColor"] = Color3.new(0.0809037, 0.0861197, 0.0965517),
+			["HighStrokeColor"] = Color3.new(0.119382, 0.1217, 0.137931),
+			["Highlight"] = Color3.new(0, 0.634483, 0.0700119),
+			["LineColor"] = Color3.new(0.151724, 0.151724, 0.151724),
+			["MouseEnter"] = Color3.new(0.134007, 0.141391, 0.158621),
+			["Risky"] = Color3.new(0.984314, 1, 0.152941),
+			["StrokeColor"] = Color3.new(0.0769798, 0.0790924, 0.0896552),
+			["SwitchColor"] = Color3.new(1, 1, 1),
+			["Toggle"] = Color3.new(0, 0.324138, 0.10283)
+		}
+	end;
+	
+	Compkiller:RefreshCurrentColor()
+end;
+
+function Compkiller:RefreshCurrentColor()
+	for i,v in next , Compkiller.Elements.Highlight do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.Highlight;
+		end;
+	end;
+
+	for i,v in next , Compkiller.Elements do
+		if v.Element and v.Property and v.Element:GetAttribute('Enabled') then
+			v.Element[v.Property] = Compkiller.Colors.Highlight;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.Risky do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.Risky;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.BlockColor do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.BlockColor;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.BGDBColor do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.BGDBColor;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.StrokeColor do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.StrokeColor;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.SwitchColor do
+		if v.Element and v.Property and v.Element[v.Property] ~= Compkiller.Colors.MouseEnter then
+			v.Element[v.Property] = Compkiller.Colors.SwitchColor;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.BlockBackground do
+		if v.Element and v.Property and v.Element[v.Property] then
+			v.Element[v.Property] = Compkiller.Colors.BlockBackground;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.DropColor do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.DropColor;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.LineColor do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.LineColor;
+		end;
+	end;
+	
+	for i,v in next , Compkiller.Elements.HighStrokeColor do
+		if v.Element and v.Property then
+			v.Element[v.Property] = Compkiller.Colors.HighStrokeColor;
+		end;
+	end;
+end;
+
 function Compkiller:ChangeHighlightColor(NewColor: Color3)
 	local H,S,V = NewColor:ToHSV();
 
@@ -4498,7 +5078,13 @@ function Compkiller.new(Config : Window)
 	MainFrame.Name = "MainFrame"
 	MainFrame.Parent = CompKiller
 	MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	MainFrame.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+	MainFrame.BackgroundColor3 = Compkiller.Colors.BGDBColor
+	
+	table.insert(Compkiller.Elements.BGDBColor,{
+		Element = MainFrame,
+		Property = 'BackgroundColor3'
+	});
+	
 	MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	MainFrame.BorderSizePixel = 0
 	MainFrame.Position = UDim2.fromScale(0.5,0.5);
@@ -4525,7 +5111,13 @@ function Compkiller.new(Config : Window)
 	TabFrame.Name = "TabFrame"
 	TabFrame.Parent = MainFrame
 	TabFrame.AnchorPoint = Vector2.new(1, 0)
-	TabFrame.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+	TabFrame.BackgroundColor3 = Compkiller.Colors.BGDBColor
+	
+	table.insert(Compkiller.Elements.BGDBColor,{
+		Element = TabFrame,
+		Property = 'BackgroundColor3'
+	});
+	
 	TabFrame.BackgroundTransparency = TabFrameBaseTrans
 	TabFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TabFrame.BorderSizePixel = 0
@@ -4538,7 +5130,13 @@ function Compkiller.new(Config : Window)
 	LineFrame1.Name = "LineFrame1"
 	LineFrame1.Parent = TabFrame
 	LineFrame1.AnchorPoint = Vector2.new(1, 0)
-	LineFrame1.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+	LineFrame1.BackgroundColor3 = Compkiller.Colors.BGDBColor
+	
+	table.insert(Compkiller.Elements.BGDBColor,{
+		Element = LineFrame1,
+		Property = 'BackgroundColor3'
+	});
+	
 	LineFrame1.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	LineFrame1.BorderSizePixel = 0
 	LineFrame1.Position = UDim2.new(1, -5, 0, 0)
@@ -4546,7 +5144,6 @@ function Compkiller.new(Config : Window)
 
 	CompLogo.Name = "CompLogo"
 	CompLogo.Parent = TabFrame
-	CompLogo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	CompLogo.BackgroundTransparency = 1.000
 	CompLogo.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	CompLogo.BorderSizePixel = 0
@@ -4556,7 +5153,6 @@ function Compkiller.new(Config : Window)
 
 	WindowLabel.Name = "WindowLabel"
 	WindowLabel.Parent = TabFrame
-	WindowLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	WindowLabel.BackgroundTransparency = 1.000
 	WindowLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	WindowLabel.BorderSizePixel = 0
@@ -4564,13 +5160,17 @@ function Compkiller.new(Config : Window)
 	WindowLabel.Size = UDim2.new(0, 200, 0, 25)
 	WindowLabel.Font = Enum.Font.GothamBold
 	WindowLabel.Text = Config.Name
-	WindowLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	WindowLabel.TextColor3 = Compkiller.Colors.SwitchColor
 	WindowLabel.TextSize = Config.TextSize
 	WindowLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+	
+	table.insert(Compkiller.Elements.SwitchColor , {
+		Element = WindowLabel,
+		Property = 'TextColor3'
+	});
+	
 	TabButtons.Name = "TabButtons"
 	TabButtons.Parent = TabFrame
-	TabButtons.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	TabButtons.BackgroundTransparency = 1.000
 	TabButtons.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TabButtons.BorderSizePixel = 0
@@ -4598,7 +5198,6 @@ function Compkiller.new(Config : Window)
 	TabButtonScrollingFrame.Parent = TabButtons
 	TabButtonScrollingFrame.Active = true
 	TabButtonScrollingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	TabButtonScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	TabButtonScrollingFrame.BackgroundTransparency = 1.000
 	TabButtonScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TabButtonScrollingFrame.BorderSizePixel = 0
@@ -4616,7 +5215,6 @@ function Compkiller.new(Config : Window)
 	Userinfo.Name = "Userinfo"
 	Userinfo.Parent = TabFrame
 	Userinfo.AnchorPoint = Vector2.new(0, 1)
-	Userinfo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Userinfo.BackgroundTransparency = 1.000
 	Userinfo.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	Userinfo.BorderSizePixel = 0
@@ -4625,7 +5223,6 @@ function Compkiller.new(Config : Window)
 
 	UserProfile.Name = "UserProfile"
 	UserProfile.Parent = Userinfo
-	UserProfile.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	UserProfile.BackgroundTransparency = 1.000
 	UserProfile.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	UserProfile.BorderSizePixel = 0
@@ -4639,7 +5236,6 @@ function Compkiller.new(Config : Window)
 
 	UserText.Name = "UserText"
 	UserText.Parent = Userinfo
-	UserText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	UserText.BackgroundTransparency = 1.000
 	UserText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	UserText.BorderSizePixel = 0
@@ -4648,13 +5244,17 @@ function Compkiller.new(Config : Window)
 	UserText.ZIndex = 2
 	UserText.Font = Enum.Font.GothamMedium
 	UserText.Text = "Username"
-	UserText.TextColor3 = Color3.fromRGB(255, 255, 255)
+	UserText.TextColor3 = Compkiller.Colors.SwitchColor
 	UserText.TextSize = 13.000
 	UserText.TextXAlignment = Enum.TextXAlignment.Left
-
+	
+	table.insert(Compkiller.Elements.SwitchColor , {
+		Element = UserText,
+		Property = 'TextColor3'
+	});
+	
 	ExpireText.Name = "ExpireText"
 	ExpireText.Parent = Userinfo
-	ExpireText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	ExpireText.BackgroundTransparency = 1.000
 	ExpireText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	ExpireText.BorderSizePixel = 0
@@ -4663,15 +5263,19 @@ function Compkiller.new(Config : Window)
 	ExpireText.ZIndex = 2
 	ExpireText.Font = Enum.Font.GothamMedium
 	ExpireText.Text = "0/0/0"
-	ExpireText.TextColor3 = Color3.fromRGB(255, 255, 255)
+	ExpireText.TextColor3 = Compkiller.Colors.SwitchColor
 	ExpireText.TextSize = 13.000
 	ExpireText.TextTransparency = 0.500
 	ExpireText.TextXAlignment = Enum.TextXAlignment.Left
-
+	
+	table.insert(Compkiller.Elements.SwitchColor , {
+		Element = ExpireText,
+		Property = 'TextColor3'
+	});
+	
 	TabMainFrame.Name = "TabMainFrame"
 	TabMainFrame.Parent = MainFrame
 	TabMainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	TabMainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	TabMainFrame.BackgroundTransparency = 1.000
 	TabMainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TabMainFrame.BorderSizePixel = 0
@@ -4821,7 +5425,6 @@ function Compkiller.new(Config : Window)
 
 		Category.Name = "Category"
 		Category.Parent = TabButtonScrollingFrame
-		Category.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Category.BackgroundTransparency = 1.000
 		Category.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Category.BorderSizePixel = 0
@@ -4830,7 +5433,6 @@ function Compkiller.new(Config : Window)
 
 		CategoryText.Name = "CategoryText"
 		CategoryText.Parent = Category
-		CategoryText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		CategoryText.BackgroundTransparency = 1.000
 		CategoryText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		CategoryText.BorderSizePixel = 0
@@ -4838,11 +5440,16 @@ function Compkiller.new(Config : Window)
 		CategoryText.Size = UDim2.new(1, 200, 0, 10)
 		CategoryText.Font = Enum.Font.Gotham
 		CategoryText.Text = config.Name
-		CategoryText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		CategoryText.TextColor3 = Compkiller.Colors.SwitchColor
 		CategoryText.TextSize = 16.000
 		CategoryText.TextTransparency = 0.500
 		CategoryText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = CategoryText,
+			Property = 'TextColor3'
+		});
+		
 		Frame.Parent = Category
 		Frame.AnchorPoint = Vector2.new(0.5, 1)
 		Frame.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -4907,7 +5514,6 @@ function Compkiller.new(Config : Window)
 
 		TabButton.Name = "TabButton"
 		TabButton.Parent = TabButtonScrollingFrame
-		TabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TabButton.BackgroundTransparency = 1.000
 		TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TabButton.BorderSizePixel = 0
@@ -4936,7 +5542,6 @@ function Compkiller.new(Config : Window)
 		TabNameLabel.Name = "TabNameLabel"
 		TabNameLabel.Parent = TabButton
 		TabNameLabel.AnchorPoint = Vector2.new(0, 0.5)
-		TabNameLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TabNameLabel.BackgroundTransparency = 1.000
 		TabNameLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TabNameLabel.BorderSizePixel = 0
@@ -4945,10 +5550,15 @@ function Compkiller.new(Config : Window)
 		TabNameLabel.ZIndex = 3
 		TabNameLabel.Font = Enum.Font.GothamMedium
 		TabNameLabel.Text = TabConfig.Name;
-		TabNameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TabNameLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TabNameLabel.TextSize = 15.000
 		TabNameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = TabNameLabel,
+			Property = 'TextColor3'
+		});
+		
 		Highlight.Name = "Highlight"
 		Highlight.Parent = TabButton
 		Highlight.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -4973,7 +5583,6 @@ function Compkiller.new(Config : Window)
 		ContainerTab.Name = "ContainerTab"
 		ContainerTab.Parent = TabMainFrame
 		ContainerTab.AnchorPoint = Vector2.new(0.5, 0.5)
-		ContainerTab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		ContainerTab.BackgroundTransparency = 1.000
 		ContainerTab.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ContainerTab.BorderSizePixel = 0
@@ -4984,7 +5593,6 @@ function Compkiller.new(Config : Window)
 		MainFrame.Name = "MainFrame"
 		MainFrame.Parent = ContainerTab
 		MainFrame.AnchorPoint = Vector2.new(0.5, 1)
-		MainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		MainFrame.BackgroundTransparency = 1.000
 		MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		MainFrame.BorderSizePixel = 0
@@ -4995,7 +5603,6 @@ function Compkiller.new(Config : Window)
 
 		Top.Name = "Top"
 		Top.Parent = ContainerTab
-		Top.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Top.BackgroundTransparency = 1.000
 		Top.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Top.BorderSizePixel = 0
@@ -5169,7 +5776,13 @@ function Compkiller.new(Config : Window)
 			local TextLabel = Instance.new("TextLabel")
 
 			Frame.Parent = Top
-			Frame.BackgroundColor3 = Color3.fromRGB(28, 29, 34)
+			Frame.BackgroundColor3 = Compkiller.Colors.BlockColor
+			
+			table.insert(Compkiller.Elements.BlockColor , {
+				Element = Frame,
+				Property = "BackgroundColor3"
+			});
+			
 			Frame.BackgroundTransparency = 1.000
 			Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Frame.BorderSizePixel = 0
@@ -5181,9 +5794,14 @@ function Compkiller.new(Config : Window)
 			UICorner.Parent = Frame
 
 			UIStroke.Transparency = 1.000
-			UIStroke.Color = Color3.fromRGB(37, 38, 43)
+			UIStroke.Color = Compkiller.Colors.StrokeColor
 			UIStroke.Parent = Frame
-
+			
+			table.insert(Compkiller.Elements.StrokeColor,{
+				Element = UIStroke,
+				Property = "Color"
+			});
+			
 			Highlight.Name = "Highlight"
 			Highlight.Parent = Frame
 			Highlight.AnchorPoint = Vector2.new(1, 0.5)
@@ -5205,7 +5823,6 @@ function Compkiller.new(Config : Window)
 
 			TextLabel.Parent = Frame
 			TextLabel.AnchorPoint = Vector2.new(0, 0.5)
-			TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TextLabel.BackgroundTransparency = 1.000
 			TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TextLabel.BorderSizePixel = 0
@@ -5214,10 +5831,15 @@ function Compkiller.new(Config : Window)
 			TextLabel.ZIndex = 12
 			TextLabel.Font = Enum.Font.GothamMedium
 			TextLabel.Text = TabConfig.Name
-			TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 			TextLabel.TextSize = 13.000
 			TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = TextLabel,
+				Property = 'TextColor3'
+			});
+			
 			local UpdateScale = function()
 				local scale = TextService:GetTextSize(TextLabel.Text,TextLabel.TextSize,TextLabel.Font,Vector2.new(math.huge,math.huge));
 
@@ -5359,7 +5981,6 @@ function Compkiller.new(Config : Window)
 
 		TabButton.Name = "TabButton"
 		TabButton.Parent = TabButtonScrollingFrame
-		TabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TabButton.BackgroundTransparency = 1.000
 		TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TabButton.BorderSizePixel = 0
@@ -5388,7 +6009,6 @@ function Compkiller.new(Config : Window)
 		TabNameLabel.Name = "TabNameLabel"
 		TabNameLabel.Parent = TabButton
 		TabNameLabel.AnchorPoint = Vector2.new(0, 0.5)
-		TabNameLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TabNameLabel.BackgroundTransparency = 1.000
 		TabNameLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TabNameLabel.BorderSizePixel = 0
@@ -5397,10 +6017,15 @@ function Compkiller.new(Config : Window)
 		TabNameLabel.ZIndex = 3
 		TabNameLabel.Font = Enum.Font.GothamMedium
 		TabNameLabel.Text = Configuration.Name;
-		TabNameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TabNameLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TabNameLabel.TextSize = 15.000
 		TabNameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = TabNameLabel,
+			Property = 'TextColor3'
+		});
+		
 		Highlight.Name = "Highlight"
 		Highlight.Parent = TabButton
 		Highlight.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -5445,7 +6070,6 @@ function Compkiller.new(Config : Window)
 		TabConfig.Name = "TabConfig"
 		TabConfig.Parent = TabMainFrame
 		TabConfig.AnchorPoint = Vector2.new(0.5, 0.5)
-		TabConfig.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TabConfig.BackgroundTransparency = 1.000
 		TabConfig.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TabConfig.BorderSizePixel = 0
@@ -5456,7 +6080,13 @@ function Compkiller.new(Config : Window)
 		ConfigList.Name = "ConfigList"
 		ConfigList.Parent = TabConfig
 		ConfigList.AnchorPoint = Vector2.new(0.5, 0)
-		ConfigList.BackgroundColor3 = Color3.fromRGB(28, 29, 34)
+		ConfigList.BackgroundColor3 = Compkiller.Colors.BlockColor
+		
+		table.insert(Compkiller.Elements.BlockColor , {
+			Element = ConfigList,
+			Property = "BackgroundColor3"
+		});
+		
 		ConfigList.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ConfigList.BorderSizePixel = 0
 		ConfigList.Position = UDim2.new(0.5, 0, 0, 5)
@@ -5466,12 +6096,16 @@ function Compkiller.new(Config : Window)
 		UICorner.CornerRadius = UDim.new(0, 6)
 		UICorner.Parent = ConfigList
 
-		UIStroke.Color = Color3.fromRGB(37, 38, 43)
+		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = ConfigList
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke,
+			Property = "Color"
+		});
 
 		Header.Name = "Header"
 		Header.Parent = ConfigList
-		Header.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Header.BackgroundTransparency = 1.000
 		Header.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Header.BorderSizePixel = 0
@@ -5481,7 +6115,6 @@ function Compkiller.new(Config : Window)
 		SectionText.Name = "SectionText"
 		SectionText.Parent = Header
 		SectionText.AnchorPoint = Vector2.new(0, 0.5)
-		SectionText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		SectionText.BackgroundTransparency = 1.000
 		SectionText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		SectionText.BorderSizePixel = 0
@@ -5490,15 +6123,19 @@ function Compkiller.new(Config : Window)
 		SectionText.ZIndex = 10
 		SectionText.Font = Enum.Font.GothamMedium
 		SectionText.Text = "Config List"
-		SectionText.TextColor3 = Color3.fromRGB(255, 255, 255)
+		SectionText.TextColor3 = Compkiller.Colors.SwitchColor
 		SectionText.TextSize = 14.000
 		SectionText.TextTransparency = 0.500
 		SectionText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = SectionText,
+			Property = 'TextColor3'
+		});
+		
 		SectionClose.Name = "SectionClose"
 		SectionClose.Parent = Header
 		SectionClose.AnchorPoint = Vector2.new(1, 0.5)
-		SectionClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		SectionClose.BackgroundTransparency = 1.000
 		SectionClose.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		SectionClose.BorderSizePixel = 0
@@ -5511,7 +6148,6 @@ function Compkiller.new(Config : Window)
 		ScrollingFrame.Parent = ConfigList
 		ScrollingFrame.Active = true
 		ScrollingFrame.AnchorPoint = Vector2.new(0.5, 0)
-		ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		ScrollingFrame.BackgroundTransparency = 1.000
 		ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ScrollingFrame.BorderSizePixel = 0
@@ -5527,7 +6163,6 @@ function Compkiller.new(Config : Window)
 
 		Space.Name = "Space"
 		Space.Parent = ScrollingFrame
-		Space.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Space.BackgroundTransparency = 1.000
 		Space.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Space.BorderSizePixel = 0
@@ -5535,7 +6170,13 @@ function Compkiller.new(Config : Window)
 		AddConfig.Name = "AddConfig"
 		AddConfig.Parent = TabConfig
 		AddConfig.AnchorPoint = Vector2.new(0.5, 1)
-		AddConfig.BackgroundColor3 = Color3.fromRGB(28, 29, 34)
+		AddConfig.BackgroundColor3 = Compkiller.Colors.BlockColor
+		
+		table.insert(Compkiller.Elements.BlockColor , {
+			Element = AddConfig,
+			Property = "BackgroundColor3"
+		});
+		
 		AddConfig.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		AddConfig.BorderSizePixel = 0
 		AddConfig.Position = UDim2.new(0.5, 0, 1, -5)
@@ -5545,12 +6186,16 @@ function Compkiller.new(Config : Window)
 		UICorner_2.CornerRadius = UDim.new(0, 6)
 		UICorner_2.Parent = AddConfig
 
-		UIStroke_2.Color = Color3.fromRGB(37, 38, 43)
+		UIStroke_2.Color = Compkiller.Colors.StrokeColor
 		UIStroke_2.Parent = AddConfig
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke_2,
+			Property = "Color"
+		});
 
 		Header_2.Name = "Header"
 		Header_2.Parent = AddConfig
-		Header_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		Header_2.BackgroundTransparency = 1.000
 		Header_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Header_2.BorderSizePixel = 0
@@ -5560,7 +6205,6 @@ function Compkiller.new(Config : Window)
 		SectionText_2.Name = "SectionText"
 		SectionText_2.Parent = Header_2
 		SectionText_2.AnchorPoint = Vector2.new(0, 0.5)
-		SectionText_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		SectionText_2.BackgroundTransparency = 1.000
 		SectionText_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		SectionText_2.BorderSizePixel = 0
@@ -5569,15 +6213,19 @@ function Compkiller.new(Config : Window)
 		SectionText_2.ZIndex = 10
 		SectionText_2.Font = Enum.Font.GothamMedium
 		SectionText_2.Text = "Add Config"
-		SectionText_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+		SectionText_2.TextColor3 = Compkiller.Colors.SwitchColor
 		SectionText_2.TextSize = 14.000
 		SectionText_2.TextTransparency = 0.500
 		SectionText_2.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = SectionText_2,
+			Property = 'TextColor3'
+		});
+		
 		SectionClose_2.Name = "SectionClose"
 		SectionClose_2.Parent = Header_2
 		SectionClose_2.AnchorPoint = Vector2.new(1, 0.5)
-		SectionClose_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		SectionClose_2.BackgroundTransparency = 1.000
 		SectionClose_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		SectionClose_2.BorderSizePixel = 0
@@ -5589,22 +6237,32 @@ function Compkiller.new(Config : Window)
 
 		Frame.Parent = AddConfig
 		Frame.AnchorPoint = Vector2.new(0.5, 0)
-		Frame.BackgroundColor3 = Color3.fromRGB(28, 29, 34)
+		Frame.BackgroundColor3 = Compkiller.Colors.BlockColor
+		
+		table.insert(Compkiller.Elements.BlockColor , {
+			Element = Frame,
+			Property = "BackgroundColor3"
+		});
+		
 		Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Frame.BorderSizePixel = 0
 		Frame.Position = UDim2.new(0.5, 0, 0, 35)
 		Frame.Size = UDim2.new(1, -20, 0, 20)
 		Frame.ZIndex = 15
 
-		UIStroke_3.Color = Color3.fromRGB(37, 38, 43)
+		UIStroke_3.Color = Compkiller.Colors.StrokeColor
 		UIStroke_3.Parent = Frame
-
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke_3,
+			Property = "Color"
+		});
+		
 		UICorner_3.CornerRadius = UDim.new(0, 4)
 		UICorner_3.Parent = Frame
 
 		TextBox.Parent = Frame
 		TextBox.AnchorPoint = Vector2.new(0.5, 0.5)
-		TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TextBox.BackgroundTransparency = 1.000
 		TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TextBox.BorderSizePixel = 0
@@ -5616,14 +6274,19 @@ function Compkiller.new(Config : Window)
 		TextBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
 		TextBox.PlaceholderText = "Config Name..."
 		TextBox.Text = ""
-		TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextBox.TextColor3 = Compkiller.Colors.SwitchColor
 		TextBox.TextSize = 12.000
 		TextBox.TextXAlignment = Enum.TextXAlignment.Left
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = TextBox,
+			Property = 'TextColor3'
+		});
+		
 		Button.Name = "Button"
 		Button.Parent = AddConfig
 		Button.AnchorPoint = Vector2.new(0.5, 1)
-		Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Button.BackgroundColor3 = Compkiller.Colors.SwitchColor
 		Button.BackgroundTransparency = 1.000
 		Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Button.BorderSizePixel = 0
@@ -5634,13 +6297,18 @@ function Compkiller.new(Config : Window)
 		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = AddConfig
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
-		BlockLine.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
 		BlockLine.BackgroundTransparency = 0.500
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 0.5, 12)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = 12
+		
+		table.insert(Compkiller.Elements.LineColor,{
+			Element = BlockLine,
+			Property = "BackgroundColor3"
+		});
 
 		Frame_2.Parent = Button
 		Frame_2.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -5657,15 +6325,19 @@ function Compkiller.new(Config : Window)
 			Property = "BackgroundColor3"
 		});
 
-		UIStroke_4.Color = Color3.fromRGB(37, 38, 43)
+		UIStroke_4.Color = Compkiller.Colors.StrokeColor
 		UIStroke_4.Parent = Frame_2
-
+		
+		table.insert(Compkiller.Elements.StrokeColor,{
+			Element = UIStroke_4,
+			Property = "Color"
+		});
+		
 		UICorner_4.CornerRadius = UDim.new(0, 3)
 		UICorner_4.Parent = Frame_2
 
 		TextLabel.Parent = Frame_2
 		TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		TextLabel.BackgroundTransparency = 1.000
 		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		TextLabel.BorderSizePixel = 0
@@ -5674,10 +6346,15 @@ function Compkiller.new(Config : Window)
 		TextLabel.ZIndex = 10
 		TextLabel.Font = Enum.Font.GothamMedium
 		TextLabel.Text = "Add Config"
-		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TextLabel.TextSize = 12.000
 		TextLabel.TextStrokeTransparency = 0.900
-
+		
+		table.insert(Compkiller.Elements.SwitchColor , {
+			Element = TextLabel,
+			Property = 'TextColor3'
+		});
+		
 		local Tween = TweenInfo.new(0.35,Enum.EasingStyle.Quint);
 
 		Highlight:GetPropertyChangedSignal('BackgroundTransparency'):Connect(function()
@@ -5968,7 +6645,6 @@ function Compkiller.new(Config : Window)
 
 			DelButton.Name = "DelButton"
 			DelButton.Parent = LinkValues
-			DelButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			DelButton.BackgroundTransparency = 1.000
 			DelButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			DelButton.BorderSizePixel = 0
@@ -5994,7 +6670,6 @@ function Compkiller.new(Config : Window)
 			ConfigText.Name = "ConfigText"
 			ConfigText.Parent = ConfigBlock
 			ConfigText.AnchorPoint = Vector2.new(0, 0.5)
-			ConfigText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			ConfigText.BackgroundTransparency = 1.000
 			ConfigText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			ConfigText.BorderSizePixel = 0
@@ -6004,18 +6679,22 @@ function Compkiller.new(Config : Window)
 			ConfigText.Font = Enum.Font.GothamMedium
 			ConfigText.RichText = true;
 			ConfigText.Text = "Config"
-			ConfigText.TextColor3 = Color3.fromRGB(255, 255, 255)
+			ConfigText.TextColor3 = Compkiller.Colors.SwitchColor
 			ConfigText.TextSize = 13.000
 			ConfigText.TextTransparency = 1
 			ConfigText.TextXAlignment = Enum.TextXAlignment.Left
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = ConfigText,
+				Property = 'TextColor3'
+			});
+			
 			UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0.00, 0.00), NumberSequenceKeypoint.new(0.29, 0.00), NumberSequenceKeypoint.new(0.33, 1.00), NumberSequenceKeypoint.new(1.00, 1.00)}
 			UIGradient.Parent = ConfigText
 
 			LinkValues.Name = "LinkValues"
 			LinkValues.Parent = ConfigBlock
 			LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
-			LinkValues.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			LinkValues.BackgroundTransparency = 1.000
 			LinkValues.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			LinkValues.BorderSizePixel = 0
@@ -6032,7 +6711,6 @@ function Compkiller.new(Config : Window)
 
 			SaveButton.Name = "SaveButton"
 			SaveButton.Parent = LinkValues
-			SaveButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			SaveButton.BackgroundTransparency = 1.000
 			SaveButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			SaveButton.BorderSizePixel = 0
@@ -6055,15 +6733,19 @@ function Compkiller.new(Config : Window)
 			});
 
 			UIStroke.Transparency = 1
-			UIStroke.Color = Color3.fromRGB(37, 38, 43)
+			UIStroke.Color = Compkiller.Colors.StrokeColor
 			UIStroke.Parent = Frame
-
+			
+			table.insert(Compkiller.Elements.StrokeColor,{
+				Element = UIStroke,
+				Property = "Color"
+			});
+			
 			UICorner.CornerRadius = UDim.new(0, 3)
 			UICorner.Parent = Frame
 
 			TextLabel.Parent = Frame
 			TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-			TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TextLabel.BackgroundTransparency = 1.000
 			TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TextLabel.BorderSizePixel = 0
@@ -6072,16 +6754,20 @@ function Compkiller.new(Config : Window)
 			TextLabel.ZIndex = 14
 			TextLabel.Font = Enum.Font.GothamMedium
 			TextLabel.Text = "Save"
-			TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 			TextLabel.TextSize = 12.000
 			TextLabel.TextStrokeTransparency = 1
 			TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 			TextLabel.TextTransparency = 1
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = TextLabel,
+				Property = 'TextColor3'
+			});
+			
 			Icon.Name = "Icon"
 			Icon.Parent = Frame
 			Icon.AnchorPoint = Vector2.new(0, 0.5)
-			Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Icon.BackgroundTransparency = 1.000
 			Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Icon.BorderSizePixel = 0
@@ -6094,7 +6780,6 @@ function Compkiller.new(Config : Window)
 
 			LoadButton.Name = "LoadButton"
 			LoadButton.Parent = LinkValues
-			LoadButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			LoadButton.BackgroundTransparency = 1.000
 			LoadButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			LoadButton.BorderSizePixel = 0
@@ -6117,15 +6802,19 @@ function Compkiller.new(Config : Window)
 			});
 
 			UIStroke_2.Transparency = 1
-			UIStroke_2.Color = Color3.fromRGB(37, 38, 43)
+			UIStroke_2.Color = Compkiller.Colors.StrokeColor
 			UIStroke_2.Parent = Frame_2
+			
+			table.insert(Compkiller.Elements.StrokeColor,{
+				Element = UIStroke_2,
+				Property = "Color"
+			});
 
 			UICorner_2.CornerRadius = UDim.new(0, 3)
 			UICorner_2.Parent = Frame_2
 
 			TextLabel_2.Parent = Frame_2
 			TextLabel_2.AnchorPoint = Vector2.new(0.5, 0.5)
-			TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TextLabel_2.BackgroundTransparency = 1.000
 			TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TextLabel_2.BorderSizePixel = 0
@@ -6134,16 +6823,20 @@ function Compkiller.new(Config : Window)
 			TextLabel_2.ZIndex = 14
 			TextLabel_2.Font = Enum.Font.GothamMedium
 			TextLabel_2.Text = "Load"
-			TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel_2.TextColor3 = Compkiller.Colors.SwitchColor
 			TextLabel_2.TextSize = 12.000
 			TextLabel_2.TextStrokeTransparency = 1
 			TextLabel_2.TextXAlignment = Enum.TextXAlignment.Left
 			TextLabel_2.TextTransparency = 1
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = TextLabel_2,
+				Property = 'TextColor3'
+			});
+			
 			Icon_2.Name = "Icon"
 			Icon_2.Parent = Frame_2
 			Icon_2.AnchorPoint = Vector2.new(0, 0.5)
-			Icon_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Icon_2.BackgroundTransparency = 1.000
 			Icon_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Icon_2.BorderSizePixel = 0
@@ -6155,8 +6848,13 @@ function Compkiller.new(Config : Window)
 			Icon_2.ImageTransparency = 1
 			UIStroke_3.Transparency = 1
 
-			UIStroke_3.Color = Color3.fromRGB(37, 38, 43)
+			UIStroke_3.Color = Compkiller.Colors.StrokeColor
 			UIStroke_3.Parent = ConfigBlock
+			
+			table.insert(Compkiller.Elements.StrokeColor,{
+				Element = UIStroke_3,
+				Property = "Color"
+			});
 
 			UICorner_3.CornerRadius = UDim.new(0, 6)
 			UICorner_3.Parent = ConfigBlock
@@ -6164,7 +6862,6 @@ function Compkiller.new(Config : Window)
 			AuthorText.Name = "AuthorText"
 			AuthorText.Parent = ConfigBlock
 			AuthorText.AnchorPoint = Vector2.new(0, 0.5)
-			AuthorText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			AuthorText.BackgroundTransparency = 1.000
 			AuthorText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			AuthorText.BorderSizePixel = 0
@@ -6174,11 +6871,16 @@ function Compkiller.new(Config : Window)
 			AuthorText.Font = Enum.Font.GothamMedium
 			AuthorText.RichText = true;
 			AuthorText.Text = "Author: <font color=\"rgb(17, 238, 253)\">NoFi</font>"
-			AuthorText.TextColor3 = Color3.fromRGB(255, 255, 255)
+			AuthorText.TextColor3 = Compkiller.Colors.SwitchColor
 			AuthorText.TextSize = 13.000
 			AuthorText.TextTransparency = 1
 			AuthorText.TextXAlignment = Enum.TextXAlignment.Left
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = TabNameLabel,
+				Property = 'TextColor3'
+			});
+			
 			function ConfigButton:SetInfo(Author , ConfigName)
 				local R,G,B = tostring(math.floor(Compkiller.Colors.Highlight.R * 255)) , tostring(math.floor(Compkiller.Colors.Highlight.G * 255)) , tostring(math.floor(Compkiller.Colors.Highlight.B * 255));
 
@@ -6427,7 +7129,6 @@ function Compkiller.new(Config : Window)
 			TabContent.Name = "TabContent"
 			TabContent.Parent = Internal.Parent;
 			TabContent.AnchorPoint = Vector2.new(0.5, 0.5)
-			TabContent.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TabContent.BackgroundTransparency = 1.000
 			TabContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TabContent.BorderSizePixel = 0
@@ -6439,7 +7140,6 @@ function Compkiller.new(Config : Window)
 			Left.Parent = TabContent
 			Left.Active = true
 			Left.AnchorPoint = Vector2.new(0.5, 0.5)
-			Left.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Left.BackgroundTransparency = 1.000
 			Left.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Left.BorderSizePixel = 0
@@ -6467,7 +7167,6 @@ function Compkiller.new(Config : Window)
 			Right.Parent = TabContent
 			Right.Active = true
 			Right.AnchorPoint = Vector2.new(0.5, 0.5)
-			Right.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Right.BackgroundTransparency = 1.000
 			Right.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Right.BorderSizePixel = 0
@@ -6540,7 +7239,6 @@ function Compkiller.new(Config : Window)
 
 			TabButton.Name = "TabButton"
 			TabButton.Parent = TabButtonScrollingFrame
-			TabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TabButton.BackgroundTransparency = 1.000
 			TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TabButton.BorderSizePixel = 0
@@ -6569,7 +7267,6 @@ function Compkiller.new(Config : Window)
 			TabNameLabel.Name = "TabNameLabel"
 			TabNameLabel.Parent = TabButton
 			TabNameLabel.AnchorPoint = Vector2.new(0, 0.5)
-			TabNameLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TabNameLabel.BackgroundTransparency = 1.000
 			TabNameLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TabNameLabel.BorderSizePixel = 0
@@ -6578,10 +7275,15 @@ function Compkiller.new(Config : Window)
 			TabNameLabel.ZIndex = 3
 			TabNameLabel.Font = Enum.Font.GothamMedium
 			TabNameLabel.Text = TabConfig.Name;
-			TabNameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TabNameLabel.TextColor3 = Compkiller.Colors.SwitchColor
 			TabNameLabel.TextSize = 15.000
 			TabNameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = TabNameLabel,
+				Property = 'TextColor3'
+			});
+			
 			Highlight.Name = "Highlight"
 			Highlight.Parent = TabButton
 			Highlight.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -6605,7 +7307,6 @@ function Compkiller.new(Config : Window)
 			TabContent.Name = "TabContent"
 			TabContent.Parent = TabMainFrame;
 			TabContent.AnchorPoint = Vector2.new(0.5, 0.5)
-			TabContent.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			TabContent.BackgroundTransparency = 1.000
 			TabContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TabContent.BorderSizePixel = 0
@@ -6617,7 +7318,6 @@ function Compkiller.new(Config : Window)
 			Left.Parent = TabContent
 			Left.Active = true
 			Left.AnchorPoint = Vector2.new(0.5, 0.5)
-			Left.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Left.BackgroundTransparency = 1.000
 			Left.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Left.BorderSizePixel = 0
@@ -6645,7 +7345,6 @@ function Compkiller.new(Config : Window)
 			Right.Parent = TabContent
 			Right.Active = true
 			Right.AnchorPoint = Vector2.new(0.5, 0.5)
-			Right.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Right.BackgroundTransparency = 1.000
 			Right.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Right.BorderSizePixel = 0
@@ -6852,7 +7551,13 @@ function Compkiller.new(Config : Window)
 				Section.Parent = Upvalue.Left;
 			end;
 
-			Section.BackgroundColor3 = Color3.fromRGB(28, 29, 34)
+			Section.BackgroundColor3 = Compkiller.Colors.BlockColor
+			
+			table.insert(Compkiller.Elements.BlockColor , {
+				Element = Section,
+				Property = "BackgroundColor3"
+			});
+			
 			Section.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Section.BorderSizePixel = 0
 			Section.Size = UDim2.new(1, 0, 0, 0)
@@ -6861,8 +7566,13 @@ function Compkiller.new(Config : Window)
 			UICorner.CornerRadius = UDim.new(0, 6)
 			UICorner.Parent = Section
 
-			UIStroke.Color = Color3.fromRGB(37, 38, 43)
+			UIStroke.Color = Compkiller.Colors.StrokeColor
 			UIStroke.Parent = Section
+			
+			table.insert(Compkiller.Elements.StrokeColor,{
+				Element = UIStroke,
+				Property = "Color"
+			});
 
 			UIListLayout.Parent = Section
 			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -6871,7 +7581,6 @@ function Compkiller.new(Config : Window)
 
 			Header.Name = "Header"
 			Header.Parent = Section
-			Header.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Header.BackgroundTransparency = 1.000
 			Header.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Header.BorderSizePixel = 0
@@ -6882,7 +7591,6 @@ function Compkiller.new(Config : Window)
 			SectionText.Name = "SectionText"
 			SectionText.Parent = Header
 			SectionText.AnchorPoint = Vector2.new(0, 0.5)
-			SectionText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			SectionText.BackgroundTransparency = 1.000
 			SectionText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			SectionText.BorderSizePixel = 0
@@ -6891,15 +7599,19 @@ function Compkiller.new(Config : Window)
 			SectionText.ZIndex = 10
 			SectionText.Font = Enum.Font.GothamMedium
 			SectionText.Text = config.Name;
-			SectionText.TextColor3 = Color3.fromRGB(255, 255, 255)
+			SectionText.TextColor3 = Compkiller.Colors.SwitchColor
 			SectionText.TextSize = 14.000
 			SectionText.TextTransparency = 0.500
 			SectionText.TextXAlignment = Enum.TextXAlignment.Left
-
+			
+			table.insert(Compkiller.Elements.SwitchColor , {
+				Element = SectionText,
+				Property = 'TextColor3'
+			});
+			
 			SectionClose.Name = "SectionClose"
 			SectionClose.Parent = Header
 			SectionClose.AnchorPoint = Vector2.new(1, 0.5)
-			SectionClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			SectionClose.BackgroundTransparency = 1.000
 			SectionClose.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			SectionClose.BorderSizePixel = 0
@@ -6969,7 +7681,13 @@ function Compkiller.new(Config : Window)
 		CloseWindow.Name = "CloseWindow"
 		CloseWindow.Parent = CompKiller
 		CloseWindow.AnchorPoint = Vector2.new(1, 0)
-		CloseWindow.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+		CloseWindow.BackgroundColor3 = Compkiller.Colors.BGDBColor
+		
+		table.insert(Compkiller.Elements.BGDBColor,{
+			Element = CloseWindow,
+			Property = 'BackgroundColor3'
+		});
+		
 		CloseWindow.BackgroundTransparency = 1
 		CloseWindow.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		CloseWindow.BorderSizePixel = 0
@@ -6983,7 +7701,6 @@ function Compkiller.new(Config : Window)
 
 		ImageLabel.Parent = CloseWindow
 		ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-		ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		ImageLabel.BackgroundTransparency = 1.000
 		ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ImageLabel.BorderSizePixel = 0
@@ -7036,7 +7753,13 @@ function Compkiller.new(Config : Window)
 			Watermark.Name = "Watermark"
 			Watermark.Parent = CompKiller
 			Watermark.AnchorPoint = Vector2.new(1, 0)
-			Watermark.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+			Watermark.BackgroundColor3 = Compkiller.Colors.BGDBColor
+			
+			table.insert(Compkiller.Elements.BGDBColor,{
+				Element = Watermark,
+				Property = 'BackgroundColor3'
+			});
+			
 			Watermark.BackgroundTransparency = 0.025
 			Watermark.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Watermark.BorderSizePixel = 0
@@ -7062,7 +7785,13 @@ function Compkiller.new(Config : Window)
 			Logo.Name = "Logo"
 			Logo.Parent = Watermark
 			Logo.AnchorPoint = Vector2.new(1, 0.5)
-			Logo.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+			Logo.BackgroundColor3 = Compkiller.Colors.BGDBColor
+			
+			table.insert(Compkiller.Elements.BGDBColor,{
+				Element = Logo,
+				Property = 'BackgroundColor3'
+			});
+			
 			Logo.BackgroundTransparency = 0.300
 			Logo.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Logo.BorderSizePixel = 0
@@ -7091,7 +7820,6 @@ function Compkiller.new(Config : Window)
 			CompLogo.Name = "CompLogo"
 			CompLogo.Parent = Logo
 			CompLogo.AnchorPoint = Vector2.new(0.5, 0.5)
-			CompLogo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			CompLogo.BackgroundTransparency = 1.000
 			CompLogo.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			CompLogo.BorderSizePixel = 0
@@ -7104,7 +7832,6 @@ function Compkiller.new(Config : Window)
 			WaternarkList.Name = "WaternarkList"
 			WaternarkList.Parent = Watermark
 			WaternarkList.AnchorPoint = Vector2.new(0.5, 0)
-			WaternarkList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			WaternarkList.BackgroundTransparency = 1.000
 			WaternarkList.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			WaternarkList.BorderSizePixel = 0
@@ -7124,7 +7851,6 @@ function Compkiller.new(Config : Window)
 			BackFrame.Name = "BackFrame"
 			BackFrame.Parent = Watermark
 			BackFrame.AnchorPoint = Vector2.new(1, 0.5)
-			BackFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			BackFrame.BackgroundTransparency = 1.000
 			BackFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			BackFrame.BorderSizePixel = 0
@@ -7152,7 +7878,6 @@ function Compkiller.new(Config : Window)
 
 				Icon.Name = "Icon"
 				Icon.Parent = WaternarkList
-				Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 				Icon.BackgroundTransparency = 1.000
 				Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Icon.BorderSizePixel = 0
@@ -7162,7 +7887,6 @@ function Compkiller.new(Config : Window)
 				Icon.Image = Compkiller:_GetIcon(Watermark.Icon);
 
 				TextLabel.Parent = WaternarkList
-				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 				TextLabel.BackgroundTransparency = 1.000
 				TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				TextLabel.BorderSizePixel = 0
@@ -7170,10 +7894,15 @@ function Compkiller.new(Config : Window)
 				TextLabel.ZIndex = 156
 				TextLabel.Font = Enum.Font.GothamMedium
 				TextLabel.Text = Watermark.Text
-				TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+				TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 				TextLabel.TextSize = 10.000
 				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+				
+				table.insert(Compkiller.Elements.SwitchColor , {
+					Element = TextLabel,
+					Property = 'TextColor3'
+				});
+				
 				local Update = function()
 					local scale = TextService:GetTextSize(TextLabel.Text,TextLabel.TextSize,TextLabel.Font,Vector2.new(math.huge,math.huge));
 
@@ -7284,7 +8013,7 @@ function Compkiller.new(Config : Window)
 		WindowLabel.Text = config.WindowName;
 		UserProfile.Image = config.UserProfile;
 		WindowArgs.Username = config.Username;
-		
+
 		Config.Logo = config.Logo or Config.Logo;
 		WindowArgs.Username = config.Username or WindowArgs.Username;
 		WindowArgs.ExipreDate = config.ExpireDate or WindowArgs.ExipreDate;
@@ -7300,7 +8029,6 @@ function Compkiller.new(Config : Window)
 		BlurElement.Name = "BlurElement"
 		BlurElement.Parent = MainFrame
 		BlurElement.AnchorPoint = Vector2.new(1, 0.5)
-		BlurElement.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		BlurElement.BackgroundTransparency = 1.000
 		BlurElement.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlurElement.BorderSizePixel = 0
@@ -7316,7 +8044,6 @@ function Compkiller.new(Config : Window)
 		MovementFrame.Name = "MovementFrame"
 		MovementFrame.Parent = MainFrame
 		MovementFrame.AnchorPoint = Vector2.new(1, 0.5)
-		MovementFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 		MovementFrame.BackgroundTransparency = 1.000
 		MovementFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		MovementFrame.BorderSizePixel = 0
@@ -7510,6 +8237,38 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 
 		writefile(Compkiller:_Path(Args.Directory , Config.Name) , HttpService:JSONEncode(Flags));
 	end;
+	
+	function Args:LoadConfigFromString(str: string)
+		local decoded = HttpService:JSONDecode(str);
+	
+		local Flags = Compkiller:GetConfig("KV");
+
+		for i,v in next , decoded do
+			if v and v.Flag then
+
+				local Value = Flags[v.Flag];
+
+				if Value then
+
+					if v.Value.Type == "NormalElement" then
+						Value.Functions:SetValue(v.Value.Value);
+
+					elseif v.Value.Type == "ColorPicker" then
+
+						local Color = Color3.new(v.Value.Color3.R,v.Value.Color3.G,v.Value.Color3.B);
+
+						local Transparency = v.Value.Transparency;
+
+						Value.Functions:SetValue(Color , Transparency);
+					end;
+				end;
+			end
+		end;
+	end;
+	
+	function Args:GetCurrentConfig()
+		return Compkiller:GetConfig("MK")
+	end;
 
 	function Args:ReadInfo(ConfigName: string)
 		local _path = Compkiller:_Path(Args.Directory , ConfigName);
@@ -7629,7 +8388,6 @@ function Compkiller:Loader(IconId,Duration)
 	Icon.Name = "Icon"
 	Icon.Parent = Loader
 	Icon.AnchorPoint = Vector2.new(0.5, 0.5)
-	Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Icon.BackgroundTransparency = 1.000
 	Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	Icon.BorderSizePixel = 0
@@ -7641,7 +8399,6 @@ function Compkiller:Loader(IconId,Duration)
 
 	Vignette.Name = "Vignette"
 	Vignette.Parent = Loader
-	Vignette.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Vignette.BackgroundTransparency = 1.000
 	Vignette.BorderColor3 = Color3.fromRGB(27, 42, 53)
 	Vignette.BorderSizePixel = 0
@@ -7705,6 +8462,193 @@ function Compkiller:Loader(IconId,Duration)
 		yield = function()
 			return Event.Event:Wait();
 		end	
+	};
+end;
+
+function Compkiller.newNotify()
+	local Notification = Instance.new("ScreenGui")
+	local NotifyContainer = Instance.new("Frame")
+	local UIListLayout = Instance.new("UIListLayout")
+
+	Notification.Name = "Notification"
+	Notification.Parent = CoreGui
+	Notification.ResetOnSpawn = false
+	Notification.ZIndexBehavior = Enum.ZIndexBehavior.Global
+
+	NotifyContainer.Name = "NotifyContainer"
+	NotifyContainer.Parent = Notification
+	NotifyContainer.AnchorPoint = Vector2.new(1, 0)
+	NotifyContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	NotifyContainer.BackgroundTransparency = 1.000
+	NotifyContainer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	NotifyContainer.BorderSizePixel = 0
+	NotifyContainer.Position = UDim2.new(1, -10, 0, 1)
+	NotifyContainer.Size = UDim2.new(0, 100, 0, 100)
+
+	UIListLayout.Parent = NotifyContainer
+	UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	UIListLayout.Padding = UDim.new(0, 3)
+	
+	local LayoutREF = 0;
+	
+	return {
+		new = function(Notify: Notify)
+			Notify = Compkiller.__CONFIG(Notify, {
+				Icon = Compkiller.Logo,
+				Title = "Notification",
+				Content = "Content",
+				Duration = 5,
+			});
+			
+			LayoutREF -= 5;
+			
+			local BlockFrame = Instance.new("Frame")
+			local NotifyFrame = Instance.new("Frame")
+			local UICorner = Instance.new("UICorner")
+			local CompLogo = Instance.new("ImageLabel")
+			local Header = Instance.new("TextLabel")
+			local Body = Instance.new("TextLabel")
+			local TimeLeftFrame = Instance.new("Frame")
+			local UICorner_2 = Instance.new("UICorner")
+			local TimeLeft = Instance.new("Frame")
+			local UICorner_3 = Instance.new("UICorner")
+
+			BlockFrame.Name = "BlockFrame"
+			BlockFrame.Parent = NotifyContainer
+			BlockFrame.AnchorPoint = Vector2.new(1, 0)
+			BlockFrame.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+			BlockFrame.BackgroundTransparency = 1.000
+			BlockFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			BlockFrame.BorderSizePixel = 0
+			BlockFrame.ClipsDescendants = false
+			BlockFrame.Size = UDim2.new(0, 200, 0, 0)
+			BlockFrame.LayoutOrder = LayoutREF;
+
+			NotifyFrame.Name = "NotifyFrame"
+			NotifyFrame.Parent = BlockFrame
+			NotifyFrame.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
+			NotifyFrame.BackgroundTransparency = 0.100
+			NotifyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			NotifyFrame.BorderSizePixel = 0
+			NotifyFrame.ClipsDescendants = false
+			NotifyFrame.Size = UDim2.new(1, 0, 1, -5)
+			NotifyFrame.ZIndex = 2
+			NotifyFrame.Position = UDim2.new(1,200,0,0)
+
+			UICorner.CornerRadius = UDim.new(0, 4)
+			UICorner.Parent = NotifyFrame
+
+			CompLogo.Name = "CompLogo"
+			CompLogo.Parent = NotifyFrame
+			CompLogo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			CompLogo.BackgroundTransparency = 1.000
+			CompLogo.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			CompLogo.BorderSizePixel = 0
+			CompLogo.Position = UDim2.new(0, 6, 0, 6)
+			CompLogo.Size = UDim2.new(0, 25, 0, 25)
+			CompLogo.ZIndex = 4
+			CompLogo.Image = Compkiller:_GetIcon(Notify.Icon);
+
+			Header.Name = "Header"
+			Header.Parent = NotifyFrame
+			Header.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Header.BackgroundTransparency = 1.000
+			Header.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			Header.BorderSizePixel = 0
+			Header.Position = UDim2.new(0, 40, 0, 10)
+			Header.Size = UDim2.new(1, -50, 0, 15)
+			Header.ZIndex = 3
+			Header.Font = Enum.Font.GothamBold
+			Header.Text = Notify.Title
+			Header.TextColor3 = Compkiller.Colors.SwitchColor
+			Header.TextSize = 14.000
+			Header.TextXAlignment = Enum.TextXAlignment.Left
+
+			Body.Name = "Body"
+			Body.Parent = NotifyFrame
+			Body.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Body.BackgroundTransparency = 1.000
+			Body.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			Body.BorderSizePixel = 0
+			Body.Position = UDim2.new(0, 10, 0, 33)
+			Body.Size = UDim2.new(1, -15, 0, 30)
+			Body.ZIndex = 3
+			Body.Font = Enum.Font.GothamMedium
+			Body.Text = Notify.Content
+			Body.TextColor3 = Compkiller.Colors.SwitchColor
+			Body.TextSize = 12.000
+			Body.TextTransparency = 0.500
+			Body.TextXAlignment = Enum.TextXAlignment.Left
+			Body.TextYAlignment = Enum.TextYAlignment.Top
+
+			TimeLeftFrame.Name = "TimeLeftFrame"
+			TimeLeftFrame.Parent = NotifyFrame
+			TimeLeftFrame.AnchorPoint = Vector2.new(0, 1)
+			TimeLeftFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			TimeLeftFrame.BackgroundTransparency = 1.000
+			TimeLeftFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			TimeLeftFrame.BorderSizePixel = 0
+			TimeLeftFrame.Position = UDim2.new(0, 0, 1, 1)
+			TimeLeftFrame.Size = UDim2.new(1, 0, 0, 5)
+			TimeLeftFrame.ZIndex = 5
+
+			UICorner_2.CornerRadius = UDim.new(0, 4)
+			UICorner_2.Parent = TimeLeftFrame
+
+			TimeLeft.Name = "TimeLeft"
+			TimeLeft.Parent = TimeLeftFrame
+			TimeLeft.BackgroundColor3 = Compkiller.Colors.Highlight
+			TimeLeft.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			TimeLeft.BorderSizePixel = 0
+			TimeLeft.Size = UDim2.new(0, 0, 1, 0)
+			TimeLeft.ZIndex = 5
+
+			UICorner_3.CornerRadius = UDim.new(0, 1)
+			UICorner_3.Parent = TimeLeft
+			
+			local UpdateText = function()
+				local TitleScale = TextService:GetTextSize(Header.Text,Header.TextSize,Header.Font,Vector2.new(math.huge,math.huge));
+				local BodyScale = TextService:GetTextSize(Body.Text,Body.TextSize,Body.Font,Vector2.new(math.huge,math.huge));
+				
+				local MainX = (TitleScale.X >= BodyScale.X and TitleScale.X) or BodyScale.X;
+				local MainY = TitleScale.Y + ((Body.Text:byte() and BodyScale.Y) or 1);
+				
+				BlockFrame.Size = UDim2.new(0, MainX + 45, 0, 0);
+				
+				Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
+					Size = UDim2.new(0,MainX + 45,0,MainY + 35)
+				});
+			end;
+			
+			UpdateText();
+
+			task.delay(0.25,function()
+				Compkiller:_Animation(NotifyFrame,TweenInfo.new(0.5,Enum.EasingStyle.Quint),{
+					Position = UDim2.new(0,0,0,0)
+				});
+
+				Compkiller:_Animation(TimeLeft,TweenInfo.new(Notify.Duration + 0.2,Enum.EasingStyle.Linear),{
+					Size = UDim2.new(1, 0, 1, 0)
+				});
+
+				task.delay(Notify.Duration + 0.2,function()
+					Compkiller:_Animation(NotifyFrame,TweenInfo.new(0.5,Enum.EasingStyle.Quint),{
+						Position = UDim2.new(1,200,0,0)
+					});
+
+					task.wait(0.3);
+
+					Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
+						Size = UDim2.new(1,0,0,0)
+					});
+
+					task.wait(0.35)
+					BlockFrame:Destroy();
+
+				end)
+			end)
+		end,
 	};
 end;
 
