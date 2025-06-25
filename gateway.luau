@@ -679,12 +679,12 @@ if not(premium or oneclick or kaitan or kaitun or rollback) then
             })
         end
 
-        if not isfile('MaDuHereARai.exe') then
-            discord();writefile('MaDuHereARai.exe', tostring(tick()))
+        if not isfile('MaDuHereARai.dll') then
+            discord();writefile('MaDuHereARai.dll', tostring(tick()))
         end
 
-        if (tick() - tonumber(readfile('MaDuHereARai.exe')) > 21600) or (tick() - tonumber(readfile('MaDuHereARai.exe')) < 0) then
-            discord();writefile('MaDuHereARai.exe', tostring(tick()))
+        if (tick() - tonumber(readfile('MaDuHereARai.dll')) > 21600) or (tick() - tonumber(readfile('MaDuHereARai.dll')) < 0) then
+            discord();writefile('MaDuHereARai.dll', tostring(tick()))
         end
     end, function(err : string)
         warn(string.format("Auto join discord function error %s\n", err))
