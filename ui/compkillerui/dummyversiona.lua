@@ -2345,7 +2345,7 @@ function Compkiller:_LoadOption(Value , TabSignal)
 		Elements.BorderSizePixel = 0
 		Elements.Position = UDim2.new(0.5, 0, 0.5, 0)
 		Elements.Size = UDim2.new(1, -5, 1,-1)
-		Elements.ZIndex = 120
+		Elements.ZIndex = 102
 
 		UIListLayout.Parent = Elements
 		UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
