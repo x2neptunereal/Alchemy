@@ -735,7 +735,7 @@ function Compkiller:Drag(InputFrame: Frame, MoveFrame: Frame, Speed : number)
 end;
 
 function Compkiller:_IsMobile()
-	return UserInputService.TouchEnabled;
+	return true;
 end;
 
 function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , rep , Signal)
