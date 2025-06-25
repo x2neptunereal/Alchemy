@@ -5456,6 +5456,7 @@ function Compkiller.new(Config : Window)
 		SectionClose.Image = "rbxassetid://10709790948"
 		SectionClose.ImageTransparency = 0.500
 
+
 		ScrollingFrame.Parent = ConfigList
 		ScrollingFrame.Active = true
 		ScrollingFrame.AnchorPoint = Vector2.new(0.5, 0)
