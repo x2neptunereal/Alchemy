@@ -2345,7 +2345,7 @@ function Compkiller:_LoadOption(Value , TabSignal)
 		Elements.BorderSizePixel = 0
 		Elements.Position = UDim2.new(0.5, 0, 0.5, 0)
 		Elements.Size = UDim2.new(1, -5, 1,-1)
-		Elements.ZIndex = 102
+		Elements.ZIndex = 120
 
 		UIListLayout.Parent = Elements
 		UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -2421,7 +2421,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 	ScrollingFrame.BorderSizePixel = 0
 	ScrollingFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	ScrollingFrame.Size = UDim2.new(1, -5, 1, -5)
-	ScrollingFrame.ZIndex = 208
+	ScrollingFrame.ZIndex = 105
 	ScrollingFrame.BottomImage = ""
 	ScrollingFrame.ScrollBarThickness = 0
 	ScrollingFrame.TopImage = ""
@@ -2500,7 +2500,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		DropdownItem.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		DropdownItem.BorderSizePixel = 0
 		DropdownItem.Size = UDim2.new(1, -1, 0, 20)
-		DropdownItem.ZIndex = 106
+		DropdownItem.ZIndex = 207
 
 		BlockText.Name = "BlockText"
 		BlockText.Parent = DropdownItem
@@ -2510,7 +2510,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		BlockText.BorderSizePixel = 0
 		BlockText.Position = UDim2.new(0, 5, 0.5, 0)
 		BlockText.Size = UDim2.new(1, -10, 0, 25)
-		BlockText.ZIndex = 106
+		BlockText.ZIndex = 208
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = ""
 		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
@@ -2974,7 +2974,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Parent = Button
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
-		BlockLine.BackgroundTransparency = 0.500
+		BlockLine.BackgroundTransparency = 0.6
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
@@ -3040,7 +3040,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		end,function()
 			if Signal:GetValue() then
 				Compkiller:_Animation(Frame,TweenInfo.new(0.2),{
-					BackgroundTransparency = 0.6
+					BackgroundTransparency = 0.1
 				})
 			end;
 		end);
@@ -3058,7 +3058,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 				});
 
 				Compkiller:_Animation(Frame, TweenInfo.new(0.35),{
-					BackgroundTransparency = 0.6
+					BackgroundTransparency = 0.1
 				});
 
 				Compkiller:_Animation(UIStroke, TweenInfo.new(0.35),{
@@ -4006,6 +4006,23 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local Button = Compkiller:_Input(ValueItems);
 
 		repi = Compkiller:_LoadDropdown(Button,function(value)
+		  if Config.Multi then
+			  local Value = value or {}
+				local Dumped = {}
+
+				for i,v in Value do
+					if typeof(i) == 'string' then
+						if v then
+						  table.insert(Dumped, i)
+						end
+					else
+						table.insert(Dumped, v)
+					end
+				end
+
+				value = Dumped
+			end
+		
 			Config.Default = value;
 
 			repi:SetData(Config.Default,Config.Values,Config.Multi,false);
@@ -4013,7 +4030,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 			ValueText.Text = DaTabarser(Config.Default);
 
-			Config.Callback(Config.Default);
+			Config.Callback(value);
 		end);
 
 		repi.EventOut:Connect(function(v)
@@ -4036,23 +4053,28 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Args.Flag = Config.Flag;
 
 		function Args:SetValue(Value)
-			Config.Default = Value;
-
-			ValueText.Text = DaTabarser(Config.Default);
-
-			repi:SetData(Config.Default,Config.Values,Config.Multi,true);
-
 			if Config.Multi then
+			  Value = Value or {}
 				local Dumped = {}
 
-				for i,v in (Value or {}) do
-					if v then
-						table.insert(Dumped, i)
+				for i,v in Value do
+					if typeof(i) == 'string' then
+						if v then
+						  table.insert(Dumped, i)
+						end
+					else
+						table.insert(Dumped, v)
 					end
 				end
 
 				Value = Dumped
 			end
+			
+			Config.Default = Value;
+
+			ValueText.Text = DaTabarser(Config.Default);
+
+			repi:SetData(Config.Default,Config.Values,Config.Multi,true);
 
 			Config.Callback(Value);
 		end;
@@ -5455,7 +5477,6 @@ function Compkiller.new(Config : Window)
 		SectionClose.ZIndex = 10
 		SectionClose.Image = "rbxassetid://10709790948"
 		SectionClose.ImageTransparency = 0.500
-
 
 		ScrollingFrame.Parent = ConfigList
 		ScrollingFrame.Active = true
@@ -7985,5 +8006,7 @@ function Compkiller.newNotify()
 		end,
 	};
 end;
+
+warn('loaded v3');
 
 return Compkiller;
