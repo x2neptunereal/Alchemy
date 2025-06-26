@@ -8007,6 +8007,6 @@ function Compkiller.newNotify()
 	};
 end;
 
-warn('loaded v3');
+warn('loaded v4');
 
 return Compkiller;
