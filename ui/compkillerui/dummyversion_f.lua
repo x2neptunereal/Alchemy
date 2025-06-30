@@ -3226,6 +3226,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Frame.Size = UDim2.new(1, 0, 1, 0)
 		Frame.SizeConstraint = Enum.SizeConstraint.RelativeYY
 		Frame.ZIndex = Zindex + 6
+		Frame.BackgroundTransparency = 1
 		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = Frame,
@@ -3379,7 +3380,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 				})
 
 				Compkiller:_Animation(Frame,Tween,{
-					BackgroundTransparency = 0
+					BackgroundTransparency = 1
 				})
 
 				Compkiller:_Animation(SliderInput,Tween,{
@@ -4404,7 +4405,7 @@ function Compkiller.new(Config : Window)
 	MainFrame.Parent = CompKiller
 	MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 	MainFrame.BackgroundColor3 = Compkiller.Colors.BGDBColor
-	
+
 	table.insert(Compkiller.Elements.BGDBColor,{
 		Element = MainFrame,
 		Property = 'BackgroundColor3'
@@ -4415,6 +4416,11 @@ function Compkiller.new(Config : Window)
 	MainFrame.Position = UDim2.fromScale(0.5,0.5);
 	MainFrame.Size = Compkiller.Scale.Window
 	MainFrame.ZIndex = 4
+
+	if Compkiller:_IsMobile() then
+		Compkiller:_AddDragBlacklist(MainFrame);
+	end;
+	
 
 	MainFrame:GetPropertyChangedSignal('BackgroundTransparency'):Connect(function()
 		if MainFrame.BackgroundTransparency > 0.9 then
@@ -4755,6 +4761,10 @@ function Compkiller.new(Config : Window)
 		Category.BorderSizePixel = 0
 		Category.ClipsDescendants = true
 		Category.Size = UDim2.new(1, -10, 0, 22)
+
+		if Compkiller:_IsMobile() then
+			Compkiller:_AddDragBlacklist(Category);
+		end;
 
 		CategoryText.Name = "CategoryText"
 		CategoryText.Parent = Category
@@ -8007,6 +8017,6 @@ function Compkiller.newNotify()
 	};
 end;
 
-warn('loaded v4');
+warn('loaded v5');
 
 return Compkiller;
