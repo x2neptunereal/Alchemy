@@ -48,6 +48,7 @@ local __f : array<string, any> = {
         elseif g == 6331902150 then return "v4/loaders/e463ec64d59b61f756a54cfaff7dc702.lua" -- Forsaken
         elseif g == 7513130835 then return "v4/loaders/bb1ad39d55967bb789dc389e87a46a8d.lua" -- Untitled Drill
         elseif g == 6115988515 then return "v4/loaders/ab054af7f70c1d666e387eb69de5c7ad.lua" -- Anime Saga
+        elseif g == 7326934954 then return "v4/loaders/.lua" -- 99 Nights in the Forest
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -75,6 +76,7 @@ local __f : array<string, any> = {
         elseif g == 6331902150 then return "v4/loaders/f7499bae6c8869f692df49670c6af27e.lua" -- Forsaken
         elseif g == 7513130835 then return "v4/loaders/c2b5698ddfa3013b183ad2041e17603b.lua" -- Untitled Drill
         elseif g == 6115988515 then return "v4/loaders/bcfb87db175e4d836d6b2f8c77fe02d7.lua" -- Anime Saga
+        elseif g == 7326934954 then return "v4/loaders/.lua" -- 99 Nights in the Forest
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
@@ -779,9 +781,9 @@ if not(getgenv().run_time) then
     ---------/// Load Scripts ///---------
 
     local tar : any = nil;
-    if aimbot then __f['__load']("https://api.luarmor.net/files/v4/loaders/066a14ff57c58562c0b4cacdddb0ae5a.lua")
-    elseif fruits_finder then __f['__load']("https://api.luarmor.net/files/v4/loaders/56e77f1d98c461e2b8f24647b42095b4.lua")
-    elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
+    if aimbot then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/Aimbot.lua")
+    elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
+    --elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
     elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif rollback then tar = __f['__rollback'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
