@@ -89,11 +89,16 @@ local __f : array<string, any> = {
     end;
     ['__rollback'] = function() : string
         local g : number = game.GameId
-        if g == 7028566528 then return "v4/loaders/a869af605fb4ab6710b0e7a0970cc445.lua" -- Basketball Zero
+        if g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
         elseif g == 6931042565 then return "v4/loaders/76d21b7e287454d6cb3ab5e3245e2b1d.lua" -- Volleyball Legend
-        elseif g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
         elseif g == 6770632849 then return "v4/loaders/e3679c208ace37385d2df45770f091e3.lua" -- Mugen
         else return "\n" end
+    end;
+    ['__nokey'] = function() : {}
+        local g : number = game.GameId;local list : {} = {
+            ['7436755782'] = "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua", -- Grow A Garden
+        };for i, v in pairs(list) do if i == tostring(g) then return v end end
+        return nil
     end;
     ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function() : boolean
@@ -780,12 +785,13 @@ if not(getgenv().run_time) then
 
     ---------/// Load Scripts ///---------
 
-    local tar : any = nil;
+    local tar : any = nil;local idc : any = __f['__nokey']();
     if aimbot then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/Aimbot.lua")
     elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
     --elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
     elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif rollback then tar = __f['__rollback'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
+    elseif idc and typeof(idc) == 'string' then __f['__load']("https://api.luarmor.net/files/"..idc) 
     else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
