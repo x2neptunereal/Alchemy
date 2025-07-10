@@ -37,6 +37,19 @@ getgenv().unc_success = false
 
 for i=1, 3 do print(' ') end
 
+local function getTime(uni)
+    local seconds = tick() % 86400
+    local hours = math.floor(seconds / 3600)
+    local minutes = math.floor((seconds % 3600) / 60)
+    local secs = math.floor(seconds % 60)
+    return string.format("%d".. uni .."%02d".. uni .."%02d", hours, minutes, secs)
+end
+
+print("✨ Test Start ✨")
+print("| Starts at : ".. os.date('%A, %B %d %Y') .." / ".. getTime(":"))
+print("| This Property Test was create by Alchemy Team")
+print("| for testing executor is support Alchemy Scripts.")
+
 local Requst_Test do
     pcall(add_total, 100)
     local HttpService = game:GetService("HttpService")
