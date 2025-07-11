@@ -46,9 +46,9 @@ local __f : array<string, any> = {
         elseif g == 7436755782 then return "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua" -- Grow A Garden
         elseif g == 7095682825 then return "v4/loaders/fab21f917b9899567403a11d8007ae37.lua" -- Beaks
         elseif g == 6331902150 then return "v4/loaders/e463ec64d59b61f756a54cfaff7dc702.lua" -- Forsaken
-        elseif g == 7513130835 then return "v4/loaders/bb1ad39d55967bb789dc389e87a46a8d.lua" -- Untitled Drill
         elseif g == 6115988515 then return "v4/loaders/ab054af7f70c1d666e387eb69de5c7ad.lua" -- Anime Saga
         elseif g == 7326934954 then return "v4/loaders/ad2603eb1a9175739e8e92c87b281ba6.lua" -- 99 Nights in the Forest
+        elseif g == 4509896324 then return "v4/loaders/4336e7045d286f9f86105015098af08a.lua" -- Anime Last Stand
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -74,9 +74,9 @@ local __f : array<string, any> = {
         elseif g == 7436755782 then return "v4/loaders/9205a41f0f04e862885e9edcbf4b4040.lua" -- Grow A Garden
         elseif g == 7095682825 then return "v4/loaders/aab6bfc5c27c5735baae3ee133e05ac1.lua" -- Beaks
         elseif g == 6331902150 then return "v4/loaders/f7499bae6c8869f692df49670c6af27e.lua" -- Forsaken
-        elseif g == 7513130835 then return "v4/loaders/c2b5698ddfa3013b183ad2041e17603b.lua" -- Untitled Drill
         elseif g == 6115988515 then return "v4/loaders/bcfb87db175e4d836d6b2f8c77fe02d7.lua" -- Anime Saga
         elseif g == 7326934954 then return "v4/loaders/77ea912d4ee9cd171f5726a764d406d7.lua" -- 99 Nights in the Forest
+        elseif g == 4509896324 then return "v4/loaders/3b95e92f01ff6cf74e22d75e37568234.lua" -- Anime Last Stand
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
