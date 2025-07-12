@@ -3,6 +3,7 @@
 
     Author: 4lpaca
     License: MIT
+    Modified by me! (@maxlasertech)
     Github: https://github.com/4lpaca-pin/CompKiller
 --]]
 
@@ -63,13 +64,6 @@ export type Notify = {
 	Content: string,
 	Duration: number
 };
-
-export type NotifyPayback = {
-	SetProgress: (self: Notify , time: number) -> any?,
-	Content: (self: Notify , str: string) -> any?,
-	Title: (self: Notify , str: string) -> any?,
-	Close: () -> any?,
-}
 
 export type Watermark = {
 	Icon: string,
@@ -193,10 +187,14 @@ pcall(function()
 	-- LPH_NO_VIRTUALIZE
 end);
 
+if identifyexecutor() == 'Salad' then
+	getgenv().hookmetamethod = newcclosure(function(...) end)
+end
+
 getgenv = getgenv or getfenv;
 
 -- Please ignore the ugly code. [Custom File System] --
-if game:GetService('RunService'):IsStudio() then
+if cloneref(game:GetService('RunService')):IsStudio() then
 	local BaseWorkspace = Instance.new('Folder',game:GetService("ReplicatedFirst"));
 
 	BaseWorkspace.Name = tostring(string.char(math.random(50,120)))..tostring(string.char(math.random(50,120)))..tostring(string.char(math.random(50,120)))..tostring(string.char(math.random(50,120)))..tostring(string.char(math.random(50,120)))..tostring(string.char(math.random(50,120)));
@@ -325,12 +323,12 @@ local RunService: RunService = cloneref(game:GetService('RunService'));
 local Players: Players = cloneref(game:GetService('Players'));
 local HttpService: HttpService = cloneref(game:GetService('HttpService'));
 local LocalPlayer: Player = Players.LocalPlayer;
-local CoreGui: PlayerGui = (gethui and gethui()) or cloneref(game:FindFirstChild('CoreGui')) or LocalPlayer.PlayerGui;
-local Mouse: Mouse = LocalPlayer:GetMouse();
-local CurrentCamera: Camera? = workspace.CurrentCamera;
+local CoreGui: PlayerGui = LocalPlayer.PlayerGui;
+local Mouse = LocalPlayer:GetMouse();
+local CurrentCamera = workspace.CurrentCamera;
 
 local Compkiller = {
-	Version = '1.7',
+	Version = '1.4',
 	Logo = "rbxassetid://120245531583106",
 	Windows = {},
 	Scale = {
@@ -339,8 +337,10 @@ local Compkiller = {
 		TabOpen = 185,
 		TabClose = 85,
 	},
-	ArcylicParent = CurrentCamera
+	ArcylicParent = workspace.CurrentCamera
 };
+
+local LucideIcons: table = loadstring(game:HttpGet('https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/windui/icon.lua'))();
 
 Compkiller.Colors = {
 	Highlight = Color3.fromRGB(17, 238, 253),
@@ -372,842 +372,85 @@ Compkiller.Elements = {
 };
 
 Compkiller.DragBlacklist = {};
-Compkiller.IaDrag = false;
-Compkiller.LastDrag = tick();
 Compkiller.Flags = {};
 
 Compkiller.Lucide = {
-	['lucide-mouse-2'] = "rbxassetid://10088146939",
-	['lucide-internet'] = "rbxassetid://12785195438",
-	['lucide-earth'] = "rbxassetid://115986292591138",
-	['lucide-settings-3'] = "rbxassetid://14007344336",
-	["lucide-accessibility"] = "rbxassetid://10709751939",
-	["lucide-activity"] = "rbxassetid://10709752035",
-	["lucide-air-vent"] = "rbxassetid://10709752131",
-	["lucide-airplay"] = "rbxassetid://10709752254",
-	["lucide-alarm-check"] = "rbxassetid://10709752405",
-	["lucide-alarm-clock"] = "rbxassetid://10709752630",
-	["lucide-alarm-clock-off"] = "rbxassetid://10709752508",
-	["lucide-alarm-minus"] = "rbxassetid://10709752732",
-	["lucide-alarm-plus"] = "rbxassetid://10709752825",
-	["lucide-album"] = "rbxassetid://10709752906",
-	["lucide-alert-circle"] = "rbxassetid://10709752996",
-	["lucide-alert-octagon"] = "rbxassetid://10709753064",
-	["lucide-alert-triangle"] = "rbxassetid://10709753149",
-	["lucide-align-center"] = "rbxassetid://10709753570",
-	["lucide-align-center-horizontal"] = "rbxassetid://10709753272",
-	["lucide-align-center-vertical"] = "rbxassetid://10709753421",
-	["lucide-align-end-horizontal"] = "rbxassetid://10709753692",
-	["lucide-align-end-vertical"] = "rbxassetid://10709753808",
-	["lucide-align-horizontal-distribute-center"] = "rbxassetid://10747779791",
-	["lucide-align-horizontal-distribute-end"] = "rbxassetid://10747784534",
-	["lucide-align-horizontal-distribute-start"] = "rbxassetid://10709754118",
-	["lucide-align-horizontal-justify-center"] = "rbxassetid://10709754204",
-	["lucide-align-horizontal-justify-end"] = "rbxassetid://10709754317",
-	["lucide-align-horizontal-justify-start"] = "rbxassetid://10709754436",
-	["lucide-align-horizontal-space-around"] = "rbxassetid://10709754590",
-	["lucide-align-horizontal-space-between"] = "rbxassetid://10709754749",
-	["lucide-align-justify"] = "rbxassetid://10709759610",
-	["lucide-align-left"] = "rbxassetid://10709759764",
-	["lucide-align-right"] = "rbxassetid://10709759895",
-	["lucide-align-start-horizontal"] = "rbxassetid://10709760051",
-	["lucide-align-start-vertical"] = "rbxassetid://10709760244",
-	["lucide-align-vertical-distribute-center"] = "rbxassetid://10709760351",
-	["lucide-align-vertical-distribute-end"] = "rbxassetid://10709760434",
-	["lucide-align-vertical-distribute-start"] = "rbxassetid://10709760612",
-	["lucide-align-vertical-justify-center"] = "rbxassetid://10709760814",
-	["lucide-align-vertical-justify-end"] = "rbxassetid://10709761003",
-	["lucide-align-vertical-justify-start"] = "rbxassetid://10709761176",
-	["lucide-align-vertical-space-around"] = "rbxassetid://10709761324",
-	["lucide-align-vertical-space-between"] = "rbxassetid://10709761434",
-	["lucide-anchor"] = "rbxassetid://10709761530",
-	["lucide-angry"] = "rbxassetid://10709761629",
-	["lucide-annoyed"] = "rbxassetid://10709761722",
-	["lucide-aperture"] = "rbxassetid://10709761813",
-	["lucide-apple"] = "rbxassetid://10709761889",
-	["lucide-archive"] = "rbxassetid://10709762233",
-	["lucide-archive-restore"] = "rbxassetid://10709762058",
-	["lucide-armchair"] = "rbxassetid://10709762327",
-	["lucide-arrow-big-down"] = "rbxassetid://10747796644",
-	["lucide-arrow-big-left"] = "rbxassetid://10709762574",
-	["lucide-arrow-big-right"] = "rbxassetid://10709762727",
-	["lucide-arrow-big-up"] = "rbxassetid://10709762879",
-	["lucide-arrow-down"] = "rbxassetid://10709767827",
-	["lucide-arrow-down-circle"] = "rbxassetid://10709763034",
-	["lucide-arrow-down-left"] = "rbxassetid://10709767656",
-	["lucide-arrow-down-right"] = "rbxassetid://10709767750",
-	["lucide-arrow-left"] = "rbxassetid://10709768114",
-	["lucide-arrow-left-circle"] = "rbxassetid://10709767936",
-	["lucide-arrow-left-right"] = "rbxassetid://10709768019",
-	["lucide-arrow-right"] = "rbxassetid://10709768347",
-	["lucide-arrow-right-circle"] = "rbxassetid://10709768226",
-	["lucide-arrow-up"] = "rbxassetid://10709768939",
-	["lucide-arrow-up-circle"] = "rbxassetid://10709768432",
-	["lucide-arrow-up-down"] = "rbxassetid://10709768538",
-	["lucide-arrow-up-left"] = "rbxassetid://10709768661",
-	["lucide-arrow-up-right"] = "rbxassetid://10709768787",
-	["lucide-asterisk"] = "rbxassetid://10709769095",
-	["lucide-at-sign"] = "rbxassetid://10709769286",
-	["lucide-award"] = "rbxassetid://10709769406",
-	["lucide-axe"] = "rbxassetid://10709769508",
-	["lucide-axis-3d"] = "rbxassetid://10709769598",
-	["lucide-baby"] = "rbxassetid://10709769732",
-	["lucide-backpack"] = "rbxassetid://10709769841",
-	["lucide-baggage-claim"] = "rbxassetid://10709769935",
-	["lucide-banana"] = "rbxassetid://10709770005",
-	["lucide-banknote"] = "rbxassetid://10709770178",
-	["lucide-bar-chart"] = "rbxassetid://10709773755",
-	["lucide-bar-chart-2"] = "rbxassetid://10709770317",
-	["lucide-bar-chart-3"] = "rbxassetid://10709770431",
-	["lucide-bar-chart-4"] = "rbxassetid://10709770560",
-	["lucide-bar-chart-horizontal"] = "rbxassetid://10709773669",
-	["lucide-barcode"] = "rbxassetid://10747360675",
-	["lucide-baseline"] = "rbxassetid://10709773863",
-	["lucide-bath"] = "rbxassetid://10709773963",
-	["lucide-battery"] = "rbxassetid://10709774640",
-	["lucide-battery-charging"] = "rbxassetid://10709774068",
-	["lucide-battery-full"] = "rbxassetid://10709774206",
-	["lucide-battery-low"] = "rbxassetid://10709774370",
-	["lucide-battery-medium"] = "rbxassetid://10709774513",
-	["lucide-beaker"] = "rbxassetid://10709774756",
-	["lucide-bed"] = "rbxassetid://10709775036",
-	["lucide-bed-double"] = "rbxassetid://10709774864",
-	["lucide-bed-single"] = "rbxassetid://10709774968",
-	["lucide-beer"] = "rbxassetid://10709775167",
-	["lucide-bell"] = "rbxassetid://10709775704",
-	["lucide-bell-minus"] = "rbxassetid://10709775241",
-	["lucide-bell-off"] = "rbxassetid://10709775320",
-	["lucide-bell-plus"] = "rbxassetid://10709775448",
-	["lucide-bell-ring"] = "rbxassetid://10709775560",
-	["lucide-bike"] = "rbxassetid://10709775894",
-	["lucide-binary"] = "rbxassetid://10709776050",
-	["lucide-bitcoin"] = "rbxassetid://10709776126",
-	["lucide-bluetooth"] = "rbxassetid://10709776655",
-	["lucide-bluetooth-connected"] = "rbxassetid://10709776240",
-	["lucide-bluetooth-off"] = "rbxassetid://10709776344",
-	["lucide-bluetooth-searching"] = "rbxassetid://10709776501",
-	["lucide-bold"] = "rbxassetid://10747813908",
-	["lucide-bomb"] = "rbxassetid://10709781460",
-	["lucide-bone"] = "rbxassetid://10709781605",
-	["lucide-book"] = "rbxassetid://10709781824",
-	["lucide-book-open"] = "rbxassetid://10709781717",
-	["lucide-bookmark"] = "rbxassetid://10709782154",
-	["lucide-bookmark-minus"] = "rbxassetid://10709781919",
-	["lucide-bookmark-plus"] = "rbxassetid://10709782044",
-	["lucide-bot"] = "rbxassetid://10709782230",
-	["lucide-box"] = "rbxassetid://10709782497",
-	["lucide-box-select"] = "rbxassetid://10709782342",
-	["lucide-boxes"] = "rbxassetid://10709782582",
-	["lucide-briefcase"] = "rbxassetid://10709782662",
-	["lucide-brush"] = "rbxassetid://10709782758",
-	["lucide-bug"] = "rbxassetid://10709782845",
-	["lucide-building"] = "rbxassetid://10709783051",
-	["lucide-building-2"] = "rbxassetid://10709782939",
-	["lucide-bus"] = "rbxassetid://10709783137",
-	["lucide-cake"] = "rbxassetid://10709783217",
-	["lucide-calculator"] = "rbxassetid://10709783311",
-	["lucide-calendar"] = "rbxassetid://10709789505",
-	["lucide-calendar-check"] = "rbxassetid://10709783474",
-	["lucide-calendar-check-2"] = "rbxassetid://10709783392",
-	["lucide-calendar-clock"] = "rbxassetid://10709783577",
-	["lucide-calendar-days"] = "rbxassetid://10709783673",
-	["lucide-calendar-heart"] = "rbxassetid://10709783835",
-	["lucide-calendar-minus"] = "rbxassetid://10709783959",
-	["lucide-calendar-off"] = "rbxassetid://10709788784",
-	["lucide-calendar-plus"] = "rbxassetid://10709788937",
-	["lucide-calendar-range"] = "rbxassetid://10709789053",
-	["lucide-calendar-search"] = "rbxassetid://10709789200",
-	["lucide-calendar-x"] = "rbxassetid://10709789407",
-	["lucide-calendar-x-2"] = "rbxassetid://10709789329",
-	["lucide-camera"] = "rbxassetid://10709789686",
-	["lucide-camera-off"] = "rbxassetid://10747822677",
-	["lucide-car"] = "rbxassetid://10709789810",
-	["lucide-carrot"] = "rbxassetid://10709789960",
-	["lucide-cast"] = "rbxassetid://10709790097",
-	["lucide-charge"] = "rbxassetid://10709790202",
-	["lucide-check"] = "rbxassetid://10709790644",
-	["lucide-check-circle"] = "rbxassetid://10709790387",
-	["lucide-check-circle-2"] = "rbxassetid://10709790298",
-	["lucide-check-square"] = "rbxassetid://10709790537",
-	["lucide-chef-hat"] = "rbxassetid://10709790757",
-	["lucide-cherry"] = "rbxassetid://10709790875",
-	["lucide-chevron-down"] = "rbxassetid://10709790948",
-	["lucide-chevron-first"] = "rbxassetid://10709791015",
-	["lucide-chevron-last"] = "rbxassetid://10709791130",
-	["lucide-chevron-left"] = "rbxassetid://10709791281",
-	["lucide-chevron-right"] = "rbxassetid://10709791437",
-	["lucide-chevron-up"] = "rbxassetid://10709791523",
-	["lucide-chevrons-down"] = "rbxassetid://10709796864",
-	["lucide-chevrons-down-up"] = "rbxassetid://10709791632",
-	["lucide-chevrons-left"] = "rbxassetid://10709797151",
-	["lucide-chevrons-left-right"] = "rbxassetid://10709797006",
-	["lucide-chevrons-right"] = "rbxassetid://10709797382",
-	["lucide-chevrons-right-left"] = "rbxassetid://10709797274",
-	["lucide-chevrons-up"] = "rbxassetid://10709797622",
-	["lucide-chevrons-up-down"] = "rbxassetid://10709797508",
-	["lucide-chrome"] = "rbxassetid://10709797725",
-	["lucide-circle"] = "rbxassetid://10709798174",
-	["lucide-circle-dot"] = "rbxassetid://10709797837",
-	["lucide-circle-ellipsis"] = "rbxassetid://10709797985",
-	["lucide-circle-slashed"] = "rbxassetid://10709798100",
-	["lucide-citrus"] = "rbxassetid://10709798276",
-	["lucide-clapperboard"] = "rbxassetid://10709798350",
-	["lucide-clipboard"] = "rbxassetid://10709799288",
-	["lucide-clipboard-check"] = "rbxassetid://10709798443",
-	["lucide-clipboard-copy"] = "rbxassetid://10709798574",
-	["lucide-clipboard-edit"] = "rbxassetid://10709798682",
-	["lucide-clipboard-list"] = "rbxassetid://10709798792",
-	["lucide-clipboard-signature"] = "rbxassetid://10709798890",
-	["lucide-clipboard-type"] = "rbxassetid://10709798999",
-	["lucide-clipboard-x"] = "rbxassetid://10709799124",
-	["lucide-clock"] = "rbxassetid://10709805144",
-	["lucide-clock-1"] = "rbxassetid://10709799535",
-	["lucide-clock-10"] = "rbxassetid://10709799718",
-	["lucide-clock-11"] = "rbxassetid://10709799818",
-	["lucide-clock-12"] = "rbxassetid://10709799962",
-	["lucide-clock-2"] = "rbxassetid://10709803876",
-	["lucide-clock-3"] = "rbxassetid://10709803989",
-	["lucide-clock-4"] = "rbxassetid://10709804164",
-	["lucide-clock-5"] = "rbxassetid://10709804291",
-	["lucide-clock-6"] = "rbxassetid://10709804435",
-	["lucide-clock-7"] = "rbxassetid://10709804599",
-	["lucide-clock-8"] = "rbxassetid://10709804784",
-	["lucide-clock-9"] = "rbxassetid://10709804996",
-	["lucide-cloud"] = "rbxassetid://10709806740",
-	["lucide-cloud-cog"] = "rbxassetid://10709805262",
-	["lucide-cloud-drizzle"] = "rbxassetid://10709805371",
-	["lucide-cloud-fog"] = "rbxassetid://10709805477",
-	["lucide-cloud-hail"] = "rbxassetid://10709805596",
-	["lucide-cloud-lightning"] = "rbxassetid://10709805727",
-	["lucide-cloud-moon"] = "rbxassetid://10709805942",
-	["lucide-cloud-moon-rain"] = "rbxassetid://10709805838",
-	["lucide-cloud-off"] = "rbxassetid://10709806060",
-	["lucide-cloud-rain"] = "rbxassetid://10709806277",
-	["lucide-cloud-rain-wind"] = "rbxassetid://10709806166",
-	["lucide-cloud-snow"] = "rbxassetid://10709806374",
-	["lucide-cloud-sun"] = "rbxassetid://10709806631",
-	["lucide-cloud-sun-rain"] = "rbxassetid://10709806475",
-	["lucide-cloudy"] = "rbxassetid://10709806859",
-	["lucide-clover"] = "rbxassetid://10709806995",
-	["lucide-code"] = "rbxassetid://10709810463",
-	["lucide-code-2"] = "rbxassetid://10709807111",
-	["lucide-codepen"] = "rbxassetid://10709810534",
-	["lucide-codesandbox"] = "rbxassetid://10709810676",
-	["lucide-coffee"] = "rbxassetid://10709810814",
-	["lucide-cog"] = "rbxassetid://10709810948",
-	["lucide-coins"] = "rbxassetid://10709811110",
-	["lucide-columns"] = "rbxassetid://10709811261",
-	["lucide-command"] = "rbxassetid://10709811365",
-	["lucide-compass"] = "rbxassetid://10709811445",
-	["lucide-component"] = "rbxassetid://10709811595",
-	["lucide-concierge-bell"] = "rbxassetid://10709811706",
-	["lucide-connection"] = "rbxassetid://10747361219",
-	["lucide-contact"] = "rbxassetid://10709811834",
-	["lucide-contrast"] = "rbxassetid://10709811939",
-	["lucide-cookie"] = "rbxassetid://10709812067",
-	["lucide-copy"] = "rbxassetid://10709812159",
-	["lucide-copyleft"] = "rbxassetid://10709812251",
-	["lucide-copyright"] = "rbxassetid://10709812311",
-	["lucide-corner-down-left"] = "rbxassetid://10709812396",
-	["lucide-corner-down-right"] = "rbxassetid://10709812485",
-	["lucide-corner-left-down"] = "rbxassetid://10709812632",
-	["lucide-corner-left-up"] = "rbxassetid://10709812784",
-	["lucide-corner-right-down"] = "rbxassetid://10709812939",
-	["lucide-corner-right-up"] = "rbxassetid://10709813094",
-	["lucide-corner-up-left"] = "rbxassetid://10709813185",
-	["lucide-corner-up-right"] = "rbxassetid://10709813281",
-	["lucide-cpu"] = "rbxassetid://10709813383",
-	["lucide-croissant"] = "rbxassetid://10709818125",
-	["lucide-crop"] = "rbxassetid://10709818245",
-	["lucide-cross"] = "rbxassetid://10709818399",
-	["lucide-crosshair"] = "rbxassetid://10709818534",
-	["lucide-crown"] = "rbxassetid://10709818626",
-	["lucide-cup-soda"] = "rbxassetid://10709818763",
-	["lucide-curly-braces"] = "rbxassetid://10709818847",
-	["lucide-currency"] = "rbxassetid://10709818931",
-	["lucide-database"] = "rbxassetid://10709818996",
-	["lucide-delete"] = "rbxassetid://10709819059",
-	["lucide-diamond"] = "rbxassetid://10709819149",
-	["lucide-dice-1"] = "rbxassetid://10709819266",
-	["lucide-dice-2"] = "rbxassetid://10709819361",
-	["lucide-dice-3"] = "rbxassetid://10709819508",
-	["lucide-dice-4"] = "rbxassetid://10709819670",
-	["lucide-dice-5"] = "rbxassetid://10709819801",
-	["lucide-dice-6"] = "rbxassetid://10709819896",
-	["lucide-dices"] = "rbxassetid://10723343321",
-	["lucide-diff"] = "rbxassetid://10723343416",
-	["lucide-disc"] = "rbxassetid://10723343537",
-	["lucide-divide"] = "rbxassetid://10723343805",
-	["lucide-divide-circle"] = "rbxassetid://10723343636",
-	["lucide-divide-square"] = "rbxassetid://10723343737",
-	["lucide-dollar-sign"] = "rbxassetid://10723343958",
-	["lucide-download"] = "rbxassetid://10723344270",
-	["lucide-download-cloud"] = "rbxassetid://10723344088",
-	["lucide-droplet"] = "rbxassetid://10723344432",
-	["lucide-droplets"] = "rbxassetid://10734883356",
-	["lucide-drumstick"] = "rbxassetid://10723344737",
-	["lucide-edit"] = "rbxassetid://10734883598",
-	["lucide-edit-2"] = "rbxassetid://10723344885",
-	["lucide-edit-3"] = "rbxassetid://10723345088",
-	["lucide-egg"] = "rbxassetid://10723345518",
-	["lucide-egg-fried"] = "rbxassetid://10723345347",
-	["lucide-electricity"] = "rbxassetid://10723345749",
-	["lucide-electricity-off"] = "rbxassetid://10723345643",
-	["lucide-equal"] = "rbxassetid://10723345990",
-	["lucide-equal-not"] = "rbxassetid://10723345866",
-	["lucide-eraser"] = "rbxassetid://10723346158",
-	["lucide-euro"] = "rbxassetid://10723346372",
-	["lucide-expand"] = "rbxassetid://10723346553",
-	["lucide-external-link"] = "rbxassetid://10723346684",
-	["lucide-eye"] = "rbxassetid://10723346959",
-	["lucide-eye-off"] = "rbxassetid://10723346871",
-	["lucide-factory"] = "rbxassetid://10723347051",
-	["lucide-fan"] = "rbxassetid://10723354359",
-	["lucide-fast-forward"] = "rbxassetid://10723354521",
-	["lucide-feather"] = "rbxassetid://10723354671",
-	["lucide-figma"] = "rbxassetid://10723354801",
-	["lucide-file"] = "rbxassetid://10723374641",
-	["lucide-file-archive"] = "rbxassetid://10723354921",
-	["lucide-file-audio"] = "rbxassetid://10723355148",
-	["lucide-file-audio-2"] = "rbxassetid://10723355026",
-	["lucide-file-axis-3d"] = "rbxassetid://10723355272",
-	["lucide-file-badge"] = "rbxassetid://10723355622",
-	["lucide-file-badge-2"] = "rbxassetid://10723355451",
-	["lucide-file-bar-chart"] = "rbxassetid://10723355887",
-	["lucide-file-bar-chart-2"] = "rbxassetid://10723355746",
-	["lucide-file-box"] = "rbxassetid://10723355989",
-	["lucide-file-check"] = "rbxassetid://10723356210",
-	["lucide-file-check-2"] = "rbxassetid://10723356100",
-	["lucide-file-clock"] = "rbxassetid://10723356329",
-	["lucide-file-code"] = "rbxassetid://10723356507",
-	["lucide-file-cog"] = "rbxassetid://10723356830",
-	["lucide-file-cog-2"] = "rbxassetid://10723356676",
-	["lucide-file-diff"] = "rbxassetid://10723357039",
-	["lucide-file-digit"] = "rbxassetid://10723357151",
-	["lucide-file-down"] = "rbxassetid://10723357322",
-	["lucide-file-edit"] = "rbxassetid://10723357495",
-	["lucide-file-heart"] = "rbxassetid://10723357637",
-	["lucide-file-image"] = "rbxassetid://10723357790",
-	["lucide-file-input"] = "rbxassetid://10723357933",
-	["lucide-file-json"] = "rbxassetid://10723364435",
-	["lucide-file-json-2"] = "rbxassetid://10723364361",
-	["lucide-file-key"] = "rbxassetid://10723364605",
-	["lucide-file-key-2"] = "rbxassetid://10723364515",
-	["lucide-file-line-chart"] = "rbxassetid://10723364725",
-	["lucide-file-lock"] = "rbxassetid://10723364957",
-	["lucide-file-lock-2"] = "rbxassetid://10723364861",
-	["lucide-file-minus"] = "rbxassetid://10723365254",
-	["lucide-file-minus-2"] = "rbxassetid://10723365086",
-	["lucide-file-output"] = "rbxassetid://10723365457",
-	["lucide-file-pie-chart"] = "rbxassetid://10723365598",
-	["lucide-file-plus"] = "rbxassetid://10723365877",
-	["lucide-file-plus-2"] = "rbxassetid://10723365766",
-	["lucide-file-question"] = "rbxassetid://10723365987",
-	["lucide-file-scan"] = "rbxassetid://10723366167",
-	["lucide-file-search"] = "rbxassetid://10723366550",
-	["lucide-file-search-2"] = "rbxassetid://10723366340",
-	["lucide-file-signature"] = "rbxassetid://10723366741",
-	["lucide-file-spreadsheet"] = "rbxassetid://10723366962",
-	["lucide-file-symlink"] = "rbxassetid://10723367098",
-	["lucide-file-terminal"] = "rbxassetid://10723367244",
-	["lucide-file-text"] = "rbxassetid://10723367380",
-	["lucide-file-type"] = "rbxassetid://10723367606",
-	["lucide-file-type-2"] = "rbxassetid://10723367509",
-	["lucide-file-up"] = "rbxassetid://10723367734",
-	["lucide-file-video"] = "rbxassetid://10723373884",
-	["lucide-file-video-2"] = "rbxassetid://10723367834",
-	["lucide-file-volume"] = "rbxassetid://10723374172",
-	["lucide-file-volume-2"] = "rbxassetid://10723374030",
-	["lucide-file-warning"] = "rbxassetid://10723374276",
-	["lucide-file-x"] = "rbxassetid://10723374544",
-	["lucide-file-x-2"] = "rbxassetid://10723374378",
-	["lucide-files"] = "rbxassetid://10723374759",
-	["lucide-film"] = "rbxassetid://10723374981",
-	["lucide-filter"] = "rbxassetid://10723375128",
-	["lucide-fingerprint"] = "rbxassetid://10723375250",
-	["lucide-flag"] = "rbxassetid://10723375890",
-	["lucide-flag-off"] = "rbxassetid://10723375443",
-	["lucide-flag-triangle-left"] = "rbxassetid://10723375608",
-	["lucide-flag-triangle-right"] = "rbxassetid://10723375727",
-	["lucide-flame"] = "rbxassetid://10723376114",
-	["lucide-flashlight"] = "rbxassetid://10723376471",
-	["lucide-flashlight-off"] = "rbxassetid://10723376365",
-	["lucide-flask-conical"] = "rbxassetid://10734883986",
-	["lucide-flask-round"] = "rbxassetid://10723376614",
-	["lucide-flip-horizontal"] = "rbxassetid://10723376884",
-	["lucide-flip-horizontal-2"] = "rbxassetid://10723376745",
-	["lucide-flip-vertical"] = "rbxassetid://10723377138",
-	["lucide-flip-vertical-2"] = "rbxassetid://10723377026",
-	["lucide-flower"] = "rbxassetid://10747830374",
-	["lucide-flower-2"] = "rbxassetid://10723377305",
-	["lucide-focus"] = "rbxassetid://10723377537",
-	["lucide-folder"] = "rbxassetid://10723387563",
-	["lucide-folder-archive"] = "rbxassetid://10723384478",
-	["lucide-folder-check"] = "rbxassetid://10723384605",
-	["lucide-folder-clock"] = "rbxassetid://10723384731",
-	["lucide-folder-closed"] = "rbxassetid://10723384893",
-	["lucide-folder-cog"] = "rbxassetid://10723385213",
-	["lucide-folder-cog-2"] = "rbxassetid://10723385036",
-	["lucide-folder-down"] = "rbxassetid://10723385338",
-	["lucide-folder-edit"] = "rbxassetid://10723385445",
-	["lucide-folder-heart"] = "rbxassetid://10723385545",
-	["lucide-folder-input"] = "rbxassetid://10723385721",
-	["lucide-folder-key"] = "rbxassetid://10723385848",
-	["lucide-folder-lock"] = "rbxassetid://10723386005",
-	["lucide-folder-minus"] = "rbxassetid://10723386127",
-	["lucide-folder-open"] = "rbxassetid://10723386277",
-	["lucide-folder-output"] = "rbxassetid://10723386386",
-	["lucide-folder-plus"] = "rbxassetid://10723386531",
-	["lucide-folder-search"] = "rbxassetid://10723386787",
-	["lucide-folder-search-2"] = "rbxassetid://10723386674",
-	["lucide-folder-symlink"] = "rbxassetid://10723386930",
-	["lucide-folder-tree"] = "rbxassetid://10723387085",
-	["lucide-folder-up"] = "rbxassetid://10723387265",
-	["lucide-folder-x"] = "rbxassetid://10723387448",
-	["lucide-folders"] = "rbxassetid://10723387721",
-	["lucide-form-input"] = "rbxassetid://10723387841",
-	["lucide-forward"] = "rbxassetid://10723388016",
-	["lucide-frame"] = "rbxassetid://10723394389",
-	["lucide-framer"] = "rbxassetid://10723394565",
-	["lucide-frown"] = "rbxassetid://10723394681",
-	["lucide-fuel"] = "rbxassetid://10723394846",
-	["lucide-function-square"] = "rbxassetid://10723395041",
-	["lucide-gamepad"] = "rbxassetid://10723395457",
-	["lucide-gamepad-2"] = "rbxassetid://10723395215",
-	["lucide-gauge"] = "rbxassetid://10723395708",
-	["lucide-gavel"] = "rbxassetid://10723395896",
-	["lucide-gem"] = "rbxassetid://10723396000",
-	["lucide-ghost"] = "rbxassetid://10723396107",
-	["lucide-gift"] = "rbxassetid://10723396402",
-	["lucide-gift-card"] = "rbxassetid://10723396225",
-	["lucide-git-branch"] = "rbxassetid://10723396676",
-	["lucide-git-branch-plus"] = "rbxassetid://10723396542",
-	["lucide-git-commit"] = "rbxassetid://10723396812",
-	["lucide-git-compare"] = "rbxassetid://10723396954",
-	["lucide-git-fork"] = "rbxassetid://10723397049",
-	["lucide-git-merge"] = "rbxassetid://10723397165",
-	["lucide-git-pull-request"] = "rbxassetid://10723397431",
-	["lucide-git-pull-request-closed"] = "rbxassetid://10723397268",
-	["lucide-git-pull-request-draft"] = "rbxassetid://10734884302",
-	["lucide-glass"] = "rbxassetid://10723397788",
-	["lucide-glass-2"] = "rbxassetid://10723397529",
-	["lucide-glass-water"] = "rbxassetid://10723397678",
-	["lucide-glasses"] = "rbxassetid://10723397895",
-	["lucide-globe"] = "rbxassetid://10723404337",
-	["lucide-globe-2"] = "rbxassetid://10723398002",
-	["lucide-grab"] = "rbxassetid://10723404472",
-	["lucide-graduation-cap"] = "rbxassetid://10723404691",
-	["lucide-grape"] = "rbxassetid://10723404822",
-	["lucide-grid"] = "rbxassetid://10723404936",
-	["lucide-grip-horizontal"] = "rbxassetid://10723405089",
-	["lucide-grip-vertical"] = "rbxassetid://10723405236",
-	["lucide-hammer"] = "rbxassetid://10723405360",
-	["lucide-hand"] = "rbxassetid://10723405649",
-	["lucide-hand-metal"] = "rbxassetid://10723405508",
-	["lucide-hard-drive"] = "rbxassetid://10723405749",
-	["lucide-hard-hat"] = "rbxassetid://10723405859",
-	["lucide-hash"] = "rbxassetid://10723405975",
-	["lucide-haze"] = "rbxassetid://10723406078",
-	["lucide-headphones"] = "rbxassetid://10723406165",
-	["lucide-heart"] = "rbxassetid://10723406885",
-	["lucide-heart-crack"] = "rbxassetid://10723406299",
-	["lucide-heart-handshake"] = "rbxassetid://10723406480",
-	["lucide-heart-off"] = "rbxassetid://10723406662",
-	["lucide-heart-pulse"] = "rbxassetid://10723406795",
-	["lucide-help-circle"] = "rbxassetid://10723406988",
-	["lucide-hexagon"] = "rbxassetid://10723407092",
-	["lucide-highlighter"] = "rbxassetid://10723407192",
-	["lucide-history"] = "rbxassetid://10723407335",
-	["lucide-home"] = "rbxassetid://10723407389",
-	["lucide-hourglass"] = "rbxassetid://10723407498",
-	["lucide-ice-cream"] = "rbxassetid://10723414308",
-	["lucide-image"] = "rbxassetid://10723415040",
-	["lucide-image-minus"] = "rbxassetid://10723414487",
-	["lucide-image-off"] = "rbxassetid://10723414677",
-	["lucide-image-plus"] = "rbxassetid://10723414827",
-	["lucide-import"] = "rbxassetid://10723415205",
-	["lucide-inbox"] = "rbxassetid://10723415335",
-	["lucide-indent"] = "rbxassetid://10723415494",
-	["lucide-indian-rupee"] = "rbxassetid://10723415642",
-	["lucide-infinity"] = "rbxassetid://10723415766",
-	["lucide-info"] = "rbxassetid://10723415903",
-	["lucide-inspect"] = "rbxassetid://10723416057",
-	["lucide-italic"] = "rbxassetid://10723416195",
-	["lucide-japanese-yen"] = "rbxassetid://10723416363",
-	["lucide-joystick"] = "rbxassetid://10723416527",
-	["lucide-key"] = "rbxassetid://10723416652",
-	["lucide-keyboard"] = "rbxassetid://10723416765",
-	["lucide-lamp"] = "rbxassetid://10723417513",
-	["lucide-lamp-ceiling"] = "rbxassetid://10723416922",
-	["lucide-lamp-desk"] = "rbxassetid://10723417016",
-	["lucide-lamp-floor"] = "rbxassetid://10723417131",
-	["lucide-lamp-wall-down"] = "rbxassetid://10723417240",
-	["lucide-lamp-wall-up"] = "rbxassetid://10723417356",
-	["lucide-landmark"] = "rbxassetid://10723417608",
-	["lucide-languages"] = "rbxassetid://10723417703",
-	["lucide-laptop"] = "rbxassetid://10723423881",
-	["lucide-laptop-2"] = "rbxassetid://10723417797",
-	["lucide-lasso"] = "rbxassetid://10723424235",
-	["lucide-lasso-select"] = "rbxassetid://10723424058",
-	["lucide-laugh"] = "rbxassetid://10723424372",
-	["lucide-layers"] = "rbxassetid://10723424505",
-	["lucide-layout"] = "rbxassetid://10723425376",
-	["lucide-layout-dashboard"] = "rbxassetid://10723424646",
-	["lucide-layout-grid"] = "rbxassetid://10723424838",
-	["lucide-layout-list"] = "rbxassetid://10723424963",
-	["lucide-layout-template"] = "rbxassetid://10723425187",
-	["lucide-leaf"] = "rbxassetid://10723425539",
-	["lucide-library"] = "rbxassetid://10723425615",
-	["lucide-life-buoy"] = "rbxassetid://10723425685",
-	["lucide-lightbulb"] = "rbxassetid://10723425852",
-	["lucide-lightbulb-off"] = "rbxassetid://10723425762",
-	["lucide-line-chart"] = "rbxassetid://10723426393",
-	["lucide-link"] = "rbxassetid://10723426722",
-	["lucide-link-2"] = "rbxassetid://10723426595",
-	["lucide-link-2-off"] = "rbxassetid://10723426513",
-	["lucide-list"] = "rbxassetid://10723433811",
-	["lucide-list-checks"] = "rbxassetid://10734884548",
-	["lucide-list-end"] = "rbxassetid://10723426886",
-	["lucide-list-minus"] = "rbxassetid://10723426986",
-	["lucide-list-music"] = "rbxassetid://10723427081",
-	["lucide-list-ordered"] = "rbxassetid://10723427199",
-	["lucide-list-plus"] = "rbxassetid://10723427334",
-	["lucide-list-start"] = "rbxassetid://10723427494",
-	["lucide-list-video"] = "rbxassetid://10723427619",
-	["lucide-list-x"] = "rbxassetid://10723433655",
-	["lucide-loader"] = "rbxassetid://10723434070",
-	["lucide-loader-2"] = "rbxassetid://10723433935",
-	["lucide-locate"] = "rbxassetid://10723434557",
-	["lucide-locate-fixed"] = "rbxassetid://10723434236",
-	["lucide-locate-off"] = "rbxassetid://10723434379",
-	["lucide-lock"] = "rbxassetid://10723434711",
-	["lucide-log-in"] = "rbxassetid://10723434830",
-	["lucide-log-out"] = "rbxassetid://10723434906",
-	["lucide-luggage"] = "rbxassetid://10723434993",
-	["lucide-magnet"] = "rbxassetid://10723435069",
-	["lucide-mail"] = "rbxassetid://10734885430",
-	["lucide-mail-check"] = "rbxassetid://10723435182",
-	["lucide-mail-minus"] = "rbxassetid://10723435261",
-	["lucide-mail-open"] = "rbxassetid://10723435342",
-	["lucide-mail-plus"] = "rbxassetid://10723435443",
-	["lucide-mail-question"] = "rbxassetid://10723435515",
-	["lucide-mail-search"] = "rbxassetid://10734884739",
-	["lucide-mail-warning"] = "rbxassetid://10734885015",
-	["lucide-mail-x"] = "rbxassetid://10734885247",
-	["lucide-mails"] = "rbxassetid://10734885614",
-	["lucide-map"] = "rbxassetid://10734886202",
-	["lucide-map-pin"] = "rbxassetid://10734886004",
-	["lucide-map-pin-off"] = "rbxassetid://10734885803",
-	["lucide-maximize"] = "rbxassetid://10734886735",
-	["lucide-maximize-2"] = "rbxassetid://10734886496",
-	["lucide-medal"] = "rbxassetid://10734887072",
-	["lucide-megaphone"] = "rbxassetid://10734887454",
-	["lucide-megaphone-off"] = "rbxassetid://10734887311",
-	["lucide-meh"] = "rbxassetid://10734887603",
-	["lucide-menu"] = "rbxassetid://10734887784",
-	["lucide-message-circle"] = "rbxassetid://10734888000",
-	["lucide-message-square"] = "rbxassetid://10734888228",
-	["lucide-mic"] = "rbxassetid://10734888864",
-	["lucide-mic-2"] = "rbxassetid://10734888430",
-	["lucide-mic-off"] = "rbxassetid://10734888646",
-	["lucide-microscope"] = "rbxassetid://10734889106",
-	["lucide-microwave"] = "rbxassetid://10734895076",
-	["lucide-milestone"] = "rbxassetid://10734895310",
-	["lucide-minimize"] = "rbxassetid://10734895698",
-	["lucide-minimize-2"] = "rbxassetid://10734895530",
-	["lucide-minus"] = "rbxassetid://10734896206",
-	["lucide-minus-circle"] = "rbxassetid://10734895856",
-	["lucide-minus-square"] = "rbxassetid://10734896029",
-	["lucide-monitor"] = "rbxassetid://10734896881",
-	["lucide-monitor-off"] = "rbxassetid://10734896360",
-	["lucide-monitor-speaker"] = "rbxassetid://10734896512",
-	["lucide-moon"] = "rbxassetid://10734897102",
-	["lucide-more-horizontal"] = "rbxassetid://10734897250",
-	["lucide-more-vertical"] = "rbxassetid://10734897387",
-	["lucide-mountain"] = "rbxassetid://10734897956",
-	["lucide-mountain-snow"] = "rbxassetid://10734897665",
-	["lucide-mouse"] = "rbxassetid://10734898592",
-	["lucide-mouse-pointer"] = "rbxassetid://10734898476",
-	["lucide-mouse-pointer-2"] = "rbxassetid://10734898194",
-	["lucide-mouse-pointer-click"] = "rbxassetid://10734898355",
-	["lucide-move"] = "rbxassetid://10734900011",
-	["lucide-move-3d"] = "rbxassetid://10734898756",
-	["lucide-move-diagonal"] = "rbxassetid://10734899164",
-	["lucide-move-diagonal-2"] = "rbxassetid://10734898934",
-	["lucide-move-horizontal"] = "rbxassetid://10734899414",
-	["lucide-move-vertical"] = "rbxassetid://10734899821",
-	["lucide-music"] = "rbxassetid://10734905958",
-	["lucide-music-2"] = "rbxassetid://10734900215",
-	["lucide-music-3"] = "rbxassetid://10734905665",
-	["lucide-music-4"] = "rbxassetid://10734905823",
-	["lucide-navigation"] = "rbxassetid://10734906744",
-	["lucide-navigation-2"] = "rbxassetid://10734906332",
-	["lucide-navigation-2-off"] = "rbxassetid://10734906144",
-	["lucide-navigation-off"] = "rbxassetid://10734906580",
-	["lucide-network"] = "rbxassetid://10734906975",
-	["lucide-newspaper"] = "rbxassetid://10734907168",
-	["lucide-octagon"] = "rbxassetid://10734907361",
-	["lucide-option"] = "rbxassetid://10734907649",
-	["lucide-outdent"] = "rbxassetid://10734907933",
-	["lucide-package"] = "rbxassetid://10734909540",
-	["lucide-package-2"] = "rbxassetid://10734908151",
-	["lucide-package-check"] = "rbxassetid://10734908384",
-	["lucide-package-minus"] = "rbxassetid://10734908626",
-	["lucide-package-open"] = "rbxassetid://10734908793",
-	["lucide-package-plus"] = "rbxassetid://10734909016",
-	["lucide-package-search"] = "rbxassetid://10734909196",
-	["lucide-package-x"] = "rbxassetid://10734909375",
-	["lucide-paint-bucket"] = "rbxassetid://10734909847",
-	["lucide-paintbrush"] = "rbxassetid://10734910187",
-	["lucide-paintbrush-2"] = "rbxassetid://10734910030",
-	["lucide-palette"] = "rbxassetid://10734910430",
-	["lucide-palmtree"] = "rbxassetid://10734910680",
-	["lucide-paperclip"] = "rbxassetid://10734910927",
-	["lucide-party-popper"] = "rbxassetid://10734918735",
-	["lucide-pause"] = "rbxassetid://10734919336",
-	["lucide-pause-circle"] = "rbxassetid://10735024209",
-	["lucide-pause-octagon"] = "rbxassetid://10734919143",
-	["lucide-pen-tool"] = "rbxassetid://10734919503",
-	["lucide-pencil"] = "rbxassetid://10734919691",
-	["lucide-percent"] = "rbxassetid://10734919919",
-	["lucide-person-standing"] = "rbxassetid://10734920149",
-	["lucide-phone"] = "rbxassetid://10734921524",
-	["lucide-phone-call"] = "rbxassetid://10734920305",
-	["lucide-phone-forwarded"] = "rbxassetid://10734920508",
-	["lucide-phone-incoming"] = "rbxassetid://10734920694",
-	["lucide-phone-missed"] = "rbxassetid://10734920845",
-	["lucide-phone-off"] = "rbxassetid://10734921077",
-	["lucide-phone-outgoing"] = "rbxassetid://10734921288",
-	["lucide-pie-chart"] = "rbxassetid://10734921727",
-	["lucide-piggy-bank"] = "rbxassetid://10734921935",
-	["lucide-pin"] = "rbxassetid://10734922324",
-	["lucide-pin-off"] = "rbxassetid://10734922180",
-	["lucide-pipette"] = "rbxassetid://10734922497",
-	["lucide-pizza"] = "rbxassetid://10734922774",
-	["lucide-plane"] = "rbxassetid://10734922971",
-	["lucide-play"] = "rbxassetid://10734923549",
-	["lucide-play-circle"] = "rbxassetid://10734923214",
-	["lucide-plus"] = "rbxassetid://10734924532",
-	["lucide-plus-circle"] = "rbxassetid://10734923868",
-	["lucide-plus-square"] = "rbxassetid://10734924219",
-	["lucide-podcast"] = "rbxassetid://10734929553",
-	["lucide-pointer"] = "rbxassetid://10734929723",
-	["lucide-pound-sterling"] = "rbxassetid://10734929981",
-	["lucide-power"] = "rbxassetid://10734930466",
-	["lucide-power-off"] = "rbxassetid://10734930257",
-	["lucide-printer"] = "rbxassetid://10734930632",
-	["lucide-puzzle"] = "rbxassetid://10734930886",
-	["lucide-quote"] = "rbxassetid://10734931234",
-	["lucide-radio"] = "rbxassetid://10734931596",
-	["lucide-radio-receiver"] = "rbxassetid://10734931402",
-	["lucide-rectangle-horizontal"] = "rbxassetid://10734931777",
-	["lucide-rectangle-vertical"] = "rbxassetid://10734932081",
-	["lucide-recycle"] = "rbxassetid://10734932295",
-	["lucide-redo"] = "rbxassetid://10734932822",
-	["lucide-redo-2"] = "rbxassetid://10734932586",
-	["lucide-refresh-ccw"] = "rbxassetid://10734933056",
-	["lucide-refresh-cw"] = "rbxassetid://10734933222",
-	["lucide-refrigerator"] = "rbxassetid://10734933465",
-	["lucide-regex"] = "rbxassetid://10734933655",
-	["lucide-repeat"] = "rbxassetid://10734933966",
-	["lucide-repeat-1"] = "rbxassetid://10734933826",
-	["lucide-reply"] = "rbxassetid://10734934252",
-	["lucide-reply-all"] = "rbxassetid://10734934132",
-	["lucide-rewind"] = "rbxassetid://10734934347",
-	["lucide-rocket"] = "rbxassetid://10734934585",
-	["lucide-rocking-chair"] = "rbxassetid://10734939942",
-	["lucide-rotate-3d"] = "rbxassetid://10734940107",
-	["lucide-rotate-ccw"] = "rbxassetid://10734940376",
-	["lucide-rotate-cw"] = "rbxassetid://10734940654",
-	["lucide-rss"] = "rbxassetid://10734940825",
-	["lucide-ruler"] = "rbxassetid://10734941018",
-	["lucide-russian-ruble"] = "rbxassetid://10734941199",
-	["lucide-sailboat"] = "rbxassetid://10734941354",
-	["lucide-save"] = "rbxassetid://10734941499",
-	["lucide-scale"] = "rbxassetid://10734941912",
-	["lucide-scale-3d"] = "rbxassetid://10734941739",
-	["lucide-scaling"] = "rbxassetid://10734942072",
-	["lucide-scan"] = "rbxassetid://10734942565",
-	["lucide-scan-face"] = "rbxassetid://10734942198",
-	["lucide-scan-line"] = "rbxassetid://10734942351",
-	["lucide-scissors"] = "rbxassetid://10734942778",
-	["lucide-screen-share"] = "rbxassetid://10734943193",
-	["lucide-screen-share-off"] = "rbxassetid://10734942967",
-	["lucide-scroll"] = "rbxassetid://10734943448",
-	["lucide-search"] = "rbxassetid://10734943674",
-	["lucide-send"] = "rbxassetid://10734943902",
-	["lucide-separator-horizontal"] = "rbxassetid://10734944115",
-	["lucide-separator-vertical"] = "rbxassetid://10734944326",
-	["lucide-server"] = "rbxassetid://10734949856",
-	["lucide-server-cog"] = "rbxassetid://10734944444",
-	["lucide-server-crash"] = "rbxassetid://10734944554",
-	["lucide-server-off"] = "rbxassetid://10734944668",
-	["lucide-settings"] = "rbxassetid://10734950309",
-	["lucide-settings-2"] = "rbxassetid://10734950020",
-	["lucide-share"] = "rbxassetid://10734950813",
-	["lucide-share-2"] = "rbxassetid://10734950553",
-	["lucide-sheet"] = "rbxassetid://10734951038",
-	["lucide-shield"] = "rbxassetid://10734951847",
-	["lucide-shield-alert"] = "rbxassetid://10734951173",
-	["lucide-shield-check"] = "rbxassetid://10734951367",
-	["lucide-shield-close"] = "rbxassetid://10734951535",
-	["lucide-shield-off"] = "rbxassetid://10734951684",
-	["lucide-shirt"] = "rbxassetid://10734952036",
-	["lucide-shopping-bag"] = "rbxassetid://10734952273",
-	["lucide-shopping-cart"] = "rbxassetid://10734952479",
-	["lucide-shovel"] = "rbxassetid://10734952773",
-	["lucide-shower-head"] = "rbxassetid://10734952942",
-	["lucide-shrink"] = "rbxassetid://10734953073",
-	["lucide-shrub"] = "rbxassetid://10734953241",
-	["lucide-shuffle"] = "rbxassetid://10734953451",
-	["lucide-sidebar"] = "rbxassetid://10734954301",
-	["lucide-sidebar-close"] = "rbxassetid://10734953715",
-	["lucide-sidebar-open"] = "rbxassetid://10734954000",
-	["lucide-sigma"] = "rbxassetid://10734954538",
-	["lucide-signal"] = "rbxassetid://10734961133",
-	["lucide-signal-high"] = "rbxassetid://10734954807",
-	["lucide-signal-low"] = "rbxassetid://10734955080",
-	["lucide-signal-medium"] = "rbxassetid://10734955336",
-	["lucide-signal-zero"] = "rbxassetid://10734960878",
-	["lucide-siren"] = "rbxassetid://10734961284",
-	["lucide-skip-back"] = "rbxassetid://10734961526",
-	["lucide-skip-forward"] = "rbxassetid://10734961809",
-	["lucide-skull"] = "rbxassetid://10734962068",
-	["lucide-slack"] = "rbxassetid://10734962339",
-	["lucide-slash"] = "rbxassetid://10734962600",
-	["lucide-slice"] = "rbxassetid://10734963024",
-	["lucide-sliders"] = "rbxassetid://10734963400",
-	["lucide-sliders-horizontal"] = "rbxassetid://10734963191",
-	["lucide-smartphone"] = "rbxassetid://10734963940",
-	["lucide-smartphone-charging"] = "rbxassetid://10734963671",
-	["lucide-smile"] = "rbxassetid://10734964441",
-	["lucide-smile-plus"] = "rbxassetid://10734964188",
-	["lucide-snowflake"] = "rbxassetid://10734964600",
-	["lucide-sofa"] = "rbxassetid://10734964852",
-	["lucide-sort-asc"] = "rbxassetid://10734965115",
-	["lucide-sort-desc"] = "rbxassetid://10734965287",
-	["lucide-speaker"] = "rbxassetid://10734965419",
-	["lucide-sprout"] = "rbxassetid://10734965572",
-	["lucide-square"] = "rbxassetid://10734965702",
-	["lucide-star"] = "rbxassetid://10734966248",
-	["lucide-star-half"] = "rbxassetid://10734965897",
-	["lucide-star-off"] = "rbxassetid://10734966097",
-	["lucide-stethoscope"] = "rbxassetid://10734966384",
-	["lucide-sticker"] = "rbxassetid://10734972234",
-	["lucide-sticky-note"] = "rbxassetid://10734972463",
-	["lucide-stop-circle"] = "rbxassetid://10734972621",
-	["lucide-stretch-horizontal"] = "rbxassetid://10734972862",
-	["lucide-stretch-vertical"] = "rbxassetid://10734973130",
-	["lucide-strikethrough"] = "rbxassetid://10734973290",
-	["lucide-subscript"] = "rbxassetid://10734973457",
-	["lucide-sun"] = "rbxassetid://10734974297",
-	["lucide-sun-dim"] = "rbxassetid://10734973645",
-	["lucide-sun-medium"] = "rbxassetid://10734973778",
-	["lucide-sun-moon"] = "rbxassetid://10734973999",
-	["lucide-sun-snow"] = "rbxassetid://10734974130",
-	["lucide-sunrise"] = "rbxassetid://10734974522",
-	["lucide-sunset"] = "rbxassetid://10734974689",
-	["lucide-superscript"] = "rbxassetid://10734974850",
-	["lucide-swiss-franc"] = "rbxassetid://10734975024",
-	["lucide-switch-camera"] = "rbxassetid://10734975214",
-	["lucide-sword"] = "rbxassetid://10734975486",
-	["lucide-swords"] = "rbxassetid://10734975692",
-	["lucide-syringe"] = "rbxassetid://10734975932",
-	["lucide-table"] = "rbxassetid://10734976230",
-	["lucide-table-2"] = "rbxassetid://10734976097",
-	["lucide-tablet"] = "rbxassetid://10734976394",
-	["lucide-tag"] = "rbxassetid://10734976528",
-	["lucide-tags"] = "rbxassetid://10734976739",
-	["lucide-target"] = "rbxassetid://10734977012",
-	["lucide-tent"] = "rbxassetid://10734981750",
-	["lucide-terminal"] = "rbxassetid://10734982144",
-	["lucide-terminal-square"] = "rbxassetid://10734981995",
-	["lucide-text-cursor"] = "rbxassetid://10734982395",
-	["lucide-text-cursor-input"] = "rbxassetid://10734982297",
-	["lucide-thermometer"] = "rbxassetid://10734983134",
-	["lucide-thermometer-snowflake"] = "rbxassetid://10734982571",
-	["lucide-thermometer-sun"] = "rbxassetid://10734982771",
-	["lucide-thumbs-down"] = "rbxassetid://10734983359",
-	["lucide-thumbs-up"] = "rbxassetid://10734983629",
-	["lucide-ticket"] = "rbxassetid://10734983868",
-	["lucide-timer"] = "rbxassetid://10734984606",
-	["lucide-timer-off"] = "rbxassetid://10734984138",
-	["lucide-timer-reset"] = "rbxassetid://10734984355",
-	["lucide-toggle-left"] = "rbxassetid://10734984834",
-	["lucide-toggle-right"] = "rbxassetid://10734985040",
-	["lucide-tornado"] = "rbxassetid://10734985247",
-	["lucide-toy-brick"] = "rbxassetid://10747361919",
-	["lucide-train"] = "rbxassetid://10747362105",
-	["lucide-trash"] = "rbxassetid://10747362393",
-	["lucide-trash-2"] = "rbxassetid://10747362241",
-	["lucide-tree-deciduous"] = "rbxassetid://10747362534",
-	["lucide-tree-pine"] = "rbxassetid://10747362748",
-	["lucide-trees"] = "rbxassetid://10747363016",
-	["lucide-trending-down"] = "rbxassetid://10747363205",
-	["lucide-trending-up"] = "rbxassetid://10747363465",
-	["lucide-triangle"] = "rbxassetid://10747363621",
-	["lucide-trophy"] = "rbxassetid://10747363809",
-	["lucide-truck"] = "rbxassetid://10747364031",
-	["lucide-tv"] = "rbxassetid://10747364593",
-	["lucide-tv-2"] = "rbxassetid://10747364302",
-	["lucide-type"] = "rbxassetid://10747364761",
-	["lucide-umbrella"] = "rbxassetid://10747364971",
-	["lucide-underline"] = "rbxassetid://10747365191",
-	["lucide-undo"] = "rbxassetid://10747365484",
-	["lucide-undo-2"] = "rbxassetid://10747365359",
-	["lucide-unlink"] = "rbxassetid://10747365771",
-	["lucide-unlink-2"] = "rbxassetid://10747397871",
-	["lucide-unlock"] = "rbxassetid://10747366027",
-	["lucide-upload"] = "rbxassetid://10747366434",
-	["lucide-upload-cloud"] = "rbxassetid://10747366266",
-	["lucide-usb"] = "rbxassetid://10747366606",
-	["lucide-user"] = "rbxassetid://10747373176",
-	["lucide-user-check"] = "rbxassetid://10747371901",
-	["lucide-user-cog"] = "rbxassetid://10747372167",
-	["lucide-user-minus"] = "rbxassetid://10747372346",
-	["lucide-user-plus"] = "rbxassetid://10747372702",
-	["lucide-user-x"] = "rbxassetid://10747372992",
-	["lucide-users"] = "rbxassetid://10747373426",
-	["lucide-utensils"] = "rbxassetid://10747373821",
-	["lucide-utensils-crossed"] = "rbxassetid://10747373629",
-	["lucide-venetian-mask"] = "rbxassetid://10747374003",
-	["lucide-verified"] = "rbxassetid://10747374131",
-	["lucide-vibrate"] = "rbxassetid://10747374489",
-	["lucide-vibrate-off"] = "rbxassetid://10747374269",
-	["lucide-video"] = "rbxassetid://10747374938",
-	["lucide-video-off"] = "rbxassetid://10747374721",
-	["lucide-view"] = "rbxassetid://10747375132",
-	["lucide-voicemail"] = "rbxassetid://10747375281",
-	["lucide-volume"] = "rbxassetid://10747376008",
-	["lucide-volume-1"] = "rbxassetid://10747375450",
-	["lucide-volume-2"] = "rbxassetid://10747375679",
-	["lucide-volume-x"] = "rbxassetid://10747375880",
-	["lucide-wallet"] = "rbxassetid://10747376205",
-	["lucide-wand"] = "rbxassetid://10747376565",
-	["lucide-wand-2"] = "rbxassetid://10747376349",
-	["lucide-watch"] = "rbxassetid://10747376722",
-	["lucide-waves"] = "rbxassetid://10747376931",
-	["lucide-webcam"] = "rbxassetid://10747381992",
-	["lucide-wifi"] = "rbxassetid://10747382504",
-	["lucide-wifi-off"] = "rbxassetid://10747382268",
-	["lucide-wind"] = "rbxassetid://10747382750",
-	["lucide-wrap-text"] = "rbxassetid://10747383065",
-	["lucide-wrench"] = "rbxassetid://10747383470",
-	["lucide-x"] = "rbxassetid://10747384394",
-	["lucide-x-circle"] = "rbxassetid://10747383819",
-	["lucide-x-octagon"] = "rbxassetid://10747384037",
-	["lucide-x-square"] = "rbxassetid://10747384217",
-	["lucide-zoom-in"] = "rbxassetid://10747384552",
-	["lucide-zoom-out"] = "rbxassetid://10747384679",
+	GetAsset = function(p : string)
+		local q : table? = LucideIcons.Icons[p];
+        if q then
+            local r = LucideIcons.Spritesheets[tostring(q.Image)];
+            if r then
+                return {Image = r, ImageRectSize = q.ImageRectSize, ImageRectPosition = q.ImageRectPosition};
+            end;
+        end;
+        if type(p) == "string" and not p:find("rbxassetid://") then
+            return {
+                Image = "rbxassetid://" .. p,
+                ImageRectSize = Vector2.new(0, 0),
+                ImageRectPosition = Vector2.new(0, 0)
+            };
+        elseif type(p) == "number" then
+            return {
+                Image = "rbxassetid://" .. p,
+                ImageRectSize = Vector2.new(0, 0),
+                ImageRectPosition = Vector2.new(0, 0)
+            };
+        else
+            return p;
+        end;
+	end;
 };
 
 function Compkiller:_GetIcon(name : string) : string
-	return Compkiller.Lucide['lucide-'..tostring(name)] or Compkiller.Lucide[name] or Compkiller.Lucide[tostring(name)] or name;
+	return Compkiller.Lucide.GetAsset(name);
 end;
 
 function Compkiller:_RandomString() : string
-	return "CK="..string.char(math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102));	
+	return string.char(math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102),math.random(64,102));	
 end;
+
+function Compkiller:_ConvertArgs(Config: table)
+	local b = table.clone(Config)
+	if not b.Default then
+		b.Default = b.Value
+	end
+	if not b.Name then
+		b.Name = b.Title
+	end
+	if not b.Min and typeof(b.Value) == 'table' then
+		for i,v in b.Value do
+			local i = i
+			if i == 'Rounding' then 
+				i = 'Round'
+			end
+			b[i] = v
+		end
+	end
+	if not b.Rounding then
+		b.Round = b.Rounding
+	end
+	if not b.Type and typeof(b.Suffix) == 'table' then
+		b.Type = typeof(b.Suffix.Text) == 'function' and b.Suffix.Text() or b.Suffix.Text
+	end
+	if not b.Flag then
+		local ExistedFlags: table = {}
+
+		local Flag = b.Name:gsub(' ', '_')
+
+		for i in Compkiller.Flags do
+			if #i >= #Flag and i:sub(1, #Flag) == Flag then
+				table.insert(ExistedFlags, i)
+			end
+		end
+		
+		if #ExistedFlags > 0 then
+			Flag = Flag .. tostring(#ExistedFlags + 1)
+		end
+
+		b.Flag = Flag
+	end
+	return b
+end
 
 function Compkiller:_IsMouseOverFrame(Frame : Frame) : boolean
 	if not Frame then
@@ -1366,37 +609,26 @@ function Compkiller:_Blur(element : Frame , WindowRemote) : RBXScriptSignal
 end;
 
 function Compkiller:_AddDragBlacklist(Frame: Frame)
-	local IsAdded = false;
-	local BASE_TIME = 0.01;
-
-	local SET_BLACKLIST = function(value)
-		local index = table.find(Compkiller.DragBlacklist , Frame);
-
-		if value and not Compkiller.IS_DRAG_MOVE then
-			if not index then
-				table.insert(Compkiller.DragBlacklist,Frame);
-			end;
-		else
-			if index then
-				table.remove(Compkiller.DragBlacklist,index);
-			end;
-		end;
-	end;
-
 	Frame.InputBegan:Connect(function(input)
-		if Compkiller:_IsMouseOverFrame(Frame) then
-			SET_BLACKLIST(true)
+		if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.MouseMovement then
+			local finder = table.find(Compkiller.DragBlacklist , Frame);
+			local IsScrolling = Frame:IsA('ScrollingFrame') and Frame.ScrollingEnabled;
+
+			if not finder or IsScrolling then
+				table.insert(Compkiller.DragBlacklist , Frame);
+			end;
 		end;
 	end);
 
 	Frame.InputEnded:Connect(function(input)
-		SET_BLACKLIST(false);
-	end);
+		if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.MouseMovement then
+			local finder = table.find(Compkiller.DragBlacklist , Frame);
+			local IsScrolling = Frame:IsA('ScrollingFrame') and Frame.ScrollingEnabled;
 
-	UserInputService.InputChanged:Connect(function()
-		if not Compkiller:_IsMouseOverFrame(Frame) then
-			SET_BLACKLIST(false);
-		end
+			if finder or IsScrolling then
+				table.remove(Compkiller.DragBlacklist , finder);
+			end;
+		end;
 	end);
 end;
 
@@ -1487,35 +719,22 @@ function Compkiller:Drag(InputFrame: Frame, MoveFrame: Frame, Speed : number)
 			startPos = MoveFrame.Position
 			input.Changed:Connect(function()
 				if input.UserInputState == Enum.UserInputState.End then
-					dragToggle = false;
-					Compkiller.IS_DRAG_MOVE = false;
+					dragToggle = false
 				end
 			end)
 		end
-
-		if not Compkiller.IsDrage and dragToggle then
-			Compkiller.LastDrag = tick();
-		end;
-
-		Compkiller.IaDrag = dragToggle;
 	end)
 
 	UserInputService.InputChanged:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch and #Compkiller.DragBlacklist <= 0 then
 			if dragToggle then
-				Compkiller.IS_DRAG_MOVE = true;
 				updateInput(input)
-			else
-				Compkiller.IS_DRAG_MOVE = false;
 			end
 		else
 			if #Compkiller.DragBlacklist > 0 then
 				dragToggle = false
-				Compkiller.IS_DRAG_MOVE = false;
 			end
 		end
-
-		Compkiller.IaDrag = dragToggle;
 	end);
 end;
 
@@ -1531,7 +750,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		local ToggleValue = Instance.new("Frame")
 		local UICorner_2 = Instance.new("UICorner")
 
-		Toggle.Name = Compkiller:_RandomString()
+		Toggle.Name = "Toggle"
 		Toggle.Parent = LinkValues
 		Toggle.BackgroundColor3 = Compkiller.Colors.DropColor
 		Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1550,13 +769,13 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = Toggle
-
+		
 		table.insert(Compkiller.Elements.HighStrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
 		})
 
-		ToggleValue.Name = Compkiller:_RandomString()
+		ToggleValue.Name = "ToggleValue"
 		ToggleValue.Parent = Toggle
 		ToggleValue.AnchorPoint = Vector2.new(0.5, 0.5)
 		ToggleValue.BackgroundColor3 = Compkiller.Colors.SwitchColor
@@ -1661,7 +880,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		local UIStroke = Instance.new("UIStroke")
 		local UICorner = Instance.new("UICorner")
 
-		ColorPicker.Name = Compkiller:_RandomString()
+		ColorPicker.Name = "ColorPicker"
 		ColorPicker.Parent = LinkValues
 		ColorPicker.BackgroundTransparency = 1.000
 		ColorPicker.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1669,8 +888,8 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		ColorPicker.Size = UDim2.new(0, 16, 0, 16)
 		ColorPicker.ZIndex = GlobalBlock.ZIndex + 1
 		ColorPicker.LayoutOrder = -#LinkValues:GetChildren();
-
-		ColorFrame.Name = Compkiller:_RandomString()
+		
+		ColorFrame.Name = "ColorFrame"
 		ColorFrame.Parent = ColorPicker
 		ColorFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 		ColorFrame.BackgroundColor3 = Color3.fromRGB(15, 255, 207)
@@ -1684,12 +903,12 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 
 		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = ColorFrame
-
+		
 		table.insert(Compkiller.Elements.HighStrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
 		})
-
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = ColorFrame
 
@@ -1781,7 +1000,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		local UIStroke = Instance.new("UIStroke")
 		local TextLabel = Instance.new("TextLabel")
 
-		Keybind.Name = Compkiller:_RandomString()
+		Keybind.Name = "Keybind"
 		Keybind.Parent = LinkValues
 		Keybind.BackgroundColor3 = Compkiller.Colors.DropColor
 		Keybind.BackgroundTransparency = 0.8
@@ -1791,19 +1010,19 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		Keybind.ZIndex = GlobalBlock.ZIndex + 2
 		Keybind.ClipsDescendants = true
 		Keybind.LayoutOrder = -#LinkValues:GetChildren();
-
+		
 
 		table.insert(Compkiller.Elements.DropColor , {
 			Element = Keybind,
 			Property = "BackgroundColor3"
 		})
-
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = Keybind
 
 		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = Keybind
-
+		
 		table.insert(Compkiller.Elements.HighStrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
@@ -1822,12 +1041,12 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TextLabel.TextSize = 12.000
 		TextLabel.TextTransparency = 0.200
-
+		
 		table.insert(Compkiller.Elements.SwitchColor,{
 			Element = TextLabel,
 			Property = "TextColor3"
 		});
-
+		
 		local Update = function()
 			local size = TextService:GetTextSize(TextLabel.Text,TextLabel.TextSize,TextLabel.Font,Vector2.new(math.huge,math.huge));
 
@@ -1883,7 +1102,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		local UIStroke = Instance.new("UIStroke")
 		local UICorner_2 = Instance.new("UICorner")
 
-		InfoButton.Name = Compkiller:_RandomString()
+		InfoButton.Name = "InfoButton"
 		InfoButton.Parent = LinkValues
 		InfoButton.BackgroundTransparency = 1.000
 		InfoButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1897,16 +1116,16 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		UICorner.CornerRadius = UDim.new(1, 0)
 		UICorner.Parent = InfoButton
 
-		BlockText.Name = Compkiller:_RandomString()
+		BlockText.Name = "BlockText"
 		BlockText.Parent = InfoButton
 		BlockText.AnchorPoint = Vector2.new(0, 0)
 		BlockText.BackgroundColor3 = Compkiller.Colors.BlockColor
-
+		
 		table.insert(Compkiller.Elements.BlockColor , {
 			Element = BlockText,
 			Property = "BackgroundColor3"
 		});
-
+		
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockText.BorderSizePixel = 0
 		BlockText.Position = UDim2.new(0, 5, 0, 0)
@@ -1918,16 +1137,16 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		BlockText.TextSize = 13.000
 		BlockText.TextTransparency = 0.300
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor,{
 			Element = BlockText,
 			Property = "TextColor3"
 		});
-
+		
 		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		UIStroke.Parent = BlockText
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
@@ -1971,7 +1190,7 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 		local OptionButton = Instance.new("ImageButton")
 		local UICorner = Instance.new("UICorner")
 
-		OptionButton.Name = Compkiller:_RandomString()
+		OptionButton.Name = "OptionButton"
 		OptionButton.Parent = LinkValues
 		OptionButton.BackgroundTransparency = 1.000
 		OptionButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2022,18 +1241,14 @@ function Compkiller:_CreateBlock(Signal)
 	local UIListLayout = Instance.new("UIListLayout")
 	local BlockLine = Instance.new("Frame")
 
-	if Compkiller:_IsMobile() then
-		Compkiller:_AddDragBlacklist(GlobalBlock);
-	end;
-
-	GlobalBlock.Name = Compkiller:_RandomString()
+	GlobalBlock.Name = "GlobalBlock"
 	GlobalBlock.BackgroundTransparency = 1.000
 	GlobalBlock.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	GlobalBlock.BorderSizePixel = 0
 	GlobalBlock.Size = UDim2.new(1, -1, 0, 30)
 	GlobalBlock.ZIndex = 10
 
-	BlockText.Name = Compkiller:_RandomString()
+	BlockText.Name = "BlockText"
 	BlockText.Parent = GlobalBlock
 	BlockText.AnchorPoint = Vector2.new(0, 0.5)
 	BlockText.BackgroundTransparency = 1.000
@@ -2048,13 +1263,13 @@ function Compkiller:_CreateBlock(Signal)
 	BlockText.TextSize = 14.000
 	BlockText.TextTransparency = 0.300
 	BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+	
 	table.insert(Compkiller.Elements.SwitchColor , {
 		Element = BlockText,
 		Property = 'TextColor3'
 	});
 
-	LinkValues.Name = Compkiller:_RandomString()
+	LinkValues.Name = "LinkValues"
 	LinkValues.Parent = GlobalBlock
 	LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
 	LinkValues.BackgroundTransparency = 1.000
@@ -2071,7 +1286,7 @@ function Compkiller:_CreateBlock(Signal)
 	UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 	UIListLayout.Padding = UDim.new(0, 8)
 
-	BlockLine.Name = Compkiller:_RandomString()
+	BlockLine.Name = "BlockLine"
 	BlockLine.Parent = GlobalBlock
 	BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 	BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -2081,7 +1296,7 @@ function Compkiller:_CreateBlock(Signal)
 	BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 	BlockLine.Size = UDim2.new(1, -26, 0, 1)
 	BlockLine.ZIndex = 12
-
+	
 	table.insert(Compkiller.Elements.LineColor,{
 		Element = BlockLine,
 		Property = "BackgroundColor3"
@@ -2099,11 +1314,11 @@ function Compkiller:_CreateBlock(Signal)
 
 	function rep:SetTextColor(Color)
 		local oldIndex = table.find(Compkiller.Elements.SwitchColor , BlockText);
-
+		
 		table.remove(Compkiller.Elements.SwitchColor , oldIndex);
-
+		
 		BlockText.TextColor3 = Color;
-
+		
 		table.insert(Compkiller.Elements.Risky , {
 			Element = BlockText,
 			Property = 'TextColor3'
@@ -2163,6 +1378,7 @@ end;
 
 function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color: Color3) -> any?)
 	local Window = Compkiller:_GetWindowFromElement(Button);
+
 	local BaseZ_Index = math.random(1,15) * 100;
 
 	local ColorPickerWindow = Instance.new("Frame")
@@ -2196,7 +1412,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	local UIStroke_8 = Instance.new("UIStroke")
 	local TextLabel = Instance.new("TextLabel")
 
-	ColorPickerWindow.Name = Compkiller:_RandomString()
+	ColorPickerWindow.Name = "ColorPickerWindow"
 	ColorPickerWindow.Parent = Window
 	ColorPickerWindow.BackgroundColor3 = Compkiller.Colors.BlockBackground
 	ColorPickerWindow.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2206,12 +1422,12 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	ColorPickerWindow.ZIndex = BaseZ_Index
 	ColorPickerWindow.AnchorPoint = Vector2.new(0.5,0)
 	ColorPickerWindow.Active = true;
-
+	
 	table.insert(Compkiller.Elements.BlockBackground,{
 		Element = ColorPickerWindow,
 		Property = "BackgroundColor3"
 	});
-
+	
 	Compkiller:_AddDragBlacklist(ColorPickerWindow)
 
 	UIStroke.Color = Compkiller.Colors.HighStrokeColor
@@ -2223,7 +1439,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	UICorner.CornerRadius = UDim.new(0, 6)
 	UICorner.Parent = ColorPickerWindow
 
-	ColorPickBox.Name = Compkiller:_RandomString()
+	ColorPickBox.Name = "ColorPickBox"
 	ColorPickBox.Parent = ColorPickerWindow
 	ColorPickBox.BackgroundColor3 = Color3.fromRGB(39, 255, 35)
 	ColorPickBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2233,7 +1449,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	ColorPickBox.ZIndex = BaseZ_Index + 1
 	ColorPickBox.Image = "http://www.roblox.com/asset/?id=112554223509763"
 
-	MouseMovement.Name = Compkiller:_RandomString()
+	MouseMovement.Name = "MouseMovement"
 	MouseMovement.Parent = ColorPickBox
 	MouseMovement.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	MouseMovement.BackgroundTransparency = 1.000
@@ -2251,7 +1467,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	UIStroke_2.Color = Color3.fromRGB(29, 29, 29)
 	UIStroke_2.Parent = ColorPickBox
 
-	ColorRedGreenBlue.Name = Compkiller:_RandomString()
+	ColorRedGreenBlue.Name = "ColorRedGreenBlue"
 	ColorRedGreenBlue.Parent = ColorPickerWindow
 	ColorRedGreenBlue.AnchorPoint = Vector2.new(1, 0)
 	ColorRedGreenBlue.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2269,7 +1485,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	UICorner_3.CornerRadius = UDim.new(1, 0)
 	UICorner_3.Parent = ColorRedGreenBlue
 
-	ColorRGBSlide.Name = Compkiller:_RandomString()
+	ColorRGBSlide.Name = "ColorRGBSlide"
 	ColorRGBSlide.Parent = ColorRedGreenBlue
 	ColorRGBSlide.AnchorPoint = Vector2.new(0.5, 0)
 	ColorRGBSlide.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2280,7 +1496,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	ColorRGBSlide.Size = UDim2.new(1, 0, 0, 2)
 	ColorRGBSlide.ZIndex = BaseZ_Index + 7
 
-	Left.Name = Compkiller:_RandomString()
+	Left.Name = "Left"
 	Left.Parent = ColorRGBSlide
 	Left.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Left.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2290,7 +1506,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 
 	UIStroke_3.Parent = Left
 
-	Right.Name = Compkiller:_RandomString()
+	Right.Name = "Right"
 	Right.Parent = ColorRGBSlide
 	Right.AnchorPoint = Vector2.new(1, 0)
 	Right.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2302,7 +1518,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 
 	UIStroke_4.Parent = Right
 
-	ColorOpc.Name = Compkiller:_RandomString()
+	ColorOpc.Name = "ColorOpc"
 	ColorOpc.Parent = ColorPickerWindow
 	ColorOpc.BackgroundColor3 = Color3.fromRGB(102, 255, 0)
 	ColorOpc.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2314,7 +1530,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	UICorner_4.CornerRadius = UDim.new(1, 0)
 	UICorner_4.Parent = ColorOpc
 
-	ColorOptSlide.Name = Compkiller:_RandomString()
+	ColorOptSlide.Name = "ColorOptSlide"
 	ColorOptSlide.Parent = ColorOpc
 	ColorOptSlide.AnchorPoint = Vector2.new(0, 0.5)
 	ColorOptSlide.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2325,7 +1541,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	ColorOptSlide.Size = UDim2.new(0, 2, 1, 0)
 	ColorOptSlide.ZIndex = BaseZ_Index + 7
 
-	Left_2.Name = Compkiller:_RandomString()
+	Left_2.Name = "Left"
 	Left_2.Parent = ColorOptSlide
 	Left_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	Left_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -2335,7 +1551,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 
 	UIStroke_5.Parent = Left_2
 
-	Right_2.Name = Compkiller:_RandomString()
+	Right_2.Name = "Right"
 	Right_2.Parent = ColorOptSlide
 	Right_2.AnchorPoint = Vector2.new(0, 1)
 	Right_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2368,7 +1584,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	UICorner_5.CornerRadius = UDim.new(1, 0)
 	UICorner_5.Parent = TransparentImage
 
-	HexFrame.Name = Compkiller:_RandomString()
+	HexFrame.Name = "HexFrame"
 	HexFrame.Parent = ColorPickerWindow
 	HexFrame.AnchorPoint = Vector2.new(0.5, 1)
 	HexFrame.BackgroundColor3 = Compkiller.Colors.BlockColor
@@ -2377,7 +1593,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	HexFrame.Position = UDim2.new(0.5, 0, 1, -5)
 	HexFrame.Size = UDim2.new(1, -16, 0, 20)
 	HexFrame.ZIndex = BaseZ_Index + 205
-
+	
 	table.insert(Compkiller.Elements.BlockColor,{
 		Element = HexFrame,
 		Property = "BackgroundColor3"
@@ -2388,7 +1604,7 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 
 	UIStroke_8.Color = Compkiller.Colors.HighStrokeColor
 	UIStroke_8.Parent = HexFrame
-
+	
 	table.insert(Compkiller.Elements.HighStrokeColor,{
 		Element = UIStroke_8,
 		Property = "Color"
@@ -2407,12 +1623,12 @@ function Compkiller:_AddColorPickerPanel(Button: ImageButton , Callback: (Color:
 	TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 	TextLabel.TextSize = 13.000
 	TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+	
 	table.insert(Compkiller.Elements.SwitchColor , {
 		Element = TextLabel,
 		Property = 'TextColor3'
 	});
-
+	
 	local Args = {
 		IsHold = false,
 		IsVisible = false,
@@ -2986,6 +2202,8 @@ function Compkiller:_LoadOption(Value , TabSignal)
 	end;
 
 	function Args:AddToggle(Config : MiniToggle)
+		Config = Compkiller:_ConvertArgs(Config)
+
 		Config = Compkiller.__CONFIG(Config,{
 			Flag = nil,
 			Default = false,
@@ -3027,6 +2245,8 @@ function Compkiller:_LoadOption(Value , TabSignal)
 
 	function Args:AddOption()
 		local Element: ImageButton = Value:AddLink("Option");
+		Element.Visible = false
+
 		local BaseZ_Index = math.random(1,15) * 100;
 
 		local Signal = Compkiller.__SIGNAL(false);
@@ -3087,13 +2307,17 @@ function Compkiller:_LoadOption(Value , TabSignal)
 			end;
 		end;
 
+		UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
+			Element.Visible = UIListLayout.AbsoluteContentSize.Y > 0
+		end)
+
 		Compkiller:_AddPropertyEvent(ExtractElement,function(bool)
 			ExtractElement.Visible = bool;
 		end);
 
 		Compkiller:_AddDragBlacklist(ExtractElement);
 
-		ExtractElement.Name = Compkiller:_RandomString()
+		ExtractElement.Name = "ExtractElement"
 		ExtractElement.Parent = Window
 		ExtractElement.BackgroundColor3 = Compkiller.Colors.BlockBackground
 		ExtractElement.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -3104,7 +2328,7 @@ function Compkiller:_LoadOption(Value , TabSignal)
 		ExtractElement.ZIndex = BaseZ_Index
 		ExtractElement.Visible = false
 		ExtractElement.ClipsDescendants = true
-
+		
 		table.insert(Compkiller.Elements.BlockBackground,{
 			Element = ExtractElement,
 			Property = "BackgroundColor3"
@@ -3112,16 +2336,16 @@ function Compkiller:_LoadOption(Value , TabSignal)
 
 		UIStroke.Color = Compkiller.Colors.HighStrokeColor
 		UIStroke.Parent = ExtractElement
-
+		
 		table.insert(Compkiller.Elements.HighStrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
 		});
-
+		
 		UICorner.CornerRadius = UDim.new(0, 6)
 		UICorner.Parent = ExtractElement
 
-		Elements.Name = Compkiller:_RandomString()
+		Elements.Name = "Elements"
 		Elements.Parent = ExtractElement
 		Elements.AnchorPoint = Vector2.new(0.5, 0.5)
 		Elements.BackgroundTransparency = 1.000
@@ -3158,6 +2382,7 @@ end;
 
 function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 	local Window = Compkiller:_GetWindowFromElement(BaseParent);
+
 	local BaseZ_Index = BaseParent.ZIndex + (math.random(1,15) * 100);
 
 	local DropdownWindow = Instance.new("Frame")
@@ -3168,7 +2393,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 	local ToggleDb = Compkiller.__SIGNAL(false);
 	local EventOut = Compkiller.__SIGNAL(0);
 
-	DropdownWindow.Name = Compkiller:_RandomString()
+	DropdownWindow.Name = "DropdownWindow"
 	DropdownWindow.Parent = Window
 	DropdownWindow.BackgroundColor3 = Compkiller.Colors.BlockBackground
 	DropdownWindow.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -3176,7 +2401,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 	DropdownWindow.Position = UDim2.new(123, 0, 123, 0)
 	DropdownWindow.Size = UDim2.new(0, 190, 0, 200)
 	DropdownWindow.ZIndex = BaseZ_Index
-
+	
 	table.insert(Compkiller.Elements.BlockBackground,{
 		Element = DropdownWindow,
 		Property = "BackgroundColor3"
@@ -3189,7 +2414,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 
 	UIStroke.Color = Compkiller.Colors.HighStrokeColor
 	UIStroke.Parent = DropdownWindow
-
+	
 	table.insert(Compkiller.Elements.HighStrokeColor , {
 		Element = UIStroke,
 		Property = "Color"
@@ -3280,14 +2505,14 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		local BlockText = Instance.new("TextLabel")
 		local BlockLine = Instance.new("Frame")
 
-		DropdownItem.Name = Compkiller:_RandomString()
+		DropdownItem.Name = "DropdownItem"
 		DropdownItem.BackgroundTransparency = 1.000
 		DropdownItem.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		DropdownItem.BorderSizePixel = 0
 		DropdownItem.Size = UDim2.new(1, -1, 0, 20)
 		DropdownItem.ZIndex = BaseZ_Index + 6
 
-		BlockText.Name = Compkiller:_RandomString()
+		BlockText.Name = "BlockText"
 		BlockText.Parent = DropdownItem
 		BlockText.AnchorPoint = Vector2.new(0, 0.5)
 		BlockText.BackgroundTransparency = 1.000
@@ -3295,20 +2520,20 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		BlockText.BorderSizePixel = 0
 		BlockText.Position = UDim2.new(0, 5, 0.5, 0)
 		BlockText.Size = UDim2.new(1, -10, 0, 25)
-		BlockText.ZIndex = BaseZ_Index + 6
+		BlockText.ZIndex = BaseZ_Index + 6 
 		BlockText.Font = Enum.Font.GothamMedium
 		BlockText.Text = ""
 		BlockText.TextColor3 = Compkiller.Colors.SwitchColor
 		BlockText.TextSize = 13.000
 		BlockText.TextTransparency = 0.500
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = BlockText,
 			Property = 'TextColor3'
 		});
-
-		BlockLine.Name = Compkiller:_RandomString()
+		
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = DropdownItem
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -3318,7 +2543,7 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -6, 0, 1)
 		BlockLine.ZIndex = BaseZ_Index + 7
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
@@ -3400,19 +2625,13 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 			if IsMulti then
 				if IsDefault(v) or MatchDefault(v,DataFrame) then
 					DataFrame[v] = true;
-				else
-					DataFrame[v] = false;
 				end;
 
-				Compkiller:_Animation(bth.BlockText,TweenInfo.new(0.2),{
-					TextTransparency = ((MatchDefault(v,DataFrame)) and 0) or 0.5
-				});
-
 				Compkiller:_Input(bth.DropdownItem,function()
-					DataFrame[v] = not DataFrame[v];
+					DataFrame[v] = not DataFrame[v]
 
 					Compkiller:_Animation(bth.BlockText,TweenInfo.new(0.2),{
-						TextTransparency = ((MatchDefault(v,DataFrame)) and 0) or 0.5
+						TextTransparency = ((IsDefault(v) or MatchDefault(v,DataFrame)) and 0) or 0.5
 					});
 
 					Callback(DataFrame)
@@ -3501,6 +2720,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 	local Args = {};
 
 	function Args:AddToggle(Config : Toggle)
+		Config = Compkiller:_ConvertArgs(Config)
+
 		Config = Compkiller.__CONFIG(Config,{
 			Name = "Toggle",
 			Default = false,
@@ -3555,6 +2776,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		end);
 
 		Args.Link = Compkiller:_LoadOption(Block);
+		Args.Options = Args.Link:AddOption();
+
+		if typeof(Config.Content) == 'string' then
+			Args.Link:AddHelper({
+				Text = Config.Content
+			})
+		end
 
 		function Args:GetValue()
 			return Config.Default;
@@ -3730,6 +2958,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 	end;
 
 	function Args:AddButton(Config: Button)
+		Config = Compkiller:_ConvertArgs(Config)
+
 		Config = Compkiller.__CONFIG(Config , {
 			Name = 'Button',
 			Callback = function() end
@@ -3742,11 +2972,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local UICorner = Instance.new("UICorner")
 		local TextLabel = Instance.new("TextLabel")
 
-		if Compkiller:_IsMobile() then
-			Compkiller:_AddDragBlacklist(Button);
-		end;
-
-		Button.Name = Compkiller:_RandomString()
+		Button.Name = "Button"
 		Button.Parent = Parent
 		Button.BackgroundTransparency = 1.000
 		Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -3754,17 +2980,17 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Button.Size = UDim2.new(1, -1, 0, 30)
 		Button.ZIndex = Zindex + 5
 
-		BlockLine.Name = Compkiller:_RandomString()
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Button
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
-		BlockLine.BackgroundTransparency = 0.500
+		BlockLine.BackgroundTransparency = 0.6
 		BlockLine.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		BlockLine.BorderSizePixel = 0
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 6
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
@@ -3773,7 +2999,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Frame.Parent = Button
 		Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 		Frame.BackgroundColor3 = Compkiller.Colors.Highlight
-		Frame.BackgroundTransparency = 0.6
+		Frame.BackgroundTransparency = 0.600
 		Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Frame.BorderSizePixel = 0
 		Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
@@ -3787,12 +3013,12 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = Frame
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
 		});
-
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = Frame
 
@@ -3809,7 +3035,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TextLabel.TextSize = 12.000
 		TextLabel.TextStrokeTransparency = 0.900
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = TextLabel,
 			Property = 'TextColor3'
@@ -3818,13 +3044,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Compkiller:_Hover(Frame,function()
 			if Signal:GetValue() then
 				Compkiller:_Animation(Frame,TweenInfo.new(0.2),{
-					BackgroundTransparency = 0.6
+					BackgroundTransparency = 0.600
 				})
 			end;
 		end,function()
 			if Signal:GetValue() then
 				Compkiller:_Animation(Frame,TweenInfo.new(0.2),{
-					BackgroundTransparency = 0.6
+					BackgroundTransparency = 0.600
 				})
 			end;
 		end);
@@ -3842,7 +3068,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 				});
 
 				Compkiller:_Animation(Frame, TweenInfo.new(0.35),{
-					BackgroundTransparency = 0.6
+					BackgroundTransparency = 0.600
 				});
 
 				Compkiller:_Animation(UIStroke, TweenInfo.new(0.35),{
@@ -3883,6 +3109,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 	end;
 
 	function Args:AddSlider(Config: Slider)
+		Config = Compkiller:_ConvertArgs(Config)
+
 		Config = Compkiller.__CONFIG(Config , {
 			Name = 'Slider',
 			Default = 50,
@@ -3904,11 +3132,9 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local Frame = Instance.new("Frame")
 		local UICorner_3 = Instance.new("UICorner")
 		local UIScale = Instance.new("UIScale")
-		local ValueText = Instance.new("TextLabel")
+		local ValueText = Instance.new("TextBox")
 
-		Compkiller:_AddDragBlacklist(Slider);
-
-		Slider.Name = Compkiller:_RandomString()
+		Slider.Name = "Slider"
 		Slider.Parent = Parent
 		Slider.BackgroundTransparency = 1.000
 		Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -3916,7 +3142,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Slider.Size = UDim2.new(1, -1, 0, 45)
 		Slider.ZIndex = Zindex + 1
 
-		BlockText.Name = Compkiller:_RandomString()
+		BlockText.Name = "BlockText"
 		BlockText.Parent = Slider
 		BlockText.BackgroundTransparency = 1.000
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -3930,13 +3156,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.TextSize = 14.000
 		BlockText.TextTransparency = 0.100
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = BlockText,
 			Property = 'TextColor3'
 		});
-
-		BlockLine.Name = Compkiller:_RandomString()
+		
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Slider
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -3947,13 +3173,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 2
 		BlockLine.Visible = EnabledLine or false;
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
 		});
-
-		SliderBar.Name = Compkiller:_RandomString()
+		
+		SliderBar.Name = "SliderBar"
 		SliderBar.Parent = Slider
 		SliderBar.AnchorPoint = Vector2.new(0.5, 1)
 		SliderBar.BackgroundColor3 = Compkiller.Colors.DropColor
@@ -3963,15 +3189,17 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		SliderBar.Position = UDim2.new(0.5, 0, 1, -9)
 		SliderBar.Size = UDim2.new(1, -25, 0, 10)
 		SliderBar.ZIndex = Zindex + 3
-
+		
 		table.insert(Compkiller.Elements.DropColor , {
 			Element = SliderBar,
 			Property = "BackgroundColor3"
 		})
 
+		Compkiller:_AddDragBlacklist(SliderBar)
+
 		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = SliderBar
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
@@ -3980,14 +3208,14 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		UICorner.CornerRadius = UDim.new(0, 6)
 		UICorner.Parent = SliderBar
 
-		SliderInput.Name = Compkiller:_RandomString()
+		SliderInput.Name = "SliderInput"
 		SliderInput.Parent = SliderBar
 		SliderInput.AnchorPoint = Vector2.new(0, 0.5)
 		SliderInput.BackgroundColor3 = Compkiller.Colors.Highlight
 		SliderInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		SliderInput.BorderSizePixel = 0
 		SliderInput.Position = UDim2.new(0, 0, 0.5, 0)
-		SliderInput.Size = UDim2.new(math.max((Config.Default - Config.Min) / (Config.Max - Config.Min) , 0.045), 0, 1, 0)
+		SliderInput.Size = UDim2.new((Config.Default - Config.Min) / (Config.Max - Config.Min), 0, 1, 0)
 		SliderInput.ZIndex = Zindex + 4
 
 		table.insert(Compkiller.Elements.Highlight,{
@@ -4008,19 +3236,20 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Frame.Size = UDim2.new(1, 0, 1, 0)
 		Frame.SizeConstraint = Enum.SizeConstraint.RelativeYY
 		Frame.ZIndex = Zindex + 6
-
+		Frame.BackgroundTransparency = 1
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = Frame,
 			Property = 'BackgroundColor3'
 		});
-
+		
 		UICorner_3.CornerRadius = UDim.new(3, 0)
 		UICorner_3.Parent = Frame
 
 		UIScale.Parent = Frame
 		UIScale.Scale = 1.300
 
-		ValueText.Name = Compkiller:_RandomString()
+		ValueText.Name = "ValueText"
 		ValueText.Parent = Slider
 		ValueText.BackgroundTransparency = 1.000
 		ValueText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -4034,12 +3263,12 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		ValueText.TextSize = 12.000
 		ValueText.TextTransparency = 0.750
 		ValueText.TextXAlignment = Enum.TextXAlignment.Right
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = ValueText,
 			Property = 'TextColor3'
 		});
-
+		
 		Compkiller:_Hover(SliderBar,function()
 			if Signal:GetValue() then
 				Compkiller:_Animation(ValueText,TweenInfo.new(0.2),{
@@ -4068,7 +3297,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 			local Size = (Value - Config.Min) / (Config.Max - Config.Min);
 
 			TweenService:Create(SliderInput , TweenInfo.new(0.2),{
-				Size = UDim2.new(math.clamp(Size,0.045,1), 0, 1, 0)
+				Size = UDim2.new(Size, 0, 1, 0)
 			}):Play();
 
 			Config.Default = Value;
@@ -4077,6 +3306,25 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 			Config.Callback(Value)
 		end;
+
+		ValueText.FocusLost:Connect(function()
+            local Value = tonumber(ValueText.Text)
+            if Value then
+                local FakedValue = Value > Config.Max and Config.Max or Value
+
+                local Size = (FakedValue - Config.Min) / (Config.Max - Config.Min);
+
+                TweenService:Create(SliderInput , TweenInfo.new(0.2),{
+                    Size = UDim2.new(Size, 0, 1, 0)
+                }):Play();
+
+                Config.Default = Value;
+
+                ValueText.Text = tostring(Config.Default)..tostring(Config.Type)
+
+                Config.Callback(Value)
+            end
+        end)
 
 		do
 			SliderBar.InputBegan:Connect(function(Input)
@@ -4125,7 +3373,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 			ValueText.Text = tostring(Config.Default)..tostring(Config.Type)
 
 			Compkiller:_Animation(SliderInput, TweenInfo.new(0.35),{
-				Size = UDim2.new(math.max((Config.Default - Config.Min) / (Config.Max - Config.Min) , 0.045), 0, 1, 0)
+				Size = UDim2.new((Config.Default - Config.Min) / (Config.Max - Config.Min), 0, 1, 0)
 			});
 
 			Config.Callback(Value);
@@ -4134,7 +3382,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Args.Signal = Signal:Connect(function(bool)
 			if bool then
 				Compkiller:_Animation(SliderInput, TweenInfo.new(0.35),{
-					Size = UDim2.new(math.max((Config.Default - Config.Min) / (Config.Max - Config.Min) , 0.045), 0, 1, 0)
+					Size = UDim2.new((Config.Default - Config.Min) / (Config.Max - Config.Min), 0, 1, 0)
 				});
 
 				Compkiller:_Animation(ValueText,Tween,{
@@ -4142,7 +3390,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 				})
 
 				Compkiller:_Animation(Frame,Tween,{
-					BackgroundTransparency = 0
+					BackgroundTransparency = 1
 				})
 
 				Compkiller:_Animation(SliderInput,Tween,{
@@ -4211,6 +3459,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 	end;
 
 	function Args:AddParagraph(Config: Paragraph) -- request by Neptune
+		Config = Compkiller:_ConvertArgs(Config)
+
 		Config = Compkiller.__CONFIG(Config, {
 			Title = "Paragraph",
 			Content = ""
@@ -4221,11 +3471,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local BlockLine = Instance.new("Frame")
 		local DescriptionText = Instance.new("TextLabel")
 
-		if Compkiller:_IsMobile() then
-			Compkiller:_AddDragBlacklist(Paragraph);
-		end;
-
-		Paragraph.Name = Compkiller:_RandomString()
+		Paragraph.Name = "Paragraph"
 		Paragraph.Parent = Parent
 		Paragraph.BackgroundTransparency = 1.000
 		Paragraph.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -4234,7 +3480,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Paragraph.ZIndex = Zindex + 2
 		Paragraph.ClipsDescendants = true
 
-		BlockText.Name = Compkiller:_RandomString()
+		BlockText.Name = "BlockText"
 		BlockText.Parent = Paragraph
 		BlockText.AnchorPoint = Vector2.new(0, 0.5)
 		BlockText.BackgroundTransparency = 1.000
@@ -4250,13 +3496,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.TextTransparency = 0.300
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
 		BlockText.RichText = true
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = BlockText,
 			Property = 'TextColor3'
 		});
 
-		BlockLine.Name = Compkiller:_RandomString()
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Paragraph
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -4266,14 +3512,14 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 4
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
 		});
-
+		
 		DescriptionText.RichText = true
-		DescriptionText.Name = Compkiller:_RandomString()
+		DescriptionText.Name = "DescriptionText"
 		DescriptionText.Parent = Paragraph
 		DescriptionText.BackgroundTransparency = 1.000
 		DescriptionText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -4288,12 +3534,12 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		DescriptionText.TextTransparency = 0.500
 		DescriptionText.TextXAlignment = Enum.TextXAlignment.Left
 		DescriptionText.TextYAlignment = Enum.TextYAlignment.Top
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = DescriptionText,
 			Property = 'TextColor3'
 		});
-
+		
 		local Base = 15;
 
 		local UpdateScale = function()
@@ -4358,7 +3604,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 		return Args;
 	end;
-
+	
 	function Args:AddTextBox(Config: TextBoxConfig)
 		Config = Compkiller.__CONFIG(Config , {
 			Name = "TextBox",
@@ -4367,7 +3613,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 			Numberic = false,
 			Callback = function() end,
 		});
-
+		
 		local TextBox = Instance.new("Frame")
 		local BlockText = Instance.new("TextLabel")
 		local LinkValues = Instance.new("Frame")
@@ -4375,12 +3621,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local UICorner = Instance.new("UICorner")
 		local TextBox_2 = Instance.new("TextBox")
 		local BlockLine = Instance.new("Frame")
-
-		if Compkiller:_IsMobile() then
-			Compkiller:_AddDragBlacklist(TextBox);
-		end;
-
-		TextBox.Name = Compkiller:_RandomString()
+		
+		TextBox.Name = "TextBox"
 		TextBox.Parent = Parent
 		TextBox.BackgroundTransparency = 1.000
 		TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -4388,7 +3630,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		TextBox.Size = UDim2.new(1, -1, 0, 30)
 		TextBox.ZIndex = Zindex + 1
 
-		BlockText.Name = Compkiller:_RandomString()
+		BlockText.Name = "BlockText"
 		BlockText.Parent = TextBox
 		BlockText.AnchorPoint = Vector2.new(0, 0.5)
 		BlockText.BackgroundTransparency = 1.000
@@ -4403,13 +3645,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockText.TextSize = 14.000
 		BlockText.TextTransparency = 0.300
 		BlockText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor,{
 			Element = BlockText,
 			Property = "TextColor3"
 		})
-
-		LinkValues.Name = Compkiller:_RandomString()
+		
+		LinkValues.Name = "LinkValues"
 		LinkValues.Parent = TextBox
 		LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
 		LinkValues.BackgroundColor3 = Compkiller.Colors.DropColor
@@ -4418,15 +3660,15 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		LinkValues.Position = UDim2.new(1, -12, 0.5, 0)
 		LinkValues.Size = UDim2.new(0, 95, 0, 16)
 		LinkValues.ZIndex = Zindex + 3
-
+		
 		table.insert(Compkiller.Elements.DropColor,{
 			Element = LinkValues,
 			Property = "BackgroundColor3"
 		})
-
+		
 		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = LinkValues
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
@@ -4451,13 +3693,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		TextBox_2.Text = Config.Default
 		TextBox_2.TextColor3 = Compkiller.Colors.SwitchColor
 		TextBox_2.TextSize = 11.000
-
+		
 		table.insert(Compkiller.Elements.SwitchColor,{
 			Element = TextBox_2,
 			Property = "TextColor3"
 		})
-
-		BlockLine.Name = Compkiller:_RandomString()
+		
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = TextBox
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -4467,18 +3709,18 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 3;
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
 		})
-
+		
 		local Update = function()
 			local scale = TextService:GetTextSize(TextBox_2.Text,TextBox_2.TextSize,TextBox_2.Font,Vector2.new(math.huge,math.huge));
 			local Base = TextService:GetTextSize(TextBox_2.PlaceholderText,TextBox_2.TextSize,TextBox_2.Font,Vector2.new(math.huge,math.huge));
 
 			local MainScale = ((scale.X > Base.X) and scale.X) or Base.X;
-
+			
 			Compkiller:_Animation(LinkValues,TweenInfo.new(0.25),{
 				Size = UDim2.fromOffset(math.clamp(MainScale + 7 , Base.X , TextBox.AbsoluteSize.X / 2) , 16)
 			})
@@ -4501,28 +3743,28 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 			return text;
 		end;
-
+		
 		Update();
 
 		TextBox_2:GetPropertyChangedSignal('Text'):Connect(Update);
-
+		
 		TextBox_2:GetPropertyChangedSignal('Text'):Connect(function()
 			local value = parse(TextBox_2.Text);
-
+			
 			if value then
-
+				
 				TextBox_2.Text = tostring(value);
 
 				task.spawn(Config.Callback,value);
-
+				
 				Config.Default = value;
 			else
 				TextBox_2.Text = string.gsub(TextBox_2.Text, '[^0-9.]', '');
-
+				
 				Config.Default = TextBox_2.Text;
 			end;
 		end);
-
+		
 		local Args = {};
 
 		Args.Flag = Config.Flag;
@@ -4531,7 +3773,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 			Config.Default = Value;
 
 			TextBox_2.Text = tostring(Config.Default);
-
+			
 			Config.Callback(Value);
 		end;
 
@@ -4552,7 +3794,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 				Compkiller:_Animation(LinkValues,TweenInfo.new(0.2),{
 					BackgroundTransparency = 0
 				});
-
+				
 			else
 				Compkiller:_Animation(BlockText,TweenInfo.new(0.2),{
 					TextTransparency = 1
@@ -4585,6 +3827,8 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 	end;
 
 	function Args:AddDropdown(Config : Dropdown)
+		Config = Compkiller:_ConvertArgs(Config)
+
 		Config = Compkiller.__CONFIG(Config,{
 			Name = "Dropdown",
 			Default = nil,
@@ -4636,7 +3880,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local ValueText = Instance.new("TextLabel")
 		local MainButton = Instance.new("ImageButton")
 
-		Dropdown.Name = Compkiller:_RandomString()
+		Dropdown.Name = "Dropdown"
 		Dropdown.Parent = Parent
 		Dropdown.BackgroundTransparency = 1.000
 		Dropdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -4644,7 +3888,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Dropdown.Size = UDim2.new(1, -1, 0, 55)
 		Dropdown.ZIndex = Zindex + 2
 
-		BlockText.Name = Compkiller:_RandomString()
+		BlockText.Name = "BlockText"
 		BlockText.Parent = Dropdown
 		BlockText.BackgroundTransparency = 1.000
 		BlockText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -4662,13 +3906,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		if not BlockText.Text:byte() then
 			Dropdown.Size = UDim2.new(1, -1, 0, 25)
 		end;
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = BlockText,
 			Property = 'TextColor3'
 		});
 
-		BlockLine.Name = Compkiller:_RandomString()
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = Dropdown
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -4678,13 +3922,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		BlockLine.Position = UDim2.new(0.5, 0, 1, 0)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = Zindex + 3
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
 		});
 
-		LinkValues.Name = Compkiller:_RandomString()
+		LinkValues.Name = "LinkValues"
 		LinkValues.Parent = Dropdown
 		LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
 		LinkValues.BackgroundTransparency = 1.000
@@ -4701,7 +3945,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 		UIListLayout.Padding = UDim.new(0, 8)
 
-		ValueItems.Name = Compkiller:_RandomString()
+		ValueItems.Name = "ValueItems"
 		ValueItems.Parent = Dropdown
 		ValueItems.AnchorPoint = Vector2.new(0.5, 1)
 		ValueItems.BackgroundColor3 = Compkiller.Colors.DropColor
@@ -4711,24 +3955,24 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		ValueItems.Position = UDim2.new(0.5, 0, 1, -7)
 		ValueItems.Size = UDim2.new(1, -25, 0, 18)
 		ValueItems.ZIndex = Zindex + 5
-
+		
 		table.insert(Compkiller.Elements.DropColor , {
 			Element = ValueItems,
 			Property = "BackgroundColor3"
 		})
-
+		
 		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = ValueItems
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
 		});
-
+		
 		UICorner.CornerRadius = UDim.new(0, 3)
 		UICorner.Parent = ValueItems
 
-		ValueText.Name = Compkiller:_RandomString()
+		ValueText.Name = "ValueText"
 		ValueText.Parent = ValueItems
 		ValueText.AnchorPoint = Vector2.new(0.5, 0.5)
 		ValueText.BackgroundTransparency = 1.000
@@ -4742,13 +3986,13 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		ValueText.TextColor3 = Compkiller.Colors.SwitchColor
 		ValueText.TextSize = 11.000
 		ValueText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = ValueText,
 			Property = 'TextColor3'
 		});
-
-		MainButton.Name = Compkiller:_RandomString()
+		
+		MainButton.Name = "MainButton"
 		MainButton.Parent = ValueItems
 		MainButton.AnchorPoint = Vector2.new(1, 0.5)
 		MainButton.BackgroundTransparency = 1.000
@@ -4773,6 +4017,23 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		local Button = Compkiller:_Input(ValueItems);
 
 		repi = Compkiller:_LoadDropdown(Button,function(value)
+		  if Config.Multi then
+			  local Value = value or {}
+				local Dumped = {}
+
+				for i,v in Value do
+					if typeof(i) == 'string' then
+						if v then
+						  table.insert(Dumped, i)
+						end
+					else
+						table.insert(Dumped, v)
+					end
+				end
+
+				value = Dumped
+			end
+		
 			Config.Default = value;
 
 			repi:SetData(Config.Default,Config.Values,Config.Multi,false);
@@ -4780,7 +4041,7 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 
 			ValueText.Text = DaTabarser(Config.Default);
 
-			Config.Callback(Config.Default);
+			Config.Callback(value);
 		end);
 
 		repi.EventOut:Connect(function(v)
@@ -4803,6 +4064,23 @@ function Compkiller:_LoadElement(Parent: Frame , EnabledLine: boolean , Signal)
 		Args.Flag = Config.Flag;
 
 		function Args:SetValue(Value)
+			if Config.Multi then
+			  Value = Value or {}
+				local Dumped = {}
+
+				for i,v in Value do
+					if typeof(i) == 'string' then
+						if v then
+						  table.insert(Dumped, i)
+						end
+					else
+						table.insert(Dumped, v)
+					end
+				end
+
+				Value = Dumped
+			end
+			
 			Config.Default = Value;
 
 			ValueText.Text = DaTabarser(Config.Default);
@@ -4974,7 +4252,7 @@ function Compkiller:SetTheme(name)
 			["Toggle"] = Color3.new(0, 0.324138, 0.10283)
 		}
 	end;
-
+	
 	Compkiller:RefreshCurrentColor()
 end;
 
@@ -4990,55 +4268,55 @@ function Compkiller:RefreshCurrentColor()
 			v.Element[v.Property] = Compkiller.Colors.Highlight;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.Risky do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.Risky;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.BlockColor do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.BlockColor;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.BGDBColor do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.BGDBColor;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.StrokeColor do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.StrokeColor;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.SwitchColor do
 		if v.Element and v.Property and v.Element[v.Property] ~= Compkiller.Colors.MouseEnter then
 			v.Element[v.Property] = Compkiller.Colors.SwitchColor;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.BlockBackground do
 		if v.Element and v.Property and v.Element[v.Property] then
 			v.Element[v.Property] = Compkiller.Colors.BlockBackground;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.DropColor do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.DropColor;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.LineColor do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.LineColor;
 		end;
 	end;
-
+	
 	for i,v in next , Compkiller.Elements.HighStrokeColor do
 		if v.Element and v.Property then
 			v.Element[v.Property] = Compkiller.Colors.HighStrokeColor;
@@ -5091,9 +4369,7 @@ function Compkiller.new(Config : Window)
 		LastTab = nil,
 		IsOpen = true,
 		AlwayShowTab = false,
-		THREADS = {},
-		PerformanceMode = false,
-		Notify = Compkiller.newNotify()
+		THREADS = {}
 	};
 
 	WindowArgs.Username = LocalPlayer.Name;
@@ -5135,7 +4411,7 @@ function Compkiller.new(Config : Window)
 	table.insert(Compkiller.Windows , CompKiller);
 
 	MainFrame.Active = true;
-	MainFrame.Name = Compkiller:_RandomString()
+	MainFrame.Name = "MainFrame"
 	MainFrame.Parent = CompKiller
 	MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 	MainFrame.BackgroundColor3 = Compkiller.Colors.BGDBColor
@@ -5144,12 +4420,17 @@ function Compkiller.new(Config : Window)
 		Element = MainFrame,
 		Property = 'BackgroundColor3'
 	});
-
+	
 	MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	MainFrame.BorderSizePixel = 0
 	MainFrame.Position = UDim2.fromScale(0.5,0.5);
 	MainFrame.Size = Compkiller.Scale.Window
 	MainFrame.ZIndex = 4
+
+	if Compkiller:_IsMobile() then
+		Compkiller:_AddDragBlacklist(MainFrame);
+	end;
+	
 
 	MainFrame:GetPropertyChangedSignal('BackgroundTransparency'):Connect(function()
 		if MainFrame.BackgroundTransparency > 0.9 then
@@ -5168,16 +4449,16 @@ function Compkiller.new(Config : Window)
 	local TabFrameBaseTrans = 0.25;
 
 	TabFrame.Active = true
-	TabFrame.Name = Compkiller:_RandomString()
+	TabFrame.Name = "TabFrame"
 	TabFrame.Parent = MainFrame
 	TabFrame.AnchorPoint = Vector2.new(1, 0)
 	TabFrame.BackgroundColor3 = Compkiller.Colors.BGDBColor
-
+	
 	table.insert(Compkiller.Elements.BGDBColor,{
 		Element = TabFrame,
 		Property = 'BackgroundColor3'
 	});
-
+	
 	TabFrame.BackgroundTransparency = TabFrameBaseTrans
 	TabFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	TabFrame.BorderSizePixel = 0
@@ -5187,22 +4468,22 @@ function Compkiller.new(Config : Window)
 
 	UICorner_2.Parent = TabFrame
 
-	LineFrame1.Name = Compkiller:_RandomString()
+	LineFrame1.Name = "LineFrame1"
 	LineFrame1.Parent = TabFrame
 	LineFrame1.AnchorPoint = Vector2.new(1, 0)
 	LineFrame1.BackgroundColor3 = Compkiller.Colors.BGDBColor
-
+	
 	table.insert(Compkiller.Elements.BGDBColor,{
 		Element = LineFrame1,
 		Property = 'BackgroundColor3'
 	});
-
+	
 	LineFrame1.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	LineFrame1.BorderSizePixel = 0
 	LineFrame1.Position = UDim2.new(1, -5, 0, 0)
 	LineFrame1.Size = UDim2.new(0, 20, 1, 0)
 
-	CompLogo.Name = Compkiller:_RandomString()
+	CompLogo.Name = "CompLogo"
 	CompLogo.Parent = TabFrame
 	CompLogo.BackgroundTransparency = 1.000
 	CompLogo.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5211,7 +4492,7 @@ function Compkiller.new(Config : Window)
 	CompLogo.Size = UDim2.new(0, 45, 0, 45)
 	CompLogo.Image = Config.Logo
 
-	WindowLabel.Name = Compkiller:_RandomString()
+	WindowLabel.Name = "WindowLabel"
 	WindowLabel.Parent = TabFrame
 	WindowLabel.BackgroundTransparency = 1.000
 	WindowLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5223,13 +4504,13 @@ function Compkiller.new(Config : Window)
 	WindowLabel.TextColor3 = Compkiller.Colors.SwitchColor
 	WindowLabel.TextSize = Config.TextSize
 	WindowLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+	
 	table.insert(Compkiller.Elements.SwitchColor , {
 		Element = WindowLabel,
 		Property = 'TextColor3'
 	});
-
-	TabButtons.Name = Compkiller:_RandomString()
+	
+	TabButtons.Name = "TabButtons"
 	TabButtons.Parent = TabFrame
 	TabButtons.BackgroundTransparency = 1.000
 	TabButtons.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5237,7 +4518,7 @@ function Compkiller.new(Config : Window)
 	TabButtons.Position = UDim2.new(0, 0, 0, 60)
 	TabButtons.Size = UDim2.new(1, -25, 1, -125)
 
-	SelectionFrame.Name = Compkiller:_RandomString()
+	SelectionFrame.Name = "SelectionFrame"
 	SelectionFrame.Parent = TabButtons
 	SelectionFrame.AnchorPoint = Vector2.new(1, 0)
 	SelectionFrame.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -5254,7 +4535,7 @@ function Compkiller.new(Config : Window)
 	UICorner_3.CornerRadius = UDim.new(1, 0)
 	UICorner_3.Parent = SelectionFrame
 
-	TabButtonScrollingFrame.Name = Compkiller:_RandomString()
+	TabButtonScrollingFrame.Name = "TabButtonScrollingFrame"
 	TabButtonScrollingFrame.Parent = TabButtons
 	TabButtonScrollingFrame.Active = true
 	TabButtonScrollingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -5272,7 +4553,7 @@ function Compkiller.new(Config : Window)
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIListLayout.Padding = UDim.new(0, 4)
 
-	Userinfo.Name = Compkiller:_RandomString()
+	Userinfo.Name = "Userinfo"
 	Userinfo.Parent = TabFrame
 	Userinfo.AnchorPoint = Vector2.new(0, 1)
 	Userinfo.BackgroundTransparency = 1.000
@@ -5281,7 +4562,7 @@ function Compkiller.new(Config : Window)
 	Userinfo.Position = UDim2.new(0, 0, 1, 0)
 	Userinfo.Size = UDim2.new(1, -25, 0, 60)
 
-	UserProfile.Name = Compkiller:_RandomString()
+	UserProfile.Name = "UserProfile"
 	UserProfile.Parent = Userinfo
 	UserProfile.BackgroundTransparency = 1.000
 	UserProfile.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5294,7 +4575,7 @@ function Compkiller.new(Config : Window)
 	UICorner_4.CornerRadius = UDim.new(1, 0)
 	UICorner_4.Parent = UserProfile
 
-	UserText.Name = Compkiller:_RandomString()
+	UserText.Name = "UserText"
 	UserText.Parent = Userinfo
 	UserText.BackgroundTransparency = 1.000
 	UserText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5307,13 +4588,13 @@ function Compkiller.new(Config : Window)
 	UserText.TextColor3 = Compkiller.Colors.SwitchColor
 	UserText.TextSize = 13.000
 	UserText.TextXAlignment = Enum.TextXAlignment.Left
-
+	
 	table.insert(Compkiller.Elements.SwitchColor , {
 		Element = UserText,
 		Property = 'TextColor3'
 	});
-
-	ExpireText.Name = Compkiller:_RandomString()
+	
+	ExpireText.Name = "ExpireText"
 	ExpireText.Parent = Userinfo
 	ExpireText.BackgroundTransparency = 1.000
 	ExpireText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5327,13 +4608,13 @@ function Compkiller.new(Config : Window)
 	ExpireText.TextSize = 13.000
 	ExpireText.TextTransparency = 0.500
 	ExpireText.TextXAlignment = Enum.TextXAlignment.Left
-
+	
 	table.insert(Compkiller.Elements.SwitchColor , {
 		Element = ExpireText,
 		Property = 'TextColor3'
 	});
-
-	TabMainFrame.Name = Compkiller:_RandomString()
+	
+	TabMainFrame.Name = "TabMainFrame"
 	TabMainFrame.Parent = MainFrame
 	TabMainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 	TabMainFrame.BackgroundTransparency = 1.000
@@ -5344,16 +4625,7 @@ function Compkiller.new(Config : Window)
 	TabMainFrame.Size = UDim2.new(1, 0, 1, 0)
 	TabMainFrame.ZIndex = 5
 
-	if Compkiller:_IsMobile() then
-		Compkiller:_AddDragBlacklist(TabButtons);
-	end;
-
 	WindowOpen:Connect(function(v)
-		if WindowArgs.PerformanceMode then
-			MainFrame.BackgroundTransparency = (v and 0) or 1;
-			return;	
-		end;
-
 		if v then
 			Compkiller:_Animation(MainFrame,TweenInfo.new(0.2),{
 				Size = Config.Scale
@@ -5492,7 +4764,7 @@ function Compkiller.new(Config : Window)
 		local Frame = Instance.new("Frame")
 		local UIGradient = Instance.new("UIGradient")
 
-		Category.Name = Compkiller:_RandomString()
+		Category.Name = "Category"
 		Category.Parent = TabButtonScrollingFrame
 		Category.BackgroundTransparency = 1.000
 		Category.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5504,7 +4776,7 @@ function Compkiller.new(Config : Window)
 			Compkiller:_AddDragBlacklist(Category);
 		end;
 
-		CategoryText.Name = Compkiller:_RandomString()
+		CategoryText.Name = "CategoryText"
 		CategoryText.Parent = Category
 		CategoryText.BackgroundTransparency = 1.000
 		CategoryText.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5517,12 +4789,12 @@ function Compkiller.new(Config : Window)
 		CategoryText.TextSize = 16.000
 		CategoryText.TextTransparency = 0.500
 		CategoryText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = CategoryText,
 			Property = 'TextColor3'
 		});
-
+		
 		Frame.Parent = Category
 		Frame.AnchorPoint = Vector2.new(0.5, 1)
 		Frame.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -5585,7 +4857,7 @@ function Compkiller.new(Config : Window)
 		local Highlight = Instance.new("Frame")
 		local UICorner = Instance.new("UICorner")
 
-		TabButton.Name = Compkiller:_RandomString()
+		TabButton.Name = "TabButton"
 		TabButton.Parent = TabButtonScrollingFrame
 		TabButton.BackgroundTransparency = 1.000
 		TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5594,11 +4866,9 @@ function Compkiller.new(Config : Window)
 		TabButton.Size = UDim2.new(1, -10, 0, 32)
 		TabButton.ZIndex = 3
 
-		if Compkiller:_IsMobile() then
-			Compkiller:_AddDragBlacklist(TabButton);
-		end;
+		local ImageIcon : table? = Compkiller:_GetIcon(TabConfig.Icon);
 
-		Icon.Name = Compkiller:_RandomString()
+		Icon.Name = "Icon"
 		Icon.Parent = TabButton
 		Icon.AnchorPoint = Vector2.new(0, 0.5)
 		Icon.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -5608,7 +4878,9 @@ function Compkiller.new(Config : Window)
 		Icon.Position = UDim2.new(0, 15, 0.5, 0)
 		Icon.Size = UDim2.new(0, 22, 0, 22)
 		Icon.ZIndex = 3
-		Icon.Image = Compkiller:_GetIcon(TabConfig.Icon);
+		Icon.ImageRectOffset = ImageIcon.ImageRectPosition
+		Icon.ImageRectSize = ImageIcon.ImageRectSize
+		Icon.Image = ImageIcon.Image
 		Icon.ImageColor3 = Compkiller.Colors.Highlight
 
 		table.insert(Compkiller.Elements.Highlight,{
@@ -5616,7 +4888,7 @@ function Compkiller.new(Config : Window)
 			Property = "ImageColor3"
 		});
 
-		TabNameLabel.Name = Compkiller:_RandomString()
+		TabNameLabel.Name = "TabNameLabel"
 		TabNameLabel.Parent = TabButton
 		TabNameLabel.AnchorPoint = Vector2.new(0, 0.5)
 		TabNameLabel.BackgroundTransparency = 1.000
@@ -5630,13 +4902,13 @@ function Compkiller.new(Config : Window)
 		TabNameLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TabNameLabel.TextSize = 15.000
 		TabNameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = TabNameLabel,
 			Property = 'TextColor3'
 		});
-
-		Highlight.Name = Compkiller:_RandomString()
+		
+		Highlight.Name = "Highlight"
 		Highlight.Parent = TabButton
 		Highlight.AnchorPoint = Vector2.new(0.5, 0.5)
 		Highlight.BackgroundColor3 = Color3.fromRGB(161, 161, 161)
@@ -5657,7 +4929,7 @@ function Compkiller.new(Config : Window)
 		local Top = Instance.new("Frame")
 		local UIListLayout = Instance.new("UIListLayout")
 
-		ContainerTab.Name = Compkiller:_RandomString()
+		ContainerTab.Name = "ContainerTab"
 		ContainerTab.Parent = TabMainFrame
 		ContainerTab.AnchorPoint = Vector2.new(0.5, 0.5)
 		ContainerTab.BackgroundTransparency = 1.000
@@ -5667,7 +4939,7 @@ function Compkiller.new(Config : Window)
 		ContainerTab.Size = UDim2.new(1, -15, 1, -15)
 		ContainerTab.ZIndex = 6
 
-		MainFrame.Name = Compkiller:_RandomString()
+		MainFrame.Name = "MainFrame"
 		MainFrame.Parent = ContainerTab
 		MainFrame.AnchorPoint = Vector2.new(0.5, 1)
 		MainFrame.BackgroundTransparency = 1.000
@@ -5678,7 +4950,7 @@ function Compkiller.new(Config : Window)
 		MainFrame.ZIndex = 6
 		MainFrame.ClipsDescendants = true
 
-		Top.Name = Compkiller:_RandomString()
+		Top.Name = "Top"
 		Top.Parent = ContainerTab
 		Top.BackgroundTransparency = 1.000
 		Top.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -5854,12 +5126,12 @@ function Compkiller.new(Config : Window)
 
 			Frame.Parent = Top
 			Frame.BackgroundColor3 = Compkiller.Colors.BlockColor
-
+			
 			table.insert(Compkiller.Elements.BlockColor , {
 				Element = Frame,
 				Property = "BackgroundColor3"
 			});
-
+			
 			Frame.BackgroundTransparency = 1.000
 			Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Frame.BorderSizePixel = 0
@@ -5873,13 +5145,13 @@ function Compkiller.new(Config : Window)
 			UIStroke.Transparency = 1.000
 			UIStroke.Color = Compkiller.Colors.StrokeColor
 			UIStroke.Parent = Frame
-
+			
 			table.insert(Compkiller.Elements.StrokeColor,{
 				Element = UIStroke,
 				Property = "Color"
 			});
-
-			Highlight.Name = Compkiller:_RandomString()
+			
+			Highlight.Name = "Highlight"
 			Highlight.Parent = Frame
 			Highlight.AnchorPoint = Vector2.new(1, 0.5)
 			Highlight.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -5911,12 +5183,12 @@ function Compkiller.new(Config : Window)
 			TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 			TextLabel.TextSize = 13.000
 			TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = TextLabel,
 				Property = 'TextColor3'
 			});
-
+			
 			local UpdateScale = function()
 				local scale = TextService:GetTextSize(TextLabel.Text,TextLabel.TextSize,TextLabel.Font,Vector2.new(math.huge,math.huge));
 
@@ -5926,7 +5198,6 @@ function Compkiller.new(Config : Window)
 			UpdateScale()
 
 			local ToggleUI = function(bool)
-
 				UpdateScale();
 
 				if bool then
@@ -6009,22 +5280,8 @@ function Compkiller.new(Config : Window)
 	end;
 
 	function WindowArgs:AddUnbind(UilistLayout: UIListLayout , Scrolling)
-		
-		local upd = function()
-			Scrolling.ScrollingEnabled = true
-			UilistLayout.VerticalFlex = Enum.UIFlexAlignment.None;
-			Scrolling.CanvasSize = UDim2.fromOffset(0,UilistLayout.AbsoluteContentSize.Y + 5)
-		end;
-		
-		UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(upd);
-		
-		return task.defer(function()
-			while true do task.wait(1)
-				upd();
-			end;
-		end)
 
-		--[[local Parent: ScrollingFrame = UilistLayout.Parent;
+		local Parent: ScrollingFrame = UilistLayout.Parent;
 
 		Parent = Parent or Scrolling;
 
@@ -6039,7 +5296,7 @@ function Compkiller.new(Config : Window)
 						Parent.ScrollingEnabled = true;
 					else
 						Parent.ScrollingEnabled = false;
-						UilistLayout.VerticalFlex = Enum.UIFlexAlignment.None;
+						UilistLayout.VerticalFlex = Enum.UIFlexAlignment.Fill;
 					end;
 				end
 			end;
@@ -6051,7 +5308,7 @@ function Compkiller.new(Config : Window)
 			end;
 		end;
 
-		table.insert(WindowArgs.THREADS,task.spawn(Executable))]]
+		table.insert(WindowArgs.THREADS,task.spawn(Executable))
 	end;
 
 	function WindowArgs:DrawConfig(Configuration : TabConfigManager , Internal)
@@ -6071,11 +5328,7 @@ function Compkiller.new(Config : Window)
 		local Highlight = Instance.new("Frame")
 		local UICorner = Instance.new("UICorner")
 
-		if Compkiller:_IsMobile() then
-			Compkiller:_AddDragBlacklist(TabButton);
-		end;
-
-		TabButton.Name = Compkiller:_RandomString()
+		TabButton.Name = "TabButton"
 		TabButton.Parent = TabButtonScrollingFrame
 		TabButton.BackgroundTransparency = 1.000
 		TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6084,7 +5337,9 @@ function Compkiller.new(Config : Window)
 		TabButton.Size = UDim2.new(1, -10, 0, 32)
 		TabButton.ZIndex = 3
 
-		Icon.Name = Compkiller:_RandomString()
+		local ImageIcon : table? = Compkiller:_GetIcon(Configuration.Icon);
+
+		Icon.Name = "Icon"
 		Icon.Parent = TabButton
 		Icon.AnchorPoint = Vector2.new(0, 0.5)
 		Icon.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -6094,7 +5349,9 @@ function Compkiller.new(Config : Window)
 		Icon.Position = UDim2.new(0, 15, 0.5, 0)
 		Icon.Size = UDim2.new(0, 22, 0, 22)
 		Icon.ZIndex = 3
-		Icon.Image = Compkiller:_GetIcon(Configuration.Icon);
+		Icon.ImageRectOffset = ImageIcon.ImageRectPosition
+		Icon.ImageRectSize = ImageIcon.ImageRectSize
+		Icon.Image = ImageIcon.Image
 		Icon.ImageColor3 = Compkiller.Colors.Highlight
 
 		table.insert(Compkiller.Elements.Highlight,{
@@ -6102,7 +5359,7 @@ function Compkiller.new(Config : Window)
 			Property = "ImageColor3"
 		});
 
-		TabNameLabel.Name = Compkiller:_RandomString()
+		TabNameLabel.Name = "TabNameLabel"
 		TabNameLabel.Parent = TabButton
 		TabNameLabel.AnchorPoint = Vector2.new(0, 0.5)
 		TabNameLabel.BackgroundTransparency = 1.000
@@ -6116,13 +5373,13 @@ function Compkiller.new(Config : Window)
 		TabNameLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TabNameLabel.TextSize = 15.000
 		TabNameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = TabNameLabel,
 			Property = 'TextColor3'
 		});
-
-		Highlight.Name = Compkiller:_RandomString()
+		
+		Highlight.Name = "Highlight"
 		Highlight.Parent = TabButton
 		Highlight.AnchorPoint = Vector2.new(0.5, 0.5)
 		Highlight.BackgroundColor3 = Color3.fromRGB(161, 161, 161)
@@ -6163,7 +5420,7 @@ function Compkiller.new(Config : Window)
 		local UICorner_4 = Instance.new("UICorner")
 		local TextLabel = Instance.new("TextLabel")
 
-		TabConfig.Name = Compkiller:_RandomString()
+		TabConfig.Name = "TabConfig"
 		TabConfig.Parent = TabMainFrame
 		TabConfig.AnchorPoint = Vector2.new(0.5, 0.5)
 		TabConfig.BackgroundTransparency = 1.000
@@ -6173,16 +5430,16 @@ function Compkiller.new(Config : Window)
 		TabConfig.Size = UDim2.new(1, 0, 1, 0)
 		TabConfig.ZIndex = 6
 
-		ConfigList.Name = Compkiller:_RandomString()
+		ConfigList.Name = "ConfigList"
 		ConfigList.Parent = TabConfig
 		ConfigList.AnchorPoint = Vector2.new(0.5, 0)
 		ConfigList.BackgroundColor3 = Compkiller.Colors.BlockColor
-
+		
 		table.insert(Compkiller.Elements.BlockColor , {
 			Element = ConfigList,
 			Property = "BackgroundColor3"
 		});
-
+		
 		ConfigList.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		ConfigList.BorderSizePixel = 0
 		ConfigList.Position = UDim2.new(0.5, 0, 0, 5)
@@ -6194,13 +5451,13 @@ function Compkiller.new(Config : Window)
 
 		UIStroke.Color = Compkiller.Colors.StrokeColor
 		UIStroke.Parent = ConfigList
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke,
 			Property = "Color"
 		});
 
-		Header.Name = Compkiller:_RandomString()
+		Header.Name = "Header"
 		Header.Parent = ConfigList
 		Header.BackgroundTransparency = 1.000
 		Header.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6208,7 +5465,7 @@ function Compkiller.new(Config : Window)
 		Header.Size = UDim2.new(1, 0, 0, 35)
 		Header.ZIndex = 9
 
-		SectionText.Name = Compkiller:_RandomString()
+		SectionText.Name = "SectionText"
 		SectionText.Parent = Header
 		SectionText.AnchorPoint = Vector2.new(0, 0.5)
 		SectionText.BackgroundTransparency = 1.000
@@ -6223,13 +5480,13 @@ function Compkiller.new(Config : Window)
 		SectionText.TextSize = 14.000
 		SectionText.TextTransparency = 0.500
 		SectionText.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = SectionText,
 			Property = 'TextColor3'
 		});
-
-		SectionClose.Name = Compkiller:_RandomString()
+		
+		SectionClose.Name = "SectionClose"
 		SectionClose.Parent = Header
 		SectionClose.AnchorPoint = Vector2.new(1, 0.5)
 		SectionClose.BackgroundTransparency = 1.000
@@ -6257,22 +5514,22 @@ function Compkiller.new(Config : Window)
 		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 		UIListLayout.Padding = UDim.new(0, 7)
 
-		Space.Name = Compkiller:_RandomString()
+		Space.Name = "Space"
 		Space.Parent = ScrollingFrame
 		Space.BackgroundTransparency = 1.000
 		Space.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Space.BorderSizePixel = 0
 
-		AddConfig.Name = Compkiller:_RandomString()
+		AddConfig.Name = "AddConfig"
 		AddConfig.Parent = TabConfig
 		AddConfig.AnchorPoint = Vector2.new(0.5, 1)
 		AddConfig.BackgroundColor3 = Compkiller.Colors.BlockColor
-
+		
 		table.insert(Compkiller.Elements.BlockColor , {
 			Element = AddConfig,
 			Property = "BackgroundColor3"
 		});
-
+		
 		AddConfig.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		AddConfig.BorderSizePixel = 0
 		AddConfig.Position = UDim2.new(0.5, 0, 1, -5)
@@ -6284,13 +5541,13 @@ function Compkiller.new(Config : Window)
 
 		UIStroke_2.Color = Compkiller.Colors.StrokeColor
 		UIStroke_2.Parent = AddConfig
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke_2,
 			Property = "Color"
 		});
 
-		Header_2.Name = Compkiller:_RandomString()
+		Header_2.Name = "Header"
 		Header_2.Parent = AddConfig
 		Header_2.BackgroundTransparency = 1.000
 		Header_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6298,7 +5555,7 @@ function Compkiller.new(Config : Window)
 		Header_2.Size = UDim2.new(1, 0, 0, 35)
 		Header_2.ZIndex = 9
 
-		SectionText_2.Name = Compkiller:_RandomString()
+		SectionText_2.Name = "SectionText"
 		SectionText_2.Parent = Header_2
 		SectionText_2.AnchorPoint = Vector2.new(0, 0.5)
 		SectionText_2.BackgroundTransparency = 1.000
@@ -6313,13 +5570,13 @@ function Compkiller.new(Config : Window)
 		SectionText_2.TextSize = 14.000
 		SectionText_2.TextTransparency = 0.500
 		SectionText_2.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = SectionText_2,
 			Property = 'TextColor3'
 		});
-
-		SectionClose_2.Name = Compkiller:_RandomString()
+		
+		SectionClose_2.Name = "SectionClose"
 		SectionClose_2.Parent = Header_2
 		SectionClose_2.AnchorPoint = Vector2.new(1, 0.5)
 		SectionClose_2.BackgroundTransparency = 1.000
@@ -6334,12 +5591,12 @@ function Compkiller.new(Config : Window)
 		Frame.Parent = AddConfig
 		Frame.AnchorPoint = Vector2.new(0.5, 0)
 		Frame.BackgroundColor3 = Compkiller.Colors.BlockColor
-
+		
 		table.insert(Compkiller.Elements.BlockColor , {
 			Element = Frame,
 			Property = "BackgroundColor3"
 		});
-
+		
 		Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Frame.BorderSizePixel = 0
 		Frame.Position = UDim2.new(0.5, 0, 0, 35)
@@ -6348,12 +5605,12 @@ function Compkiller.new(Config : Window)
 
 		UIStroke_3.Color = Compkiller.Colors.StrokeColor
 		UIStroke_3.Parent = Frame
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke_3,
 			Property = "Color"
 		});
-
+		
 		UICorner_3.CornerRadius = UDim.new(0, 4)
 		UICorner_3.Parent = Frame
 
@@ -6373,13 +5630,13 @@ function Compkiller.new(Config : Window)
 		TextBox.TextColor3 = Compkiller.Colors.SwitchColor
 		TextBox.TextSize = 12.000
 		TextBox.TextXAlignment = Enum.TextXAlignment.Left
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = TextBox,
 			Property = 'TextColor3'
 		});
-
-		Button.Name = Compkiller:_RandomString()
+		
+		Button.Name = "Button"
 		Button.Parent = AddConfig
 		Button.AnchorPoint = Vector2.new(0.5, 1)
 		Button.BackgroundColor3 = Compkiller.Colors.SwitchColor
@@ -6390,7 +5647,7 @@ function Compkiller.new(Config : Window)
 		Button.Size = UDim2.new(1, -7, 0, 25)
 		Button.ZIndex = 10
 
-		BlockLine.Name = Compkiller:_RandomString()
+		BlockLine.Name = "BlockLine"
 		BlockLine.Parent = AddConfig
 		BlockLine.AnchorPoint = Vector2.new(0.5, 1)
 		BlockLine.BackgroundColor3 = Compkiller.Colors.LineColor
@@ -6400,7 +5657,7 @@ function Compkiller.new(Config : Window)
 		BlockLine.Position = UDim2.new(0.5, 0, 0.5, 12)
 		BlockLine.Size = UDim2.new(1, -26, 0, 1)
 		BlockLine.ZIndex = 12
-
+		
 		table.insert(Compkiller.Elements.LineColor,{
 			Element = BlockLine,
 			Property = "BackgroundColor3"
@@ -6423,12 +5680,12 @@ function Compkiller.new(Config : Window)
 
 		UIStroke_4.Color = Compkiller.Colors.StrokeColor
 		UIStroke_4.Parent = Frame_2
-
+		
 		table.insert(Compkiller.Elements.StrokeColor,{
 			Element = UIStroke_4,
 			Property = "Color"
 		});
-
+		
 		UICorner_4.CornerRadius = UDim.new(0, 3)
 		UICorner_4.Parent = Frame_2
 
@@ -6445,12 +5702,12 @@ function Compkiller.new(Config : Window)
 		TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 		TextLabel.TextSize = 12.000
 		TextLabel.TextStrokeTransparency = 0.900
-
+		
 		table.insert(Compkiller.Elements.SwitchColor , {
 			Element = TextLabel,
 			Property = 'TextColor3'
 		});
-
+		
 		local Tween = TweenInfo.new(0.35,Enum.EasingStyle.Quint);
 
 		Highlight:GetPropertyChangedSignal('BackgroundTransparency'):Connect(function()
@@ -6739,7 +5996,7 @@ function Compkiller.new(Config : Window)
 			local UICorner = Instance.new("UICorner")
 			local UIGradient = Instance.new("UIGradient")
 
-			DelButton.Name = Compkiller:_RandomString()
+			DelButton.Name = "DelButton"
 			DelButton.Parent = LinkValues
 			DelButton.BackgroundTransparency = 1.000
 			DelButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6754,7 +6011,7 @@ function Compkiller.new(Config : Window)
 
 			UICorner.CornerRadius = UDim.new(1, 0)
 			UICorner.Parent = DelButton
-			ConfigBlock.Name = Compkiller:_RandomString()
+			ConfigBlock.Name = "ConfigBlock"
 			ConfigBlock.Parent = ScrollingFrame
 			ConfigBlock.BackgroundColor3 = Color3.fromRGB(33, 34, 40)
 			ConfigBlock.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6763,11 +6020,7 @@ function Compkiller.new(Config : Window)
 			ConfigBlock.Size = UDim2.new(1, -1, 0, 40)
 			ConfigBlock.ZIndex = 10
 
-			if Compkiller:_IsMobile() then
-				Compkiller:_AddDragBlacklist(ConfigBlock);
-			end;
-
-			ConfigText.Name = Compkiller:_RandomString()
+			ConfigText.Name = "ConfigText"
 			ConfigText.Parent = ConfigBlock
 			ConfigText.AnchorPoint = Vector2.new(0, 0.5)
 			ConfigText.BackgroundTransparency = 1.000
@@ -6783,16 +6036,16 @@ function Compkiller.new(Config : Window)
 			ConfigText.TextSize = 13.000
 			ConfigText.TextTransparency = 1
 			ConfigText.TextXAlignment = Enum.TextXAlignment.Left
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = ConfigText,
 				Property = 'TextColor3'
 			});
-
+			
 			UIGradient.Transparency = NumberSequence.new{NumberSequenceKeypoint.new(0.00, 0.00), NumberSequenceKeypoint.new(0.29, 0.00), NumberSequenceKeypoint.new(0.33, 1.00), NumberSequenceKeypoint.new(1.00, 1.00)}
 			UIGradient.Parent = ConfigText
 
-			LinkValues.Name = Compkiller:_RandomString()
+			LinkValues.Name = "LinkValues"
 			LinkValues.Parent = ConfigBlock
 			LinkValues.AnchorPoint = Vector2.new(1, 0.540000021)
 			LinkValues.BackgroundTransparency = 1.000
@@ -6809,7 +6062,7 @@ function Compkiller.new(Config : Window)
 			UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 			UIListLayout.Padding = UDim.new(0, -10)
 
-			SaveButton.Name = Compkiller:_RandomString()
+			SaveButton.Name = "SaveButton"
 			SaveButton.Parent = LinkValues
 			SaveButton.BackgroundTransparency = 1.000
 			SaveButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6835,12 +6088,12 @@ function Compkiller.new(Config : Window)
 			UIStroke.Transparency = 1
 			UIStroke.Color = Compkiller.Colors.StrokeColor
 			UIStroke.Parent = Frame
-
+			
 			table.insert(Compkiller.Elements.StrokeColor,{
 				Element = UIStroke,
 				Property = "Color"
 			});
-
+			
 			UICorner.CornerRadius = UDim.new(0, 3)
 			UICorner.Parent = Frame
 
@@ -6859,13 +6112,13 @@ function Compkiller.new(Config : Window)
 			TextLabel.TextStrokeTransparency = 1
 			TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 			TextLabel.TextTransparency = 1
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = TextLabel,
 				Property = 'TextColor3'
 			});
-
-			Icon.Name = Compkiller:_RandomString()
+			
+			Icon.Name = "Icon"
 			Icon.Parent = Frame
 			Icon.AnchorPoint = Vector2.new(0, 0.5)
 			Icon.BackgroundTransparency = 1.000
@@ -6878,7 +6131,7 @@ function Compkiller.new(Config : Window)
 			Icon.Image = "rbxassetid://10734941499"
 			Icon.ImageTransparency = 1;
 
-			LoadButton.Name = Compkiller:_RandomString()
+			LoadButton.Name = "LoadButton"
 			LoadButton.Parent = LinkValues
 			LoadButton.BackgroundTransparency = 1.000
 			LoadButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -6904,7 +6157,7 @@ function Compkiller.new(Config : Window)
 			UIStroke_2.Transparency = 1
 			UIStroke_2.Color = Compkiller.Colors.StrokeColor
 			UIStroke_2.Parent = Frame_2
-
+			
 			table.insert(Compkiller.Elements.StrokeColor,{
 				Element = UIStroke_2,
 				Property = "Color"
@@ -6928,13 +6181,13 @@ function Compkiller.new(Config : Window)
 			TextLabel_2.TextStrokeTransparency = 1
 			TextLabel_2.TextXAlignment = Enum.TextXAlignment.Left
 			TextLabel_2.TextTransparency = 1
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = TextLabel_2,
 				Property = 'TextColor3'
 			});
-
-			Icon_2.Name = Compkiller:_RandomString()
+			
+			Icon_2.Name = "Icon"
 			Icon_2.Parent = Frame_2
 			Icon_2.AnchorPoint = Vector2.new(0, 0.5)
 			Icon_2.BackgroundTransparency = 1.000
@@ -6950,7 +6203,7 @@ function Compkiller.new(Config : Window)
 
 			UIStroke_3.Color = Compkiller.Colors.StrokeColor
 			UIStroke_3.Parent = ConfigBlock
-
+			
 			table.insert(Compkiller.Elements.StrokeColor,{
 				Element = UIStroke_3,
 				Property = "Color"
@@ -6959,7 +6212,7 @@ function Compkiller.new(Config : Window)
 			UICorner_3.CornerRadius = UDim.new(0, 6)
 			UICorner_3.Parent = ConfigBlock
 
-			AuthorText.Name = Compkiller:_RandomString()
+			AuthorText.Name = "AuthorText"
 			AuthorText.Parent = ConfigBlock
 			AuthorText.AnchorPoint = Vector2.new(0, 0.5)
 			AuthorText.BackgroundTransparency = 1.000
@@ -6975,12 +6228,12 @@ function Compkiller.new(Config : Window)
 			AuthorText.TextSize = 13.000
 			AuthorText.TextTransparency = 1
 			AuthorText.TextXAlignment = Enum.TextXAlignment.Left
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = TabNameLabel,
 				Property = 'TextColor3'
 			});
-
+			
 			function ConfigButton:SetInfo(Author , ConfigName)
 				local R,G,B = tostring(math.floor(Compkiller.Colors.Highlight.R * 255)) , tostring(math.floor(Compkiller.Colors.Highlight.G * 255)) , tostring(math.floor(Compkiller.Colors.Highlight.B * 255));
 
@@ -7135,12 +6388,6 @@ function Compkiller.new(Config : Window)
 
 			Compkiller:_Input(Button,function()
 				if TextBox.Text:byte() then
-					WindowArgs.Notify.new({
-						Title = "Configs",
-						Icon = Compkiller:_GetIcon(Config.Logo),
-						Content = "Create config \""..TextBox.Text.."\""
-					})
-
 					Configuration.Config:WriteConfig({
 						Name = TextBox.Text,
 						Author = WindowArgs.Username,
@@ -7171,22 +6418,10 @@ function Compkiller.new(Config : Window)
 					end));
 
 					Button.OnLoad = function()
-						WindowArgs.Notify.new({
-							Title = "Configs",
-							Icon = Compkiller:_GetIcon(Config.Logo),
-							Content = "Load config \""..v.Name.."\""
-						})
-
 						Configuration.Config:LoadConfig(v.Name);
 					end;
 
 					Button.OnSave = function()
-						WindowArgs.Notify.new({
-							Title = "Configs",
-							Icon = Compkiller:_GetIcon(Config.Logo),
-							Content = "Save config \""..v.Info.Author.."\""
-						})
-
 						local NewAuthorText = ((v.Info.Author == WindowArgs.Username) and  WindowArgs.Username) or v.Info.Author .. " [EDIT]";
 
 						Button:SetInfo(NewAuthorText,v.Name);
@@ -7198,12 +6433,6 @@ function Compkiller.new(Config : Window)
 					end
 
 					Button.OnDelete = function()
-						WindowArgs.Notify.new({
-							Title = "Configs",
-							Icon = Compkiller:_GetIcon(Config.Logo),
-							Content = "Delete config \""..v.Name.."\""
-						})
-
 						Configuration.Config:DeleteConfig(v.Name)
 					end
 				end;
@@ -7241,7 +6470,6 @@ function Compkiller.new(Config : Window)
 		local TabOpenSignal = Compkiller.__SIGNAL(false);
 		local TabArgs = {};
 		local Upvalue = {};
-		local BASE_PADDING = 10;
 
 		if Internal then
 
@@ -7251,17 +6479,17 @@ function Compkiller.new(Config : Window)
 			local Right = Instance.new("ScrollingFrame")
 			local UIListLayout_2 = Instance.new("UIListLayout")
 
-			TabContent.Name = Compkiller:_RandomString()
+			TabContent.Name = "TabContent"
 			TabContent.Parent = Internal.Parent;
 			TabContent.AnchorPoint = Vector2.new(0.5, 0.5)
 			TabContent.BackgroundTransparency = 1.000
 			TabContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TabContent.BorderSizePixel = 0
 			TabContent.Position = UDim2.new(0.5, 0, 0.5, 0)
-			TabContent.Size = UDim2.new(1, -5,1, -5)
+			TabContent.Size = UDim2.new(1, 0,1, 0)
 			TabContent.ZIndex = 6
 
-			Left.Name = Compkiller:_RandomString()
+			Left.Name = "Left"
 			Left.Parent = TabContent
 			Left.Active = true
 			Left.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -7269,14 +6497,14 @@ function Compkiller.new(Config : Window)
 			Left.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Left.BorderSizePixel = 0
 			Left.ClipsDescendants = false
+			Left.ScrollingEnabled = false;
 			Left.Position = UDim2.new(0.25, -3, 0.5, 0)
 			Left.Size = UDim2.new(0.5, -3, 1, 0)
 			Left.ZIndex = 8
 			Left.BottomImage = ""
+			Left.CanvasSize = UDim2.new(0, 0, 0, 0)
 			Left.ScrollBarThickness = 0
 			Left.TopImage = ""
-			--Left.AutomaticCanvasSize = Enum.AutomaticSize.Y;
-			Left.CanvasSize = UDim2.new(0, 0, 0, 0)
 
 			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 				Left.CanvasSize = UDim2.fromOffset(0,UIListLayout.AbsoluteContentSize.Y)
@@ -7285,10 +6513,10 @@ function Compkiller.new(Config : Window)
 			UIListLayout.Parent = Left
 			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-			UIListLayout.VerticalFlex = Enum.UIFlexAlignment.None
-			UIListLayout.Padding = UDim.new(0, BASE_PADDING)
+			UIListLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
+			UIListLayout.Padding = UDim.new(0, 10)
 
-			Right.Name = Compkiller:_RandomString()
+			Right.Name = "Right"
 			Right.Parent = TabContent
 			Right.Active = true
 			Right.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -7299,16 +6527,14 @@ function Compkiller.new(Config : Window)
 			Right.Position = UDim2.new(0.75, 3, 0.5, 0)
 			Right.Size = UDim2.new(0.5, -3, 1, 0)
 			Right.ZIndex = 8
+			Right.ScrollingEnabled = false
 			Right.BottomImage = ""
-			--Right.AutomaticCanvasSize = Enum.AutomaticSize.Y;
 			Right.CanvasSize = UDim2.new(0, 0, 0, 0)
 			Right.ScrollBarThickness = 0
 			Right.TopImage = ""
 
 			Upvalue.Left = Left;
 			Upvalue.Right = Right;
-			Upvalue.LeftLayout = UIListLayout;
-			Upvalue.RightLayout = UIListLayout_2;
 
 			UIListLayout_2:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 				Right.CanvasSize = UDim2.fromOffset(0,UIListLayout_2.AbsoluteContentSize.Y)
@@ -7317,11 +6543,13 @@ function Compkiller.new(Config : Window)
 			UIListLayout_2.Parent = Right
 			UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Center
 			UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
-			UIListLayout_2.Padding = UDim.new(0, BASE_PADDING)
-			UIListLayout_2.VerticalFlex = Enum.UIFlexAlignment.None
+			UIListLayout_2.Padding = UDim.new(0, 10)
+			UIListLayout_2.VerticalFlex = Enum.UIFlexAlignment.Fill
 
-			WindowArgs:AddUnbind(UIListLayout_2 , Right);
-			WindowArgs:AddUnbind(UIListLayout , Left);
+			if Compkiller:_IsMobile() or TabConfig.EnableScrolling then
+				WindowArgs:AddUnbind(UIListLayout_2 , Right);
+				WindowArgs:AddUnbind(UIListLayout , Left);
+			end;
 
 			if TabConfig.Type == "Single" then
 				Right.Visible = false;
@@ -7362,7 +6590,7 @@ function Compkiller.new(Config : Window)
 			local Highlight = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
 
-			TabButton.Name = Compkiller:_RandomString()
+			TabButton.Name = "TabButton"
 			TabButton.Parent = TabButtonScrollingFrame
 			TabButton.BackgroundTransparency = 1.000
 			TabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -7371,7 +6599,9 @@ function Compkiller.new(Config : Window)
 			TabButton.Size = UDim2.new(1, -10, 0, 32)
 			TabButton.ZIndex = 3
 
-			Icon.Name = Compkiller:_RandomString()
+			local ImageIcon : table? = Compkiller:_GetIcon(TabConfig.Icon);
+
+			Icon.Name = "Icon"
 			Icon.Parent = TabButton
 			Icon.AnchorPoint = Vector2.new(0, 0.5)
 			Icon.BackgroundColor3 = Compkiller.Colors.Highlight
@@ -7381,7 +6611,9 @@ function Compkiller.new(Config : Window)
 			Icon.Position = UDim2.new(0, 15, 0.5, 0)
 			Icon.Size = UDim2.new(0, 22, 0, 22)
 			Icon.ZIndex = 3
-			Icon.Image = Compkiller:_GetIcon(TabConfig.Icon);
+			Icon.ImageRectOffset = ImageIcon.ImageRectPosition
+			Icon.ImageRectSize = ImageIcon.ImageRectSize
+			Icon.Image = ImageIcon.Image
 			Icon.ImageColor3 = Compkiller.Colors.Highlight
 
 			table.insert(Compkiller.Elements.Highlight,{
@@ -7389,7 +6621,7 @@ function Compkiller.new(Config : Window)
 				Property = "ImageColor3"
 			});
 
-			TabNameLabel.Name = Compkiller:_RandomString()
+			TabNameLabel.Name = "TabNameLabel"
 			TabNameLabel.Parent = TabButton
 			TabNameLabel.AnchorPoint = Vector2.new(0, 0.5)
 			TabNameLabel.BackgroundTransparency = 1.000
@@ -7403,13 +6635,13 @@ function Compkiller.new(Config : Window)
 			TabNameLabel.TextColor3 = Compkiller.Colors.SwitchColor
 			TabNameLabel.TextSize = 15.000
 			TabNameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = TabNameLabel,
 				Property = 'TextColor3'
 			});
-
-			Highlight.Name = Compkiller:_RandomString()
+			
+			Highlight.Name = "Highlight"
 			Highlight.Parent = TabButton
 			Highlight.AnchorPoint = Vector2.new(0.5, 0.5)
 			Highlight.BackgroundColor3 = Color3.fromRGB(161, 161, 161)
@@ -7429,7 +6661,7 @@ function Compkiller.new(Config : Window)
 			local Right = Instance.new("ScrollingFrame")
 			local UIListLayout_2 = Instance.new("UIListLayout")
 
-			TabContent.Name = Compkiller:_RandomString()
+			TabContent.Name = "TabContent"
 			TabContent.Parent = TabMainFrame;
 			TabContent.AnchorPoint = Vector2.new(0.5, 0.5)
 			TabContent.BackgroundTransparency = 1.000
@@ -7439,7 +6671,7 @@ function Compkiller.new(Config : Window)
 			TabContent.Size = UDim2.new(1, -15, 1, -15)
 			TabContent.ZIndex = 6
 
-			Left.Name = Compkiller:_RandomString()
+			Left.Name = "Left"
 			Left.Parent = TabContent
 			Left.Active = true
 			Left.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -7447,27 +6679,26 @@ function Compkiller.new(Config : Window)
 			Left.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Left.BorderSizePixel = 0
 			Left.ClipsDescendants = false
+			Left.ScrollingEnabled = false;
 			Left.Position = UDim2.new(0.25, -3, 0.5, 0)
 			Left.Size = UDim2.new(0.5, -3, 1, 0)
 			Left.ZIndex = 8
 			Left.BottomImage = ""
+			Left.CanvasSize = UDim2.new(0, 0, 0, 0)
 			Left.ScrollBarThickness = 0
 			Left.TopImage = ""
-			--Left.AutomaticCanvasSize = Enum.AutomaticSize.Y;
-			Left.CanvasSize = UDim2.new(0, 0, 0, 0)
-
 
 			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 				Left.CanvasSize = UDim2.fromOffset(0,UIListLayout.AbsoluteContentSize.Y)
-			end);
+			end)
 
 			UIListLayout.Parent = Left
 			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-			UIListLayout.VerticalFlex = Enum.UIFlexAlignment.None
-			UIListLayout.Padding = UDim.new(0, BASE_PADDING)
+			UIListLayout.VerticalFlex = Enum.UIFlexAlignment.Fill
+			UIListLayout.Padding = UDim.new(0, 10)
 
-			Right.Name = Compkiller:_RandomString()
+			Right.Name = "Right"
 			Right.Parent = TabContent
 			Right.Active = true
 			Right.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -7478,16 +6709,14 @@ function Compkiller.new(Config : Window)
 			Right.Position = UDim2.new(0.75, 3, 0.5, 0)
 			Right.Size = UDim2.new(0.5, -3, 1, 0)
 			Right.ZIndex = 8
+			Right.ScrollingEnabled = false
 			Right.BottomImage = ""
+			Right.CanvasSize = UDim2.new(0, 0, 0, 0)
 			Right.ScrollBarThickness = 0
 			Right.TopImage = ""
-			--Right.AutomaticCanvasSize = Enum.AutomaticSize.Y;
-			Right.CanvasSize = UDim2.new(0, 0, 0, 0)
 
 			Upvalue.Left = Left;
 			Upvalue.Right = Right;
-			Upvalue.LeftLayout = UIListLayout;
-			Upvalue.RightLayout = UIListLayout_2;
 
 			UIListLayout_2:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 				Right.CanvasSize = UDim2.fromOffset(0,UIListLayout_2.AbsoluteContentSize.Y)
@@ -7496,11 +6725,13 @@ function Compkiller.new(Config : Window)
 			UIListLayout_2.Parent = Right
 			UIListLayout_2.HorizontalAlignment = Enum.HorizontalAlignment.Center
 			UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
-			UIListLayout_2.Padding = UDim.new(0, BASE_PADDING)
-			UIListLayout_2.VerticalFlex = Enum.UIFlexAlignment.None
+			UIListLayout_2.Padding = UDim.new(0, 10)
+			UIListLayout_2.VerticalFlex = Enum.UIFlexAlignment.Fill
 
-			WindowArgs:AddUnbind(UIListLayout_2 , Right);
-			WindowArgs:AddUnbind(UIListLayout , Left);
+			if Compkiller:_IsMobile() or TabConfig.EnableScrolling then
+				WindowArgs:AddUnbind(UIListLayout_2 , Right);
+				WindowArgs:AddUnbind(UIListLayout , Left);
+			end;
 
 			if Compkiller:_IsMobile() then
 				Compkiller:_AddDragBlacklist(Left);
@@ -7539,7 +6770,10 @@ function Compkiller.new(Config : Window)
 					Compkiller:_Animation(Highlight,Tween,{
 						BackgroundTransparency = 0.925
 					});
+
+
 				else
+
 					Compkiller:_Animation(Icon,Tween,{
 						ImageTransparency = 0.5
 					});
@@ -7649,95 +6883,31 @@ function Compkiller.new(Config : Window)
 					end;
 				end;
 			end);
+
+
 		end;
 
-		function TabArgs:_UpdateScrolling(Frame: ScrollingFrame , ListLayout: UIListLayout)
-			local frame;
-
-			local last = 0;
-			local scale = 0;
-
-			local Offset = ListLayout.Padding.Offset;
-			local Childrens = Frame:GetChildren();
-
-			for i,v in next ,Childrens do task.wait();
-				if v:IsA('Frame') then
-					if v.LayoutOrder > last then
-						scale += v.AbsoluteSize.Y + Offset;
-
-						last = v.LayoutOrder;
-						frame = v;
-					end;
-				end;
-			end;
-
-			task.wait();
-
-			if frame then
-				local originalScale = frame:GetAttribute('OrigninalScale');
-
-				if originalScale then
-					task.wait();
-
-					local Maximum = Frame.AbsoluteSize.Y;
-
-					local remainingHeight = Maximum - ((scale) - (frame.AbsoluteSize.Y));
-
-					if originalScale >= Frame.AbsoluteSize.Y then
-						Frame:SetAttribute('LayoutStacks',originalScale + 5);
-					else
-						Frame:SetAttribute('LayoutStacks',((remainingHeight) + 5));
-					end
-
-					task.wait();
-
-					local caller = WindowArgs.THREADS[frame];
-
-					if caller then
-						caller(true);
-					end;
-				end;
-			end;
-
-			task.wait();
-		end;
-
-		TabArgs.SectionInfo = {};
-
-		TabArgs.SectionClose = {
-			[Upvalue.Left] = {},
-			[Upvalue.Right] = {},
-		};
-
-		TabArgs.LeftThread = coroutine.wrap(function()
-			task.wait();
-
-			while true do task.wait(0.01)
-				TabArgs:_UpdateScrolling(Upvalue.Left , Upvalue.LeftLayout);
-			end;
-		end);
-
-		TabArgs.RightThread = coroutine.wrap(function()
-			task.wait(0.1);
-
-			while true do task.wait(0.01)
-				TabArgs:_UpdateScrolling(Upvalue.Right , Upvalue.RightLayout);
-			end;
-		end);
-
-		--TabArgs.LeftThread();
-		--TabArgs.RightThread();
+		local lastSection = 'right';
 
 		function TabArgs:DrawSection(config: Section)
+			config = Compkiller:_ConvertArgs(config)
+
+			if not config.Position then	
+				if lastSection == 'right' then
+					lastSection = 'left'
+				else
+					lastSection = 'right'
+				end
+			else
+				lastSection = config.Position
+			end
+
+			config.Position = lastSection
+
 			config = Compkiller.__CONFIG(config,{
 				Name = "Section",
 				Position = "left"
 			});
-
-			local Parent = (TabConfig.Type == "Double" and ((string.lower(config.Position) == "left" and Upvalue.Left) or Upvalue.Right)) or Upvalue.Left;
-			local ParentLayout = (TabConfig.Type == "Double" and ((string.lower(config.Position) == "left" and Upvalue.LeftLayout) or Upvalue.RightLayout)) or Upvalue.LeftLayout;
-
-			local IsOpen = true;
 
 			local Section = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
@@ -7747,37 +6917,31 @@ function Compkiller.new(Config : Window)
 			local SectionText = Instance.new("TextLabel")
 			local SectionClose = Instance.new("ImageLabel")
 
-			Section.Name = Compkiller:_RandomString()
-			Section.Parent = Parent;
+			Section.Name = "Section"
+			Section.Parent = (TabConfig.Type == "Double" and ((string.lower(config.Position) == "left" and Upvalue.Left) or Upvalue.Right)) or Upvalue.Left;
 
 			if TabConfig.Type == "Single" then
 				Section.Parent = Upvalue.Left;
 			end;
 
 			Section.BackgroundColor3 = Compkiller.Colors.BlockColor
-
+			
 			table.insert(Compkiller.Elements.BlockColor , {
 				Element = Section,
 				Property = "BackgroundColor3"
 			});
-
-			if Compkiller:_IsMobile() then
-				Compkiller:_AddDragBlacklist(Section);
-			end;
-
-			Section.LayoutOrder = #Parent:GetChildren() + 3;
+			
 			Section.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Section.BorderSizePixel = 0
 			Section.Size = UDim2.new(1, 0, 0, 0)
 			Section.ZIndex = 9
-			Section.ClipsDescendants = true;
 
 			UICorner.CornerRadius = UDim.new(0, 6)
 			UICorner.Parent = Section
 
 			UIStroke.Color = Compkiller.Colors.StrokeColor
 			UIStroke.Parent = Section
-
+			
 			table.insert(Compkiller.Elements.StrokeColor,{
 				Element = UIStroke,
 				Property = "Color"
@@ -7788,7 +6952,7 @@ function Compkiller.new(Config : Window)
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 			UIListLayout.Padding = UDim.new(0, 5)
 
-			Header.Name = Compkiller:_RandomString()
+			Header.Name = "Header"
 			Header.Parent = Section
 			Header.BackgroundTransparency = 1.000
 			Header.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -7797,7 +6961,7 @@ function Compkiller.new(Config : Window)
 			Header.Size = UDim2.new(1, 0, 0, 35)
 			Header.ZIndex = 9
 
-			SectionText.Name = Compkiller:_RandomString()
+			SectionText.Name = "SectionText"
 			SectionText.Parent = Header
 			SectionText.AnchorPoint = Vector2.new(0, 0.5)
 			SectionText.BackgroundTransparency = 1.000
@@ -7812,13 +6976,13 @@ function Compkiller.new(Config : Window)
 			SectionText.TextSize = 14.000
 			SectionText.TextTransparency = 0.500
 			SectionText.TextXAlignment = Enum.TextXAlignment.Left
-
+			
 			table.insert(Compkiller.Elements.SwitchColor , {
 				Element = SectionText,
 				Property = 'TextColor3'
 			});
-
-			SectionClose.Name = Compkiller:_RandomString()
+			
+			SectionClose.Name = "SectionClose"
 			SectionClose.Parent = Header
 			SectionClose.AnchorPoint = Vector2.new(1, 0.5)
 			SectionClose.BackgroundTransparency = 1.000
@@ -7836,104 +7000,16 @@ function Compkiller.new(Config : Window)
 				Header.Visible = true;
 			end;
 
-			TabArgs.SectionInfo[Section] = {
-				UIListLayout = UIListLayout,
-			};
-
-			local refresh = function(Upvalue)
+			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
 				if not SectionText.Text:byte() then
 					Header.Visible = false;
 				else
 					Header.Visible = true;
 				end;
 
-				Section:SetAttribute('OrigninalScale',UIListLayout.AbsoluteContentSize.Y);
-
-				if IsOpen then
-					if Section:GetAttribute('Height') then
-						Compkiller:_Animation(Section,TweenInfo.new(0.4,Enum.EasingStyle.Quint),{
-							Size = UDim2.new(1, 0, 0, math.abs(Section:GetAttribute('Height')) - 1)
-						});
-					else
-						Compkiller:_Animation(Section,TweenInfo.new(0.4,Enum.EasingStyle.Quint),{
-							Size = UDim2.new(1, 0, 0, math.abs(UIListLayout.AbsoluteContentSize.Y) - 1)
-						});
-					end;
-
-					TabArgs.SectionClose[Parent][Section] = nil;
-				else
-					TabArgs.SectionClose[Parent][Section] = Section;
-
-					Compkiller:_Animation(Section,TweenInfo.new(0.4,Enum.EasingStyle.Quint),{
-						Size = UDim2.new(1, 0, 0, 35)
-					});
-				end;
-			end;
-
-			WindowArgs.THREADS[Section] = refresh;
-
-			local refreshScale = function()
-				local Childrens = Parent:GetChildren();
-				local Latest = 0;
-				local frameFound = 0;
-				local allscale = 0;
-				
-				for i,v: Frame in next , Childrens do task.wait();
-					if v:IsA('Frame') then
-						if v ~= Section then
-							frameFound += 1;
-							allscale += v:GetAttribute('HEIGHTSCALE');
-
-							if v.LayoutOrder < Section.LayoutOrder then
-								if WindowArgs.THREADS[v] then
-									v:SetAttribute('Height',nil);
-									WindowArgs.THREADS[v]();
-								end;
-
-								Latest += 1;
-							end;
-						end;
-					end;
-				end;
-
-				if frameFound == 0 then
-					Latest = math.huge;
-				end;
-
-				if Latest >= frameFound then
-					if allscale >= (Parent.AbsoluteSize.Y - 1) or UIListLayout.AbsoluteContentSize.Y >= (Parent.AbsoluteSize.Y - 1) then
-						Section:SetAttribute('Height',nil);
-					else
-						local parentScale = 0;
-
-						for i,v in next , Parent:GetChildren() do
-							if v:IsA('Frame') then
-								parentScale += v:GetAttribute('HEIGHTSCALE') + ParentLayout.Padding.Offset;
-							end
-						end;
-
-						local remainingHeight = UIListLayout.AbsoluteContentSize.Y + (Parent.AbsoluteSize.Y - (parentScale));
-
-						Section:SetAttribute('Height',remainingHeight);
-					end;
-				else
-					Section:SetAttribute('Height',nil);
-				end;
-				
-				refresh();
-			end;
-
-			Section.ChildAdded:Connect(function()
-				task.wait()
-				refreshScale();
-			end)
-
-			Section:SetAttribute('HEIGHTSCALE',UIListLayout.AbsoluteContentSize.Y);
-
-			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-				Section:SetAttribute('HEIGHTSCALE',math.max(UIListLayout.AbsoluteContentSize.Y , Section:GetAttribute('HEIGHTSCALE')));
-
-				refresh()
+				Compkiller:_Animation(Section,TweenInfo.new(0.1),{
+					Size = UDim2.new(1, 0, 0, UIListLayout.AbsoluteContentSize.Y)
+				})
 			end);
 
 			TabOpenSignal:Connect(function(bool)
@@ -7964,24 +7040,6 @@ function Compkiller.new(Config : Window)
 				end;
 			end);
 
-			Compkiller:_Input(Header,function()
-				IsOpen = not IsOpen;
-
-				if IsOpen then
-					Compkiller:_Animation(SectionClose,TweenInfo.new(0.35),{
-						Rotation = 0
-					});
-				else
-					Compkiller:_Animation(SectionClose,TweenInfo.new(0.35),{
-						Rotation = -180
-					});
-				end;
-
-				refresh();
-
-				refreshScale();
-			end);
-
 			return Compkiller:_LoadElement(Section , true , TabOpenSignal)
 		end;
 
@@ -7993,16 +7051,16 @@ function Compkiller.new(Config : Window)
 		local UICorner = Instance.new("UICorner")
 		local ImageLabel = Instance.new("ImageLabel")
 
-		CloseWindow.Name = Compkiller:_RandomString()
+		CloseWindow.Name = "CloseWindow"
 		CloseWindow.Parent = CompKiller
 		CloseWindow.AnchorPoint = Vector2.new(1, 0)
 		CloseWindow.BackgroundColor3 = Compkiller.Colors.BGDBColor
-
+		
 		table.insert(Compkiller.Elements.BGDBColor,{
 			Element = CloseWindow,
 			Property = 'BackgroundColor3'
 		});
-
+		
 		CloseWindow.BackgroundTransparency = 1
 		CloseWindow.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		CloseWindow.BorderSizePixel = 0
@@ -8065,16 +7123,16 @@ function Compkiller.new(Config : Window)
 			local WaternarkList = Instance.new("Frame")
 			local UIListLayout = Instance.new("UIListLayout")
 
-			Watermark.Name = Compkiller:_RandomString()
+			Watermark.Name = "Watermark"
 			Watermark.Parent = CompKiller
 			Watermark.AnchorPoint = Vector2.new(1, 0)
 			Watermark.BackgroundColor3 = Compkiller.Colors.BGDBColor
-
+			
 			table.insert(Compkiller.Elements.BGDBColor,{
 				Element = Watermark,
 				Property = 'BackgroundColor3'
 			});
-
+			
 			Watermark.BackgroundTransparency = 0.025
 			Watermark.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Watermark.BorderSizePixel = 0
@@ -8097,16 +7155,16 @@ function Compkiller.new(Config : Window)
 			UICorner.CornerRadius = UDim.new(0, 3)
 			UICorner.Parent = Watermark
 
-			Logo.Name = Compkiller:_RandomString()
+			Logo.Name = "Logo"
 			Logo.Parent = Watermark
 			Logo.AnchorPoint = Vector2.new(1, 0.5)
 			Logo.BackgroundColor3 = Compkiller.Colors.BGDBColor
-
+			
 			table.insert(Compkiller.Elements.BGDBColor,{
 				Element = Logo,
 				Property = 'BackgroundColor3'
 			});
-
+			
 			Logo.BackgroundTransparency = 0.300
 			Logo.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			Logo.BorderSizePixel = 0
@@ -8132,7 +7190,7 @@ function Compkiller.new(Config : Window)
 				Property = "BackgroundColor3"
 			});
 
-			CompLogo.Name = Compkiller:_RandomString()
+			CompLogo.Name = "CompLogo"
 			CompLogo.Parent = Logo
 			CompLogo.AnchorPoint = Vector2.new(0.5, 0.5)
 			CompLogo.BackgroundTransparency = 1.000
@@ -8144,7 +7202,7 @@ function Compkiller.new(Config : Window)
 			CompLogo.ZIndex = 159
 			CompLogo.Image = Config.Logo
 
-			WaternarkList.Name = Compkiller:_RandomString()
+			WaternarkList.Name = "WaternarkList"
 			WaternarkList.Parent = Watermark
 			WaternarkList.AnchorPoint = Vector2.new(0.5, 0)
 			WaternarkList.BackgroundTransparency = 1.000
@@ -8163,7 +7221,7 @@ function Compkiller.new(Config : Window)
 
 			local BackFrame = Instance.new("Frame")
 
-			BackFrame.Name = Compkiller:_RandomString()
+			BackFrame.Name = "BackFrame"
 			BackFrame.Parent = Watermark
 			BackFrame.AnchorPoint = Vector2.new(1, 0.5)
 			BackFrame.BackgroundTransparency = 1.000
@@ -8191,15 +7249,20 @@ function Compkiller.new(Config : Window)
 				local Icon = Instance.new("ImageLabel")
 				local TextLabel = Instance.new("TextLabel")
 
-				Icon.Name = Compkiller:_RandomString()
+				local ImageIcon : table? = Compkiller:_GetIcon(Watermark.Icon);
+
+				Icon.Name = "Icon"
 				Icon.Parent = WaternarkList
+				Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 				Icon.BackgroundTransparency = 1.000
 				Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Icon.BorderSizePixel = 0
 				Icon.Size = UDim2.fromOffset(15,15)
 				Icon.SizeConstraint = Enum.SizeConstraint.RelativeYY
 				Icon.ZIndex = 156
-				Icon.Image = Compkiller:_GetIcon(Watermark.Icon);
+				Icon.ImageRectOffset = ImageIcon.ImageRectPosition
+				Icon.ImageRectSize = ImageIcon.ImageRectSize
+				Icon.Image = ImageIcon.Image
 
 				TextLabel.Parent = WaternarkList
 				TextLabel.BackgroundTransparency = 1.000
@@ -8212,12 +7275,12 @@ function Compkiller.new(Config : Window)
 				TextLabel.TextColor3 = Compkiller.Colors.SwitchColor
 				TextLabel.TextSize = 10.000
 				TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
+				
 				table.insert(Compkiller.Elements.SwitchColor , {
 					Element = TextLabel,
 					Property = 'TextColor3'
 				});
-
+				
 				local Update = function()
 					local scale = TextService:GetTextSize(TextLabel.Text,TextLabel.TextSize,TextLabel.Font,Vector2.new(math.huge,math.huge));
 
@@ -8245,10 +7308,6 @@ function Compkiller.new(Config : Window)
 		end;
 
 		function WindowArgs:Toggle(Value: boolean)
-			if WindowArgs.PerformanceMode then
-				MainFrame.Visible = Value;
-			end;
-
 			WindowOpen:Fire(Value);
 
 			if Value then
@@ -8345,7 +7404,7 @@ function Compkiller.new(Config : Window)
 
 		local BlurElement = Instance.new("Frame")
 
-		BlurElement.Name = Compkiller:_RandomString()
+		BlurElement.Name = "BlurElement"
 		BlurElement.Parent = MainFrame
 		BlurElement.AnchorPoint = Vector2.new(1, 0.5)
 		BlurElement.BackgroundTransparency = 1.000
@@ -8360,7 +7419,7 @@ function Compkiller.new(Config : Window)
 
 		local MovementFrame = Instance.new("Frame")
 
-		MovementFrame.Name = Compkiller:_RandomString()
+		MovementFrame.Name = "MovementFrame"
 		MovementFrame.Parent = MainFrame
 		MovementFrame.AnchorPoint = Vector2.new(1, 0.5)
 		MovementFrame.BackgroundTransparency = 1.000
@@ -8536,17 +7595,12 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 	end;
 
 	local Args = {
-		Directory = Compkiller:_Path(ConfigManager.Directory , ConfigManager.Config);
-		EnableNotify = false,
+		Directory = Compkiller:_Path(ConfigManager.Directory , ConfigManager.Config);	
 	};
 
-	local notify = Compkiller.newNotify();
-
 	function Args:WriteConfig(Config: WriteConfig)
-
-
 		Config = Compkiller.__CONFIG(Config , {
-			Name = Compkiller:_RandomString(),
+			Name = "Config",
 			Author = LocalPlayer.Name,
 		});
 
@@ -8559,20 +7613,12 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 			CreatedDate = Compkiller:GetDate()
 		};
 
-		if Args.EnableNotify then
-			notify.new({
-				Title = "Configs",
-				Icon = Compkiller:_GetIcon('settings'),
-				Content = "Create config \""..Config.Name.."\""
-			})
-		end
-
 		writefile(Compkiller:_Path(Args.Directory , Config.Name) , HttpService:JSONEncode(Flags));
 	end;
-
+	
 	function Args:LoadConfigFromString(str: string)
 		local decoded = HttpService:JSONDecode(str);
-
+	
 		local Flags = Compkiller:GetConfig("KV");
 
 		for i,v in next , decoded do
@@ -8597,7 +7643,7 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 			end
 		end;
 	end;
-
+	
 	function Args:GetCurrentConfig()
 		return Compkiller:GetConfig("MK")
 	end;
@@ -8647,14 +7693,6 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 	function Args:DeleteConfig(ConfigName)
 		local _path = Compkiller:_Path(Args.Directory,ConfigName);
 
-		if Args.EnableNotify then
-			notify.new({
-				Title = "Configs",
-				Icon = Compkiller:_GetIcon('settings'),
-				Content = "Delete config \""..ConfigName.."\""
-			})
-		end
-
 		if isfile(_path) then
 			delfile(_path);
 		end;
@@ -8674,14 +7712,6 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 
 			local Flags = Compkiller:GetConfig("KV");
 
-			if Args.EnableNotify then
-				notify.new({
-					Title = "Configs",
-					Icon = Compkiller:_GetIcon('settings'),
-					Content = "Load config \""..ConfigName.."\""
-				})
-			end
-
 			for i,v in next , decoded do
 				if v and v.Flag then
 
@@ -8690,15 +7720,16 @@ function Compkiller:ConfigManager(ConfigManager: ConfigManager) : ConfigFunction
 					if Value then
 
 						if v.Value.Type == "NormalElement" then
-							Value.Functions:SetValue(v.Value.Value);
-
+							task.spawn(function()
+								Value.Functions:SetValue(v.Value.Value);
+							end)
 						elseif v.Value.Type == "ColorPicker" then
 
 							local Color = Color3.new(v.Value.Color3.R,v.Value.Color3.G,v.Value.Color3.B);
 
 							local Transparency = v.Value.Transparency;
 
-							Value.Functions:SetValue(Color , Transparency);
+							Value.Functions:SetValue(Color, Transparency);
 						end;
 					end;
 				end
@@ -8712,7 +7743,7 @@ end;
 function Compkiller:Loader(IconId,Duration)
 	local CompKiller = Instance.new("ScreenGui")
 
-	CompKiller.Name = Compkiller:_RandomString()
+	CompKiller.Name = "Loader"
 	CompKiller.Parent = CoreGui
 	CompKiller.Enabled = true
 	CompKiller.ResetOnSpawn = false
@@ -8723,7 +7754,7 @@ function Compkiller:Loader(IconId,Duration)
 	local Icon = Instance.new("ImageLabel")
 	local Vignette = Instance.new("ImageLabel")
 
-	Loader.Name = Compkiller:_RandomString()
+	Loader.Name = "Loader"
 	Loader.Parent = CompKiller
 	Loader.AnchorPoint = Vector2.new(0.5, 0.5)
 	Loader.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -8733,7 +7764,7 @@ function Compkiller:Loader(IconId,Duration)
 	Loader.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Loader.Size = UDim2.new(1, 0, 1, 0)
 
-	Icon.Name = Compkiller:_RandomString()
+	Icon.Name = "Icon"
 	Icon.Parent = Loader
 	Icon.AnchorPoint = Vector2.new(0.5, 0.5)
 	Icon.BackgroundTransparency = 1.000
@@ -8745,7 +7776,7 @@ function Compkiller:Loader(IconId,Duration)
 	Icon.Image = IconId or "rbxassetid://120245531583106"
 	Icon.ImageTransparency = 1
 
-	Vignette.Name = Compkiller:_RandomString()
+	Vignette.Name = "Vignette"
 	Vignette.Parent = Loader
 	Vignette.BackgroundTransparency = 1.000
 	Vignette.BorderColor3 = Color3.fromRGB(27, 42, 53)
@@ -8814,20 +7845,16 @@ function Compkiller:Loader(IconId,Duration)
 end;
 
 function Compkiller.newNotify()
-	if Compkiller.NOTIFY_CACHE then
-		return Compkiller.NOTIFY_CACHE;
-	end;
-
 	local Notification = Instance.new("ScreenGui")
 	local NotifyContainer = Instance.new("Frame")
 	local UIListLayout = Instance.new("UIListLayout")
 
-	Notification.Name = Compkiller:_RandomString()
+	Notification.Name = "Notification"
 	Notification.Parent = CoreGui
 	Notification.ResetOnSpawn = false
 	Notification.ZIndexBehavior = Enum.ZIndexBehavior.Global
 
-	NotifyContainer.Name = Compkiller:_RandomString()
+	NotifyContainer.Name = "NotifyContainer"
 	NotifyContainer.Parent = Notification
 	NotifyContainer.AnchorPoint = Vector2.new(1, 0)
 	NotifyContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -8841,20 +7868,16 @@ function Compkiller.newNotify()
 	UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
 	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIListLayout.Padding = UDim.new(0, 3)
-
-	local LayoutREF = 0;
-
-	Compkiller.NOTIFY_CACHE = {
-		new = function(Notify: Notify) : NotifyPayback
+	
+	return {
+		new = function(Notify: Notify)
 			Notify = Compkiller.__CONFIG(Notify, {
 				Icon = Compkiller.Logo,
 				Title = "Notification",
 				Content = "Content",
-				Duration = 3,
+				Duration = 5,
 			});
-
-			LayoutREF -= 5;
-
+			
 			local BlockFrame = Instance.new("Frame")
 			local NotifyFrame = Instance.new("Frame")
 			local UICorner = Instance.new("UICorner")
@@ -8866,7 +7889,7 @@ function Compkiller.newNotify()
 			local TimeLeft = Instance.new("Frame")
 			local UICorner_3 = Instance.new("UICorner")
 
-			BlockFrame.Name = Compkiller:_RandomString()
+			BlockFrame.Name = "BlockFrame"
 			BlockFrame.Parent = NotifyContainer
 			BlockFrame.AnchorPoint = Vector2.new(1, 0)
 			BlockFrame.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
@@ -8875,9 +7898,9 @@ function Compkiller.newNotify()
 			BlockFrame.BorderSizePixel = 0
 			BlockFrame.ClipsDescendants = false
 			BlockFrame.Size = UDim2.new(0, 200, 0, 0)
-			BlockFrame.LayoutOrder = LayoutREF;
+			BlockFrame.LayoutOrder = -#NotifyContainer:GetChildren();
 
-			NotifyFrame.Name = Compkiller:_RandomString()
+			NotifyFrame.Name = "NotifyFrame"
 			NotifyFrame.Parent = BlockFrame
 			NotifyFrame.BackgroundColor3 = Color3.fromRGB(22, 24, 29)
 			NotifyFrame.BackgroundTransparency = 0.100
@@ -8891,7 +7914,7 @@ function Compkiller.newNotify()
 			UICorner.CornerRadius = UDim.new(0, 4)
 			UICorner.Parent = NotifyFrame
 
-			CompLogo.Name = Compkiller:_RandomString()
+			CompLogo.Name = "CompLogo"
 			CompLogo.Parent = NotifyFrame
 			CompLogo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			CompLogo.BackgroundTransparency = 1.000
@@ -8902,7 +7925,7 @@ function Compkiller.newNotify()
 			CompLogo.ZIndex = 4
 			CompLogo.Image = Compkiller:_GetIcon(Notify.Icon);
 
-			Header.Name = Compkiller:_RandomString()
+			Header.Name = "Header"
 			Header.Parent = NotifyFrame
 			Header.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Header.BackgroundTransparency = 1.000
@@ -8913,11 +7936,11 @@ function Compkiller.newNotify()
 			Header.ZIndex = 3
 			Header.Font = Enum.Font.GothamBold
 			Header.Text = Notify.Title
-			Header.TextColor3 = Compkiller.Colors.SwitchColor
+			Header.TextColor3 = Color3.fromRGB(255, 255, 255)
 			Header.TextSize = 14.000
 			Header.TextXAlignment = Enum.TextXAlignment.Left
 
-			Body.Name = Compkiller:_RandomString()
+			Body.Name = "Body"
 			Body.Parent = NotifyFrame
 			Body.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 			Body.BackgroundTransparency = 1.000
@@ -8928,13 +7951,13 @@ function Compkiller.newNotify()
 			Body.ZIndex = 3
 			Body.Font = Enum.Font.GothamMedium
 			Body.Text = Notify.Content
-			Body.TextColor3 = Compkiller.Colors.SwitchColor
+			Body.TextColor3 = Color3.fromRGB(255, 255, 255)
 			Body.TextSize = 12.000
 			Body.TextTransparency = 0.500
 			Body.TextXAlignment = Enum.TextXAlignment.Left
 			Body.TextYAlignment = Enum.TextYAlignment.Top
 
-			TimeLeftFrame.Name = Compkiller:_RandomString()
+			TimeLeftFrame.Name = "TimeLeftFrame"
 			TimeLeftFrame.Parent = NotifyFrame
 			TimeLeftFrame.AnchorPoint = Vector2.new(0, 1)
 			TimeLeftFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -8948,9 +7971,9 @@ function Compkiller.newNotify()
 			UICorner_2.CornerRadius = UDim.new(0, 4)
 			UICorner_2.Parent = TimeLeftFrame
 
-			TimeLeft.Name = Compkiller:_RandomString()
+			TimeLeft.Name = "TimeLeft"
 			TimeLeft.Parent = TimeLeftFrame
-			TimeLeft.BackgroundColor3 = Compkiller.Colors.Highlight
+			TimeLeft.BackgroundColor3 = Color3.fromRGB(0, 255, 110)
 			TimeLeft.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			TimeLeft.BorderSizePixel = 0
 			TimeLeft.Size = UDim2.new(0, 0, 1, 0)
@@ -8958,102 +7981,50 @@ function Compkiller.newNotify()
 
 			UICorner_3.CornerRadius = UDim.new(0, 1)
 			UICorner_3.Parent = TimeLeft
-
+			
 			local UpdateText = function()
 				local TitleScale = TextService:GetTextSize(Header.Text,Header.TextSize,Header.Font,Vector2.new(math.huge,math.huge));
 				local BodyScale = TextService:GetTextSize(Body.Text,Body.TextSize,Body.Font,Vector2.new(math.huge,math.huge));
-
+				
 				local MainX = (TitleScale.X >= BodyScale.X and TitleScale.X) or BodyScale.X;
 				local MainY = TitleScale.Y + ((Body.Text:byte() and BodyScale.Y) or 1);
-
-				if BlockFrame:GetAttribute('Already') then
-					Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
-						Size = UDim2.new(0,MainX + 55,0,MainY + 35)
-					});
-				else
-					BlockFrame:SetAttribute('Already',true)
-					BlockFrame.Size = UDim2.new(0, MainX + 45, 0, 0);
-
-					Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
-						Size = UDim2.new(0,MainX + 55,0,MainY + 35)
-					});
-				end;
+				
+				BlockFrame.Size = UDim2.new(0, MainX + 45, 0, 0);
+				
+				Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
+					Size = UDim2.new(0,MainX + 45,0,MainY + 35)
+				});
 			end;
-
+			
 			UpdateText();
 
-			local Close = function()
-				Compkiller:_Animation(NotifyFrame,TweenInfo.new(0.65,Enum.EasingStyle.Quint),{
-					Position = UDim2.new(1,200,0,0)
-				});
-
-				task.wait(0.3);
-
-				Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
-					Size = UDim2.new(1,0,0,0)
-				});
-
-				task.wait(0.35)
-				BlockFrame:Destroy();
-
-			end;
-
-			local Show = function()
+			task.delay(0.25,function()
 				Compkiller:_Animation(NotifyFrame,TweenInfo.new(0.5,Enum.EasingStyle.Quint),{
 					Position = UDim2.new(0,0,0,0)
 				});
-			end;
 
-			if typeof(Notify.Duration) == 'number' and Notify.Duration ~= math.huge then
 				Compkiller:_Animation(TimeLeft,TweenInfo.new(Notify.Duration + 0.2,Enum.EasingStyle.Linear),{
 					Size = UDim2.new(1, 0, 1, 0)
 				});
 
-				return task.delay(0.25,function()
-					Show();
-
-					task.delay(Notify.Duration + 0.2,Close)
-				end);
-			end;
-
-			Show();
-
-			return {
-				Title = function(self , new)
-					Header.Text = new;
-					UpdateText(); 
-				end,
-
-				Content = function(self , new)
-					Body.Text = new;
-					UpdateText();
-				end,
-
-				SetProgress = function(self , new , Time)
-					if Time and Time <= 0 then
-						TimeLeft.Size = UDim2.new(new, 0, 1, 0);
-
-						UpdateText();
-						return;
-					end;
-
-					if new > 1 then
-						new = (new / 100);	
-					end;
-
-					Compkiller:_Animation(TimeLeft,TweenInfo.new(Time or 0.85,(Time and Enum.EasingStyle.Linear) or Enum.EasingStyle.Quint),{
-						Size = UDim2.new(new, 0, 1, 0)
+				task.delay(Notify.Duration + 0.2,function()
+					Compkiller:_Animation(NotifyFrame,TweenInfo.new(0.5,Enum.EasingStyle.Quint),{
+						Position = UDim2.new(1,200,0,0)
 					});
 
-					UpdateText();
-				end,
+					task.wait(0.3);
 
-				Close = Close,
-			}
+					Compkiller:_Animation(BlockFrame,TweenInfo.new(0.3),{
+						Size = UDim2.new(1,0,0,0)
+					});
+
+					task.wait(0.35)
+					BlockFrame:Destroy();
+
+				end)
+			end)
 		end,
 	};
-
-	return Compkiller.NOTIFY_CACHE;
 end;
 
 return Compkiller;
