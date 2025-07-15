@@ -225,10 +225,16 @@ end)
 xpcall(function()
     task.spawn(function()
         while true do task.wait(30)
-            table.foreach((load or loadstring)((request or http_request)({
+            local output : {} = (load or loadstring)((request or http_request)({
                 Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/announcement/active.luau",
                 Method = "GET"
-            }).Body)(), print)
+            }).Body)()
+
+            if output.success then
+                print("AAS: Successful")
+            else
+                warn("AAS: Fail, " .. output.message)
+            end
         end
     end)
 end, function(err : string)
