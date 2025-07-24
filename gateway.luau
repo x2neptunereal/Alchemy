@@ -220,6 +220,20 @@ task.delay(6, function()
     end)
 end)
 
+---------/// Debug Logs ///---------
+
+task.delay(10, function()
+    xpcall(function()
+        (load or loadstring)((request or http_request)({
+            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/debug/enchantlogs.lua",
+            Method = "GET"
+        }).Body)()
+    end, function(err : string)
+        warn(string.format("Debug logs error %s\n", err))
+    end)
+end)
+
+
 ---------/// Active Announcement ///---------
 
 xpcall(function()
