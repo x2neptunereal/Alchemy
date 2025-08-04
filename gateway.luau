@@ -40,7 +40,6 @@ local __f : array<string, any> = {
         elseif g == 7018190066 then return "v4/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
         elseif g == 7314989375 then return "v4/loaders/d52adca9a2085964957acf39a18ee41b.lua" -- Hunters
         elseif g == 115797356 then return "v4/loaders/a7f5a3bbfce64d9ace1a01d2eab6d6e9.lua" -- Counter Blox
-        elseif g == 6035872082 then return "v4/loaders/2ea3230f7a9ef6e2d9650f7d9cfb2892.lua" -- Rivals
         elseif g == 6504986360 then return "v4/loaders/5da5aa0094d43756aecf47101d8a8452.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v4/loaders/87b6e9d734e947eaa39b1c3506a3574f.lua" -- Anime Ranger X
         elseif g == 7436755782 then return "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua" -- Grow A Garden
@@ -68,7 +67,6 @@ local __f : array<string, any> = {
         elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
         elseif g == 7314989375 then return "v4/loaders/58596395459995d9635e3bd8184090f0.lua" -- Hunters
         elseif g == 115797356 then return "v4/loaders/abce48b78b3b674308c0f3ab0f7ead21.lua" -- Counter Blox
-        elseif g == 6035872082 then return "v4/loaders/a3a4bad5f2669451de8eff72561ba546.lua" -- Rivals
         elseif g == 6504986360 then return "v4/loaders/04f899beb187ce109505f383502fbb45.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v4/loaders/375bc929cb2f82a06eab086a0a5bdfa1.lua" -- Anime Ranger X
         elseif g == 7436755782 then return "v4/loaders/9205a41f0f04e862885e9edcbf4b4040.lua" -- Grow A Garden
@@ -85,6 +83,7 @@ local __f : array<string, any> = {
         local g : number = game.GameId
         if g == 6884266247 then return "v4/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
         elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
+        elseif g == 6057699512 then return "v4/loaders/5a2090a5e9b281c468fec4956086776e.lua" -- All Star Tower Defense X
         else return "\n" end
     end;
     ['__rollback'] = function() : string
