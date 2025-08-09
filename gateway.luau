@@ -30,7 +30,6 @@ local __f : array<string, any> = {
         elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
         elseif g == 6325068386 then return "v4/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
         elseif g == 6906326545 then return "v4/loaders/34a7bfd841e02f5b30b75712e5da67ae.lua" -- Basketball Showdown
-        elseif g == 3110388936 then return "v4/loaders/7101b7a1aa1a20ba3e47459795b9ac15.lua" -- Ninja Time
         elseif g == 1016936714 then return "v4/loaders/a9041aa86c9c312c42632aa43583980f.lua" -- Your Bizarre Adventure
         elseif g == 3808081382 then return "v4/loaders/583e4386ee7b3c8ddb5ebeea249b3949.lua" -- Strongest Battlegrounds
         elseif g == 4568630521 then return "v4/loaders/e2fe6cb4aaaf7e1e94c4b605514dcee3.lua" -- Hero Battlegrounds
@@ -48,6 +47,7 @@ local __f : array<string, any> = {
         elseif g == 7326934954 then return "v4/loaders/ad2603eb1a9175739e8e92c87b281ba6.lua" -- 99 Nights in the Forest
         elseif g == 4509896324 then return "v4/loaders/4336e7045d286f9f86105015098af08a.lua" -- Anime Last Stand
         elseif g == 6057699512 then return "v4/loaders/fa59b2dbb3203d892f517d24aa33189e.lua" -- All Star Tower Defense X
+        elseif g == 4777817887 then return "v4/loaders/07e408c12156c7cff4535f4578f98e2e.lua" -- Blade Ball
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -57,7 +57,6 @@ local __f : array<string, any> = {
         if g == 994732206 then return "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
         elseif g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
-        elseif g == 3110388936 then return "v4/loaders/18610b93f08ff724f43be630135ba68c.lua" -- Ninja Time
         elseif g == 1016936714 then return "v4/loaders/b4542faca4c6d651a16b41d077693ffd.lua" -- Your Bizarre Adventure
         elseif g == 3808081382 then return "v4/loaders/f78d0ecd5263292d62168cddbbbd416a.lua" -- Strongest Battlegrounds
         elseif g == 4568630521 then return "v4/loaders/94b1529d93509fb0320dc5284f12fdb2.lua" -- Hero Battlegrounds
@@ -75,6 +74,7 @@ local __f : array<string, any> = {
         elseif g == 7326934954 then return "v4/loaders/77ea912d4ee9cd171f5726a764d406d7.lua" -- 99 Nights in the Forest
         elseif g == 4509896324 then return "v4/loaders/3b95e92f01ff6cf74e22d75e37568234.lua" -- Anime Last Stand
         elseif g == 6057699512 then return "v4/loaders/4d0793bcac1038f3fb79284e5294ceab.lua" -- All Star Tower Defense X
+        elseif g == 4777817887 then return "v4/loaders/9930868700f655a05d90cc71e2a2a515.lua" -- Blade Ball
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
