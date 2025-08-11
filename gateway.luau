@@ -37,7 +37,6 @@ local __f : array<string, any> = {
         elseif g == 7074860883 then return "v4/loaders/d3688644c195bd5fc31b64c51baba92a.lua" -- Arise Crossover
         elseif g == 6761981532 then return "v4/loaders/4246ae8b86fd6988007a6b03841ebf19.lua" -- Anime Power
         elseif g == 7018190066 then return "v4/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
-        elseif g == 7314989375 then return "v4/loaders/d52adca9a2085964957acf39a18ee41b.lua" -- Hunters
         elseif g == 115797356 then return "v4/loaders/a7f5a3bbfce64d9ace1a01d2eab6d6e9.lua" -- Counter Blox
         elseif g == 6504986360 then return "v4/loaders/5da5aa0094d43756aecf47101d8a8452.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v4/loaders/87b6e9d734e947eaa39b1c3506a3574f.lua" -- Anime Ranger X
@@ -48,6 +47,7 @@ local __f : array<string, any> = {
         elseif g == 4509896324 then return "v4/loaders/4336e7045d286f9f86105015098af08a.lua" -- Anime Last Stand
         elseif g == 6057699512 then return "v4/loaders/fa59b2dbb3203d892f517d24aa33189e.lua" -- All Star Tower Defense X
         elseif g == 4777817887 then return "v4/loaders/07e408c12156c7cff4535f4578f98e2e.lua" -- Blade Ball
+        elseif g == 7709344486 then return "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua" -- Steal A Brainrot
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -64,7 +64,6 @@ local __f : array<string, any> = {
         elseif g == 7074860883 then return "v4/loaders/02f7d67ec12fb8c52571fa98565a693b.lua" -- Arise Crossover
         elseif g == 6761981532 then return "v4/loaders/03f7172fb9b022d3383d054355f00bb3.lua" -- Anime Power
         elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
-        elseif g == 7314989375 then return "v4/loaders/58596395459995d9635e3bd8184090f0.lua" -- Hunters
         elseif g == 115797356 then return "v4/loaders/abce48b78b3b674308c0f3ab0f7ead21.lua" -- Counter Blox
         elseif g == 6504986360 then return "v4/loaders/04f899beb187ce109505f383502fbb45.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v4/loaders/375bc929cb2f82a06eab086a0a5bdfa1.lua" -- Anime Ranger X
@@ -75,6 +74,7 @@ local __f : array<string, any> = {
         elseif g == 4509896324 then return "v4/loaders/3b95e92f01ff6cf74e22d75e37568234.lua" -- Anime Last Stand
         elseif g == 6057699512 then return "v4/loaders/4d0793bcac1038f3fb79284e5294ceab.lua" -- All Star Tower Defense X
         elseif g == 4777817887 then return "v4/loaders/9930868700f655a05d90cc71e2a2a515.lua" -- Blade Ball
+        elseif g == 7709344486 then return "v4/loaders/0d75eb00e3bbed09e40a543f8ef2b41f.lua" -- Steal A Brainrot
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
@@ -96,7 +96,7 @@ local __f : array<string, any> = {
     end;
     ['__nokey'] = function() : {}
         local g : number = game.GameId;local list : {} = {
-            --['7436755782'] = "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua", -- Grow A Garden
+            ['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
         };for i, v in pairs(list) do if i == tostring(g) then return v end end
         return nil
     end;
