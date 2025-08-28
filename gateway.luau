@@ -36,7 +36,6 @@ local __f : array<string, any> = {
         elseif g == 4568630521 then return "v4/loaders/e2fe6cb4aaaf7e1e94c4b605514dcee3.lua" -- Hero Battlegrounds
         elseif g == 3508322461 then return "v4/loaders/762346416b75d53680cc484c3d37dc10.lua" -- Jujutsu Shenanigans
         elseif g == 7074860883 then return "v4/loaders/d3688644c195bd5fc31b64c51baba92a.lua" -- Arise Crossover
-        elseif g == 6761981532 then return "v4/loaders/4246ae8b86fd6988007a6b03841ebf19.lua" -- Anime Power
         elseif g == 7018190066 then return "v4/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
         elseif g == 6504986360 then return "v4/loaders/5da5aa0094d43756aecf47101d8a8452.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v4/loaders/87b6e9d734e947eaa39b1c3506a3574f.lua" -- Anime Ranger X
@@ -49,6 +48,7 @@ local __f : array<string, any> = {
         elseif g == 4777817887 then return "v4/loaders/07e408c12156c7cff4535f4578f98e2e.lua" -- Blade Ball
         elseif g == 7709344486 then return "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua" -- Steal A Brainrot
         elseif g == 7629331599 then return "v4/loaders/7dc1ca5aaa68ec141bda58f1e26f3622.lua" -- Prospecting
+        elseif g == 7750955984 then return "v4/loaders/3866fdc42990d9fe9a5ceb0d2140085c.lua" -- Hunty Zombie
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -63,7 +63,6 @@ local __f : array<string, any> = {
         elseif g == 4568630521 then return "v4/loaders/94b1529d93509fb0320dc5284f12fdb2.lua" -- Hero Battlegrounds
         elseif g == 3508322461 then return "v4/loaders/55691542db5b90140761a85715a079c8.lua" -- Jujutsu Shenanigans
         elseif g == 7074860883 then return "v4/loaders/02f7d67ec12fb8c52571fa98565a693b.lua" -- Arise Crossover
-        elseif g == 6761981532 then return "v4/loaders/03f7172fb9b022d3383d054355f00bb3.lua" -- Anime Power
         elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
         elseif g == 6504986360 then return "v4/loaders/04f899beb187ce109505f383502fbb45.lua" -- Bubble Gum Simulator
         elseif g == 6884266247 then return "v4/loaders/375bc929cb2f82a06eab086a0a5bdfa1.lua" -- Anime Ranger X
@@ -76,6 +75,7 @@ local __f : array<string, any> = {
         elseif g == 4777817887 then return "v4/loaders/9930868700f655a05d90cc71e2a2a515.lua" -- Blade Ball
         elseif g == 7709344486 then return "v4/loaders/0d75eb00e3bbed09e40a543f8ef2b41f.lua" -- Steal A Brainrot
         elseif g == 7629331599 then return "v4/loaders/ea9729a4b0f72dedf1163f8ce328bb36.lua" -- Prospecting
+        elseif g == 7750955984 then return "v4/loaders/3893c2e3e61f6b61fd40822fece16a2a.lua" -- Hunty Zombie
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
