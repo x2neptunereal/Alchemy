@@ -49,6 +49,7 @@ local __f : array<string, any> = {
         elseif g == 7709344486 then return "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua" -- Steal A Brainrot
         elseif g == 7629331599 then return "v4/loaders/7dc1ca5aaa68ec141bda58f1e26f3622.lua" -- Prospecting
         elseif g == 7750955984 then return "v4/loaders/3866fdc42990d9fe9a5ceb0d2140085c.lua" -- Hunty Zombie
+        elseif g == 6701277882 then return "v4/loaders/90b15d9b20cecb9cf43b3ae2294a5b04.lua" -- Fish It
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -76,6 +77,7 @@ local __f : array<string, any> = {
         elseif g == 7709344486 then return "v4/loaders/0d75eb00e3bbed09e40a543f8ef2b41f.lua" -- Steal A Brainrot
         elseif g == 7629331599 then return "v4/loaders/ea9729a4b0f72dedf1163f8ce328bb36.lua" -- Prospecting
         elseif g == 7750955984 then return "v4/loaders/3893c2e3e61f6b61fd40822fece16a2a.lua" -- Hunty Zombie
+        elseif g == 6701277882 then return "v4/loaders/4c6aa5a28cdb13944273690a517c813f.lua" -- Fish It
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
