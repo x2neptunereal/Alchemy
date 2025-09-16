@@ -204,187 +204,193 @@ local UICorner_5 : Instance  = Instance.new("UICorner")
 local TextLabel_4 : Instance  = Instance.new("TextLabel")
 local TextLabel_5 : Instance  = Instance.new("TextLabel")
 local TextLabel_6 : Instance  = Instance.new("TextLabel")
-Loading.Name = "Loading"
-Loading.Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
-Loading.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-Frame.Parent = Loading
-Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame.BorderSizePixel = 0
-Frame.Position = UDim2.new(0.5, 0, 0.499389499, 0)
-Frame.Size = UDim2.new(0, 0, 0, 0)
-UICorner.Parent = Frame
-Windows.Name = "Windows"
-Windows.Parent = Frame
-Window1.Name = "Window1"
-Window1.Parent = Windows
-Window1.AnchorPoint = Vector2.new(0.5, 0.5)
-Window1.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-Window1.BackgroundTransparency = 0.600
-Window1.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Window1.BorderSizePixel = 0
-Window1.Position = UDim2.new(0.411275715, 0, 0.26413402, 0)
-Window1.Size = UDim2.new(0, 30, 0, 30)
-Window1.Visible = false
-UICorner_2.CornerRadius = UDim.new(0, 4)
-UICorner_2.Parent = Window1
-TextLabel.Parent = Window1
-TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.BackgroundTransparency = 1.000
-TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.BorderSizePixel = 0
-TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
-TextLabel.Size = UDim2.new(1, 0, 1, 0)
-TextLabel.Font = Enum.Font.FredokaOne
-TextLabel.Text = "A"
-TextLabel.TextColor3 = Color3.fromRGB(18, 18, 18)
-TextLabel.TextSize = 24.000
-Window2.Name = "Window2"
-Window2.Parent = Windows
-Window2.AnchorPoint = Vector2.new(0.5, 0.5)
-Window2.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-Window2.BackgroundTransparency = 0.600
-Window2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Window2.BorderSizePixel = 0
-Window2.Position = UDim2.new(0.581891835, 0, 0.26413402, 0)
-Window2.Size = UDim2.new(0, 30, 0, 30)
-Window2.Visible = false
-UICorner_3.CornerRadius = UDim.new(0, 4)
-UICorner_3.Parent = Window2
-TextLabel_2.Parent = Window2
-TextLabel_2.AnchorPoint = Vector2.new(0.5, 0.5)
-TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_2.BackgroundTransparency = 1.000
-TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_2.BorderSizePixel = 0
-TextLabel_2.Position = UDim2.new(0.5, 0, 0.5, 0)
-TextLabel_2.Size = UDim2.new(1, 0, 1, 0)
-TextLabel_2.Font = Enum.Font.FredokaOne
-TextLabel_2.Text = "C"
-TextLabel_2.TextColor3 = Color3.fromRGB(18, 18, 18)
-TextLabel_2.TextSize = 24.000
-Window3.Name = "Window3"
-Window3.Parent = Windows
-Window3.AnchorPoint = Vector2.new(0.5, 0.5)
-Window3.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-Window3.BackgroundTransparency = 0.600
-Window3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Window3.BorderSizePixel = 0
-Window3.Position = UDim2.new(0.581891835, 0, 0.5368613, 0)
-Window3.Size = UDim2.new(0, 30, 0, 30)
-Window3.Visible = false
-UICorner_4.CornerRadius = UDim.new(0, 4)
-UICorner_4.Parent = Window3
-TextLabel_3.Parent = Window3
-TextLabel_3.AnchorPoint = Vector2.new(0.5, 0.5)
-TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_3.BackgroundTransparency = 1.000
-TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_3.BorderSizePixel = 0
-TextLabel_3.Position = UDim2.new(0.5, 0, 0.5, 0)
-TextLabel_3.Size = UDim2.new(1, 0, 1, 0)
-TextLabel_3.Font = Enum.Font.FredokaOne
-TextLabel_3.Text = "1.7"
-TextLabel_3.TextColor3 = Color3.fromRGB(18, 18, 18)
-TextLabel_3.TextSize = 20.000
-Window4.Name = "Window4"
-Window4.Parent = Windows
-Window4.AnchorPoint = Vector2.new(0.5, 0.5)
-Window4.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-Window4.BackgroundTransparency = 0.600
-Window4.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Window4.BorderSizePixel = 0
-Window4.Position = UDim2.new(0.411275715, 0, 0.5368613, 0)
-Window4.Size = UDim2.new(0, 30, 0, 30)
-Window4.Visible = false
-UICorner_5.CornerRadius = UDim.new(0, 4)
-UICorner_5.Parent = Window4
-TextLabel_4.Parent = Window4
-TextLabel_4.AnchorPoint = Vector2.new(0.5, 0.5)
-TextLabel_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_4.BackgroundTransparency = 1.000
-TextLabel_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_4.BorderSizePixel = 0
-TextLabel_4.Position = UDim2.new(0.5, 0, 0.5, 0)
-TextLabel_4.Size = UDim2.new(1, 0, 1, 0)
-TextLabel_4.Font = Enum.Font.FredokaOne
-TextLabel_4.Text = "M"
-TextLabel_4.TextColor3 = Color3.fromRGB(18, 18, 18)
-TextLabel_4.TextSize = 24.000
-TextLabel_5.Parent = Frame
-TextLabel_5.AnchorPoint = Vector2.new(0.5, 0.5)
-TextLabel_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_5.BackgroundTransparency = 1.000
-TextLabel_5.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_5.BorderSizePixel = 0
-TextLabel_5.Position = UDim2.new(0.496965468, 0, 0.757293224, 0)
-TextLabel_5.Size = UDim2.new(0, 179, 0, 40)
-TextLabel_5.Font = Enum.Font.GothamBold
-TextLabel_5.Text = "Loading..."
-TextLabel_5.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_5.TextSize = 12.000
-TextLabel_5.TextWrapped = true
-TextLabel_5.TextTransparency = 1
-TextLabel_6.Parent = Frame
-TextLabel_6.AnchorPoint = Vector2.new(0.5, 0.5)
-TextLabel_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_6.BackgroundTransparency = 1.000
-TextLabel_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel_6.BorderSizePixel = 0
-TextLabel_6.Position = UDim2.new(0.500426292, 0, 0.856181602, 0)
-TextLabel_6.Size = UDim2.new(0, 210, 0, 32)
-TextLabel_6.Font = Enum.Font.GothamBold
-TextLabel_6.Text = "Power By <font color='rgb(85, 255, 127)'>Alchemy Intelligent (1.7)</font>"
-TextLabel_6.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_6.TextTransparency = 1
-TextLabel_6.TextSize = 10.000
-TextLabel_6.TextWrapped = true
-TextLabel_6.RichText = true
 
----------/// Pop-Up User-Interface ///---------
+if not(oneclick or kaitan or kaitun or rollback) then
+    Loading.Name = "Loading"
+    Loading.Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    Loading.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    Frame.Parent = Loading
+    Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+    Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Frame.BorderSizePixel = 0
+    Frame.Position = UDim2.new(0.5, 0, 0.499389499, 0)
+    Frame.Size = UDim2.new(0, 0, 0, 0)
+    UICorner.Parent = Frame
+    Windows.Name = "Windows"
+    Windows.Parent = Frame
+    Window1.Name = "Window1"
+    Window1.Parent = Windows
+    Window1.AnchorPoint = Vector2.new(0.5, 0.5)
+    Window1.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
+    Window1.BackgroundTransparency = 0.600
+    Window1.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Window1.BorderSizePixel = 0
+    Window1.Position = UDim2.new(0.411275715, 0, 0.26413402, 0)
+    Window1.Size = UDim2.new(0, 30, 0, 30)
+    Window1.Visible = false
+    UICorner_2.CornerRadius = UDim.new(0, 4)
+    UICorner_2.Parent = Window1
+    TextLabel.Parent = Window1
+    TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel.BackgroundTransparency = 1.000
+    TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel.BorderSizePixel = 0
+    TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.Font = Enum.Font.FredokaOne
+    TextLabel.Text = "A"
+    TextLabel.TextColor3 = Color3.fromRGB(18, 18, 18)
+    TextLabel.TextSize = 24.000
+    Window2.Name = "Window2"
+    Window2.Parent = Windows
+    Window2.AnchorPoint = Vector2.new(0.5, 0.5)
+    Window2.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
+    Window2.BackgroundTransparency = 0.600
+    Window2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Window2.BorderSizePixel = 0
+    Window2.Position = UDim2.new(0.581891835, 0, 0.26413402, 0)
+    Window2.Size = UDim2.new(0, 30, 0, 30)
+    Window2.Visible = false
+    UICorner_3.CornerRadius = UDim.new(0, 4)
+    UICorner_3.Parent = Window2
+    TextLabel_2.Parent = Window2
+    TextLabel_2.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_2.BackgroundTransparency = 1.000
+    TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel_2.BorderSizePixel = 0
+    TextLabel_2.Position = UDim2.new(0.5, 0, 0.5, 0)
+    TextLabel_2.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel_2.Font = Enum.Font.FredokaOne
+    TextLabel_2.Text = "C"
+    TextLabel_2.TextColor3 = Color3.fromRGB(18, 18, 18)
+    TextLabel_2.TextSize = 24.000
+    Window3.Name = "Window3"
+    Window3.Parent = Windows
+    Window3.AnchorPoint = Vector2.new(0.5, 0.5)
+    Window3.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
+    Window3.BackgroundTransparency = 0.600
+    Window3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Window3.BorderSizePixel = 0
+    Window3.Position = UDim2.new(0.581891835, 0, 0.5368613, 0)
+    Window3.Size = UDim2.new(0, 30, 0, 30)
+    Window3.Visible = false
+    UICorner_4.CornerRadius = UDim.new(0, 4)
+    UICorner_4.Parent = Window3
+    TextLabel_3.Parent = Window3
+    TextLabel_3.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_3.BackgroundTransparency = 1.000
+    TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel_3.BorderSizePixel = 0
+    TextLabel_3.Position = UDim2.new(0.5, 0, 0.5, 0)
+    TextLabel_3.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel_3.Font = Enum.Font.FredokaOne
+    TextLabel_3.Text = "1.7"
+    TextLabel_3.TextColor3 = Color3.fromRGB(18, 18, 18)
+    TextLabel_3.TextSize = 20.000
+    Window4.Name = "Window4"
+    Window4.Parent = Windows
+    Window4.AnchorPoint = Vector2.new(0.5, 0.5)
+    Window4.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
+    Window4.BackgroundTransparency = 0.600
+    Window4.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Window4.BorderSizePixel = 0
+    Window4.Position = UDim2.new(0.411275715, 0, 0.5368613, 0)
+    Window4.Size = UDim2.new(0, 30, 0, 30)
+    Window4.Visible = false
+    UICorner_5.CornerRadius = UDim.new(0, 4)
+    UICorner_5.Parent = Window4
+    TextLabel_4.Parent = Window4
+    TextLabel_4.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextLabel_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_4.BackgroundTransparency = 1.000
+    TextLabel_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel_4.BorderSizePixel = 0
+    TextLabel_4.Position = UDim2.new(0.5, 0, 0.5, 0)
+    TextLabel_4.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel_4.Font = Enum.Font.FredokaOne
+    TextLabel_4.Text = "M"
+    TextLabel_4.TextColor3 = Color3.fromRGB(18, 18, 18)
+    TextLabel_4.TextSize = 24.000
+    TextLabel_5.Parent = Frame
+    TextLabel_5.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextLabel_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_5.BackgroundTransparency = 1.000
+    TextLabel_5.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel_5.BorderSizePixel = 0
+    TextLabel_5.Position = UDim2.new(0.496965468, 0, 0.757293224, 0)
+    TextLabel_5.Size = UDim2.new(0, 179, 0, 40)
+    TextLabel_5.Font = Enum.Font.GothamBold
+    TextLabel_5.Text = "Loading..."
+    TextLabel_5.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_5.TextSize = 12.000
+    TextLabel_5.TextWrapped = true
+    TextLabel_5.TextTransparency = 1
+    TextLabel_6.Parent = Frame
+    TextLabel_6.AnchorPoint = Vector2.new(0.5, 0.5)
+    TextLabel_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_6.BackgroundTransparency = 1.000
+    TextLabel_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    TextLabel_6.BorderSizePixel = 0
+    TextLabel_6.Position = UDim2.new(0.500426292, 0, 0.856181602, 0)
+    TextLabel_6.Size = UDim2.new(0, 210, 0, 32)
+    TextLabel_6.Font = Enum.Font.GothamBold
+    TextLabel_6.Text = "Power By <font color='rgb(85, 255, 127)'>Alchemy Intelligent (1.7)</font>"
+    TextLabel_6.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextLabel_6.TextTransparency = 1
+    TextLabel_6.TextSize = 10.000
+    TextLabel_6.TextWrapped = true
+    TextLabel_6.RichText = true
 
-game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
-game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 132)}):Play();task.wait(0.3)
-game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 211, 0, 132)}):Play();task.wait(0.3)
-Window1.Visible = true;task.wait(0.2);Window2.Visible = true;task.wait(0.2);Window3.Visible = true;task.wait(0.2);Window4.Visible = true;task.wait(0.2)
-game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 0}):Play();task.wait(0.2)
-game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 0.27}):Play();task.wait(0.4)
+    ---------/// Pop-Up User-Interface ///---------
 
----------/// Window Loading ///---------
+    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
+    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 132)}):Play();task.wait(0.3)
+    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 211, 0, 132)}):Play();task.wait(0.3)
+    Window1.Visible = true;task.wait(0.2);Window2.Visible = true;task.wait(0.2);Window3.Visible = true;task.wait(0.2);Window4.Visible = true;task.wait(0.2)
+    game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 0}):Play();task.wait(0.2)
+    game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 0.27}):Play();task.wait(0.4)
 
-task.spawn(function() while true do task.wait()
-    game:GetService('TweenService'):Create(Window1,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window4,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window2,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window1,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window2,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window4,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
-    BackgroundTransparency = 0.6}):Play();task.wait(0.47)
-end;end)
+    ---------/// Window Loading ///---------
 
+    task.spawn(function() while true do task.wait()
+        game:GetService('TweenService'):Create(Window1,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window4,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window2,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window1,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window2,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window4,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
+        BackgroundTransparency = 0.6}):Play();task.wait(0.47)
+    end;end)
+end
 
 ---------/// Function for Update User-Interface ///---------
 
 local updateStatus : (txt : string) -> nil = function(txt : string)
-    TextLabel_5.Text = txt .. "..."
+    if not(oneclick or kaitan or kaitun or rollback) then
+        TextLabel_5.Text = txt .. "...";task.wait(0.5)
+    end
 end
 
 local closeLoading : () -> nil = function()
-    game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
-    game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
-    Window4.Visible = false;task.wait(0.2);Window3.Visible = false;task.wait(0.2);Window2.Visible = false;task.wait(0.2);Window1.Visible = false;task.wait(0.2)
-    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 132)}):Play();task.wait(0.3)
-    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
-    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 0, 0, 0)}):Play();task.wait(0.3);Frame.Visible = false;
+    if not(oneclick or kaitan or kaitun or rollback) then
+        game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
+        game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
+        Window4.Visible = false;task.wait(0.2);Window3.Visible = false;task.wait(0.2);Window2.Visible = false;task.wait(0.2);Window1.Visible = false;task.wait(0.2)
+        game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 132)}):Play();task.wait(0.3)
+        game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
+        game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 0, 0, 0)}):Play();task.wait(0.3);Frame.Visible = false;
+    end
 end
 
 ---------/// Active Code ///---------
 
-updateStatus("Checking Active Code");task.wait(0.5)
+updateStatus("Checking Active Code");
 
 xpcall(function()
     if use_code and typeof(use_code) == 'string' then
@@ -399,7 +405,7 @@ end)
  
 ---------/// Convert Json Config to Normal Config ///---------
 
-updateStatus("Converting Json Data");task.wait(0.5)
+updateStatus("Converting Json Data");
 
 xpcall(function()
     if not(setting) and json_setting then
@@ -415,7 +421,7 @@ end)
 
 ---------/// x2Neptune's Software ///---------
 
-updateStatus("Loading Software");task.wait(0.5)
+updateStatus("Loading Software");
 
 task.delay(6, function()
     xpcall(function()
@@ -444,7 +450,7 @@ end)
 
 ---------/// Active Announcement ///---------
 
-updateStatus("Setting Up Announcement");task.wait(0.5)
+updateStatus("Setting Up Announcement");
 
 xpcall(function()
     task.spawn(function()
@@ -467,7 +473,7 @@ end)
 
 ---------/// Plugins ///---------
 
-updateStatus("Setting Up Plugins");task.wait(0.5)
+updateStatus("Setting Up Plugins");
 
 xpcall(function()
     if rawplugins then
@@ -495,7 +501,7 @@ end)
 
 ---------/// Auto Execute ///---------
 
-updateStatus("Setting Up Auto-Exec");task.wait(0.5)
+updateStatus("Setting Up Auto-Exec");
 
 if not(disable_auto_exec) and not(already_set_auto_exec) then
     xpcall(function()
@@ -620,7 +626,7 @@ end)
 
 ---------/// Anti Gameplay Paused ///---------
 
-updateStatus("Setting Up Anti-GPP");task.wait(0.5)
+updateStatus("Setting Up Anti-GPP");
 
 game:GetService("Players").LocalPlayer.Changed:Connect(function(data)
 	xpcall(function()
@@ -634,7 +640,7 @@ end)
 
 ---------/// Auto Rejoin ///---------
 
-updateStatus("Setting Up Auto-Rejoin");task.wait(0.5)
+updateStatus("Setting Up Auto-Rejoin");
 
 if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
@@ -654,7 +660,7 @@ end
 
 ---------/// Streamer Mode ///---------
 
-updateStatus("Setting Up Streamer Mode");task.wait(0.5)
+updateStatus("Setting Up Streamer Mode");
 
 if streamer_mode then
     xpcall(function()
@@ -841,7 +847,7 @@ end;
 
 ---------/// WhiteScreen & BlackScreen ///---------
 
-updateStatus("Setting Up W/B Screen");task.wait(0.5)
+updateStatus("Setting Up W/B Screen");
 
 xpcall(function()
     if whitescreen or blackscreen then
@@ -884,7 +890,7 @@ end)
 
 ---------/// Fully Rejoin ///---------
 
-updateStatus("Setting Up Fully Rejoin");task.wait(0.5)
+updateStatus("Setting Up Fully Rejoin");
 
 if fully_rejoin then
     getgenv().start_fully_rejoin = tick()
@@ -904,7 +910,7 @@ end
 
 ---------/// Anit AFK ///---------
 
-updateStatus("Setting Up Anti-AFK");task.wait(0.5)
+updateStatus("Setting Up Anti-AFK");
 
 spawn(function()
     xpcall(function()
