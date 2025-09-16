@@ -384,7 +384,7 @@ end
 
 ---------/// Active Code ///---------
 
-updateStatus("Checking Active Code");task.wait()
+updateStatus("Checking Active Code");task.wait(0.5)
 
 xpcall(function()
     if use_code and typeof(use_code) == 'string' then
@@ -399,7 +399,7 @@ end)
  
 ---------/// Convert Json Config to Normal Config ///---------
 
-updateStatus("Converting Json Data");task.wait()
+updateStatus("Converting Json Data");task.wait(0.5)
 
 xpcall(function()
     if not(setting) and json_setting then
@@ -415,7 +415,7 @@ end)
 
 ---------/// x2Neptune's Software ///---------
 
-updateStatus("Loading Software");task.wait()
+updateStatus("Loading Software");task.wait(0.5)
 
 task.delay(6, function()
     xpcall(function()
@@ -444,7 +444,7 @@ end)
 
 ---------/// Active Announcement ///---------
 
-updateStatus("Setting Up Announcement");task.wait()
+updateStatus("Setting Up Announcement");task.wait(0.5)
 
 xpcall(function()
     task.spawn(function()
@@ -467,7 +467,7 @@ end)
 
 ---------/// Plugins ///---------
 
-updateStatus("Setting Up Plugins");task.wait()
+updateStatus("Setting Up Plugins");task.wait(0.5)
 
 xpcall(function()
     if rawplugins then
@@ -495,7 +495,7 @@ end)
 
 ---------/// Auto Execute ///---------
 
-updateStatus("Setting Up Auto-Exec");task.wait()
+updateStatus("Setting Up Auto-Exec");task.wait(0.5)
 
 if not(disable_auto_exec) and not(already_set_auto_exec) then
     xpcall(function()
@@ -620,7 +620,7 @@ end)
 
 ---------/// Anti Gameplay Paused ///---------
 
-updateStatus("Setting Up Anti-GPP");task.wait()
+updateStatus("Setting Up Anti-GPP");task.wait(0.5)
 
 game:GetService("Players").LocalPlayer.Changed:Connect(function(data)
 	xpcall(function()
@@ -634,7 +634,7 @@ end)
 
 ---------/// Auto Rejoin ///---------
 
-updateStatus("Setting Up Auto-Rejoin");task.wait()
+updateStatus("Setting Up Auto-Rejoin");task.wait(0.5)
 
 if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
@@ -654,7 +654,7 @@ end
 
 ---------/// Streamer Mode ///---------
 
-updateStatus("Setting Up Streamer Mode");task.wait()
+updateStatus("Setting Up Streamer Mode");task.wait(0.5)
 
 if streamer_mode then
     xpcall(function()
@@ -841,7 +841,7 @@ end;
 
 ---------/// WhiteScreen & BlackScreen ///---------
 
-updateStatus("Setting Up W/B Screen");task.wait()
+updateStatus("Setting Up W/B Screen");task.wait(0.5)
 
 xpcall(function()
     if whitescreen or blackscreen then
@@ -884,7 +884,7 @@ end)
 
 ---------/// Fully Rejoin ///---------
 
-updateStatus("Setting Up Fully Rejoin");task.wait()
+updateStatus("Setting Up Fully Rejoin");task.wait(0.5)
 
 if fully_rejoin then
     getgenv().start_fully_rejoin = tick()
@@ -904,7 +904,7 @@ end
 
 ---------/// Anit AFK ///---------
 
-updateStatus("Setting Up Anti-AFK");task.wait()
+updateStatus("Setting Up Anti-AFK");task.wait(0.5)
 
 spawn(function()
     xpcall(function()
