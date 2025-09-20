@@ -338,7 +338,7 @@ if not(oneclick or kaitan or kaitun or rollback) then
     TextLabel_6.Position = UDim2.new(0.500426292, 0, 0.856181602, 0)
     TextLabel_6.Size = UDim2.new(0, 210, 0, 32)
     TextLabel_6.Font = Enum.Font.GothamBold
-    TextLabel_6.Text = "Power By <font color='rgb(85, 255, 127)'>Alchemy Intelligent (1.7)</font>"
+    TextLabel_6.Text = "Power By <font color='rgb(85, 255, 127)'>Alchemy Intelligence (1.7)</font>"
     TextLabel_6.TextColor3 = Color3.fromRGB(255, 255, 255)
     TextLabel_6.TextTransparency = 1
     TextLabel_6.TextSize = 10.000
