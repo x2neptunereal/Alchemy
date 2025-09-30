@@ -462,11 +462,11 @@ xpcall(function()
                 Method = "GET"
             }).Body)()
 
-            if output.success then
+            --[[if output.success then
                 print("AAS: Successful")
             else
                 warn("AAS: Fail, " .. output.message)
-            end
+            end]]
         end
     end)
 end, function(err : string)
