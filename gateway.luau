@@ -16,6 +16,7 @@ Copyright © 2025 Alchemy Team. All Rights Reserved.
 
 repeat wait(1) until game:IsLoaded()
 repeat wait(1) until game:GetService("Players").LocalPlayer
+if game.PlaceId == 16732694052 then return game:GetService("TeleportService"):Teleport(131716211654599) end
 if cometeleport then print('Auto Execute Active') end
 local waiting = (game.GameId == 7326934954 and 0) or 5
 if cometeleport or (oneclick or kaitan or kaitun) then task.wait(waiting) end
