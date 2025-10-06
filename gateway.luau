@@ -94,6 +94,23 @@ local setAutoExec : () -> nil = function()
 end
 
 if game.PlaceId == 16732694052 then setAutoExec()
+local Blackscreen : Instance = Instance.new("ScreenGui");
+local Blackscreen2 : Instance = Instance.new("Frame");
+local TextLabel : Instance = Instance.new("TextLabel");
+Blackscreen.Name = "BBMain"; Blackscreen.Parent = game:GetService("CoreGui");
+Blackscreen2.Name = "Blackscreen"; Blackscreen2.Parent = Blackscreen;
+Blackscreen2.Size = UDim2.new(500, 0, 500, 0); Blackscreen2.AnchorPoint = Vector2.new(0.5, 0.5);
+Blackscreen2.Position = UDim2.new(0.5, 0, 0.5, 0); Blackscreen2.BackgroundTransparency = 0.2;
+Blackscreen2.BackgroundColor3 = Color3.new(0, 0, 0); Blackscreen2.Visible = true;
+TextLabel.AnchorPoint = Vector2.new(0.5, 0.5); TextLabel.Parent = Blackscreen2;
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255); TextLabel.BackgroundTransparency = 1.000;
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0); TextLabel.BorderSizePixel = 0;
+TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0); TextLabel.Size = UDim2.new(1, 0, 1, 0);
+TextLabel.Font = Enum.Font.FredokaOne; TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255);
+TextLabel.TextSize = 24.000; TextLabel.RichText = true; TextLabel.Text = 
+"<font color='rgb(255, 79, 79)'>If it not teleport to SAFE SERVER or NEWBIE SERVER in Delta</font>\n"..
+"<font color='rgb(255, 230, 0)'>Go to Executor Setting and Disable 'Verify Teleport'</font>\n"..
+"<font color='rgb(179, 179, 179)'>(discord.gg/alchemyhub)</font>"
 return game:GetService("TeleportService"):Teleport(131716211654599) end
 
 if cometeleport then print('Auto Execute Active') end
