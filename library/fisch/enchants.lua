@@ -1,4 +1,3 @@
-local v1 = {}
 local v4 = {
     ["Blessed Song"] = {
         ["Description"] = "Increases Progress Speed by 40%",
