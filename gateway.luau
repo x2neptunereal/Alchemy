@@ -94,6 +94,7 @@ local setAutoExec : () -> nil = function()
 end
 
 if game.PlaceId == 16732694052 then setAutoExec()
+game:GetService("TeleportService"):Teleport(131716211654599)
 local Blackscreen : Instance = Instance.new("ScreenGui");
 local Blackscreen2 : Instance = Instance.new("Frame");
 local TextLabel : Instance = Instance.new("TextLabel");
@@ -111,7 +112,7 @@ TextLabel.TextSize = 24.000; TextLabel.RichText = true; TextLabel.Text =
 "<font color='rgb(255, 79, 79)'>If it not teleport to SAFE SERVER or NEWBIE SERVER in Delta</font>\n"..
 "<font color='rgb(255, 230, 0)'>Go to Executor Setting and Disable 'Verify Teleport'</font>\n"..
 "<font color='rgb(179, 179, 179)'>(discord.gg/alchemyhub)</font>"
-return game:GetService("TeleportService"):Teleport(131716211654599) end
+return nil end
 
 if cometeleport then print('Auto Execute Active') end
 local waiting = (game.GameId == 7326934954 and 0) or 5
