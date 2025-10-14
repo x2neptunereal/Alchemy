@@ -93,7 +93,7 @@ local setAutoExec : () -> nil = function()
     end
 end
 
---[[if game.PlaceId == 16732694052 then setAutoExec()
+if game.PlaceId == 16732694052 then setAutoExec()
 task.delay(1.2, function()
     local Blackscreen : Instance = Instance.new("ScreenGui");
     local Blackscreen2 : Instance = Instance.new("Frame");
@@ -114,7 +114,7 @@ task.delay(1.2, function()
     "<font color='rgb(179, 179, 179)'>(discord.gg/alchemyhub)</font>"
 end)
 game:GetService("TeleportService"):Teleport(131716211654599)
-return nil end]]
+return nil end
 
 
 ---------/// Set Auto Execute ///---------
