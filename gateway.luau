@@ -124,7 +124,7 @@ setAutoExec()
 ---------/// Check Environment ///---------
 
 if cometeleport then print('Auto Execute Active') end
-local waiting = (game.GameId == 7326934954 and 0) or 5
+local waiting = (game.GameId == 7326934954 and 0) or 4.1957
 if cometeleport or (oneclick or kaitan or kaitun) then task.wait(waiting) end
 
 type array<I,V> = {[I]: V}
