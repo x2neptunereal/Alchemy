@@ -683,7 +683,7 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
             xpcall(function()
                 game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child : Instance)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
-                        game:GetService("TeleportService"):Teleport(game.PlaceId) 
+                        game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) 
                     end
                 end)
             end, function(err : string)
