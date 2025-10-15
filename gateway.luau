@@ -455,9 +455,7 @@ end
 
 local updateStatus : (txt : string) -> nil = function(txt : string)
     if not(oneclick or kaitan or kaitun or rollback) then
-        if not game.GameId == 5750914919 then
-            TextLabel_5.Text = txt .. "...";task.wait(0.5)
-        end
+        TextLabel_5.Text = txt .. "...";--task.wait()
     end
 end
 
