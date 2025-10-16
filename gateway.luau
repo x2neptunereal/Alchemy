@@ -268,7 +268,7 @@ getgenv().diableFile = true
 
 ---------/// User-Interface for Loading ///---------
 
-local Loading : Instance  = Instance.new("ScreenGui")
+--[[local Loading : Instance  = Instance.new("ScreenGui")
 local Frame : Instance  = Instance.new("Frame")
 local UICorner : Instance  = Instance.new("UICorner")
 local Windows : Instance  = Instance.new("Folder")
@@ -449,11 +449,11 @@ if not(oneclick or kaitan or kaitun or rollback) then
         BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
         BackgroundTransparency = 0.6}):Play();task.wait(0.47)
     end;end)
-end
+end]]
 
 ---------/// Function for Update User-Interface ///---------
 
-local updateStatus : (txt : string) -> nil = function(txt : string)
+--[[local updateStatus : (txt : string) -> nil = function(txt : string)
     if not(oneclick or kaitan or kaitun or rollback) then
         TextLabel_5.Text = txt .. "...";--task.wait()
     end
@@ -468,11 +468,11 @@ local closeLoading : () -> nil = function()
         game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
         game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 0, 0, 0)}):Play();task.wait(0.3);Frame.Visible = false;
     end
-end
+end]]
 
 ---------/// Active Code ///---------
 
-updateStatus("Checking Active Code");
+-- updateStatus("Checking Active Code");
 
 xpcall(function()
     if use_code and typeof(use_code) == 'string' then
@@ -487,7 +487,7 @@ end)
  
 ---------/// Convert Json Config to Normal Config ///---------
 
-updateStatus("Converting Json Data");
+-- updateStatus("Converting Json Data");
 
 xpcall(function()
     if not(setting) and json_setting then
@@ -503,7 +503,7 @@ end)
 
 ---------/// x2Neptune's Software ///---------
 
-updateStatus("Loading Software");
+-- updateStatus("Loading Software");
 
 task.delay(6, function()
     xpcall(function()
@@ -532,7 +532,7 @@ end)
 
 ---------/// Active Announcement ///---------
 
-updateStatus("Setting Up Announcement");
+-- updateStatus("Setting Up Announcement");
 
 xpcall(function()
     task.spawn(function()
@@ -555,7 +555,7 @@ end)
 
 ---------/// Plugins ///---------
 
-updateStatus("Setting Up Plugins");
+-- updateStatus("Setting Up Plugins");
 
 xpcall(function()
     if rawplugins then
@@ -659,7 +659,7 @@ end)
 
 ---------/// Anti Gameplay Paused ///---------
 
-updateStatus("Setting Up Anti-GPP");
+-- updateStatus("Setting Up Anti-GPP");
 
 game:GetService("Players").LocalPlayer.Changed:Connect(function(data)
 	xpcall(function()
@@ -673,7 +673,7 @@ end)
 
 ---------/// Auto Rejoin ///---------
 
-updateStatus("Setting Up Auto-Rejoin");
+-- updateStatus("Setting Up Auto-Rejoin");
 
 if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
@@ -693,7 +693,7 @@ end
 
 ---------/// Streamer Mode ///---------
 
-updateStatus("Setting Up Streamer Mode");
+-- updateStatus("Setting Up Streamer Mode");
 
 if streamer_mode then
     xpcall(function()
@@ -880,7 +880,7 @@ end;
 
 ---------/// WhiteScreen & BlackScreen ///---------
 
-updateStatus("Setting Up W/B Screen");
+-- updateStatus("Setting Up W/B Screen");
 
 xpcall(function()
     if whitescreen or blackscreen then
@@ -923,7 +923,7 @@ end)
 
 ---------/// Fully Rejoin ///---------
 
-updateStatus("Setting Up Fully Rejoin");
+-- updateStatus("Setting Up Fully Rejoin");
 
 if fully_rejoin then
     getgenv().start_fully_rejoin = tick()
@@ -943,7 +943,7 @@ end
 
 ---------/// Anit AFK ///---------
 
-updateStatus("Setting Up Anti-AFK");
+-- updateStatus("Setting Up Anti-AFK");
 
 spawn(function()
     xpcall(function()
@@ -989,7 +989,7 @@ if not(premium or oneclick or kaitan or kaitun or rollback) then
     end)
 end
 
-updateStatus("Starting");task.wait(1);closeLoading()
+-- updateStatus("Starting");task.wait(1);closeLoading()
 
 ---------/// Check if not execute 2 times ///---------
 
