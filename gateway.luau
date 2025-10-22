@@ -132,7 +132,7 @@ local support = {
 ---------/// Check Environment ///---------
 
 if cometeleport then print('Auto Execute Active')
-if table.find(support, game.GameId) then return nil end end
+if not table.find(support, game.GameId) then return nil end end
 local waiting = ((game.GameId == 7326934954 or game.GameId == 5750914919) and 0) or 4.1957
 if cometeleport or (oneclick or kaitan or kaitun) then task.wait(waiting) end
 
