@@ -121,9 +121,18 @@ return nil end]]
 
 setAutoExec()
 
+local support = {
+    994732206, 5750914919, 6325068386, 1016936714, 3808081382,
+    4568630521, 3508322461, 7074860883, 7018190066, 6504986360,
+    6884266247, 7436755782, 6331902150, 6115988515, 7326934954,
+    4509896324, 6057699512, 4777817887, 7709344486, 7629331599,
+    7750955984, 6701277882, 8316902627,
+}
+
 ---------/// Check Environment ///---------
 
-if cometeleport then print('Auto Execute Active') end
+if cometeleport then print('Auto Execute Active')
+if table.find(support, game.GameId) then return nil end end
 local waiting = ((game.GameId == 7326934954 or game.GameId == 5750914919) and 0) or 4.1957
 if cometeleport or (oneclick or kaitan or kaitun) then task.wait(waiting) end
 
