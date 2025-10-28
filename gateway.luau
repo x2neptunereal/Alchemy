@@ -121,6 +121,8 @@ return nil end]]
 
 setAutoExec()
 
+---------/// Check List ///---------
+
 local support = {
     994732206, 5750914919, 6325068386, 1016936714, 3808081382,
     4568630521, 3508322461, 7074860883, 7018190066, 6504986360,
@@ -277,7 +279,9 @@ getgenv().diableFile = true
 
 ---------/// User-Interface for Loading ///---------
 
---[[local Loading : Instance  = Instance.new("ScreenGui")
+--[[
+
+local Loading : Instance  = Instance.new("ScreenGui")
 local Frame : Instance  = Instance.new("Frame")
 local UICorner : Instance  = Instance.new("UICorner")
 local Windows : Instance  = Instance.new("Folder")
@@ -458,11 +462,15 @@ if not(oneclick or kaitan or kaitun or rollback) then
         BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
         BackgroundTransparency = 0.6}):Play();task.wait(0.47)
     end;end)
-end]]
+end
+
+]]
 
 ---------/// Function for Update User-Interface ///---------
 
---[[local updateStatus : (txt : string) -> nil = function(txt : string)
+--[[
+
+local updateStatus : (txt : string) -> nil = function(txt : string)
     if not(oneclick or kaitan or kaitun or rollback) then
         TextLabel_5.Text = txt .. "...";--task.wait()
     end
@@ -477,7 +485,9 @@ local closeLoading : () -> nil = function()
         game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
         game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 0, 0, 0)}):Play();task.wait(0.3);Frame.Visible = false;
     end
-end]]
+end
+
+]]
 
 ---------/// Active Code ///---------
 
@@ -664,7 +674,7 @@ end, function(err : string)
     warn(string.format("Loading screen function error %s\n", err))
 end)
 
-]]--
+]]
 
 ---------/// Anti Gameplay Paused ///---------
 
