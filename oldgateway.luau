@@ -1,4 +1,4 @@
-if not (premium and script_key) then
+if not(premium or oneclick or kaitan or kaitun) then
     local GatewayChanged : Instance = Instance.new("ScreenGui")
     local Frame : Instance = Instance.new("Frame")
     local UICorner : Instance = Instance.new("UICorner")
