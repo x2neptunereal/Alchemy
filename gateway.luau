@@ -6,7 +6,7 @@
 ╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
 ALCHEMY HUB NETA EDITION SCRIPT
 
-This made by Alchemy Team ( alchemyhub.xyz )
+This made by Alchemy Team ( discord.gg/alchemyhub )
 Modification of the script, including attempting to bypass
 or crack the script for any reason is not allowed.
 
