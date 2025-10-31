@@ -6,7 +6,7 @@
 ╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
 ALCHEMY HUB NETA EDITION SCRIPT
 
-This made by Alchemy Team ( alchemyhub.xyz )
+This made by Alchemy Team ( discord.gg/alchemyhub )
 Modification of the script, including attempting to bypass
 or crack the script for any reason is not allowed.
 
@@ -57,14 +57,14 @@ local Requst_Test do
 
     local start = tick()
     local success, response = pcall(function()
-        return (load or loadstring)(game:HttpGet("https://test.alchemyhub.xyz"))()
+        return (load or loadstring)(game:HttpGet("https://getalchemy.net/t"))()
     end)
 
     if success and (typeof(response) == 'table' and response.Success) then
-        local scripts = string.format("%s%s.%s/",
+        local scripts = string.format("%s%s/%s",
             response['Scripts']['Https'],
-            response['Scripts']['Sub Domain'],
-            response['Scripts']['Domain']
+            response['Scripts']['Domain'],
+            response['Scripts']['Sub']
         )
 
         print("✅ Success ✅")
@@ -101,14 +101,14 @@ local Requst_Test do
 
     local start = tick()
     local success, response = pcall(function()
-        return (load or loadstring)(request({Url = "https://test.alchemyhub.xyz", Method = "GET"}).Body)()
+        return (load or loadstring)(request({Url = "https://getalchemy.net/t", Method = "GET"}).Body)()
     end)
 
     if success and (typeof(response) == 'table' and response.Success) then
-        local scripts = string.format("%s%s.%s/",
+        local scripts = string.format("%s%s/%s",
             response['Scripts']['Https'],
-            response['Scripts']['Sub Domain'],
-            response['Scripts']['Domain']
+            response['Scripts']['Domain'],
+            response['Scripts']['Sub']
         )
 
         print("✅ Success ✅")
