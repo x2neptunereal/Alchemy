@@ -15,7 +15,7 @@ Copyright © 2025 Alchemy Team. All Rights Reserved.
 ]]--
 
 repeat wait(1) until game:IsLoaded()
-repeat wait(1) until game:GetService("Players").LocalPlayer
+repeat wait(1) until game.Players.LocalPlayer
 
 ---------/// Set All Config to Global ///---------
 
@@ -46,6 +46,14 @@ getgenv().highdebug = highdebug or false
 
 ---------/// Set Necessary Function ///---------
 
+local getService = setmetatable({}, {
+    __index = function(selff : {}, serviceName : any)
+        local service = cloneref(game:GetService(serviceName))
+        rawset(selff, serviceName, service)
+        return service
+    end
+})
+
 local setAutoExec : () -> nil = function()
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
@@ -56,14 +64,14 @@ local setAutoExec : () -> nil = function()
                 local rawsetting : string = 'getgenv().json_setting=nil;'
                 if setting and typeof(setting) == 'table' then
                     rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
-                    tostring(game:GetService("HttpService"):JSONEncode(setting))))
+                    tostring(getService.HttpService:JSONEncode(setting))))
                 end
 
                 local raw_avoidplayer : string = 'getgenv().json_avoid_player=nil;'
                 if avoid_player and typeof(avoid_player) == 'table' then
                     if #avoid_player > 0 then
                         raw_avoidplayer = (string.format('getgenv().json_avoid_player=[=[%s]=];',
-                        tostring(game:GetService("HttpService"):JSONEncode(avoid_player))))
+                        tostring(getService.HttpService:JSONEncode(avoid_player))))
                     end
                 end
                 
@@ -98,7 +106,7 @@ task.delay(1.2, function()
     local Blackscreen : Instance = Instance.new("ScreenGui");
     local Blackscreen2 : Instance = Instance.new("Frame");
     local TextLabel : Instance = Instance.new("TextLabel");
-    Blackscreen.Name = "BBMain"; Blackscreen.Parent = game:GetService("CoreGui");
+    Blackscreen.Name = "BBMain"; Blackscreen.Parent = getService.CoreGui;
     Blackscreen2.Name = "Blackscreen"; Blackscreen2.Parent = Blackscreen;
     Blackscreen2.Size = UDim2.new(500, 0, 500, 0); Blackscreen2.AnchorPoint = Vector2.new(0.5, 0.5);
     Blackscreen2.Position = UDim2.new(0.5, 0, 0.5, 0); Blackscreen2.BackgroundTransparency = 0.2;
@@ -113,7 +121,7 @@ task.delay(1.2, function()
     "<font color='rgb(255, 230, 0)'>Go to Executor Setting and Disable 'Verify Teleport'</font>\n"..
     "<font color='rgb(179, 179, 179)'>(discord.gg/alchemyhub)</font>"
 end)
-game:GetService("TeleportService"):Teleport(131716211654599)
+getService.TeleportService:Teleport(131716211654599)
 return nil end]]
 
 
@@ -227,7 +235,7 @@ local __f : array<string, any> = {
     end;
     ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
     ['__ismobile'] = function() : boolean
-        local uis : Instance = game:GetService("UserInputService")
+        local uis : Instance = getService.UserInputService
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
         elseif not uis.TouchEnabled and uis.KeyboardEnabled and uis.MouseEnabled then return false end
     end;
@@ -242,7 +250,7 @@ local isExecutors : (txt : string) -> boolean = function(txt : string)
 end
 
 local someModule : () -> Instance = function()
-    local playerScript : Instance = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerScripts")
+    local playerScript : Instance = getService.Players.LocalPlayer:FindFirstChild("PlayerScripts")
 
     if playerScript then
         local playerModule : Instance = playerScript:FindFirstChild("PlayerModule")
@@ -302,7 +310,7 @@ local TextLabel_6 : Instance  = Instance.new("TextLabel")
 
 if not(oneclick or kaitan or kaitun or rollback) then
     Loading.Name = "Loading"
-    Loading.Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    Loading.Parent = getService.CoreGui or game.Players.LocalPlayer:WaitForChild("PlayerGui")
     Loading.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     Frame.Parent = Loading
     Frame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -510,11 +518,11 @@ end)
 
 xpcall(function()
     if not(setting) and json_setting then
-        getgenv().setting = game:GetService("HttpService"):JSONDecode(json_setting)
+        getgenv().setting = getService.HttpService:JSONDecode(json_setting)
     end
 
     if not(avoid_player) and json_avoid_player then
-        getgenv().avoid_player = game:GetService("HttpService"):JSONDecode(json_avoid_player)
+        getgenv().avoid_player = getService.HttpService:JSONDecode(json_avoid_player)
     end
 end, function(err : string)
     warn(string.format("Convert json function error %s\n", err))
@@ -604,13 +612,13 @@ end)
 
 local hopServer : () -> nil = function()
     local req : {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
-    local body : {} = game:GetService('HttpService'):JSONDecode(req.Body)
+    local body : {} = getService.HttpService:JSONDecode(req.Body)
 
     if body and body.data then
         for i, v in next, body.data do
             if type(v) == 'table' and tonumber(v.playing) and tonumber(v.maxPlayers) and v.playing < v.maxPlayers and v.id ~= game.JobId then
                 task.wait(0.2)
-                game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
+                getService.TeleportService:TeleportToPlaceInstance(game.PlaceId, v.id, game.Players.LocalPlayer)
             end
         end
     end
@@ -620,7 +628,7 @@ xpcall(function()
     if avoid_player and typeof(avoid_player) == 'table' then
         task.spawn(function()
             while #avoid_player > 0 do task.wait(2)
-                for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+                for i, v in pairs(getService.Players:GetPlayers()) do
                     if table.find(avoid_player, v.UserId) then
                         warn(string.format('Found User: %s (%d)\nTry to Hop Server...', tostring(v.Name), v.UserId))
                         hopServer()
@@ -680,10 +688,10 @@ end)
 
 -- updateStatus("Setting Up Anti-GPP");
 
-game:GetService("Players").LocalPlayer.Changed:Connect(function(data)
+getService.Players.LocalPlayer.Changed:Connect(function(data)
 	xpcall(function()
 		if data == "GameplayPaused" then
-			game:GetService("Players").LocalPlayer.GameplayPaused = false
+			getService.Players.LocalPlayer.GameplayPaused = false
 		end
 	end, function(err : string)
         warn(string.format("Anit gameplay paused function error %s\n", err))
@@ -698,9 +706,9 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
-                game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child : Instance)
+                getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child : Instance)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
-                        game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer) 
+                        getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer) 
                     end
                 end)
             end, function(err : string)
@@ -912,7 +920,7 @@ xpcall(function()
             Blackscreen2 = Instance.new("Frame")
 
             Blackscreen.Name = "BLACK"
-            Blackscreen.Parent = game:GetService("CoreGui")
+            Blackscreen.Parent = getService.CoreGui
             Blackscreen2.Name = "Blackscreen"
             Blackscreen2.Parent = Blackscreen
             Blackscreen2.Size = UDim2.new(500, 0, 500, 0)
@@ -926,13 +934,13 @@ xpcall(function()
                 Blackscreen2.Visible = state
             end
         end
-        game:GetService("UserInputService").WindowFocusReleased:Connect(function()
-            game:GetService("RunService"):Set3dRenderingEnabled(false)
+        getService.UserInputService.WindowFocusReleased:Connect(function()
+            getService.RunService:Set3dRenderingEnabled(false)
             setblackscreen(true)
         end)
 
-        game:GetService("UserInputService").WindowFocused:Connect(function()
-            game:GetService("RunService"):Set3dRenderingEnabled(true)
+        getService.UserInputService.WindowFocused:Connect(function()
+            getService.RunService:Set3dRenderingEnabled(true)
             setblackscreen(false)
         end)
     end
@@ -951,7 +959,7 @@ if fully_rejoin then
         while true do task.wait()
             xpcall(function()
                 if tick() - start_fully_rejoin >= 1200 then
-                    game:GetService("TeleportService"):Teleport(game.PlaceId) 
+                    getService.TeleportService:Teleport(game.PlaceId) 
                 end
             end, function(err : string)
                 warn(string.format("Fully rejoin function error %s\n", err))
@@ -966,10 +974,10 @@ end
 
 spawn(function()
     xpcall(function()
-        game:GetService("Players").LocalPlayer.Idled:connect(function()
-            game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        getService.Players.LocalPlayer.Idled:connect(function()
+            getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
             wait(1)
-            game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
     end, function(err : string)
         warn(string.format("Anti afk function error %s\n", err))
@@ -988,10 +996,10 @@ if not(premium or oneclick or kaitan or kaitun or rollback) then
                     ["Content-Type"] = "application/json",
                     ["Origin"] = "https://discord.com"
                 },
-                Body = game:GetService("HttpService"):JSONEncode({
+                Body = getService.HttpService:JSONEncode({
                     cmd = "INVITE_BROWSER",
                     args = {code = "alchemyhub"},
-                    nonce = game:GetService("HttpService"):GenerateGUID(false)
+                    nonce = getService.HttpService:GenerateGUID(false)
                 })
             })
         end
