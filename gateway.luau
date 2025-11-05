@@ -975,9 +975,16 @@ end
 spawn(function()
     xpcall(function()
         getService.Players.LocalPlayer.Idled:connect(function()
-            getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            wait(1)
-            getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            if game.GameId == 5750914919 then
+                local Camera = getService.Workspace.CurrentCamera
+                Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Vector3.new(Camera.CFrame.Position.x, Camera.CFrame.Position.y - 1, Camera.CFrame.Position.z + 1))
+                wait(1)
+                Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Vector3.new(Camera.CFrame.Position.x, Camera.CFrame.Position.y - 1, Camera.CFrame.Position.z - 1))
+            else
+                getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                wait(1)
+                getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            end
         end)
     end, function(err : string)
         warn(string.format("Anti afk function error %s\n", err))
