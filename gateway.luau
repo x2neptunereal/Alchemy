@@ -22,6 +22,7 @@ repeat wait(1) until game.Players.LocalPlayer
 getgenv().script_key= script_key or nil
 getgenv().skip_loading = skip_loading or false
 getgenv().disable_auto_exec = disable_auto_exec or false
+getgenv().delay_execute = delay_execute or 0
 getgenv().mute_sound = mute_sound or false
 
 getgenv().whitescreen = whitescreen or false
@@ -43,6 +44,10 @@ getgenv().linkplugins = linkplugins or nil
 getgenv().setting = setting or nil
 getgenv().use_code = use_code or nil
 getgenv().highdebug = highdebug or false
+
+---------/// Set Necessary Function ///---------
+
+task.wait(delay_execute or 0)
 
 ---------/// Set Necessary Function ///---------
 
@@ -976,10 +981,10 @@ spawn(function()
     xpcall(function()
         getService.Players.LocalPlayer.Idled:connect(function()
             if game.GameId == 5750914919 then
-                local Camera = getService.Workspace.CurrentCamera
+                --[[local Camera = getService.Workspace.CurrentCamera
                 Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Vector3.new(Camera.CFrame.Position.x, Camera.CFrame.Position.y - 1, Camera.CFrame.Position.z + 1))
                 wait(1)
-                Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Vector3.new(Camera.CFrame.Position.x, Camera.CFrame.Position.y - 1, Camera.CFrame.Position.z - 1))
+                Camera.CFrame = CFrame.lookAt(Camera.CFrame.Position, Vector3.new(Camera.CFrame.Position.x, Camera.CFrame.Position.y - 1, Camera.CFrame.Position.z - 1))]]
             else
                 getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
                 wait(1)
