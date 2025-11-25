@@ -211,6 +211,7 @@ local __f : array<string, any> = {
         elseif g == 7750955984 then return "v4/loaders/3893c2e3e61f6b61fd40822fece16a2a.lua" -- Hunty Zombie
         elseif g == 6701277882 then return "v4/loaders/4c6aa5a28cdb13944273690a517c813f.lua" -- Fish It
         elseif g == 8316902627 then return "v4/loaders/28160977ffa5b1e2bdada105419b4ef6.lua" -- Plants Vs Brainrot
+        elseif g == 2619619496 then return "v4/loaders/2f4f781d1d8f40f692c0282720965e4a.lua" -- Bedwars
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
