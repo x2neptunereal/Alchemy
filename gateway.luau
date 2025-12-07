@@ -141,7 +141,7 @@ local support = {
     4568630521, 3508322461, 7074860883, 7018190066, 6504986360,
     6884266247, 7436755782, 6331902150, 6115988515, 7326934954,
     4509896324, 6057699512, 4777817887, 7709344486, 7629331599,
-    7750955984, 6701277882, 8316902627, 2619619496
+    7750955984, 6701277882, 8316902627, 2619619496, 7671049560
 }
 
 ---------/// Check Environment ///---------
@@ -183,6 +183,7 @@ local __f : array<string, any> = {
         elseif g == 6701277882 then return "v4/loaders/90b15d9b20cecb9cf43b3ae2294a5b04.lua" -- Fish It
         elseif g == 8316902627 then return "v4/loaders/013376e4465e7f4776baee54c0eb7e6f.lua" -- Plants Vs Brainrot
         elseif g == 2619619496 then return "v4/loaders/15ec57faf2fc9e03a7af66e816f3b1d0.lua" -- Bedwars
+        elseif g == 7671049560 then return "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua" -- The Forge
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -213,6 +214,7 @@ local __f : array<string, any> = {
         elseif g == 6701277882 then return "v4/loaders/4c6aa5a28cdb13944273690a517c813f.lua" -- Fish It
         elseif g == 8316902627 then return "v4/loaders/28160977ffa5b1e2bdada105419b4ef6.lua" -- Plants Vs Brainrot
         elseif g == 2619619496 then return "v4/loaders/2f4f781d1d8f40f692c0282720965e4a.lua" -- Bedwars
+        elseif g == 7671049560 then return "v4/loaders/e8644496e34cd41aeba30ef9ad301610.lua" -- The Forge
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
@@ -237,6 +239,7 @@ local __f : array<string, any> = {
     ['__nokey'] = function() : {}
         local g : number = game.GameId;local list : {} = {
             ['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
+            --['7671049560'] = "v4/loaders/.lua", -- The Forge
         };for i, v in pairs(list) do if i == tostring(g) then return v end end
         return nil
     end;
