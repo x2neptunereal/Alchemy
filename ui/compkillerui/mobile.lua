@@ -2625,13 +2625,19 @@ function Compkiller:_LoadDropdown(BaseParent: TextButton , Callback: () -> any)
 			if IsMulti then
 				if IsDefault(v) or MatchDefault(v,DataFrame) then
 					DataFrame[v] = true;
+				else
+					DataFrame[v] = false;
 				end;
 
+				Compkiller:_Animation(bth.BlockText,TweenInfo.new(0.2),{
+					TextTransparency = ((MatchDefault(v,DataFrame)) and 0) or 0.5
+				});
+
 				Compkiller:_Input(bth.DropdownItem,function()
-					DataFrame[v] = not DataFrame[v]
+					DataFrame[v] = not DataFrame[v];
 
 					Compkiller:_Animation(bth.BlockText,TweenInfo.new(0.2),{
-						TextTransparency = ((IsDefault(v) or MatchDefault(v,DataFrame)) and 0) or 0.5
+						TextTransparency = ((MatchDefault(v,DataFrame)) and 0) or 0.5
 					});
 
 					Callback(DataFrame)
