@@ -323,7 +323,7 @@ local RunService: RunService = cloneref(game:GetService('RunService'));
 local Players: Players = cloneref(game:GetService('Players'));
 local HttpService: HttpService = cloneref(game:GetService('HttpService'));
 local LocalPlayer: Player = Players.LocalPlayer;
-local CoreGui: PlayerGui = LocalPlayer.PlayerGui;
+local CoreGui = (gethui and gethui()) or cloneref(game:GetService("CoreGui")) or LocalPlayer.PlayerGui;
 local Mouse = LocalPlayer:GetMouse();
 local CurrentCamera = workspace.CurrentCamera;
 
