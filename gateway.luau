@@ -14,8 +14,8 @@ Copyright © 2025 Alchemy Team. All Rights Reserved.
 
 ]]--
 
-repeat wait(1) until game:IsLoaded()
-repeat wait(1) until game.Players.LocalPlayer
+repeat wait() until game:IsLoaded()
+repeat wait() until game.Players.LocalPlayer
 
 ---------/// Set All Config to Global ///---------
 
@@ -239,7 +239,8 @@ local __f : array<string, any> = {
     ['__nokey'] = function() : {}
         local g : number = game.GameId;local list : {} = {
             ['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
-            --['7671049560'] = "v4/loaders/.lua", -- The Forge
+            ['7671049560'] = "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua", -- The Forge
+            ['5750914919'] = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua", -- Fisch
         };for i, v in pairs(list) do if i == tostring(g) then return v end end
         return nil
     end;
