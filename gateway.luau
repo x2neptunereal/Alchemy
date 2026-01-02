@@ -1039,6 +1039,13 @@ end
 ---------/// Check if not execute 2 times ///---------
 
 if not(getgenv().run_time) then
+
+    ---------/// Mark as already execute ///---------
+
+    getgenv().run_time = true
+
+    ---------/// Continue ///---------
+
     local UILibrary : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
     
     ---------/// Notify For Fisch ///---------
@@ -1109,10 +1116,6 @@ if not(getgenv().run_time) then
             }
         })
     end
-
-    ---------/// Mark as already execute ///---------
-
-    getgenv().run_time = true
 
     ---------/// Print Script Key Config ///---------
 
