@@ -185,6 +185,7 @@ local __f : array<string, any> = {
         elseif g == 2619619496 then return "v4/loaders/15ec57faf2fc9e03a7af66e816f3b1d0.lua" -- Bedwars
         elseif g == 7671049560 then return "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua" -- The Forge
         elseif g == 8144728961 then return "v4/loaders/ddf5803685854b7b8ad95d60195d95e2.lua" -- Abyss
+        elseif g == 9509842868 then return "v4/loaders/24ee1530bd0ff7f0522a704675328d7a.lua" -- Garden Horizons
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -217,6 +218,7 @@ local __f : array<string, any> = {
         elseif g == 2619619496 then return "v4/loaders/2f4f781d1d8f40f692c0282720965e4a.lua" -- Bedwars
         elseif g == 7671049560 then return "v4/loaders/e8644496e34cd41aeba30ef9ad301610.lua" -- The Forge
         elseif g == 8144728961 then return "v4/loaders/8a5a7aff8599c8b6c12a2cdfbf5607e1.lua" -- Abyss
+        elseif g == 9509842868 then return "v4/loaders/ee945f85a1b76c86663f0efbef6ca8e3.lua" -- Garden Horizons
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
