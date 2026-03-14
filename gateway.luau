@@ -159,32 +159,32 @@ local __f : array<string, any> = {
     ['__game'] = function() : string
         local g : number = game.GameId
         if g == 994732206 then return "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
-        elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
-        elseif g == 6325068386 then return "v4/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
-        elseif g == 6906326545 then return "v4/loaders/34a7bfd841e02f5b30b75712e5da67ae.lua" -- Basketball Showdown
-        elseif g == 1016936714 then return "v4/loaders/a9041aa86c9c312c42632aa43583980f.lua" -- Your Bizarre Adventure
-        elseif g == 3808081382 then return "v4/loaders/583e4386ee7b3c8ddb5ebeea249b3949.lua" -- Strongest Battlegrounds
-        elseif g == 4568630521 then return "v4/loaders/e2fe6cb4aaaf7e1e94c4b605514dcee3.lua" -- Hero Battlegrounds
-        elseif g == 3508322461 then return "v4/loaders/762346416b75d53680cc484c3d37dc10.lua" -- Jujutsu Shenanigans
-        elseif g == 7074860883 then return "v4/loaders/d3688644c195bd5fc31b64c51baba92a.lua" -- Arise Crossover
-        elseif g == 7018190066 then return "v4/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
-        elseif g == 6504986360 then return "v4/loaders/5da5aa0094d43756aecf47101d8a8452.lua" -- Bubble Gum Simulator
-        elseif g == 6884266247 then return "v4/loaders/87b6e9d734e947eaa39b1c3506a3574f.lua" -- Anime Ranger X
-        elseif g == 7436755782 then return "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua" -- Grow A Garden
-        elseif g == 6331902150 then return "v4/loaders/e463ec64d59b61f756a54cfaff7dc702.lua" -- Forsaken
-        elseif g == 6115988515 then return "v4/loaders/ab054af7f70c1d666e387eb69de5c7ad.lua" -- Anime Saga
-        elseif g == 7326934954 then return "v4/loaders/ad2603eb1a9175739e8e92c87b281ba6.lua" -- 99 Nights in the Forest
-        elseif g == 4509896324 then return "v4/loaders/4336e7045d286f9f86105015098af08a.lua" -- Anime Last Stand
-        elseif g == 6057699512 then return "v4/loaders/fa59b2dbb3203d892f517d24aa33189e.lua" -- All Star Tower Defense X
-        elseif g == 4777817887 then return "v4/loaders/07e408c12156c7cff4535f4578f98e2e.lua" -- Blade Ball
-        elseif g == 7709344486 then return "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua" -- Steal A Brainrot
-        elseif g == 7629331599 then return "v4/loaders/7dc1ca5aaa68ec141bda58f1e26f3622.lua" -- Prospecting
-        elseif g == 7750955984 then return "v4/loaders/3866fdc42990d9fe9a5ceb0d2140085c.lua" -- Hunty Zombie
-        elseif g == 6701277882 then return "v4/loaders/90b15d9b20cecb9cf43b3ae2294a5b04.lua" -- Fish It
-        elseif g == 8316902627 then return "v4/loaders/013376e4465e7f4776baee54c0eb7e6f.lua" -- Plants Vs Brainrot
-        elseif g == 2619619496 then return "v4/loaders/15ec57faf2fc9e03a7af66e816f3b1d0.lua" -- Bedwars
-        elseif g == 7671049560 then return "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua" -- The Forge
-        elseif g == 8144728961 then return "v4/loaders/ddf5803685854b7b8ad95d60195d95e2.lua" -- Abyss
+        --elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
+        --elseif g == 6325068386 then return "v4/loaders/4171685ce597cf71185c038656d405ca.lua" -- Bluelock Rivals
+        --elseif g == 6906326545 then return "v4/loaders/34a7bfd841e02f5b30b75712e5da67ae.lua" -- Basketball Showdown
+        --elseif g == 1016936714 then return "v4/loaders/a9041aa86c9c312c42632aa43583980f.lua" -- Your Bizarre Adventure
+        --elseif g == 3808081382 then return "v4/loaders/583e4386ee7b3c8ddb5ebeea249b3949.lua" -- Strongest Battlegrounds
+        --elseif g == 4568630521 then return "v4/loaders/e2fe6cb4aaaf7e1e94c4b605514dcee3.lua" -- Hero Battlegrounds
+        --elseif g == 3508322461 then return "v4/loaders/762346416b75d53680cc484c3d37dc10.lua" -- Jujutsu Shenanigans
+        --elseif g == 7074860883 then return "v4/loaders/d3688644c195bd5fc31b64c51baba92a.lua" -- Arise Crossover
+        --elseif g == 7018190066 then return "v4/loaders/ff927d4bd86acab8481f351bbb393144.lua" -- Dead Rails
+        --elseif g == 6504986360 then return "v4/loaders/5da5aa0094d43756aecf47101d8a8452.lua" -- Bubble Gum Simulator
+        --elseif g == 6884266247 then return "v4/loaders/87b6e9d734e947eaa39b1c3506a3574f.lua" -- Anime Ranger X
+        --elseif g == 7436755782 then return "v4/loaders/4fe5a40278353341e393f053dc19dc69.lua" -- Grow A Garden
+        --elseif g == 6331902150 then return "v4/loaders/e463ec64d59b61f756a54cfaff7dc702.lua" -- Forsaken
+        --elseif g == 6115988515 then return "v4/loaders/ab054af7f70c1d666e387eb69de5c7ad.lua" -- Anime Saga
+        --elseif g == 7326934954 then return "v4/loaders/ad2603eb1a9175739e8e92c87b281ba6.lua" -- 99 Nights in the Forest
+        --elseif g == 4509896324 then return "v4/loaders/4336e7045d286f9f86105015098af08a.lua" -- Anime Last Stand
+        --elseif g == 6057699512 then return "v4/loaders/fa59b2dbb3203d892f517d24aa33189e.lua" -- All Star Tower Defense X
+        --elseif g == 4777817887 then return "v4/loaders/07e408c12156c7cff4535f4578f98e2e.lua" -- Blade Ball
+        --elseif g == 7709344486 then return "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua" -- Steal A Brainrot
+        --elseif g == 7629331599 then return "v4/loaders/7dc1ca5aaa68ec141bda58f1e26f3622.lua" -- Prospecting
+        --elseif g == 7750955984 then return "v4/loaders/3866fdc42990d9fe9a5ceb0d2140085c.lua" -- Hunty Zombie
+        --elseif g == 6701277882 then return "v4/loaders/90b15d9b20cecb9cf43b3ae2294a5b04.lua" -- Fish It
+        --elseif g == 8316902627 then return "v4/loaders/013376e4465e7f4776baee54c0eb7e6f.lua" -- Plants Vs Brainrot
+        --elseif g == 2619619496 then return "v4/loaders/15ec57faf2fc9e03a7af66e816f3b1d0.lua" -- Bedwars
+        --elseif g == 7671049560 then return "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua" -- The Forge
+        --elseif g == 8144728961 then return "v4/loaders/ddf5803685854b7b8ad95d60195d95e2.lua" -- Abyss
         elseif g == 9509842868 then return "v4/loaders/24ee1530bd0ff7f0522a704675328d7a.lua" -- Garden Horizons
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
@@ -193,31 +193,31 @@ local __f : array<string, any> = {
     ['__premium'] = function() : string
         local g : number = game.GameId
         if g == 994732206 then return "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
-        elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
-        elseif g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
-        elseif g == 1016936714 then return "v4/loaders/b4542faca4c6d651a16b41d077693ffd.lua" -- Your Bizarre Adventure
-        elseif g == 3808081382 then return "v4/loaders/f78d0ecd5263292d62168cddbbbd416a.lua" -- Strongest Battlegrounds
-        elseif g == 4568630521 then return "v4/loaders/94b1529d93509fb0320dc5284f12fdb2.lua" -- Hero Battlegrounds
-        elseif g == 3508322461 then return "v4/loaders/55691542db5b90140761a85715a079c8.lua" -- Jujutsu Shenanigans
-        elseif g == 7074860883 then return "v4/loaders/02f7d67ec12fb8c52571fa98565a693b.lua" -- Arise Crossover
-        elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
-        elseif g == 6504986360 then return "v4/loaders/04f899beb187ce109505f383502fbb45.lua" -- Bubble Gum Simulator
-        elseif g == 6884266247 then return "v4/loaders/375bc929cb2f82a06eab086a0a5bdfa1.lua" -- Anime Ranger X
-        elseif g == 7436755782 then return "v4/loaders/9205a41f0f04e862885e9edcbf4b4040.lua" -- Grow A Garden
-        elseif g == 6331902150 then return "v4/loaders/f7499bae6c8869f692df49670c6af27e.lua" -- Forsaken
-        elseif g == 6115988515 then return "v4/loaders/bcfb87db175e4d836d6b2f8c77fe02d7.lua" -- Anime Saga
-        elseif g == 7326934954 then return "v4/loaders/77ea912d4ee9cd171f5726a764d406d7.lua" -- 99 Nights in the Forest
-        elseif g == 4509896324 then return "v4/loaders/3b95e92f01ff6cf74e22d75e37568234.lua" -- Anime Last Stand
-        elseif g == 6057699512 then return "v4/loaders/4d0793bcac1038f3fb79284e5294ceab.lua" -- All Star Tower Defense X
-        elseif g == 4777817887 then return "v4/loaders/9930868700f655a05d90cc71e2a2a515.lua" -- Blade Ball
-        elseif g == 7709344486 then return "v4/loaders/0d75eb00e3bbed09e40a543f8ef2b41f.lua" -- Steal A Brainrot
-        elseif g == 7629331599 then return "v4/loaders/ea9729a4b0f72dedf1163f8ce328bb36.lua" -- Prospecting
-        elseif g == 7750955984 then return "v4/loaders/3893c2e3e61f6b61fd40822fece16a2a.lua" -- Hunty Zombie
-        elseif g == 6701277882 then return "v4/loaders/4c6aa5a28cdb13944273690a517c813f.lua" -- Fish It
-        elseif g == 8316902627 then return "v4/loaders/28160977ffa5b1e2bdada105419b4ef6.lua" -- Plants Vs Brainrot
-        elseif g == 2619619496 then return "v4/loaders/2f4f781d1d8f40f692c0282720965e4a.lua" -- Bedwars
-        elseif g == 7671049560 then return "v4/loaders/e8644496e34cd41aeba30ef9ad301610.lua" -- The Forge
-        elseif g == 8144728961 then return "v4/loaders/8a5a7aff8599c8b6c12a2cdfbf5607e1.lua" -- Abyss
+        --elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
+        --elseif g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
+        --elseif g == 1016936714 then return "v4/loaders/b4542faca4c6d651a16b41d077693ffd.lua" -- Your Bizarre Adventure
+        --elseif g == 3808081382 then return "v4/loaders/f78d0ecd5263292d62168cddbbbd416a.lua" -- Strongest Battlegrounds
+        --elseif g == 4568630521 then return "v4/loaders/94b1529d93509fb0320dc5284f12fdb2.lua" -- Hero Battlegrounds
+        --elseif g == 3508322461 then return "v4/loaders/55691542db5b90140761a85715a079c8.lua" -- Jujutsu Shenanigans
+        --elseif g == 7074860883 then return "v4/loaders/02f7d67ec12fb8c52571fa98565a693b.lua" -- Arise Crossover
+        --elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
+        --elseif g == 6504986360 then return "v4/loaders/04f899beb187ce109505f383502fbb45.lua" -- Bubble Gum Simulator
+        --elseif g == 6884266247 then return "v4/loaders/375bc929cb2f82a06eab086a0a5bdfa1.lua" -- Anime Ranger X
+        --elseif g == 7436755782 then return "v4/loaders/9205a41f0f04e862885e9edcbf4b4040.lua" -- Grow A Garden
+        --elseif g == 6331902150 then return "v4/loaders/f7499bae6c8869f692df49670c6af27e.lua" -- Forsaken
+        --elseif g == 6115988515 then return "v4/loaders/bcfb87db175e4d836d6b2f8c77fe02d7.lua" -- Anime Saga
+        --elseif g == 7326934954 then return "v4/loaders/77ea912d4ee9cd171f5726a764d406d7.lua" -- 99 Nights in the Forest
+        --elseif g == 4509896324 then return "v4/loaders/3b95e92f01ff6cf74e22d75e37568234.lua" -- Anime Last Stand
+        --elseif g == 6057699512 then return "v4/loaders/4d0793bcac1038f3fb79284e5294ceab.lua" -- All Star Tower Defense X
+        --elseif g == 4777817887 then return "v4/loaders/9930868700f655a05d90cc71e2a2a515.lua" -- Blade Ball
+        --elseif g == 7709344486 then return "v4/loaders/0d75eb00e3bbed09e40a543f8ef2b41f.lua" -- Steal A Brainrot
+        --elseif g == 7629331599 then return "v4/loaders/ea9729a4b0f72dedf1163f8ce328bb36.lua" -- Prospecting
+        --elseif g == 7750955984 then return "v4/loaders/3893c2e3e61f6b61fd40822fece16a2a.lua" -- Hunty Zombie
+        --elseif g == 6701277882 then return "v4/loaders/4c6aa5a28cdb13944273690a517c813f.lua" -- Fish It
+        --elseif g == 8316902627 then return "v4/loaders/28160977ffa5b1e2bdada105419b4ef6.lua" -- Plants Vs Brainrot
+        --elseif g == 2619619496 then return "v4/loaders/2f4f781d1d8f40f692c0282720965e4a.lua" -- Bedwars
+        --elseif g == 7671049560 then return "v4/loaders/e8644496e34cd41aeba30ef9ad301610.lua" -- The Forge
+        --elseif g == 8144728961 then return "v4/loaders/8a5a7aff8599c8b6c12a2cdfbf5607e1.lua" -- Abyss
         elseif g == 9509842868 then return "v4/loaders/ee945f85a1b76c86663f0efbef6ca8e3.lua" -- Garden Horizons
         else
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
