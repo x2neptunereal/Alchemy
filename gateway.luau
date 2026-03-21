@@ -186,6 +186,7 @@ local __f : array<string, any> = {
         --elseif g == 7671049560 then return "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua" -- The Forge
         --elseif g == 8144728961 then return "v4/loaders/ddf5803685854b7b8ad95d60195d95e2.lua" -- Abyss
         elseif g == 9509842868 then return "v4/loaders/24ee1530bd0ff7f0522a704675328d7a.lua" -- Garden Horizons
+        elseif g == 9186719164 then return "v4/loaders/498054ad41abea9b45270fb4513e3757.lua" -- Sailor Piece
         else
             return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
@@ -219,11 +220,18 @@ local __f : array<string, any> = {
         --elseif g == 7671049560 then return "v4/loaders/e8644496e34cd41aeba30ef9ad301610.lua" -- The Forge
         --elseif g == 8144728961 then return "v4/loaders/8a5a7aff8599c8b6c12a2cdfbf5607e1.lua" -- Abyss
         elseif g == 9509842868 then return "v4/loaders/ee945f85a1b76c86663f0efbef6ca8e3.lua" -- Garden Horizons
+        elseif g == 9186719164 then return "v4/loaders/8c219a97dcd2aa32daf8dca778f0e597.lua" -- Sailor Piece
         else
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
             return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
     ['__oneclick'] = function() : string
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!")
+        return "\n"
+
+        --[[
+        
         local g : number = game.GameId
         if g == 6884266247 then return "v4/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
         elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
@@ -231,18 +239,27 @@ local __f : array<string, any> = {
         elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
         elseif g == 7750955984 then return "v4/loaders/9f339fad4409b86cf4435dc64ff65c4d.lua" -- Hunty Zombie
         else return "\n" end
+
+        ]]
     end;
     ['__rollback'] = function() : string
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nRollback not Support anymore!!")
+        return "\n"
+
+        --[[
+
         local g : number = game.GameId
         if g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
         elseif g == 6931042565 then return "v4/loaders/76d21b7e287454d6cb3ab5e3245e2b1d.lua" -- Volleyball Legend
         elseif g == 6770632849 then return "v4/loaders/e3679c208ace37385d2df45770f091e3.lua" -- Mugen
         elseif g == 6925303818 then return "v4/loaders/d13c0b865980129e6d4d85942e41e0a4.lua" -- Goalbound
         else return "\n" end
+
+        ]]
     end;
     ['__nokey'] = function() : {}
         local g : number = game.GameId;local list : {} = {
-            ['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
+            --['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
             --['7671049560'] = "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua", -- The Forge
             --['5750914919'] = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua", -- Fisch
         };for i, v in pairs(list) do if i == tostring(g) then return v end end
@@ -284,6 +301,9 @@ local someModule : () -> Instance = function()
 end
 
 print(string.format("\nEXECUTOR DETECTED : %s", __f['__executor']()))
+
+--[[
+
 if hookfunction then print("✅ Support [HOOKFUNCTION]") else warn("❌ Not Support [HOOKFUNCTION]") end
 if hookmetamethod then print("✅ Support [HOOKMETAMETHOD]") else warn("❌ Not Support [HOOKMETAMETHOD]") end
 if writefile then print("✅ Support [WRITEFILE]") else warn("❌ Not Support [WRITEFILE]") end
@@ -291,6 +311,8 @@ if readfile then print("✅ Support [READFILE]") else warn("❌ Not Support [REA
 if getconnections then print("✅ Support [GETCONNECTION]") else warn("❌ Not Support [GETCONNECTION]") end
 if pcall(require, someModule()) then print("✅ Support [REQUIRE]") else warn("❌ Not Support [REQUIRE]") end
 if (request or http_request) then print("✅ Support [REQUEST]\n") else warn("❌ Not Support [REQUEST]\n") end
+
+]]
 
 ---------/// Old Script Config ///---------
 
@@ -1130,10 +1152,12 @@ if not(getgenv().run_time) then
     ---------/// Load Scripts ///---------
 
     local tar : any = nil;local idc : any = __f['__nokey']();
-    if aimbot then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/Aimbot.lua")
-    elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
+
+    --if aimbot then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/Aimbot.lua")
+    --elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
     --elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
-    elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
+
+    if premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif rollback then tar = __f['__rollback'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif idc and typeof(idc) == 'string' then __f['__load']("https://api.luarmor.net/files/"..idc) 
