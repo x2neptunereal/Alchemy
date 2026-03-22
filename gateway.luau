@@ -137,11 +137,7 @@ setAutoExec()
 ---------/// Check List ///---------
 
 local support = {
-    994732206, 5750914919, 6325068386, 1016936714, 3808081382,
-    4568630521, 3508322461, 7074860883, 7018190066, 6504986360,
-    6884266247, 7436755782, 6331902150, 6115988515, 7326934954,
-    4509896324, 6057699512, 4777817887, 7709344486, 7629331599,
-    7750955984, 6701277882, 8316902627, 2619619496, 7671049560
+    994732206, 9509842868, 9186719164
 }
 
 ---------/// Check Environment ///---------
@@ -188,7 +184,8 @@ local __f : array<string, any> = {
         elseif g == 9509842868 then return "v4/loaders/24ee1530bd0ff7f0522a704675328d7a.lua" -- Garden Horizons
         elseif g == 9186719164 then return "v4/loaders/498054ad41abea9b45270fb4513e3757.lua" -- Sailor Piece
         else
-            return "v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
+            return "\n" --"v4/loaders/fd6e9298c37fd63d2c6d3d979ea55516.lua" -- Universal
         end
     end;
     ['__premium'] = function() : string
@@ -223,7 +220,7 @@ local __f : array<string, any> = {
         elseif g == 9186719164 then return "v4/loaders/8c219a97dcd2aa32daf8dca778f0e597.lua" -- Sailor Piece
         else
             getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
-            return "v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
+            return "\n" --"v4/loaders/83e1c25551a23c52e2c476e9bdd0c17a.lua" -- Universal
         end
     end;
     ['__oneclick'] = function() : string
