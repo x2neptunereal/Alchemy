@@ -1113,6 +1113,8 @@ if not(getgenv().run_time) then
     end
 
     
+    --[[
+    
     if not(oneclick or kaitan or kaitun or rollback) then
         Notification.new({
             Title = "Wanna Remove Workspace?",
@@ -1139,6 +1141,8 @@ if not(getgenv().run_time) then
             }
         })
     end
+
+    ]]
 
     ---------/// Print Script Key Config ///---------
 
