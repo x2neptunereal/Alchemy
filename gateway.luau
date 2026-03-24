@@ -903,7 +903,7 @@ end;
 -- updateStatus("Setting Up W/B Screen");
 
 xpcall(function()
-    if whitescreen or blackscreen then
+    if (whitescreen or farmer_mode) or blackscreen then
         local setblackscreen : (state : boolean) -> nil = function(state : boolean) end
         local Blackscreen : nil = nil
         local Blackscreen2 : {} = {}
