@@ -64,7 +64,7 @@ local setAutoExec : () -> nil = function()
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
             local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(aimbot or fruits_finder or arise_afk or oneclick or kaitan or kaitun) then
+            if queueonteleport and not(farmer_mode or aimbot or fruits_finder or arise_afk or oneclick or kaitan or kaitun) then
                 print("Set Auto Execute\n")
 
                 local rawsetting : string = 'getgenv().json_setting=nil;'
