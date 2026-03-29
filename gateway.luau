@@ -53,27 +53,27 @@ task.wait(delay_execute or 0)
 ---------/// Set Necessary Function ///---------
 
 local getService = setmetatable({}, {
-    __index = function(selff : {}, serviceName : any)
+    __index = function(selff: {}, serviceName: any)
         local service = cloneref(game:GetService(serviceName))
         rawset(selff, serviceName, service)
         return service
     end
 })
 
-local setAutoExec : () -> nil = function()
+local setAutoExec: () -> nil = function()
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
-            local queueonteleport : () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            local queueonteleport: () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if queueonteleport and not(farmer_mode or aimbot or fruits_finder or arise_afk or oneclick or kaitan or kaitun) then
                 print("Set Auto Execute\n")
 
-                local rawsetting : string = 'getgenv().json_setting=nil;'
+                local rawsetting: string = 'getgenv().json_setting=nil;'
                 if setting and typeof(setting) == 'table' then
                     rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
                     tostring(getService.HttpService:JSONEncode(setting))))
                 end
 
-                local raw_avoidplayer : string = 'getgenv().json_avoid_player=nil;'
+                local raw_avoidplayer: string = 'getgenv().json_avoid_player=nil;'
                 if avoid_player and typeof(avoid_player) == 'table' then
                     if #avoid_player > 0 then
                         raw_avoidplayer = (string.format('getgenv().json_avoid_player=[=[%s]=];',
@@ -101,7 +101,7 @@ local setAutoExec : () -> nil = function()
             end
 
             getgenv().already_set_auto_exec = true
-        end, function(err : string)
+        end, function(err: string)
             warn(string.format("Auto execute function error %s\n", err))
         end)
     end
@@ -109,9 +109,9 @@ end
 
 --[[if game.PlaceId == 16732694052 then setAutoExec()
 task.delay(1.2, function()
-    local Blackscreen : Instance = Instance.new("ScreenGui");
-    local Blackscreen2 : Instance = Instance.new("Frame");
-    local TextLabel : Instance = Instance.new("TextLabel");
+    local Blackscreen: Instance = Instance.new("ScreenGui");
+    local Blackscreen2: Instance = Instance.new("Frame");
+    local TextLabel: Instance = Instance.new("TextLabel");
     Blackscreen.Name = "BBMain"; Blackscreen.Parent = getService.CoreGui;
     Blackscreen2.Name = "Blackscreen"; Blackscreen2.Parent = Blackscreen;
     Blackscreen2.Size = UDim2.new(500, 0, 500, 0); Blackscreen2.AnchorPoint = Vector2.new(0.5, 0.5);
@@ -152,9 +152,9 @@ type array<I,V> = {[I]: V}
 
 ---------/// Wait For Load ///---------
 
-local __f : array<string, any> = {
-    ['__game'] = function() : string
-        local g : number = game.GameId
+local __f: array<string, any> = {
+    ['__game'] = function(): string
+        local g: number = game.GameId
         if g == 994732206 then return "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
         --elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
         elseif g == 9186719164 then return "v4/loaders/498054ad41abea9b45270fb4513e3757.lua" -- Sailor Piece
@@ -163,8 +163,8 @@ local __f : array<string, any> = {
             return "\n"
         end
     end;
-    ['__premium'] = function() : string
-        local g : number = game.GameId
+    ['__premium'] = function(): string
+        local g: number = game.GameId
         if g == 994732206 then return "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         --elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
         elseif g == 9186719164 then return "v4/loaders/8c219a97dcd2aa32daf8dca778f0e597.lua" -- Sailor Piece
@@ -173,8 +173,8 @@ local __f : array<string, any> = {
             return "\n"
         end
     end;
-    ['__farmer'] = function() : string
-        local g : number = game.GameId
+    ['__farmer'] = function(): string
+        local g: number = game.GameId
         if g == 994732206 then return "v4/loaders/fe7dedff910ed78b2d826ebee246382c.lua" -- Blox Fruits
         elseif g == 9186719164 then return "v4/loaders/c52331e464eb7be39bf0392f9a58c0bf.lua" -- Sailor Piece
         else
@@ -182,13 +182,13 @@ local __f : array<string, any> = {
             return "\n"
         end
     end;
-    ['__oneclick'] = function() : string
+    ['__oneclick'] = function(): string
         getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!")
         return "\n"
 
         --[[
         
-        local g : number = game.GameId
+        local g: number = game.GameId
         if g == 6884266247 then return "v4/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
         elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
         elseif g == 6057699512 then return "v4/loaders/5a2090a5e9b281c468fec4956086776e.lua" -- All Star Tower Defense X
@@ -198,13 +198,13 @@ local __f : array<string, any> = {
 
         ]]
     end;
-    ['__rollback'] = function() : string
+    ['__rollback'] = function(): string
         getService.Players.LocalPlayer:Kick("(error 404)\n\nRollback not Support anymore!!")
         return "\n"
 
         --[[
 
-        local g : number = game.GameId
+        local g: number = game.GameId
         if g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
         elseif g == 6931042565 then return "v4/loaders/76d21b7e287454d6cb3ab5e3245e2b1d.lua" -- Volleyball Legend
         elseif g == 6770632849 then return "v4/loaders/e3679c208ace37385d2df45770f091e3.lua" -- Mugen
@@ -213,35 +213,35 @@ local __f : array<string, any> = {
 
         ]]
     end;
-    ['__nokey'] = function() : {}
-        local g : number = game.GameId;local list : {} = {
+    ['__nokey'] = function(): {}
+        local g: number = game.GameId;local list: {} = {
             --['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
             --['7671049560'] = "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua", -- The Forge
             --['5750914919'] = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua", -- Fisch
         };for i, v in pairs(list) do if i == tostring(g) then return v end end
         return nil
     end;
-    ['__load'] = function(s : string) : nil (load or loadstring)(game:HttpGet(s))() end;
-    ['__ismobile'] = function() : boolean
-        local uis : Instance = getService.UserInputService
+    ['__load'] = function(s: string): nil (load or loadstring)(game:HttpGet(s))() end;
+    ['__ismobile'] = function(): boolean
+        local uis: Instance = getService.UserInputService
         if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
         elseif not uis.TouchEnabled and uis.KeyboardEnabled and uis.MouseEnabled then return false end
     end;
-    ['__executor'] = function() : string return tostring(identifyexecutor()) end;
+    ['__executor'] = function(): string return tostring(identifyexecutor()) end;
 }
 
 ---------/// Check Executor ///---------
 
-local isExecutors : (txt : string) -> boolean = function(txt : string)
-    local exec : string = string.lower(__f['__executor']())
+local isExecutors: (txt: string) -> boolean = function(txt: string)
+    local exec: string = string.lower(__f['__executor']())
     return exec == tostring(txt) or string.find(exec, tostring(txt))
 end
 
-local someModule : () -> Instance = function()
-    local playerScript : Instance = getService.Players.LocalPlayer:FindFirstChild("PlayerScripts")
+local someModule: () -> Instance = function()
+    local playerScript: Instance = getService.Players.LocalPlayer:FindFirstChild("PlayerScripts")
 
     if playerScript then
-        local playerModule : Instance = playerScript:FindFirstChild("PlayerModule")
+        local playerModule: Instance = playerScript:FindFirstChild("PlayerModule")
         if playerModule then
             return playerModule
         end
@@ -256,7 +256,7 @@ local someModule : () -> Instance = function()
     return nil
 end
 
-print(string.format("\nEXECUTOR DETECTED : %s", __f['__executor']()))
+print(string.format("\nEXECUTOR DETECTED: %s", __f['__executor']()))
 
 --[[
 
@@ -282,24 +282,24 @@ getgenv().diableFile = true
 
 --[[
 
-local Loading : Instance  = Instance.new("ScreenGui")
-local Frame : Instance  = Instance.new("Frame")
-local UICorner : Instance  = Instance.new("UICorner")
-local Windows : Instance  = Instance.new("Folder")
-local Window1 : Instance  = Instance.new("Frame")
-local UICorner_2 : Instance  = Instance.new("UICorner")
-local TextLabel : Instance  = Instance.new("TextLabel")
-local Window2 : Instance  = Instance.new("Frame")
-local UICorner_3 : Instance  = Instance.new("UICorner")
-local TextLabel_2 : Instance  = Instance.new("TextLabel")
-local Window3 : Instance  = Instance.new("Frame")
-local UICorner_4 : Instance  = Instance.new("UICorner")
-local TextLabel_3 : Instance  = Instance.new("TextLabel")
-local Window4 : Instance  = Instance.new("Frame")
-local UICorner_5 : Instance  = Instance.new("UICorner")
-local TextLabel_4 : Instance  = Instance.new("TextLabel")
-local TextLabel_5 : Instance  = Instance.new("TextLabel")
-local TextLabel_6 : Instance  = Instance.new("TextLabel")
+local Loading: Instance = Instance.new("ScreenGui")
+local Frame: Instance = Instance.new("Frame")
+local UICorner: Instance = Instance.new("UICorner")
+local Windows: Instance = Instance.new("Folder")
+local Window1: Instance = Instance.new("Frame")
+local UICorner_2: Instance = Instance.new("UICorner")
+local TextLabel: Instance = Instance.new("TextLabel")
+local Window2: Instance = Instance.new("Frame")
+local UICorner_3: Instance = Instance.new("UICorner")
+local TextLabel_2: Instance = Instance.new("TextLabel")
+local Window3: Instance = Instance.new("Frame")
+local UICorner_4: Instance = Instance.new("UICorner")
+local TextLabel_3: Instance = Instance.new("TextLabel")
+local Window4: Instance = Instance.new("Frame")
+local UICorner_5: Instance = Instance.new("UICorner")
+local TextLabel_4: Instance = Instance.new("TextLabel")
+local TextLabel_5: Instance = Instance.new("TextLabel")
+local TextLabel_6: Instance = Instance.new("TextLabel")
 
 if not(oneclick or kaitan or kaitun or rollback) then
     Loading.Name = "Loading"
@@ -471,13 +471,13 @@ end
 
 --[[
 
-local updateStatus : (txt : string) -> nil = function(txt : string)
+local updateStatus: (txt: string) -> nil = function(txt: string)
     if not(oneclick or kaitan or kaitun or rollback) then
         TextLabel_5.Text = txt .. "...";--task.wait()
     end
 end
 
-local closeLoading : () -> nil = function()
+local closeLoading: () -> nil = function()
     if not(oneclick or kaitan or kaitun or rollback) then
         game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
         game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
@@ -496,12 +496,12 @@ end
 
 xpcall(function()
     if use_code and typeof(use_code) == 'string' then
-        print(string.format('Used Code : [%s]\n', string.upper(use_code)));(load or loadstring)((request or http_request)({
+        print(string.format('Used Code: [%s]\n', string.upper(use_code)));(load or loadstring)((request or http_request)({
             Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ud/codes.lua",
             Method = "GET"
         }).Body)()
     end
-end, function(err : string)
+end, function(err: string)
     warn(string.format("Active code function error %s\n", err))
 end)
  
@@ -517,7 +517,7 @@ xpcall(function()
     if not(avoid_player) and json_avoid_player then
         getgenv().avoid_player = getService.HttpService:JSONDecode(json_avoid_player)
     end
-end, function(err : string)
+end, function(err: string)
     warn(string.format("Convert json function error %s\n", err))
 end)
 
@@ -531,7 +531,7 @@ task.delay(6, function()
             Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/main/software/_rbx.lua",
             Method = "GET"
         }).Body)()
-    end, function(err : string)
+    end, function(err: string)
         warn(string.format("Software function error %s\n", err))
     end)
 end)
@@ -544,7 +544,7 @@ task.delay(10, function()
             Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/debug/enchantlogs.lua",
             Method = "GET"
         }).Body)()
-    end, function(err : string)
+    end, function(err: string)
         warn(string.format("Debug logs error %s\n", err))
     end)
 end)
@@ -557,7 +557,7 @@ end)
 xpcall(function()
     task.spawn(function()
         while true do task.wait(30)
-            local output : {} = (load or loadstring)((request or http_request)({
+            local output: {} = (load or loadstring)((request or http_request)({
                 Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/announcement/active.luau",
                 Method = "GET"
             }).Body)()
@@ -569,7 +569,7 @@ xpcall(function()
             end]]
         end
     end)
-end, function(err : string)
+end, function(err: string)
     warn(string.format("Announcement function error %s\n", err))
 end)
 
@@ -597,15 +597,15 @@ xpcall(function()
             warn("Link-Plugins must be table and table can't be empty\n")
         end
     end
-end, function(err : string)
+end, function(err: string)
     warn(string.format("Plugins function error %s\n", err))
 end)
 
 ---------/// Avoid Players ///---------
 
-local hopServer : () -> nil = function()
-    local req : {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
-    local body : {} = getService.HttpService:JSONDecode(req.Body)
+local hopServer: () -> nil = function()
+    local req: {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
+    local body: {} = getService.HttpService:JSONDecode(req.Body)
 
     if body and body.data then
         for i, v in next, body.data do
@@ -630,7 +630,7 @@ xpcall(function()
             end
         end)
     end
-end, function(err : string)
+end, function(err: string)
     warn(string.format("Avoid players function error %s\n", err))
 end)
 
@@ -642,14 +642,14 @@ if not isfolder('alchemyhub_sound') then
     makefolder('alchemyhub_sound')
 end
 
-local playSound : (name : string, link : string) -> nil = function(name : string, link : string)
+local playSound: (name: string, link: string) -> nil = function(name: string, link: string)
     if not isfile("alchemyhub_sound/".. name ..".mp3") then
         writefile("alchemyhub_sound/".. name ..".mp3", game:HttpGet(link))
     end
 
-    local soundName : string = name..".mp3"
+    local soundName: string = name..".mp3"
     
-    local SoundSFX : Instance = Instance.new("Sound")
+    local SoundSFX: Instance = Instance.new("Sound")
     SoundSFX.Parent = workspace
     SoundSFX.SoundId = getcustomasset("alchemyhub_sound/" .. soundName)
 
@@ -660,7 +660,7 @@ end
 
 xpcall(function()
     if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
-        local LoaderLib : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
+        local LoaderLib: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
         
         if not(mute_sound) then
             task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
@@ -671,7 +671,7 @@ xpcall(function()
             Size =  87,
         });
     end
-end, function(err : string)
+end, function(err: string)
     warn(string.format("Loading screen function error %s\n", err))
 end)
 
@@ -686,7 +686,7 @@ getService.Players.LocalPlayer.Changed:Connect(function(data)
 		if data == "GameplayPaused" then
 			getService.Players.LocalPlayer.GameplayPaused = false
 		end
-	end, function(err : string)
+	end, function(err: string)
         warn(string.format("Anit gameplay paused function error %s\n", err))
     end)
 end)
@@ -699,12 +699,12 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
-                getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child : Instance)
+                getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child: Instance)
                     if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
                         getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer) 
                     end
                 end)
-            end, function(err : string)
+            end, function(err: string)
                 warn(string.format("Auto rejoin function error %s\n", err))
             end)
         end
@@ -717,7 +717,7 @@ end
 
 if streamer_mode then
     xpcall(function()
-        local protectMessage : (messageTarget : string, messageChange : string) -> nil = function(messageTarget : string, messageChange : string)
+        local protectMessage: (messageTarget: string, messageChange: string) -> nil = function(messageTarget: string, messageChange: string)
             local allSpace = game:GetDescendants()
         
             for i=1, #allSpace do
@@ -727,7 +727,7 @@ if streamer_mode then
                     
                         pcall(function()
                             if not allSpace[i]:FindFirstChild("Ded") then
-                                local UIGradient : Instance = Instance.new("UIGradient")
+                                local UIGradient: Instance = Instance.new("UIGradient")
                                 UIGradient.Name = "Ded"
                                 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
                                 UIGradient.Rotation = 0
@@ -754,7 +754,7 @@ if streamer_mode then
         
                         pcall(function()
                             if not allSpace[i]:FindFirstChild("Ded") then
-                                local UIGradient : Instance = Instance.new("UIGradient")
+                                local UIGradient: Instance = Instance.new("UIGradient")
                                 UIGradient.Name = "Ded"
                                 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
                                 UIGradient.Rotation = 0
@@ -781,7 +781,7 @@ if streamer_mode then
         
                         pcall(function()
                             if not allSpace[i]:FindFirstChild("Ded") then
-                                local UIGradient : Instance = Instance.new("UIGradient")
+                                local UIGradient: Instance = Instance.new("UIGradient")
                                 UIGradient.Name = "Ded"
                                 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
                                 UIGradient.Rotation = 0
@@ -805,14 +805,14 @@ if streamer_mode then
                 end
             end
         
-            game.DescendantAdded:Connect(function(descendant : Instance)
+            game.DescendantAdded:Connect(function(descendant: Instance)
                 if descendant.ClassName == "TextLabel" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
         
                         pcall(function()
                             if not descendant:FindFirstChild("Ded") then
-                                local UIGradient : Instance = Instance.new("UIGradient")
+                                local UIGradient: Instance = Instance.new("UIGradient")
                                 UIGradient.Name = "Ded"
                                 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
                                 UIGradient.Rotation = 0
@@ -839,7 +839,7 @@ if streamer_mode then
         
                         pcall(function()
                             if not descendant:FindFirstChild("Ded") then
-                                local UIGradient : Instance = Instance.new("UIGradient")
+                                local UIGradient: Instance = Instance.new("UIGradient")
                                 UIGradient.Name = "Ded"
                                 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
                                 UIGradient.Rotation = 0
@@ -866,7 +866,7 @@ if streamer_mode then
                         
                         pcall(function()
                             if not descendant:FindFirstChild("Ded") then
-                                local UIGradient : Instance = Instance.new("UIGradient")
+                                local UIGradient: Instance = Instance.new("UIGradient")
                                 UIGradient.Name = "Ded"
                                 UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
                                 UIGradient.Rotation = 0
@@ -893,7 +893,7 @@ if streamer_mode then
         
         protectMessage(game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
         protectMessage(game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
-    end, function(err : string)
+    end, function(err: string)
         warn(string.format("Streamer mode function error %s\n", err))
     end)
 end;
@@ -904,9 +904,9 @@ end;
 
 xpcall(function()
     if (whitescreen or farmer_mode) or blackscreen then
-        local setblackscreen : (state : boolean) -> nil = function(state : boolean) end
-        local Blackscreen : nil = nil
-        local Blackscreen2 : {} = {}
+        local setblackscreen: (state: boolean) -> nil = function(state: boolean) end
+        local Blackscreen: nil = nil
+        local Blackscreen2: {} = {}
 
         if blackscreen then
             Blackscreen = Instance.new("ScreenGui")
@@ -923,7 +923,7 @@ xpcall(function()
             Blackscreen2.BackgroundColor3 = Color3.new(0, 0, 0)
             Blackscreen2.Visible = false
 
-            setblackscreen = function(state : boolean)
+            setblackscreen = function(state: boolean)
                 Blackscreen2.Visible = state
             end
         end
@@ -937,7 +937,7 @@ xpcall(function()
             setblackscreen(false)
         end)
     end
-end, function(err : string)
+end, function(err: string)
     warn(string.format("WhiteScreen function error %s\n", err))
 end)
 
@@ -954,7 +954,7 @@ if fully_rejoin then
                 if tick() - start_fully_rejoin >= 1200 then
                     getService.TeleportService:Teleport(game.PlaceId) 
                 end
-            end, function(err : string)
+            end, function(err: string)
                 warn(string.format("Fully rejoin function error %s\n", err))
             end)
         end
@@ -979,7 +979,7 @@ spawn(function()
                 getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
             end
         end)
-    end, function(err : string)
+    end, function(err: string)
         warn(string.format("Anti afk function error %s\n", err))
     end)
 end)
@@ -988,7 +988,7 @@ end)
 
 if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
     xpcall(function()
-        local discord : () -> nil = function()
+        local discord: () -> nil = function()
             (request or http_request)({
                 Url = "http://127.0.0.1:6463/rpc?v=1",
                 Method = "POST",
@@ -1011,7 +1011,7 @@ if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
         if (tick() - tonumber(readfile('MaDuHereARai.dll')) > 21600) or (tick() - tonumber(readfile('MaDuHereARai.dll')) < 0) then
             discord();writefile('MaDuHereARai.dll', tostring(tick()))
         end
-    end, function(err : string)
+    end, function(err: string)
         warn(string.format("Auto join discord function error %s\n", err))
     end)
 end
@@ -1028,7 +1028,7 @@ if not(getgenv().run_time) then
 
     ---------/// Continue ///---------
 
-    local UILibrary : {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
+    local UILibrary: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
     
     ---------/// Notify For Fisch ///---------
 
@@ -1036,7 +1036,7 @@ if not(getgenv().run_time) then
         UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
     end
 
-    local Notification : {new : () -> nil} = UILibrary:Notification();
+    local Notification: {new: () -> nil} = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
 
@@ -1106,12 +1106,12 @@ if not(getgenv().run_time) then
     ---------/// Print Script Key Config ///---------
 
     if script_key then
-        print(string.format("Key : %s\n", script_key))
+        print(string.format("Key: %s\n", script_key))
     end
 
     ---------/// Load Scripts ///---------
 
-    local tar : any = nil;local idc : any = __f['__nokey']();
+    local tar: any = nil;local idc: any = __f['__nokey']();
 
     --if aimbot then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/Aimbot.lua")
     --elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
