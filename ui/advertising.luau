@@ -34,7 +34,7 @@ local getImage: (link: string) -> any = function(link: string)
 end
 
 return {
-    create: (img: string) -> nil = function(img: string)
+    create = function(img: string)
         local ImageLabel: Instance = Instance.new("ImageLabel")
         local UICorner: Instance = Instance.new("UICorner")
         local TextButton: Instance = Instance.new("TextButton")
