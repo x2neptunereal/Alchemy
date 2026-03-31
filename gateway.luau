@@ -550,9 +550,29 @@ task.delay(10, function()
 end)
 
 
----------/// Active Announcement ///---------
+---------/// Advertising ///---------
 
--- updateStatus("Setting Up Announcement");
+xpcall(function()
+    if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
+        task.spawn(function()
+            local advertisingList: {} = (load or loadstring)((request or http_request)({
+                Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/advertising/all.lua",
+                Method = "GET"
+            }).Body)()
+
+            local AdvertiseSystem: {} = (load or loadstring)((request or http_request)({
+                Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/ui/advertising.luau",
+                Method = "GET"
+            }).Body)()
+
+            for i, v in pairs(advertisingList) do AdvertiseSystem.create(v); task.wait(0.4) end
+        end)
+    end
+end, function(err: string)
+    warn(string.format("Advertising function error %s\n", err))
+end)
+
+---------/// Active Announcement ///---------
 
 xpcall(function()
     task.spawn(function()
@@ -697,17 +717,15 @@ end)
 
 if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
-        while true do task.wait()
-            xpcall(function()
-                getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child: Instance)
-                    if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
-                        getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer) 
-                    end
-                end)
-            end, function(err: string)
-                warn(string.format("Auto rejoin function error %s\n", err))
+        xpcall(function()
+            getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child: Instance)
+                if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
+                    getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer) 
+                end
             end)
-        end
+        end, function(err: string)
+            warn(string.format("Auto rejoin function error %s\n", err))
+        end)
     end)
 end
 
