@@ -5,6 +5,8 @@ local CoreGui: PlayerGui = (gethui and gethui())
 	or cloneref(game:FindFirstChild("CoreGui"))
 	or cloneref(game.LocalPlayer.PlayerGui)
 
+local drag: any = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/mercury/trash.lua"))()
+
 local watermark: Instance = Instance.new("ScreenGui")
 local Frame: Instance = Instance.new("Frame")
 local UICorner: Instance = Instance.new("UICorner")
@@ -116,3 +118,4 @@ end)
 
 closeUI();crossToTime();task.wait(0.4);openUI()
 
+drag(Frame, Frame)
