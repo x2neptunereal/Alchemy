@@ -552,6 +552,8 @@ end)
 
 ---------/// Advertising ///---------
 
+--[[
+
 xpcall(function()
     if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
         task.spawn(function()
@@ -571,6 +573,8 @@ xpcall(function()
 end, function(err: string)
     warn(string.format("Advertising function error %s\n", err))
 end)
+
+]]
 
 ---------/// Active Announcement ///---------
 
