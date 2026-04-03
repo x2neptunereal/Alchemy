@@ -74,7 +74,7 @@ local setAutoExec: () -> nil = function()
                     tostring(getService.HttpService:JSONEncode(setting))))
                 end
 
-                local specific_config: string = 'getgenv().json_specific_config=nil;'
+                local raw_specific_config: string = 'getgenv().json_specific_config=nil;'
                 if specific_config and typeof(specific_config) == 'table' then
                     raw_specific_config = (string.format('getgenv().json_specific_config=[=[%s]=];',
                     tostring(getService.HttpService:JSONEncode(specific_config))))
