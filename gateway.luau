@@ -199,7 +199,7 @@ local __f: array<string, any> = {
     end;
     ['__oneclick'] = function(): string
         local g: number = game.GameId
-        if g == 9186719164 then return "v4/loaders/870c1691ab8ec7dfece7237d9c0dd5b8.lua" -- Sailor Piece
+        if g == 9186719164 then return "v4/loaders/84dd9c29e9f9ba37da697f6c45822e49.lua" -- Sailor Piece
         --elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
         --elseif g == 6057699512 then return "v4/loaders/5a2090a5e9b281c468fec4956086776e.lua" -- All Star Tower Defense X
         --elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
