@@ -182,6 +182,11 @@ local __f: array<string, any> = {
         end
     end;
     ['__farmer'] = function(): string
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nFarmer not Support anymore!!")
+        return "\n"
+
+        --[[
+        
         local g: number = game.GameId
         if g == 994732206 then return "v4/loaders/fe7dedff910ed78b2d826ebee246382c.lua" -- Blox Fruits
         elseif g == 9186719164 then return "v4/loaders/c52331e464eb7be39bf0392f9a58c0bf.lua" -- Sailor Piece
@@ -189,20 +194,25 @@ local __f: array<string, any> = {
             getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
             return "\n"
         end
+
+        ]]
     end;
     ['__oneclick'] = function(): string
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!")
-        return "\n"
+        local g: number = game.GameId
+        if g == 9186719164 then return "v4/loaders/870c1691ab8ec7dfece7237d9c0dd5b8.lua" -- Sailor Piece
+        --elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
+        --elseif g == 6057699512 then return "v4/loaders/5a2090a5e9b281c468fec4956086776e.lua" -- All Star Tower Defense X
+        --elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
+        --elseif g == 7750955984 then return "v4/loaders/9f339fad4409b86cf4435dc64ff65c4d.lua" -- Hunty Zombie
+        else
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
+            return "\n"
+        end
 
         --[[
         
-        local g: number = game.GameId
-        if g == 6884266247 then return "v4/loaders/f97c1c9dd9b41345ee7bace79d9a8f12.lua" -- Anime Ranger X
-        elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
-        elseif g == 6057699512 then return "v4/loaders/5a2090a5e9b281c468fec4956086776e.lua" -- All Star Tower Defense X
-        elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
-        elseif g == 7750955984 then return "v4/loaders/9f339fad4409b86cf4435dc64ff65c4d.lua" -- Hunty Zombie
-        else return "\n" end
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!")
+        return "\n"
 
         ]]
     end;
