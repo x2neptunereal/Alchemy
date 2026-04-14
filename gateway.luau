@@ -1032,6 +1032,8 @@ end)
 
 ---------/// Auto Join Discord ///---------
 
+--[[
+
 if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
     xpcall(function()
         local discord: () -> nil = function()
@@ -1061,6 +1063,8 @@ if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
         warn(string.format("Auto join discord function error %s\n", err))
     end)
 end
+
+]]
 
 -- updateStatus("Starting");task.wait(1);closeLoading()
 
