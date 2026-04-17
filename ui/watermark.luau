@@ -1,9 +1,9 @@
-local tws: any = game:GetService('TweenService')
+local tws = cloneref(game:GetService('TweenService'))
 local startTime: number = os.time()
 local CoreGui: PlayerGui = (gethui and gethui())
 	or (get_hidden_gui and get_hidden_gui())
 	or cloneref(game:FindFirstChild("CoreGui"))
-	or cloneref(game.LocalPlayer.PlayerGui)
+	or cloneref(game.Players.LocalPlayer.PlayerGui)
 
 local drag: any = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/mercury/trash.lua"))()
 
@@ -104,16 +104,16 @@ local formatTime: (seconds: number) -> string = function(seconds: number)
 end
 
 task.spawn(function()
-	while true do task.wait()
+	repeat task.wait()
 		time.Text = "RUNTIME: " .. formatTime(os.time() - startTime)
-	end
+	until false
 end)
 
 task.spawn(function()
-	while true do task.wait()
+	repeat task.wait()
         crossToName();task.wait(0.3 + 2.5)
         crossToTime();task.wait(0.3 + 8)
-    end
+    until false
 end)
 
 closeUI();crossToTime();task.wait(0.4);openUI()
