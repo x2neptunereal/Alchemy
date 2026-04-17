@@ -1,3 +1,5 @@
+-- w maxlasertech
+
 local cloneref = cloneref or function(ref) return ref end
 local UserInputService = cloneref(game:GetService("UserInputService"))
 local TweenService = cloneref(game:GetService("TweenService"))
