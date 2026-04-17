@@ -1,3 +1,7 @@
+local cloneref = cloneref or function(ref) return ref end
+local UserInputService = cloneref(game:GetService("UserInputService"))
+local TweenService = cloneref(game:GetService("TweenService"))
+
 local dragify = function(Frame, object)
     dragToggle = nil
     dragSpeed = 0
@@ -8,7 +12,7 @@ local dragify = function(Frame, object)
         Delta = input.Position - dragStart
         Position =
             UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
-        game:GetService("TweenService"):Create(object, TweenInfo.new(dragSpeed), {Position = Position}):Play()
+        TweenService:Create(object, TweenInfo.new(dragSpeed), {Position = Position}):Play()
     end
     Frame.InputBegan:Connect(
         function(input)
@@ -39,12 +43,12 @@ local dragify = function(Frame, object)
             end
         end
     )
-    game:GetService("UserInputService").InputChanged:Connect(
-    function(input)
-        if (input == dragInput and dragToggle) then
-            updateInput(input)
+    UserInputService.InputChanged:Connect(
+        function(input)
+            if (input == dragInput and dragToggle) then
+                updateInput(input)
+            end
         end
-    end
     )
 end
 
