@@ -168,7 +168,7 @@ local __f: array<string, any> = {
         elseif g == 9186719164 then return "v4/loaders/498054ad41abea9b45270fb4513e3757.lua" -- Sailor Piece
         elseif g == 8202280624 then return "v4/loaders/d57e0016140ba426331b7c8d69f2aaa6.lua" -- Bite By Night
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
             return "\n"
         end
     end;
@@ -179,12 +179,12 @@ local __f: array<string, any> = {
         elseif g == 9186719164 then return "v4/loaders/8c219a97dcd2aa32daf8dca778f0e597.lua" -- Sailor Piece
         elseif g == 8202280624 then return "v4/loaders/74c90589409ec0080d8ee7ed39a37f1a.lua" -- Bite By Night
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
             return "\n"
         end
     end;
     ['__farmer'] = function(): string
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nFarmer not Support anymore!!")
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nFarmer not Support anymore!!\n")
         return "\n"
 
         --[[
@@ -193,7 +193,7 @@ local __f: array<string, any> = {
         if g == 994732206 then return "v4/loaders/fe7dedff910ed78b2d826ebee246382c.lua" -- Blox Fruits
         elseif g == 9186719164 then return "v4/loaders/c52331e464eb7be39bf0392f9a58c0bf.lua" -- Sailor Piece
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
             return "\n"
         end
 
@@ -207,19 +207,19 @@ local __f: array<string, any> = {
         --elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
         --elseif g == 7750955984 then return "v4/loaders/9f339fad4409b86cf4435dc64ff65c4d.lua" -- Hunty Zombie
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!")
+            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
             return "\n"
         end
 
         --[[
         
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!")
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!\n")
         return "\n"
 
         ]]
     end;
     ['__rollback'] = function(): string
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nRollback not Support anymore!!")
+        getService.Players.LocalPlayer:Kick("(error 404)\n\nRollback not Support anymore!!\n")
         return "\n"
 
         --[[
@@ -1032,8 +1032,6 @@ end)
 
 ---------/// Auto Join Discord ///---------
 
---[[
-
 if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
     xpcall(function()
         local discord: () -> nil = function()
@@ -1052,19 +1050,17 @@ if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
             })
         end
 
-        if not isfile('MaDuHereARai.dll') then
-            discord();writefile('MaDuHereARai.dll', tostring(tick()))
+        if not isfile('MaDuHereARai.png') then
+            discord();writefile('MaDuHereARai.png', tostring(tick()))
         end
 
-        if (tick() - tonumber(readfile('MaDuHereARai.dll')) > 21600) or (tick() - tonumber(readfile('MaDuHereARai.dll')) < 0) then
-            discord();writefile('MaDuHereARai.dll', tostring(tick()))
+        if (tick() - tonumber(readfile('MaDuHereARai.png')) > 21600) or (tick() - tonumber(readfile('MaDuHereARai.png')) < 0) then
+            discord();writefile('MaDuHereARai.png', tostring(tick()))
         end
     end, function(err: string)
         warn(string.format("Auto join discord function error %s\n", err))
     end)
 end
-
-]]
 
 -- updateStatus("Starting");task.wait(1);closeLoading()
 
