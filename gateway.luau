@@ -167,6 +167,7 @@ local __f: array<string, any> = {
         --elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
         elseif g == 9186719164 then return "v4/loaders/498054ad41abea9b45270fb4513e3757.lua" -- Sailor Piece
         elseif g == 8202280624 then return "v4/loaders/d57e0016140ba426331b7c8d69f2aaa6.lua" -- Bite By Night
+        elseif g == 10004244222 then return "v4/loaders/9ef79e93655459cb0a799a5aa8d524db.lua" -- Kick A Lucky Block
         else
             getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
             return "\n"
@@ -178,6 +179,7 @@ local __f: array<string, any> = {
         --elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
         elseif g == 9186719164 then return "v4/loaders/8c219a97dcd2aa32daf8dca778f0e597.lua" -- Sailor Piece
         elseif g == 8202280624 then return "v4/loaders/74c90589409ec0080d8ee7ed39a37f1a.lua" -- Bite By Night
+        elseif g == 10004244222 then return "v4/loaders/0d3a483a0e6724632760b31f17cb6460.lua" -- Kick A Lucky Block
         else
             getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
             return "\n"
