@@ -55,7 +55,7 @@ hub.Position = UDim2.new(0.5, 0, 0.400000006, 0)
 hub.Size = UDim2.new(1, 0, 0, 18)
 hub.Visible = true
 hub.Font = Enum.Font.GothamBold
-hub.Text = "ALCHEMY <font color=\"#00ff84\">HUB</font>"
+hub.Text = "ALCHEMY <font color=\"#00ff84\">HUB</font>" .. (getgenv().__BETA and " <font color=\"#fffb00\">[BETA]</font>" or "") 
 hub.TextColor3 = Color3.fromRGB(255, 255, 255)
 hub.TextSize = 14.000
 hub.RichText = true
