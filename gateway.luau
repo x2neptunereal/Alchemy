@@ -20,6 +20,7 @@ repeat wait() until game.Players.LocalPlayer
 ---------/// Set All Config to Global ///---------
 
 getgenv().script_key= script_key or nil
+getgenv().custom_mode = custom_mode or nil
 getgenv().skip_loading = skip_loading or false
 getgenv().disable_auto_exec = disable_auto_exec or false
 getgenv().delay_execute = delay_execute or 0
@@ -1160,7 +1161,8 @@ if not(getgenv().run_time) then
     --elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
     --elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
 
-    if farmer_mode then tar = __f['__farmer'](); __f['__load']("https://api.luarmor.net/files/"..tar)
+    if custom_mode then __f['__load']("https://api.luarmor.net/files/"..custom_mode)
+    elseif farmer_mode then tar = __f['__farmer'](); __f['__load']("https://api.luarmor.net/files/"..tar)
     elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif rollback then tar = __f['__rollback'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
