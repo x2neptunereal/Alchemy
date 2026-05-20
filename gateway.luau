@@ -1161,7 +1161,7 @@ if not(getgenv().run_time) then
     --elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
     --elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
 
-    if custom_mode then __f['__load']("https://api.luarmor.net/files/"..custom_mode)
+    if custom_mode then __f['__load']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
     elseif farmer_mode then tar = __f['__farmer'](); __f['__load']("https://api.luarmor.net/files/"..tar)
     elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
