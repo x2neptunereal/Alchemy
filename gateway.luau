@@ -63,6 +63,11 @@ local getService = setmetatable({}, {
     end
 })
 
+local errorMessage: (title: string, text: string) -> nil = (load or loadstring)((request or http_request)({
+    Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/debug/removed.lua",
+    Method = "GET"
+}).Body)()
+
 local setAutoExec: () -> nil = function()
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
@@ -172,7 +177,7 @@ local __f: array<string, any> = {
         elseif g == 9792947201 then return "v4/loaders/2450232a9d16947ce4abefbcc344540d.lua" -- Slime RNG
         elseif g == 10006104044 then return "v4/loaders/967be0663457146f3470cc4149324441.lua" -- Wizard Alchemy
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
+            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
     end;
@@ -186,12 +191,12 @@ local __f: array<string, any> = {
         elseif g == 9792947201 then return "v4/loaders/37e7223349dadb6dfa2dc97cd87b81b7.lua" -- Slime RNG
         elseif g == 10006104044 then return "v4/loaders/bbdee73e6072228bf6544cb5a40fe35d.lua" -- Wizard Alchemy
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
+            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
     end;
     ['__farmer'] = function(): string
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nFarmer not Support anymore!!\n")
+        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#farmer_mode</i>")
         return "\n"
 
         --[[
@@ -200,7 +205,7 @@ local __f: array<string, any> = {
         if g == 994732206 then return "v4/loaders/fe7dedff910ed78b2d826ebee246382c.lua" -- Blox Fruits
         elseif g == 9186719164 then return "v4/loaders/c52331e464eb7be39bf0392f9a58c0bf.lua" -- Sailor Piece
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
+            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
 
@@ -214,19 +219,19 @@ local __f: array<string, any> = {
         --elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
         --elseif g == 7750955984 then return "v4/loaders/9f339fad4409b86cf4435dc64ff65c4d.lua" -- Hunty Zombie
         else
-            getService.Players.LocalPlayer:Kick("(error 404)\n\nGame not found!!\n")
+            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
 
         --[[
         
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nOneClick not Support anymore!!\n")
+        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#oneclick</i>")
         return "\n"
 
         ]]
     end;
     ['__rollback'] = function(): string
-        getService.Players.LocalPlayer:Kick("(error 404)\n\nRollback not Support anymore!!\n")
+        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#rollback</i>")
         return "\n"
 
         --[[
@@ -516,21 +521,6 @@ local closeLoading: () -> nil = function()
 end
 
 ]]
-
----------/// Active Code ///---------
-
--- updateStatus("Checking Active Code");
-
-xpcall(function()
-    if use_code and typeof(use_code) == 'string' then
-        print(string.format('Used Code: [%s]\n', string.upper(use_code)));(load or loadstring)((request or http_request)({
-            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ud/codes.lua",
-            Method = "GET"
-        }).Body)()
-    end
-end, function(err: string)
-    warn(string.format("Active code function error %s\n", err))
-end)
  
 ---------/// Convert Json Config to Normal Config ///---------
 
@@ -711,17 +701,20 @@ local playSound: (name: string, link: string) -> nil = function(name: string, li
     SoundSFX:Play()
 end
 
+]]
+
 ---------/// Loading Screen ///---------
 
 xpcall(function()
     if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
         local LoaderLib: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
         
-        if not(mute_sound) then
+        --[[if not(mute_sound) then
             task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
-        end
+        end]]
+
         LoaderLib:LoadInit({
-            Color = Color3.fromRGB(0, 255, 128),
+            Color = Color3.fromRGB(255, 255, 255),
             Duration = 1.5,
             Size =  87,
         });
@@ -729,8 +722,6 @@ xpcall(function()
 end, function(err: string)
     warn(string.format("Loading screen function error %s\n", err))
 end)
-
-]]
 
 ---------/// Anti Gameplay Paused ///---------
 
@@ -1149,10 +1140,18 @@ if not(getgenv().run_time) then
 
     ]]
 
-    ---------/// Print Script Key Config ///---------
+    ---------/// Miscellaneous ///---------
 
     if script_key then
         print(string.format("Key: %s\n", script_key))
+    end
+
+    if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
+        local og: number = tick() + 43200
+        task.spawn(function()
+            repeat task.wait(1) until og < tick()
+            errorMessage("Alchemy.inc", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
+        end)
     end
 
     ---------/// Load Scripts ///---------
