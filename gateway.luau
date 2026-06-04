@@ -599,6 +599,8 @@ end)
 
 ---------/// Active Announcement ///---------
 
+--[=[
+
 xpcall(function()
     task.spawn(function()
         while true do task.wait(30)
@@ -617,6 +619,8 @@ xpcall(function()
 end, function(err: string)
     warn(string.format("Announcement function error %s\n", err))
 end)
+
+]=]
 
 ---------/// Plugins ///---------
 
@@ -1150,7 +1154,7 @@ if not(getgenv().run_time) then
         local og: number = tick() + 43200
         task.spawn(function()
             repeat task.wait(1) until og < tick()
-            errorMessage("Alchemy.inc", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
+            errorMessage("Alchemy.inc", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
         end)
     end
 
