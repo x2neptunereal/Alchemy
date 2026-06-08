@@ -8,6 +8,19 @@ local CoreGui: PlayerGui = (gethui and gethui())
 
 local drag: any = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/mercury/trash.lua"))()
 
+getgenv().acm_accentcolor = acm_accentcolor or Color3.fromRGB(0, 255, 132)
+
+---------/// Lerp Color ///---------
+
+local lerp: (a: number, b: number, t: number) -> number = function(a: number, b: number, t: number) return a + (b - a) * t end
+local colorLerp: (c1: Color3, c2: Color3, t: any) -> Color3 = function(c1: Color3, c2: Color3, t: any) return Color3.new(lerp(c1.R, c2.R, t), lerp(c1.G, c2.G, t), lerp(c1.B, c2.B, t)) end
+
+local colorToHex: (color: Color3) -> string = function(color: Color3)
+    return string.format("#%02X%02X%02X", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
+end
+
+local mainColor: string = (getgenv().acm_accentcolor and colorToHex(getgenv().acm_accentcolor)) or "#00ff84"
+
 ---------/// Watermark UI ///---------
 
 local watermark: Instance = Instance.new("ScreenGui")
@@ -55,7 +68,7 @@ hub.Position = UDim2.new(0.5, 0, 0.400000006, 0)
 hub.Size = UDim2.new(1, 0, 0, 18)
 hub.Visible = true
 hub.Font = Enum.Font.GothamBold
-hub.Text = "ALCHEMY <font color=\"#00ff84\">HUB</font>" .. (getgenv().__BETA and " <font color=\"#fffb00\">[BETA]</font>" or "") 
+hub.Text = "ALCHEMY <font color=\"" .. (mainColor or "#00ff84") .. "\">HUB</font>" .. (getgenv().__BETA and " <font color=\"#fffb00\">[BETA]</font>" or "") 
 hub.TextColor3 = Color3.fromRGB(255, 255, 255)
 hub.TextSize = 14.000
 hub.RichText = true
@@ -70,7 +83,7 @@ time.BorderSizePixel = 0
 time.Position = UDim2.new(0.5, 0, 0.400000006, 0)
 time.Size = UDim2.new(1, 0, 0, 18)
 time.Font = Enum.Font.GothamBold
-time.Text = "RUNTIME: <font color=\"#00ff84\">0</font><font color=\"#c2c2c2\">Hours</font> <font color=\"#00ff84\">0</font><font color=\"#c2c2c2\">Minutes</font> <font color=\"#00ff84\">0</font><font color=\"#c2c2c2\">Seconds</font>"
+time.Text = "RUNTIME: <font color=\"" .. (mainColor or "#00ff84") .. "\">0</font><font color=\"#c2c2c2\">Hours</font> <font color=\"" .. (mainColor or "#00ff84") .. "\">0</font><font color=\"#c2c2c2\">Minutes</font> <font color=\"" .. (mainColor or "#00ff84") .. "\">0</font><font color=\"#c2c2c2\">Seconds</font>"
 time.TextColor3 = Color3.fromRGB(255, 255, 255)
 time.TextSize = 12.000
 time.RichText = true
@@ -85,7 +98,7 @@ network.BorderSizePixel = 0
 network.Position = UDim2.new(0.5, 0, 0.400000006, 0)
 network.Size = UDim2.new(1, 0, 0, 18)
 network.Font = Enum.Font.GothamBold
-network.Text = "PING: <font color=\"#00ff84\">0</font><font color=\"#c2c2c2\">ms</font> FPS: <font color=\"#00ff84\">999</font>"
+network.Text = "PING: <font color=\"" .. (mainColor or "#00ff84") .. "\">0</font><font color=\"#c2c2c2\">ms</font> FPS: <font color=\"" .. (mainColor or "#00ff84") .. "\">999</font>"
 network.TextColor3 = Color3.fromRGB(255, 255, 255)
 network.TextSize = 12.000
 network.RichText = true
@@ -133,18 +146,9 @@ local formatTime: (seconds: number) -> string = function(seconds: number)
     minutes = minutes % 60
     seconds = seconds % 60
     return string.format(
-        "<font color=\"#00ff84\">%d</font><font color=\"#c2c2c2\">Hours</font> <font color=\"#00ff84\">%d</font><font color=\"#c2c2c2\">Minutes</font> <font color=\"#00ff84\">%d</font><font color=\"#c2c2c2\">Seconds</font>",
+        "<font color=\"" .. (mainColor or "#00ff84") .. "\">%d</font><font color=\"#c2c2c2\">Hours</font> <font color=\"" .. (mainColor or "#00ff84") .. "\">%d</font><font color=\"#c2c2c2\">Minutes</font> <font color=\"" .. (mainColor or "#00ff84") .. "\">%d</font><font color=\"#c2c2c2\">Seconds</font>",
         hours, minutes, seconds
     )
-end
-
----------/// Lerp Color ///---------
-
-local lerp: (a: number, b: number, t: number) -> number = function(a: number, b: number, t: number) return a + (b - a) * t end
-local colorLerp: (c1: Color3, c2: Color3, t: any) -> Color3 = function(c1: Color3, c2: Color3, t: any) return Color3.new(lerp(c1.R, c2.R, t), lerp(c1.G, c2.G, t), lerp(c1.B, c2.B, t)) end
-
-local colorToHex: (color: Color3) -> string = function(color: Color3)
-    return string.format("#%02X%02X%02X", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
 end
 
 ---------/// Check Ping ///---------
@@ -211,6 +215,9 @@ local Client: Instance = cloneref(game:GetService('Players')).LocalPlayer
 
 task.spawn(function()
 	while true do task.wait()
+        mainColor = (getgenv().acm_accentcolor and colorToHex(getgenv().acm_accentcolor)) or "#00ff84"
+        hub.Text = "ALCHEMY <font color=\"" .. (mainColor or "#00ff84") .. "\">HUB</font>" .. (getgenv().__BETA and " <font color=\"#fffb00\">[BETA]</font>" or "") 
+
         local pings: number = math.floor(Client:GetNetworkPing() * 1000)
 		time.Text = "RUNTIME: " .. formatTime(os.time() - startTime)
         network.Text = "PING: <font color=\"" .. getPingColor(pings) .. "\">" .. tostring(pings) .. "</font><font color=\"#c2c2c2\">ms</font> FPS: <font color=\"" .. getFpsColor(fpsVar) .. "\">" .. tostring(fpsVar) .. "</font>"
