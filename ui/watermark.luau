@@ -105,7 +105,7 @@ network.RichText = true
 
 UIGradient.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0.00, Color3.fromRGB(23, 23, 23)),
-    ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 132)),
+    ColorSequenceKeypoint.new(0.50, (getgenv().acm_accentcolor or Color3.fromRGB(0, 255, 132))),
     ColorSequenceKeypoint.new(1.00, Color3.fromRGB(23, 23, 23))
 };UIGradient.Parent = line
 
@@ -221,6 +221,12 @@ task.spawn(function()
         local pings: number = math.floor(Client:GetNetworkPing() * 1000)
 		time.Text = "RUNTIME: " .. formatTime(os.time() - startTime)
         network.Text = "PING: <font color=\"" .. getPingColor(pings) .. "\">" .. tostring(pings) .. "</font><font color=\"#c2c2c2\">ms</font> FPS: <font color=\"" .. getFpsColor(fpsVar) .. "\">" .. tostring(fpsVar) .. "</font>"
+
+        UIGradient.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0.00, Color3.fromRGB(23, 23, 23)),
+            ColorSequenceKeypoint.new(0.50, (getgenv().acm_accentcolor or Color3.fromRGB(0, 255, 132))),
+            ColorSequenceKeypoint.new(1.00, Color3.fromRGB(23, 23, 23))
+        }
 	end
 end)
 
