@@ -212,21 +212,28 @@ end)
 ---------/// Start Watermark ///---------
 
 local Client: Instance = cloneref(game:GetService('Players')).LocalPlayer
+local currentColor: Color3 = getgenv().acm_accentcolor or Color3.fromRGB(0, 255, 132)
 
 task.spawn(function()
 	while true do task.wait()
-        mainColor = (getgenv().acm_accentcolor and colorToHex(getgenv().acm_accentcolor)) or "#00ff84"
-        hub.Text = "ALCHEMY <font color=\"" .. (mainColor or "#00ff84") .. "\">HUB</font>" .. (getgenv().__BETA and " <font color=\"#fffb00\">[BETA]</font>" or "") 
+        if not(currentColor == getgenv().acm_accentcolor) then
+            currentColor = getgenv().acm_accentcolor
+            mainColor = (getgenv().acm_accentcolor and colorToHex(getgenv().acm_accentcolor)) or "#00ff84"
+
+            hub.Text = "ALCHEMY <font color=\"" .. (mainColor or "#00ff84") .. "\">HUB</font>" .. (getgenv().__BETA and " <font color=\"#fffb00\">[BETA]</font>" or "") 
+
+            UIGradient.Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0.00, Color3.fromRGB(23, 23, 23)),
+                ColorSequenceKeypoint.new(0.50, (getgenv().acm_accentcolor or Color3.fromRGB(0, 255, 132))),
+                ColorSequenceKeypoint.new(1.00, Color3.fromRGB(23, 23, 23))
+            }
+
+            print("!Update Color!")
+        end
 
         local pings: number = math.floor(Client:GetNetworkPing() * 1000)
 		time.Text = "RUNTIME: " .. formatTime(os.time() - startTime)
         network.Text = "PING: <font color=\"" .. getPingColor(pings) .. "\">" .. tostring(pings) .. "</font><font color=\"#c2c2c2\">ms</font> FPS: <font color=\"" .. getFpsColor(fpsVar) .. "\">" .. tostring(fpsVar) .. "</font>"
-
-        UIGradient.Color = ColorSequence.new{
-            ColorSequenceKeypoint.new(0.00, Color3.fromRGB(23, 23, 23)),
-            ColorSequenceKeypoint.new(0.50, (getgenv().acm_accentcolor or Color3.fromRGB(0, 255, 132))),
-            ColorSequenceKeypoint.new(1.00, Color3.fromRGB(23, 23, 23))
-        }
 	end
 end)
 
