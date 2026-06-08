@@ -718,7 +718,6 @@ xpcall(function()
         end]]
 
         LoaderLib:LoadInit({
-            Color = Color3.fromRGB(255, 255, 255),
             Duration = 1.5,
             Size =  87,
         });
