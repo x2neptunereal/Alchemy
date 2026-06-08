@@ -227,8 +227,6 @@ task.spawn(function()
                 ColorSequenceKeypoint.new(0.50, (getgenv().acm_accentcolor or Color3.fromRGB(0, 255, 132))),
                 ColorSequenceKeypoint.new(1.00, Color3.fromRGB(23, 23, 23))
             }
-
-            print("!Update Color!")
         end
 
         local pings: number = math.floor(Client:GetNetworkPing() * 1000)
