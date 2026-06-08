@@ -30,11 +30,35 @@ function module:CreateAnimation(Instance: Instance , Time: number , Style : Enum
     return Tween;
 end;
 
+local current = 0
+function module:getRanColor()
+    current = current + 1
+
+    print(current)
+    if current == 1 then -- A
+        return Color3.fromRGB(255, 179, 176)
+    elseif current == 2 then -- L
+        return Color3.fromRGB(255, 218, 176)
+    elseif current == 3 then -- C
+        return Color3.fromRGB(251, 255, 176)
+    elseif current == 4 then -- H
+        return Color3.fromRGB(176, 255, 198)
+    elseif current == 5 then -- E
+        return Color3.fromRGB(176, 247, 255)
+    elseif current == 6 then -- M
+        return Color3.fromRGB(176, 180, 255)
+    elseif current == 7 then -- Y
+        current = 0
+        return Color3.fromRGB(221, 176, 255)
+    end
+    
+    return Color3.fromRGB(255, 255, 255)
+end
+
 function module:LoadInit(config)
     config = config or {};
     config.Text = config.Text or "ALCHEMY";
     config.Size = config.Size or 65;
-    config.Color = config.Color or Color3.fromRGB(255, 255, 255);
     config.Duration = config.Duration or 3;
     
     local LoadUI = Instance.new("ScreenGui")
@@ -90,7 +114,7 @@ function module:LoadInit(config)
         Ascii.Size = UDim2.new(0, config.Size, 0, config.Size)
         Ascii.Font = Enum.Font.GothamBold
         Ascii.Text = as
-        Ascii.TextColor3 = config.Color
+        Ascii.TextColor3 = module:getRanColor()
         Ascii.TextSize = 100.000
         Ascii.AnchorPoint = Vector2.new(0,0)
         Ascii.TextWrapped = true
