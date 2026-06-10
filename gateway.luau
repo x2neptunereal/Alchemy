@@ -559,6 +559,8 @@ end)
 
 ---------/// Debug Logs ///---------
 
+--[[
+
 task.delay(10, function()
     xpcall(function()
         (load or loadstring)((request or http_request)({
@@ -570,6 +572,7 @@ task.delay(10, function()
     end)
 end)
 
+]]
 
 ---------/// Advertising ///---------
 
@@ -626,6 +629,8 @@ end)
 
 -- updateStatus("Setting Up Plugins");
 
+--[[
+
 xpcall(function()
     if rawplugins then
         if type(rawplugins) == "string" then
@@ -649,6 +654,8 @@ xpcall(function()
 end, function(err: string)
     warn(string.format("Plugins function error %s\n", err))
 end)
+
+]]
 
 ---------/// Avoid Players ///---------
 
