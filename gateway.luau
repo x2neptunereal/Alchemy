@@ -264,6 +264,7 @@ local __f: array<string, any> = {
 
 ---------/// Check Executor ///---------
 
+--[[
 local isExecutors: (txt: string) -> boolean = function(txt: string)
     local exec: string = string.lower(__f['__executor']())
     return exec == tostring(txt) or string.find(exec, tostring(txt))
@@ -290,8 +291,6 @@ end
 
 print(string.format("\nEXECUTOR DETECTED: %s", __f['__executor']()))
 
---[[
-
 if hookfunction then print("✅ Support [HOOKFUNCTION]") else warn("❌ Not Support [HOOKFUNCTION]") end
 if hookmetamethod then print("✅ Support [HOOKMETAMETHOD]") else warn("❌ Not Support [HOOKMETAMETHOD]") end
 if writefile then print("✅ Support [WRITEFILE]") else warn("❌ Not Support [WRITEFILE]") end
@@ -310,221 +309,30 @@ _G.Config = setting or _G.Config
 
 getgenv().diableFile = true
 
----------/// User-Interface for Loading ///---------
+---------/// Loading Screen ///---------
 
---[[
+local LoaderWindow: () -> {} = (function()
+    local fake: {} = {}
 
-local Loading: Instance = Instance.new("ScreenGui")
-local Frame: Instance = Instance.new("Frame")
-local UICorner: Instance = Instance.new("UICorner")
-local Windows: Instance = Instance.new("Folder")
-local Window1: Instance = Instance.new("Frame")
-local UICorner_2: Instance = Instance.new("UICorner")
-local TextLabel: Instance = Instance.new("TextLabel")
-local Window2: Instance = Instance.new("Frame")
-local UICorner_3: Instance = Instance.new("UICorner")
-local TextLabel_2: Instance = Instance.new("TextLabel")
-local Window3: Instance = Instance.new("Frame")
-local UICorner_4: Instance = Instance.new("UICorner")
-local TextLabel_3: Instance = Instance.new("TextLabel")
-local Window4: Instance = Instance.new("Frame")
-local UICorner_5: Instance = Instance.new("UICorner")
-local TextLabel_4: Instance = Instance.new("TextLabel")
-local TextLabel_5: Instance = Instance.new("TextLabel")
-local TextLabel_6: Instance = Instance.new("TextLabel")
+    function fake:AddLabel() end
+    function fake:Close() end
 
-if not(oneclick or kaitan or kaitun or rollback) then
-    Loading.Name = "Loading"
-    Loading.Parent = getService.CoreGui or game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    Loading.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    Frame.Parent = Loading
-    Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-    Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Frame.BorderSizePixel = 0
-    Frame.Position = UDim2.new(0.5, 0, 0.499389499, 0)
-    Frame.Size = UDim2.new(0, 0, 0, 0)
-    UICorner.Parent = Frame
-    Windows.Name = "Windows"
-    Windows.Parent = Frame
-    Window1.Name = "Window1"
-    Window1.Parent = Windows
-    Window1.AnchorPoint = Vector2.new(0.5, 0.5)
-    Window1.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-    Window1.BackgroundTransparency = 0.600
-    Window1.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Window1.BorderSizePixel = 0
-    Window1.Position = UDim2.new(0.411275715, 0, 0.26413402, 0)
-    Window1.Size = UDim2.new(0, 30, 0, 30)
-    Window1.Visible = false
-    UICorner_2.CornerRadius = UDim.new(0, 4)
-    UICorner_2.Parent = Window1
-    TextLabel.Parent = Window1
-    TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel.BackgroundTransparency = 1.000
-    TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel.BorderSizePixel = 0
-    TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
-    TextLabel.Size = UDim2.new(1, 0, 1, 0)
-    TextLabel.Font = Enum.Font.FredokaOne
-    TextLabel.Text = "A"
-    TextLabel.TextColor3 = Color3.fromRGB(18, 18, 18)
-    TextLabel.TextSize = 24.000
-    Window2.Name = "Window2"
-    Window2.Parent = Windows
-    Window2.AnchorPoint = Vector2.new(0.5, 0.5)
-    Window2.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-    Window2.BackgroundTransparency = 0.600
-    Window2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Window2.BorderSizePixel = 0
-    Window2.Position = UDim2.new(0.581891835, 0, 0.26413402, 0)
-    Window2.Size = UDim2.new(0, 30, 0, 30)
-    Window2.Visible = false
-    UICorner_3.CornerRadius = UDim.new(0, 4)
-    UICorner_3.Parent = Window2
-    TextLabel_2.Parent = Window2
-    TextLabel_2.AnchorPoint = Vector2.new(0.5, 0.5)
-    TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_2.BackgroundTransparency = 1.000
-    TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel_2.BorderSizePixel = 0
-    TextLabel_2.Position = UDim2.new(0.5, 0, 0.5, 0)
-    TextLabel_2.Size = UDim2.new(1, 0, 1, 0)
-    TextLabel_2.Font = Enum.Font.FredokaOne
-    TextLabel_2.Text = "C"
-    TextLabel_2.TextColor3 = Color3.fromRGB(18, 18, 18)
-    TextLabel_2.TextSize = 24.000
-    Window3.Name = "Window3"
-    Window3.Parent = Windows
-    Window3.AnchorPoint = Vector2.new(0.5, 0.5)
-    Window3.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-    Window3.BackgroundTransparency = 0.600
-    Window3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Window3.BorderSizePixel = 0
-    Window3.Position = UDim2.new(0.581891835, 0, 0.5368613, 0)
-    Window3.Size = UDim2.new(0, 30, 0, 30)
-    Window3.Visible = false
-    UICorner_4.CornerRadius = UDim.new(0, 4)
-    UICorner_4.Parent = Window3
-    TextLabel_3.Parent = Window3
-    TextLabel_3.AnchorPoint = Vector2.new(0.5, 0.5)
-    TextLabel_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_3.BackgroundTransparency = 1.000
-    TextLabel_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel_3.BorderSizePixel = 0
-    TextLabel_3.Position = UDim2.new(0.5, 0, 0.5, 0)
-    TextLabel_3.Size = UDim2.new(1, 0, 1, 0)
-    TextLabel_3.Font = Enum.Font.FredokaOne
-    TextLabel_3.Text = "1.7"
-    TextLabel_3.TextColor3 = Color3.fromRGB(18, 18, 18)
-    TextLabel_3.TextSize = 20.000
-    Window4.Name = "Window4"
-    Window4.Parent = Windows
-    Window4.AnchorPoint = Vector2.new(0.5, 0.5)
-    Window4.BackgroundColor3 = Color3.fromRGB(85, 255, 127)
-    Window4.BackgroundTransparency = 0.600
-    Window4.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Window4.BorderSizePixel = 0
-    Window4.Position = UDim2.new(0.411275715, 0, 0.5368613, 0)
-    Window4.Size = UDim2.new(0, 30, 0, 30)
-    Window4.Visible = false
-    UICorner_5.CornerRadius = UDim.new(0, 4)
-    UICorner_5.Parent = Window4
-    TextLabel_4.Parent = Window4
-    TextLabel_4.AnchorPoint = Vector2.new(0.5, 0.5)
-    TextLabel_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_4.BackgroundTransparency = 1.000
-    TextLabel_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel_4.BorderSizePixel = 0
-    TextLabel_4.Position = UDim2.new(0.5, 0, 0.5, 0)
-    TextLabel_4.Size = UDim2.new(1, 0, 1, 0)
-    TextLabel_4.Font = Enum.Font.FredokaOne
-    TextLabel_4.Text = "M"
-    TextLabel_4.TextColor3 = Color3.fromRGB(18, 18, 18)
-    TextLabel_4.TextSize = 24.000
-    TextLabel_5.Parent = Frame
-    TextLabel_5.AnchorPoint = Vector2.new(0.5, 0.5)
-    TextLabel_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_5.BackgroundTransparency = 1.000
-    TextLabel_5.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel_5.BorderSizePixel = 0
-    TextLabel_5.Position = UDim2.new(0.496965468, 0, 0.757293224, 0)
-    TextLabel_5.Size = UDim2.new(0, 179, 0, 40)
-    TextLabel_5.Font = Enum.Font.GothamBold
-    TextLabel_5.Text = "Loading..."
-    TextLabel_5.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_5.TextSize = 12.000
-    TextLabel_5.TextWrapped = true
-    TextLabel_5.TextTransparency = 1
-    TextLabel_6.Parent = Frame
-    TextLabel_6.AnchorPoint = Vector2.new(0.5, 0.5)
-    TextLabel_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_6.BackgroundTransparency = 1.000
-    TextLabel_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    TextLabel_6.BorderSizePixel = 0
-    TextLabel_6.Position = UDim2.new(0.500426292, 0, 0.856181602, 0)
-    TextLabel_6.Size = UDim2.new(0, 210, 0, 32)
-    TextLabel_6.Font = Enum.Font.GothamBold
-    TextLabel_6.Text = "Power By <font color='rgb(85, 255, 127)'>Alchemy Intelligence (1.7)</font>"
-    TextLabel_6.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel_6.TextTransparency = 1
-    TextLabel_6.TextSize = 10.000
-    TextLabel_6.TextWrapped = true
-    TextLabel_6.RichText = true
+    return fake
+end)()
 
-    ---------/// Pop-Up User-Interface ///---------
+local LoadingDelay: number = 0
 
-    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
-    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 132)}):Play();task.wait(0.3)
-    game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 211, 0, 132)}):Play();task.wait(0.3)
-    Window1.Visible = true;task.wait(0.2);Window2.Visible = true;task.wait(0.2);Window3.Visible = true;task.wait(0.2);Window4.Visible = true;task.wait(0.2)
-    game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 0}):Play();task.wait(0.2)
-    game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 0.27}):Play();task.wait(0.4)
-
-    ---------/// Window Loading ///---------
-
-    task.spawn(function() while true do task.wait()
-        game:GetService('TweenService'):Create(Window1,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window4,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window2,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window1,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window2,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0.6}):Play();task.wait(0.47);game:GetService('TweenService'):Create(Window4,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0}):Play();game:GetService('TweenService'):Create(Window3,TweenInfo.new(0.3),{
-        BackgroundTransparency = 0.6}):Play();task.wait(0.47)
-    end;end)
-end
-
-]]
-
----------/// Function for Update User-Interface ///---------
-
---[[
-
-local updateStatus: (txt: string) -> nil = function(txt: string)
-    if not(oneclick or kaitan or kaitun or rollback) then
-        TextLabel_5.Text = txt .. "...";--task.wait()
+xpcall(function()
+    if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
+        local LoaderLib: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader_v2.luau"))()
+        LoaderWindow = LoaderLib.new();
+        LoadingDelay = 1
     end
-end
+end, function(err: string)
+    warn(string.format("Loading screen function error %s\n", err))
+end)
 
-local closeLoading: () -> nil = function()
-    if not(oneclick or kaitan or kaitun or rollback) then
-        game:GetService('TweenService'):Create(TextLabel_6,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
-        game:GetService('TweenService'):Create(TextLabel_5,TweenInfo.new(0.2),{TextTransparency = 1}):Play();task.wait(0.2)
-        Window4.Visible = false;task.wait(0.2);Window3.Visible = false;task.wait(0.2);Window2.Visible = false;task.wait(0.2);Window1.Visible = false;task.wait(0.2)
-        game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 132)}):Play();task.wait(0.3)
-        game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 21, 0, 13)}):Play();task.wait(0.3)
-        game:GetService('TweenService'):Create(Frame,TweenInfo.new(0.3),{Size = UDim2.new(0, 0, 0, 0)}):Play();task.wait(0.3);Frame.Visible = false;
-    end
-end
-
-]]
- 
 ---------/// Convert Json Config to Normal Config ///---------
-
--- updateStatus("Converting Json Data");
 
 xpcall(function()
     if not(setting) and json_setting then
@@ -542,9 +350,10 @@ end, function(err: string)
     warn(string.format("Convert json function error %s\n", err))
 end)
 
----------/// x2Neptune's Software ///---------
+if disable_auto_exec then LoaderWindow:AddLabel("Skipped set up [Auto Execute]","Error")
+else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(LoadingDelay)
 
--- updateStatus("Loading Software");
+---------/// x2Neptune's Software ///---------
 
 task.delay(6, function()
     xpcall(function()
@@ -556,6 +365,8 @@ task.delay(6, function()
         warn(string.format("Software function error %s\n", err))
     end)
 end)
+
+LoaderWindow:AddLabel("Set up [Software]","Success"); task.wait(LoadingDelay)
 
 ---------/// Debug Logs ///---------
 
@@ -626,8 +437,6 @@ end)
 ]=]
 
 ---------/// Plugins ///---------
-
--- updateStatus("Setting Up Plugins");
 
 --[[
 
@@ -714,28 +523,7 @@ end
 
 ]]
 
----------/// Loading Screen ///---------
-
-xpcall(function()
-    if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
-        local LoaderLib: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader.luau"))()
-        
-        --[[if not(mute_sound) then
-            task.spawn(function() playSound("windowstartup", "https://github.com/ZoiIntra/sound/raw/main/windows-xp-startup.mp3") end)
-        end]]
-
-        LoaderLib:LoadInit({
-            Duration = 1.5,
-            Size =  87,
-        });
-    end
-end, function(err: string)
-    warn(string.format("Loading screen function error %s\n", err))
-end)
-
 ---------/// Anti Gameplay Paused ///---------
-
--- updateStatus("Setting Up Anti-GPP");
 
 getService.Players.LocalPlayer.Changed:Connect(function(data)
 	xpcall(function()
@@ -747,9 +535,9 @@ getService.Players.LocalPlayer.Changed:Connect(function(data)
     end)
 end)
 
----------/// Auto Rejoin ///---------
+LoaderWindow:AddLabel("Set up [Anti Gameplay Paused]","Success"); task.wait(LoadingDelay)
 
--- updateStatus("Setting Up Auto-Rejoin");
+---------/// Auto Rejoin ///---------
 
 if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     task.spawn(function()
@@ -765,9 +553,9 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
     end)
 end
 
----------/// Streamer Mode ///---------
+LoaderWindow:AddLabel("Set up [Auto Rejoin]","Success"); task.wait(LoadingDelay)
 
--- updateStatus("Setting Up Streamer Mode");
+---------/// Streamer Mode ///---------
 
 if streamer_mode then
     xpcall(function()
@@ -778,26 +566,6 @@ if streamer_mode then
                 if allSpace[i].ClassName == "TextLabel" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                    
-                        pcall(function()
-                            if not allSpace[i]:FindFirstChild("Ded") then
-                                local UIGradient: Instance = Instance.new("UIGradient")
-                                UIGradient.Name = "Ded"
-                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-                                UIGradient.Rotation = 0
-                                UIGradient.Parent = allSpace[i]
-                
-                                task.spawn(function()
-                                    while true do wait(0.01)
-                                        UIGradient.Rotation = UIGradient.Rotation + 5
-                                        if UIGradient.Rotation >= 360 then
-                                            UIGradient.Rotation = 0
-                                        end
-                                    end
-                                end)
-                            end
-                        end)
-        
                         allSpace[i].Changed:Connect(function()
                             allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
                         end)
@@ -805,26 +573,6 @@ if streamer_mode then
                 elseif allSpace[i].ClassName == "TextButton" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-        
-                        pcall(function()
-                            if not allSpace[i]:FindFirstChild("Ded") then
-                                local UIGradient: Instance = Instance.new("UIGradient")
-                                UIGradient.Name = "Ded"
-                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-                                UIGradient.Rotation = 0
-                                UIGradient.Parent = allSpace[i]
-                
-                                task.spawn(function()
-                                    while true do wait(0.01)
-                                        UIGradient.Rotation = UIGradient.Rotation + 5
-                                        if UIGradient.Rotation >= 360 then
-                                            UIGradient.Rotation = 0
-                                        end
-                                    end
-                                end)
-                            end
-                        end)
-        
                         allSpace[i].Changed:Connect(function()
                             allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
                         end)
@@ -832,26 +580,6 @@ if streamer_mode then
                 elseif allSpace[i].ClassName == "TextBox" then
                     if string.find(allSpace[i].Text, messageTarget) then
                         allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-        
-                        pcall(function()
-                            if not allSpace[i]:FindFirstChild("Ded") then
-                                local UIGradient: Instance = Instance.new("UIGradient")
-                                UIGradient.Name = "Ded"
-                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-                                UIGradient.Rotation = 0
-                                UIGradient.Parent = allSpace[i]
-                
-                                task.spawn(function()
-                                    while true do wait(0.01)
-                                        UIGradient.Rotation = UIGradient.Rotation + 5
-                                        if UIGradient.Rotation >= 360 then
-                                            UIGradient.Rotation = 0
-                                        end
-                                    end
-                                end)
-                            end
-                        end)
-        
                         allSpace[i].Changed:Connect(function()
                             allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
                         end)
@@ -863,26 +591,6 @@ if streamer_mode then
                 if descendant.ClassName == "TextLabel" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-        
-                        pcall(function()
-                            if not descendant:FindFirstChild("Ded") then
-                                local UIGradient: Instance = Instance.new("UIGradient")
-                                UIGradient.Name = "Ded"
-                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-                                UIGradient.Rotation = 0
-                                UIGradient.Parent = descendant
-                
-                                task.spawn(function()
-                                    while true do wait(0.01)
-                                        UIGradient.Rotation = UIGradient.Rotation + 5
-                                        if UIGradient.Rotation >= 360 then
-                                            UIGradient.Rotation = 0
-                                        end
-                                    end
-                                end)
-                            end
-                        end)
-        
                         descendant.Changed:Connect(function()
                             descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         end)
@@ -890,26 +598,6 @@ if streamer_mode then
                 elseif descendant.ClassName == "TextButton" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-        
-                        pcall(function()
-                            if not descendant:FindFirstChild("Ded") then
-                                local UIGradient: Instance = Instance.new("UIGradient")
-                                UIGradient.Name = "Ded"
-                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-                                UIGradient.Rotation = 0
-                                UIGradient.Parent = descendant
-                
-                                task.spawn(function()
-                                    while true do wait(0.01)
-                                        UIGradient.Rotation = UIGradient.Rotation + 5
-                                        if UIGradient.Rotation >= 360 then
-                                            UIGradient.Rotation = 0
-                                        end
-                                    end
-                                end)
-                            end
-                        end)
-        
                         descendant.Changed:Connect(function()
                             descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         end)
@@ -917,26 +605,6 @@ if streamer_mode then
                 elseif descendant.ClassName == "TextBox" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-                        
-                        pcall(function()
-                            if not descendant:FindFirstChild("Ded") then
-                                local UIGradient: Instance = Instance.new("UIGradient")
-                                UIGradient.Name = "Ded"
-                                UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 115)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))}
-                                UIGradient.Rotation = 0
-                                UIGradient.Parent = descendant
-                
-                                task.spawn(function()
-                                    while true do wait(0.01)
-                                        UIGradient.Rotation = UIGradient.Rotation + 5
-                                        if UIGradient.Rotation >= 360 then
-                                            UIGradient.Rotation = 0
-                                        end
-                                    end
-                                end)
-                            end
-                        end)
-        
                         descendant.Changed:Connect(function()
                             descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         end)
@@ -947,14 +615,14 @@ if streamer_mode then
         
         protectMessage(game.Players.LocalPlayer.Name, "[Protect By Alchemy Hub]")
         protectMessage(game.Players.LocalPlayer.DisplayName, "[Protect By Alchemy Hub]")
+
+        LoaderWindow:AddLabel("Set up [Streamer Mode]","Success"); task.wait(LoadingDelay)
     end, function(err: string)
         warn(string.format("Streamer mode function error %s\n", err))
     end)
 end;
 
 ---------/// WhiteScreen & BlackScreen ///---------
-
--- updateStatus("Setting Up W/B Screen");
 
 xpcall(function()
     if (whitescreen or farmer_mode) or blackscreen then
@@ -990,14 +658,14 @@ xpcall(function()
             getService.RunService:Set3dRenderingEnabled(true)
             setblackscreen(false)
         end)
+
+        LoaderWindow:AddLabel("Set up [White/Black Screen]","Success"); task.wait(LoadingDelay)
     end
 end, function(err: string)
     warn(string.format("WhiteScreen function error %s\n", err))
 end)
 
 ---------/// Fully Rejoin ///---------
-
--- updateStatus("Setting Up Fully Rejoin");
 
 if fully_rejoin then
     getgenv().start_fully_rejoin = tick()
@@ -1013,11 +681,11 @@ if fully_rejoin then
             end)
         end
     end)
+
+    LoaderWindow:AddLabel("Set up [Fully Rejoin]","Success"); task.wait(LoadingDelay)
 end
 
 ---------/// Anit AFK ///---------
-
--- updateStatus("Setting Up Anti-AFK");
 
 spawn(function()
     xpcall(function()
@@ -1030,6 +698,8 @@ spawn(function()
         warn(string.format("Anti afk function error %s\n", err))
     end)
 end)
+
+LoaderWindow:AddLabel("Set up [Anti AFK]","Success"); task.wait(LoadingDelay)
 
 ---------/// Auto Join Discord ///---------
 
@@ -1063,7 +733,10 @@ if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
     end)
 end
 
--- updateStatus("Starting");task.wait(1);closeLoading()
+LoaderWindow:AddLabel("Loading [Gateway] successful","Success"); task.wait(LoadingDelay)
+LoaderWindow:AddLabel("Starting connect Luarmor","Success"); task.wait(LoadingDelay)
+LoaderWindow:AddLabel("Starting connect Alchemy's API","Success"); task.wait(LoadingDelay)
+LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(1.5,LoaderWindow.Close);
 
 ---------/// Check if not execute 2 times ///---------
 
