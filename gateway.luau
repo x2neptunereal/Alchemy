@@ -559,6 +559,8 @@ end)
 
 ---------/// Debug Logs ///---------
 
+--[[
+
 task.delay(10, function()
     xpcall(function()
         (load or loadstring)((request or http_request)({
@@ -569,6 +571,8 @@ task.delay(10, function()
         warn(string.format("Debug logs error %s\n", err))
     end)
 end)
+
+]]
 
 ---------/// Advertising ///---------
 
