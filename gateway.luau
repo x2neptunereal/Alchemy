@@ -689,11 +689,18 @@ end
 
 spawn(function()
     xpcall(function()
-        getService.Players.LocalPlayer.Idled:connect(function()
+        for i, v in pairs((getconnections or get_signal_cons)(getService.Players.LocalPlayer.Idled))do
+            if v.Disable then
+                v.Disable(v)
+            elseif v.Disconnect then
+                v.Disconnect(v)
+            end
+        end
+        --[[Players.LocalPlayer.Idled:connect(function()
             getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
             wait(1)
             getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        end)
+        end)]]
     end, function(err: string)
         warn(string.format("Anti afk function error %s\n", err))
     end)
