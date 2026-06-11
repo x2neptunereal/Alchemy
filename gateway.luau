@@ -696,11 +696,17 @@ spawn(function()
                 v.Disconnect(v)
             end
         end
-        --[[Players.LocalPlayer.Idled:connect(function()
+
+        --[[
+        
+        Players.LocalPlayer.Idled:connect(function()
             getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
             wait(1)
             getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        end)]]
+        end)
+        
+        ]]
+        
     end, function(err: string)
         warn(string.format("Anti afk function error %s\n", err))
     end)
@@ -743,7 +749,8 @@ end
 LoaderWindow:AddLabel("Loading [Gateway] successful","Success"); task.wait(LoadingDelay)
 LoaderWindow:AddLabel("Starting connect Luarmor","Success"); task.wait(LoadingDelay)
 LoaderWindow:AddLabel("Starting connect Alchemy's API","Success"); task.wait(LoadingDelay)
-LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(1.5,LoaderWindow.Close);
+LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(0.127,LoaderWindow.Close);
+task.wait(LoadingDelay * 3.14);
 
 ---------/// Check if not execute 2 times ///---------
 
