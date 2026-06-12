@@ -267,7 +267,7 @@ local __f: array<string, any> = {
 local isExecutors: (txt: string) -> boolean = function(txt: string)
     local exec: string = string.lower(__f['__executor']())
     local txt: string = string.lower(txt)
-    return exec == tostring(txt) or string.find(exec, tostring(txt)) or string.find(tostring(txt), exec)
+    return (exec == txt) or string.find(exec, txt) or string.find(txt, exec) or false
 end
 
 --[[
