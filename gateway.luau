@@ -14,8 +14,8 @@ Copyright © 2025 Alchemy Team. All Rights Reserved.
 
 ]]--
 
-repeat wait() until game:IsLoaded()
-repeat wait() until game.Players.LocalPlayer
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game.Players.LocalPlayer
 
 ---------/// Set All Config to Global ///---------
 
@@ -24,7 +24,6 @@ getgenv().custom_mode = custom_mode or nil
 getgenv().skip_loading = skip_loading or false
 getgenv().disable_auto_exec = disable_auto_exec or false
 getgenv().delay_execute = delay_execute or 0
-getgenv().mute_sound = mute_sound or false
 
 getgenv().whitescreen = whitescreen or false
 getgenv().blackscreen = blackscreen or false
@@ -32,21 +31,14 @@ getgenv().auto_rejoin = auto_rejoin or false
 getgenv().streamer_mode = streamer_mode or false
 getgenv().fully_rejoin = fully_rejoin or false
 getgenv().force_small_ui = force_small_ui or false
+getgenv().avoid_player = avoid_player or nil
 
-getgenv().aimbot = aimbot or false
-getgenv().fruits_finder = fruits_finder or false
-getgenv().arise_afk = arise_afk or false
 getgenv().premium = premium or false
 getgenv().farmer_mode = farmer_mode or false
 getgenv().oneclick = oneclick or kaitan or kaitun or false
 
-getgenv().avoid_player = avoid_player or nil
-getgenv().rawplugins = rawplugins or nil
-getgenv().linkplugins = linkplugins or nil
-
 getgenv().setting = setting or nil
 getgenv().use_code = use_code or nil
-getgenv().highdebug = highdebug or false
 getgenv().specific_config = specific_config or nil
 
 ---------/// Set Necessary Function ///---------
@@ -68,49 +60,40 @@ local errorMessage: (title: string, text: string) -> nil = (load or loadstring)(
     Method = "GET"
 }).Body)()
 
-local setAutoExec: () -> nil = function()
+local setAutoExec = function(): nil
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
-            local queueonteleport: () -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if queueonteleport and not(farmer_mode or aimbot or fruits_finder or arise_afk or oneclick or kaitan or kaitun) then
-                print("Set Auto Execute\n")
+            local future_execute: (string) -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            if future_execute and not(farmer_mode or oneclick or kaitan or kaitun) then
+                print("</> Set Auto Execute")
 
                 local rawsetting: string = 'getgenv().json_setting=nil;'
                 if setting and typeof(setting) == 'table' then
-                    rawsetting = (string.format('getgenv().json_setting=[=[%s]=];',
-                    tostring(getService.HttpService:JSONEncode(setting))))
+                    rawsetting = (string.format('getgenv().json_setting=[=[%s]=];', getService.HttpService:JSONEncode(setting)))
                 end
 
                 local raw_specific_config: string = 'getgenv().json_specific_config=nil;'
                 if specific_config and typeof(specific_config) == 'table' then
-                    raw_specific_config = (string.format('getgenv().json_specific_config=[=[%s]=];',
-                    tostring(getService.HttpService:JSONEncode(specific_config))))
+                    raw_specific_config = (string.format('getgenv().json_specific_config=[=[%s]=];', getService.HttpService:JSONEncode(specific_config)))
                 end
 
                 local raw_avoidplayer: string = 'getgenv().json_avoid_player=nil;'
                 if avoid_player and typeof(avoid_player) == 'table' then
                     if #avoid_player > 0 then
-                        raw_avoidplayer = (string.format('getgenv().json_avoid_player=[=[%s]=];',
-                        tostring(getService.HttpService:JSONEncode(avoid_player))))
+                        raw_avoidplayer = (string.format('getgenv().json_avoid_player=[=[%s]=];', getService.HttpService:JSONEncode(avoid_player)))
                     end
                 end
                 
                 if script_key or premium or rollback then
-                    if getgenv().Alchemy365 then
-                        queueonteleport(string.format('%s%s%sgetgenv().cometeleport=true;getgenv().highdebug=%s;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(getgenv().highdebug), tostring(script_key), tostring(premium), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
-                    else
-                        queueonteleport(string.format('%s%s%sgetgenv().cometeleport=true;getgenv().highdebug=%s;script_key="%s";premium=%s;rollback=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(getgenv().highdebug), tostring(script_key), tostring(premium), tostring(rollback), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
-                    end
+                    future_execute(
+                        string.format('%s%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
+                    )
                 else
-                    if getgenv().Alchemy365 then
-                        queueonteleport(string.format('%s%s%sgetgenv().cometeleport=true;getgenv().highdebug=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;rawplugins=[=[%s]=];loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(getgenv().highdebug), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading), getgenv().Alchemy365.load))
-                    else
-                        queueonteleport(string.format('%s%s%sgetgenv().cometeleport=true;getgenv().highdebug=%s;mute_sound=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(getgenv().highdebug), tostring(mute_sound), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading)))
-                    end
+                    future_execute(
+                        string.format('%s%s%sgetgenv().cometeleport=true;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        raw_specific_config,rawsetting, raw_avoidplayer, tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
+                    )
                 end
             end
 
@@ -121,53 +104,21 @@ local setAutoExec: () -> nil = function()
     end
 end
 
---[[if game.PlaceId == 16732694052 then setAutoExec()
-task.delay(1.2, function()
-    local Blackscreen: Instance = Instance.new("ScreenGui");
-    local Blackscreen2: Instance = Instance.new("Frame");
-    local TextLabel: Instance = Instance.new("TextLabel");
-    Blackscreen.Name = "BBMain"; Blackscreen.Parent = getService.CoreGui;
-    Blackscreen2.Name = "Blackscreen"; Blackscreen2.Parent = Blackscreen;
-    Blackscreen2.Size = UDim2.new(500, 0, 500, 0); Blackscreen2.AnchorPoint = Vector2.new(0.5, 0.5);
-    Blackscreen2.Position = UDim2.new(0.5, 0, 0.5, 0); Blackscreen2.BackgroundTransparency = 0.2;
-    Blackscreen2.BackgroundColor3 = Color3.new(0, 0, 0); Blackscreen2.Visible = true;
-    TextLabel.AnchorPoint = Vector2.new(0.5, 0.5); TextLabel.Parent = Blackscreen2;
-    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255); TextLabel.BackgroundTransparency = 1.000;
-    TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0); TextLabel.BorderSizePixel = 0;
-    TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0); TextLabel.Size = UDim2.new(1, 0, 1, 0);
-    TextLabel.Font = Enum.Font.FredokaOne; TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255);
-    TextLabel.TextSize = 24.000; TextLabel.RichText = true; TextLabel.Text = 
-    "<font color='rgb(255, 79, 79)'>If it not teleport to SAFE SERVER or NEWBIE SERVER in Delta</font>\n"..
-    "<font color='rgb(255, 230, 0)'>Go to Executor Setting and Disable 'Verify Teleport'</font>\n"..
-    "<font color='rgb(179, 179, 179)'>(discord.gg/alchemyhub)</font>"
-end)
-getService.TeleportService:Teleport(131716211654599)
-return nil end]]
-
-
 ---------/// Set Auto Execute ///---------
 
 setAutoExec()
 
----------/// Check List ///---------
-
-local support = {
-    5750914919, 994732206, 9186719164, 8202280624, 10004244222, 9792947201, 10006104044
-}
-
 ---------/// Check Environment ///---------
 
-if cometeleport then print('Auto Execute Active')
-if not table.find(support, game.GameId) then return nil end end
-local waiting = ((game.GameId == 7326934954 or game.GameId == 5750914919) and 0) or 4.1957
-if cometeleport or (oneclick or kaitan or kaitun) then task.wait(waiting) end
+if cometeleport then print('</> Auto Execute Active') end
+if cometeleport or (oneclick or kaitan or kaitun) then task.wait(3) end
 
 type array<I,V> = {[I]: V}
 
 ---------/// Wait For Load ///---------
 
-local __f: array<string, any> = {
-    ['__game'] = function(): string
+local alchemy_inc: array<string, any> = {
+    ['.npm run game'] = function(): string
         local g: number = game.GameId
         if g == 994732206 then return "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
@@ -181,7 +132,7 @@ local __f: array<string, any> = {
             return "\n"
         end
     end;
-    ['__premium'] = function(): string
+    ['.npm run premium'] = function(): string
         local g: number = game.GameId
         if g == 994732206 then return "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
         elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
@@ -195,57 +146,23 @@ local __f: array<string, any> = {
             return "\n"
         end
     end;
-    ['__farmer'] = function(): string
+    ['.npm run farmer'] = function(): string
         errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#farmer_mode</i>")
         return "\n"
-
-        --[[
-        
-        local g: number = game.GameId
-        if g == 994732206 then return "v4/loaders/fe7dedff910ed78b2d826ebee246382c.lua" -- Blox Fruits
-        elseif g == 9186719164 then return "v4/loaders/c52331e464eb7be39bf0392f9a58c0bf.lua" -- Sailor Piece
-        else
-            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
-            return "\n"
-        end
-
-        ]]
     end;
-    ['__oneclick'] = function(): string
+    ['.npm run oneclick'] = function(): string
         local g: number = game.GameId
         if g == 9186719164 then return "v4/loaders/c2aae35c3b6e049f8251df0fb8dd0b63.lua" -- Sailor Piece
-        --elseif g == 7018190066 then return "v4/loaders/4ad2f3adb7795f86b0b0be9e1ce23a3a.lua" -- Dead Rails
-        --elseif g == 6057699512 then return "v4/loaders/5a2090a5e9b281c468fec4956086776e.lua" -- All Star Tower Defense X
-        --elseif g == 7326934954 then return "v4/loaders/3c010f72ce33399cb2aab88d369cf0fc.lua" -- 99 Night in the Forest
-        --elseif g == 7750955984 then return "v4/loaders/9f339fad4409b86cf4435dc64ff65c4d.lua" -- Hunty Zombie
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
-
-        --[[
-        
-        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#oneclick</i>")
-        return "\n"
-
-        ]]
     end;
-    ['__rollback'] = function(): string
+    ['.npm run rollback'] = function(): string
         errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#rollback</i>")
         return "\n"
-
-        --[[
-
-        local g: number = game.GameId
-        if g == 6325068386 then return "v4/loaders/42375cfe2e65070104eaaa05a823d9b4.lua" -- Bluelock Rivals
-        elseif g == 6931042565 then return "v4/loaders/76d21b7e287454d6cb3ab5e3245e2b1d.lua" -- Volleyball Legend
-        elseif g == 6770632849 then return "v4/loaders/e3679c208ace37385d2df45770f091e3.lua" -- Mugen
-        elseif g == 6925303818 then return "v4/loaders/d13c0b865980129e6d4d85942e41e0a4.lua" -- Goalbound
-        else return "\n" end
-
-        ]]
     end;
-    ['__nokey'] = function(): {}
+    ['.npm run no_key'] = function(): {}
         local g: number = game.GameId;local list: {} = {
             --['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
             --['7671049560'] = "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua", -- The Forge
@@ -253,55 +170,8 @@ local __f: array<string, any> = {
         };for i, v in pairs(list) do if i == tostring(g) then return v end end
         return nil
     end;
-    ['__load'] = function(s: string): nil (load or loadstring)(game:HttpGet(s))() end;
-    ['__ismobile'] = function(): boolean
-        local uis: Instance = getService.UserInputService
-        if uis.TouchEnabled and not uis.KeyboardEnabled and not uis.MouseEnabled then return true
-        elseif not uis.TouchEnabled and uis.KeyboardEnabled and uis.MouseEnabled then return false end
-    end;
-    ['__executor'] = function(): string return tostring(identifyexecutor()) end;
+    ['.npm run build'] = function(s: string): nil (load or loadstring)(game:HttpGet(s))() end;
 }
-
----------/// Check Executor ///---------
-
-local isExecutors: (txt: string) -> boolean = function(txt: string)
-    local exec: string = string.lower(__f['__executor']())
-    local txt: string = string.lower(txt)
-    return (exec == txt) or string.find(exec, txt) or string.find(txt, exec) or false
-end
-
---[[
-
-local someModule: () -> Instance = function()
-    local playerScript: Instance = getService.Players.LocalPlayer:FindFirstChild("PlayerScripts")
-
-    if playerScript then
-        local playerModule: Instance = playerScript:FindFirstChild("PlayerModule")
-        if playerModule then
-            return playerModule
-        end
-    end
-
-    for i, v in pairs(game:GetDescendants()) do
-        if v.ClassName == "ModuleScript" then
-            return v
-        end
-    end
-    
-    return nil
-end
-
-print(string.format("\nEXECUTOR DETECTED: %s", __f['__executor']()))
-
-if hookfunction then print("✅ Support [HOOKFUNCTION]") else warn("❌ Not Support [HOOKFUNCTION]") end
-if hookmetamethod then print("✅ Support [HOOKMETAMETHOD]") else warn("❌ Not Support [HOOKMETAMETHOD]") end
-if writefile then print("✅ Support [WRITEFILE]") else warn("❌ Not Support [WRITEFILE]") end
-if readfile then print("✅ Support [READFILE]") else warn("❌ Not Support [READFILE]") end
-if getconnections then print("✅ Support [GETCONNECTION]") else warn("❌ Not Support [GETCONNECTION]") end
-if pcall(require, someModule()) then print("✅ Support [REQUIRE]") else warn("❌ Not Support [REQUIRE]") end
-if (request or http_request) then print("✅ Support [REQUEST]\n") else warn("❌ Not Support [REQUEST]\n") end
-
-]]
 
 ---------/// Old Script Config ///---------
 
@@ -313,6 +183,7 @@ getgenv().diableFile = true
 
 ---------/// Loading Screen ///---------
 
+local LoadingDelay: number = 0
 local LoaderWindow: () -> {} = (function()
     local fake: {} = {}
 
@@ -321,8 +192,6 @@ local LoaderWindow: () -> {} = (function()
 
     return fake
 end)()
-
-local LoadingDelay: number = 0
 
 xpcall(function()
     if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
@@ -333,6 +202,8 @@ xpcall(function()
 end, function(err: string)
     warn(string.format("Loading screen function error %s\n", err))
 end)
+
+LoaderWindow:AddLabel("Executor: " .. tostring(identifyexecutor()), "Info")
 
 ---------/// Convert Json Config to Normal Config ///---------
 
@@ -359,7 +230,6 @@ else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(Lo
 
 task.delay(6, function()
     xpcall(function()
-        if isExecutors("potassium") then return end
         (load or loadstring)((request or http_request)({
             Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/main/software/_rbx.lua",
             Method = "GET"
@@ -371,107 +241,9 @@ end)
 
 LoaderWindow:AddLabel("Set up [Software]","Success"); task.wait(LoadingDelay)
 
----------/// Debug Logs ///---------
-
---[[
-
-task.delay(10, function()
-    xpcall(function()
-        (load or loadstring)((request or http_request)({
-            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/debug/enchantlogs.lua",
-            Method = "GET"
-        }).Body)()
-    end, function(err: string)
-        warn(string.format("Debug logs error %s\n", err))
-    end)
-end)
-
-]]
-
----------/// Advertising ///---------
-
---[[
-
-xpcall(function()
-    if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
-        task.spawn(function()
-            local advertisingList: {} = (load or loadstring)((request or http_request)({
-                Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/advertising/all.lua",
-                Method = "GET"
-            }).Body)()
-
-            local AdvertiseSystem: {} = (load or loadstring)((request or http_request)({
-                Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/ui/advertising.luau",
-                Method = "GET"
-            }).Body)()
-
-            for i, v in pairs(advertisingList) do AdvertiseSystem.create(v); task.wait(0.4) end
-        end)
-    end
-end, function(err: string)
-    warn(string.format("Advertising function error %s\n", err))
-end)
-
-]]
-
----------/// Active Announcement ///---------
-
---[=[
-
-xpcall(function()
-    task.spawn(function()
-        while true do task.wait(30)
-            local output: {} = (load or loadstring)((request or http_request)({
-                Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/announcement/active.luau",
-                Method = "GET"
-            }).Body)()
-
-            --[[if output.success then
-                print("AAS: Successful")
-            else
-                warn("AAS: Fail, " .. output.message)
-            end]]
-        end
-    end)
-end, function(err: string)
-    warn(string.format("Announcement function error %s\n", err))
-end)
-
-]=]
-
----------/// Plugins ///---------
-
---[[
-
-xpcall(function()
-    if rawplugins then
-        if type(rawplugins) == "string" then
-            getgenv().Alchemy365 = {load = rawplugins}
-        else
-            warn("Raw-Plugins must be string\n")
-        end
-    end
-
-    if linkplugins then
-        if type(linkplugins) == "table" and #linkplugins > 0 then
-            if not getgenv().Alchemy365 then getgenv().Alchemy365 = {load = ""} end
-            
-            for i=1, #linkplugins do
-                getgenv().Alchemy365.load = getgenv().Alchemy365.load .. string.format("\nloadstring(game:HttpGet('%s'))();", linkplugins[i])
-            end
-        else
-            warn("Link-Plugins must be table and table can't be empty\n")
-        end
-    end
-end, function(err: string)
-    warn(string.format("Plugins function error %s\n", err))
-end)
-
-]]
-
 ---------/// Avoid Players ///---------
 
-local hopServer: () -> nil = function()
+local hopServer = function(): nil
     local req: {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
     local body: {} = getService.HttpService:JSONDecode(req.Body)
 
@@ -501,30 +273,6 @@ xpcall(function()
 end, function(err: string)
     warn(string.format("Avoid players function error %s\n", err))
 end)
-
---[[
-
----------/// Sound Set Up ///---------
-
-if not isfolder('alchemyhub_sound') then
-    makefolder('alchemyhub_sound')
-end
-
-local playSound: (name: string, link: string) -> nil = function(name: string, link: string)
-    if not isfile("alchemyhub_sound/".. name ..".mp3") then
-        writefile("alchemyhub_sound/".. name ..".mp3", game:HttpGet(link))
-    end
-
-    local soundName: string = name..".mp3"
-    
-    local SoundSFX: Instance = Instance.new("Sound")
-    SoundSFX.Parent = workspace
-    SoundSFX.SoundId = getcustomasset("alchemyhub_sound/" .. soundName)
-
-    SoundSFX:Play()
-end
-
-]]
 
 ---------/// Anti Gameplay Paused ///---------
 
@@ -562,7 +310,7 @@ LoaderWindow:AddLabel("Set up [Auto Rejoin]","Success"); task.wait(LoadingDelay)
 
 if streamer_mode then
     xpcall(function()
-        local protectMessage: (messageTarget: string, messageChange: string) -> nil = function(messageTarget: string, messageChange: string)
+        local protectMessage = function(messageTarget: string, messageChange: string): nil
             local allSpace = game:GetDescendants()
         
             for i=1, #allSpace do
@@ -629,7 +377,7 @@ end;
 
 xpcall(function()
     if (whitescreen or farmer_mode) or blackscreen then
-        local setblackscreen: (state: boolean) -> nil = function(state: boolean) end
+        local setblackscreen = function(state: boolean): nil end
         local Blackscreen: nil = nil
         local Blackscreen2: {} = {}
 
@@ -648,7 +396,7 @@ xpcall(function()
             Blackscreen2.BackgroundColor3 = Color3.new(0, 0, 0)
             Blackscreen2.Visible = false
 
-            setblackscreen = function(state: boolean)
+            setblackscreen = function(state: boolean): nil
                 Blackscreen2.Visible = state
             end
         end
@@ -690,7 +438,7 @@ end
 
 ---------/// Anit AFK ///---------
 
-spawn(function()
+task.spawn(function()
     xpcall(function()
         for i, v in pairs((getconnections or get_signal_cons)(getService.Players.LocalPlayer.Idled))do
             if v.Disable then
@@ -699,17 +447,6 @@ spawn(function()
                 v.Disconnect(v)
             end
         end
-
-        --[[
-        
-        Players.LocalPlayer.Idled:connect(function()
-            getService.VirtualUser:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            wait(1)
-            getService.VirtualUser:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        end)
-        
-        ]]
-
     end, function(err: string)
         warn(string.format("Anti afk function error %s\n", err))
     end)
@@ -792,7 +529,6 @@ if not(getgenv().run_time) then
                 {
                     Title = "Sure!",
                     Callback = function()
-                        print('discord.gg/alchemyhub')
                         if setclipboard then
                             setclipboard("https://discord.gg/alchemyhub")
                         end
@@ -800,50 +536,16 @@ if not(getgenv().run_time) then
                 },
                 {
                     Title = "No Thanks",
-                    Callback = function()
-                        print('discord.gg/alchemyhub')
-                    end,
+                    Callback = function() return end,
                 }
             }
         })
     end
-
-    
-    --[[
-    
-    if not(oneclick or kaitan or kaitun or rollback) then
-        Notification.new({
-            Title = "Wanna Remove Workspace?",
-            Description = "This will delete all your setting and config.",
-            Dialog = true,
-            Buttons = {
-                {
-                    Title = "Yes",
-                    Callback = function()
-                        if isfolder and delfolder then
-                            if isfolder("alchemyhub_neta") then
-                                delfolder("alchemyhub_neta")
-                                print("Delete Workspace Done!")
-                            end
-                        end
-                    end,
-                },
-                {
-                    Title = "No",
-                    Callback = function()
-                        print('Nothing.')
-                    end,
-                }
-            }
-        })
-    end
-
-    ]]
 
     ---------/// Miscellaneous ///---------
 
     if script_key then
-        print(string.format("Key: %s\n", script_key))
+        print(string.format("</> Key: %s\n", script_key))
     end
 
     if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
@@ -856,17 +558,13 @@ if not(getgenv().run_time) then
 
     ---------/// Load Scripts ///---------
 
-    local tar: any = nil;local idc: any = __f['__nokey']();
+    local tar: any = nil;local idc: any = alchemy_inc['.npm run no_key']();
 
-    --if aimbot then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/Aimbot.lua")
-    --elseif fruits_finder then __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/scripts/mini/FruitFinder.lua")
-    --elseif arise_afk then __f['__load']("https://api.luarmor.net/files/v4/loaders/a80497a34c31326d7dfb5d734af4ae33.lua")
-
-    if custom_mode then __f['__load']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
-    elseif farmer_mode then tar = __f['__farmer'](); __f['__load']("https://api.luarmor.net/files/"..tar)
-    elseif premium then tar = __f['__premium'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
-    elseif oneclick then tar = __f['__oneclick'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
-    elseif rollback then tar = __f['__rollback'](); __f['__load']("https://api.luarmor.net/files/"..tar) 
-    elseif idc and typeof(idc) == 'string' then __f['__load']("https://api.luarmor.net/files/"..idc) 
-    else getgenv().loader = __f['__game'](); __f['__load']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
+    if custom_mode then alchemy_inc['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
+    elseif farmer_mode then tar = alchemy_inc['.npm run farmer'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar)
+    elseif premium then tar = alchemy_inc['.npm run premium'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
+    elseif oneclick then tar = alchemy_inc['.npm run oneclick'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
+    elseif rollback then tar = alchemy_inc['.npm run rollback'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
+    elseif idc and typeof(idc) == 'string' then alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..idc) 
+    else getgenv().loader = alchemy_inc['.npm run game'](); alchemy_inc['.npm run build']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
