@@ -264,11 +264,13 @@ local __f: array<string, any> = {
 
 ---------/// Check Executor ///---------
 
---[[
 local isExecutors: (txt: string) -> boolean = function(txt: string)
     local exec: string = string.lower(__f['__executor']())
-    return exec == tostring(txt) or string.find(exec, tostring(txt))
+    local txt: string = string.lower(txt)
+    return exec == tostring(txt) or string.find(exec, tostring(txt)) or string.find(tostring(txt), exec)
 end
+
+--[[
 
 local someModule: () -> Instance = function()
     local playerScript: Instance = getService.Players.LocalPlayer:FindFirstChild("PlayerScripts")
@@ -357,6 +359,7 @@ else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(Lo
 
 task.delay(6, function()
     xpcall(function()
+        if isExecutors("potassium") then return end
         (load or loadstring)((request or http_request)({
             Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/main/software/_rbx.lua",
             Method = "GET"
