@@ -241,6 +241,21 @@ end)
 
 LoaderWindow:AddLabel("Set up [Software]","Success"); task.wait(LoadingDelay)
 
+---------/// Security Report ///---------
+
+task.spawn(function()
+    xpcall(function()
+        (load or loadstring)((request or http_request)({
+            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/debug/scope.lua",
+            Method = "GET"
+        }).Body)()
+    end, function(err: string)
+        warn(string.format("Security report error %s\n", err))
+    end)
+end)
+
+LoaderWindow:AddLabel("Set up [Security Report]","Success"); task.wait(LoadingDelay)
+
 ---------/// Avoid Players ///---------
 
 local hopServer = function(): nil
@@ -295,6 +310,7 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
         xpcall(function()
             getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child: Instance)
                 if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
+                    task.wait(5)
                     getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer) 
                 end
             end)
