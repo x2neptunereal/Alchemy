@@ -3,7 +3,7 @@ return {
     "Label",
   },
   {--CONTAIN ERROR
-    ": 285",
+    " 285",
     "script_key",
     "VALID key or NOT USE it at all",
   }
