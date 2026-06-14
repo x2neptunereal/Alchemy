@@ -127,6 +127,7 @@ local alchemy_inc: array<string, any> = {
         elseif g == 10004244222 then return "v4/loaders/9ef79e93655459cb0a799a5aa8d524db.lua" -- Kick A Lucky Block
         elseif g == 9792947201 then return "v4/loaders/2450232a9d16947ce4abefbcc344540d.lua" -- Slime RNG
         elseif g == 10006104044 then return "v4/loaders/967be0663457146f3470cc4149324441.lua" -- Wizard Alchemy
+        elseif g == 10200395747 then return "v4/loaders/81528a9442b3fd960f553c790e9e0d37.lua" -- Grow A Garden 2
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
@@ -141,6 +142,7 @@ local alchemy_inc: array<string, any> = {
         elseif g == 10004244222 then return "v4/loaders/0d3a483a0e6724632760b31f17cb6460.lua" -- Kick A Lucky Block
         elseif g == 9792947201 then return "v4/loaders/37e7223349dadb6dfa2dc97cd87b81b7.lua" -- Slime RNG
         elseif g == 10006104044 then return "v4/loaders/bbdee73e6072228bf6544cb5a40fe35d.lua" -- Wizard Alchemy
+        elseif g == 10200395747 then return "v4/loaders/4e500bbbd086e52b12755981d7aa12d5.lua" -- Grow A Garden 2
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
