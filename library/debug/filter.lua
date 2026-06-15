@@ -7,5 +7,6 @@ return {
     " 277",
     "script_key",
     "VALID key or NOT USE it at all",
+    "for this key, specified by script owner. Wait 5 minutes",
   }
 }
