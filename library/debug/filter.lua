@@ -4,6 +4,7 @@ return {
   },
   {--CONTAIN ERROR
     " 285",
+    " 277",
     "script_key",
     "VALID key or NOT USE it at all",
   }
