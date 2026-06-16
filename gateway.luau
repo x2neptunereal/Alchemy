@@ -520,26 +520,21 @@ if not(getgenv().run_time) then
 
     ---------/// Continue ///---------
 
-    local UILibrary: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old.lua"))()
-    
-    ---------/// Notify For Fisch ///---------
-
-    if game.GameId == 5750914919 then -- for fisch
-        UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/old_noasset.lua"))()
-    end
-
+    local UILibrary: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/primordial/notify.lua"))()
     local Notification: {new: () -> nil} = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
 
     if premium or farmer_mode or (oneclick or kaitan or kaitun or rollback) then
         Notification.new({
+	        Icon = "tag-sparkle-bold",
             Title = "Thank you for Support!",
             Description = "Enjoy scripts and features.\nalso don't forget to write a reviews. 👍",
             Duration = 10,
         })
     else
         Notification.new({
+	        Icon = "discord-bold",
             Title = "Wanna Join Discord Server?",
             Description = "We have big community and news on this server\nWe also have key giveaway too, Thank you for all Support!!",
             Dialog = true,
