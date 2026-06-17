@@ -528,21 +528,27 @@ if not(getgenv().run_time) then
     if premium or farmer_mode or (oneclick or kaitan or kaitun or rollback) then
         Notification.new({
 	        Icon = "tag-sparkle-bold",
-            Title = "Thank you for Support!",
-            Description = "Enjoy scripts and features.\nalso don't forget to write a reviews. 👍",
+            Title = "Thank you all for the support!",
+            Description = "Enjoy scripts and features.\nAlso, don't forget to write a review.",
             Duration = 10,
         })
     else
         Notification.new({
 	        Icon = "discord-bold",
-            Title = "Wanna Join Discord Server?",
-            Description = "We have big community and news on this server\nWe also have key giveaway too, Thank you for all Support!!",
+            Title = "Wanna join our Discord community?",
+            Description = "We have a huge community, and our community has a news update.\nThank you all for the support!! ",
             Dialog = true,
             Buttons = {
                 {
                     Title = "Sure!",
                     Callback = function()
                         if setclipboard then
+                            Notification.new({
+                                Icon = "discord-bold",
+                                Title = "Copied completed!",
+                                Description = "We have sent the Discord server invite link to your clipboard.",
+                                Duration = 6,
+                            })
                             setclipboard("https://discord.gg/alchemyhub")
                         end
                     end,
