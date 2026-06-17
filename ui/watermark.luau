@@ -243,5 +243,9 @@ task.spawn(function()
     end
 end)
 
-closeUI();crossToTime();task.wait(0.4);openUI()
-drag(Frame, Frame)
+task.spawn(function()
+    closeUI();crossToTime();task.wait(0.4);openUI()
+    drag(Frame, Frame)
+end)
+
+return watermark
