@@ -507,8 +507,8 @@ end
 LoaderWindow:AddLabel("Loading [Gateway] successful","Success"); task.wait(LoadingDelay)
 LoaderWindow:AddLabel("Starting connect Luarmor","Success"); task.wait(LoadingDelay)
 LoaderWindow:AddLabel("Starting connect Alchemy's API","Success"); task.wait(LoadingDelay)
-LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(1.5, LoaderWindow.Close);
-task.wait(LoadingDelay * 3.14);
+LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(2.5, LoaderWindow.Close);
+task.wait(LoadingDelay * 3.68);
 
 ---------/// Check if not execute 2 times ///---------
 
@@ -536,7 +536,7 @@ if not(getgenv().run_time) then
         Notification.new({
 	        Icon = "discord-bold",
             Title = "Wanna join our Discord community?",
-            Description = "We have a huge community, and our community has a news update.\nThank you all for the support!! ",
+            Description = "We have a huge community, and\nour community has a news update.\nThank you all for the support!! ",
             Dialog = true,
             Buttons = {
                 {
@@ -546,7 +546,7 @@ if not(getgenv().run_time) then
                             Notification.new({
                                 Icon = "discord-bold",
                                 Title = "Copied completed!",
-                                Description = "We have sent the Discord server invite link to your clipboard.",
+                                Description = "We have sent the server invite link\nto your clipboard.",
                                 Duration = 6,
                             })
                             setclipboard("https://discord.gg/alchemyhub")
