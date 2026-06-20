@@ -30,7 +30,6 @@ getgenv().blackscreen = blackscreen or false
 getgenv().auto_rejoin = auto_rejoin or false
 getgenv().streamer_mode = streamer_mode or false
 getgenv().fully_rejoin = fully_rejoin or false
-getgenv().force_small_ui = force_small_ui or false
 getgenv().avoid_player = avoid_player or nil
 
 getgenv().premium = premium or false
@@ -38,7 +37,7 @@ getgenv().farmer_mode = farmer_mode or false
 getgenv().oneclick = oneclick or kaitan or kaitun or false
 
 getgenv().setting = setting or nil
-getgenv().use_code = use_code or nil
+getgenv().force_config = force_config or nil
 getgenv().specific_config = specific_config or nil
 
 ---------/// Set Necessary Function ///---------
@@ -86,13 +85,13 @@ local setAutoExec = function(): nil
                 
                 if script_key or premium or rollback then
                     future_execute(
-                        string.format('%s%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
+                        string.format('%s%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
                     )
                 else
                     future_execute(
-                        string.format('%s%s%sgetgenv().cometeleport=true;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;force_small_ui=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config,rawsetting, raw_avoidplayer, tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(force_small_ui), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
+                        string.format('%s%s%sgetgenv().cometeleport=true;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        raw_specific_config,rawsetting, raw_avoidplayer, tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
                     )
                 end
             end
