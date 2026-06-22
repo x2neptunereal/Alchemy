@@ -59,6 +59,14 @@ local errorMessage: (title: string, text: string) -> nil = (load or loadstring)(
     Method = "GET"
 }).Body)()
 
+xpcall(function()
+    if force_config and typeof(force_config) == "table" then
+        getgenv().force_config = getService.HttpService:JSONEncode(force_config)
+    end
+end, function(err: string)
+    warn(string.format("</> Compile force config error %s\n", err))
+end)
+
 local setAutoExec = function(): nil
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
@@ -98,7 +106,7 @@ local setAutoExec = function(): nil
 
             getgenv().already_set_auto_exec = true
         end, function(err: string)
-            warn(string.format("Auto execute function error %s\n", err))
+            warn(string.format("</> Auto execute function error %s\n", err))
         end)
     end
 end
@@ -201,7 +209,7 @@ xpcall(function()
         LoadingDelay = 1
     end
 end, function(err: string)
-    warn(string.format("Loading screen function error %s\n", err))
+    warn(string.format("</> Loading screen function error %s\n", err))
 end)
 
 LoaderWindow:AddLabel("Executor: " .. tostring(identifyexecutor()), "Info")
@@ -221,7 +229,7 @@ xpcall(function()
         getgenv().avoid_player = getService.HttpService:JSONDecode(json_avoid_player)
     end
 end, function(err: string)
-    warn(string.format("Convert json function error %s\n", err))
+    warn(string.format("</> Convert json function error %s\n", err))
 end)
 
 if disable_auto_exec then LoaderWindow:AddLabel("Skipped set up [Auto Execute]","Error")
@@ -236,7 +244,7 @@ task.delay(6, function()
             Method = "GET"
         }).Body)()
     end, function(err: string)
-        warn(string.format("Software function error %s\n", err))
+        warn(string.format("</> Software function error %s\n", err))
     end)
 end)
 
@@ -251,7 +259,7 @@ task.spawn(function()
             Method = "GET"
         }).Body)()
     end, function(err: string)
-        warn(string.format("Security report error %s\n", err))
+        warn(string.format("</> Security report error %s\n", err))
     end)
 end)
 
@@ -287,7 +295,7 @@ xpcall(function()
         end)
     end
 end, function(err: string)
-    warn(string.format("Avoid players function error %s\n", err))
+    warn(string.format("</> Avoid players function error %s\n", err))
 end)
 
 ---------/// Anti Gameplay Paused ///---------
@@ -298,7 +306,7 @@ getService.Players.LocalPlayer.Changed:Connect(function(data)
 			getService.Players.LocalPlayer.GameplayPaused = false
 		end
 	end, function(err: string)
-        warn(string.format("Anit gameplay paused function error %s\n", err))
+        warn(string.format("</> Anit gameplay paused function error %s\n", err))
     end)
 end)
 
@@ -316,7 +324,7 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
                 end
             end)
         end, function(err: string)
-            warn(string.format("Auto rejoin function error %s\n", err))
+            warn(string.format("</> Auto rejoin function error %s\n", err))
         end)
     end)
 end
@@ -386,7 +394,7 @@ if streamer_mode then
 
         LoaderWindow:AddLabel("Set up [Streamer Mode]","Success"); task.wait(LoadingDelay)
     end, function(err: string)
-        warn(string.format("Streamer mode function error %s\n", err))
+        warn(string.format("</> Streamer mode function error %s\n", err))
     end)
 end;
 
@@ -430,7 +438,7 @@ xpcall(function()
         LoaderWindow:AddLabel("Set up [White/Black Screen]","Success"); task.wait(LoadingDelay)
     end
 end, function(err: string)
-    warn(string.format("WhiteScreen function error %s\n", err))
+    warn(string.format("</> WhiteScreen function error %s\n", err))
 end)
 
 ---------/// Fully Rejoin ///---------
@@ -445,7 +453,7 @@ if fully_rejoin then
                     getService.TeleportService:Teleport(game.PlaceId) 
                 end
             end, function(err: string)
-                warn(string.format("Fully rejoin function error %s\n", err))
+                warn(string.format("</> Fully rejoin function error %s\n", err))
             end)
         end
     end)
@@ -465,7 +473,7 @@ task.spawn(function()
             end
         end
     end, function(err: string)
-        warn(string.format("Anti afk function error %s\n", err))
+        warn(string.format("</> Anti afk function error %s\n", err))
     end)
 end)
 
@@ -499,7 +507,7 @@ if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
             discord();writefile('MaDuHereARai.png', tostring(tick()))
         end
     end, function(err: string)
-        warn(string.format("Auto join discord function error %s\n", err))
+        warn(string.format("</> Auto join discord function error %s\n", err))
     end)
 end
 
