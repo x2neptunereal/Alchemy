@@ -152,6 +152,8 @@ local alchemy_inc: array<string, any> = {
     ['.npm run game'] = function(): string
         local available: any = script_direct[g]
         if available and typeof(available) == "table" then
+            print(string.gsub(string.gsub(available.free,
+            ".lua", ""), "v4/loaders/", ""))
             return available.free
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
@@ -161,6 +163,8 @@ local alchemy_inc: array<string, any> = {
     ['.npm run premium'] = function(): string
         local available: any = script_direct[g]
         if available and typeof(available) == "table" then
+            print(string.gsub(string.gsub(available.premium,
+            ".lua", ""), "v4/loaders/", ""))
             return available.premium
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
