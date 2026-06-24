@@ -115,41 +115,53 @@ end
 
 setAutoExec()
 
----------/// Check Environment ///---------
-
-if cometeleport then print('</> Auto Execute Active') end
-if cometeleport or (oneclick or kaitan or kaitun) then task.wait(3) end
+---------/// Script Data ///---------
 
 type array<I,V> = {[I]: V}
+local g: number = game.GameId
 
----------/// Wait For Load ///---------
+local script_direct: array<number, any> = {
+    [994732206] = { -- Blox Fruits
+        autoexec = true,
+        free = "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua",
+        premium = "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua"
+	};[5750914919] = { -- Fisch
+        autoexec = true,
+        free = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua",
+        premium = "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua"
+	};[10200395747] = { -- Grow a Garden 2
+        autoexec = true,
+        free = "v4/loaders/81528a9442b3fd960f553c790e9e0d37.lua",
+        premium = "v4/loaders/4e500bbbd086e52b12755981d7aa12d5.lua"
+	};
+}
+
+---------/// Check Environment ///---------
+
+if cometeleport then
+    local available: any = script_direct[g]
+    if not(available and typeof(available) == "table") then return end
+    if not(available.autoexec) then return end
+
+    print('</> Auto Execute Active'); task.wait(3)
+end; if (oneclick or kaitan or kaitun) then task.wait(3) end
+
+---------/// Main Function ///---------
 
 local alchemy_inc: array<string, any> = {
     ['.npm run game'] = function(): string
-        local g: number = game.GameId
-        if g == 994732206 then return "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua" -- Blox Fruits
-        elseif g == 5750914919 then return "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua" -- Fisch
-        elseif g == 9186719164 then return "v4/loaders/498054ad41abea9b45270fb4513e3757.lua" -- Sailor Piece
-        elseif g == 8202280624 then return "v4/loaders/d57e0016140ba426331b7c8d69f2aaa6.lua" -- Bite By Night
-        elseif g == 10004244222 then return "v4/loaders/9ef79e93655459cb0a799a5aa8d524db.lua" -- Kick A Lucky Block
-        elseif g == 9792947201 then return "v4/loaders/2450232a9d16947ce4abefbcc344540d.lua" -- Slime RNG
-        elseif g == 10006104044 then return "v4/loaders/967be0663457146f3470cc4149324441.lua" -- Wizard Alchemy
-        elseif g == 10200395747 then return "v4/loaders/81528a9442b3fd960f553c790e9e0d37.lua" -- Grow A Garden 2
+        local available: any = script_direct[g]
+        if available and typeof(available) == "table" then
+            return available.free
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
     end;
     ['.npm run premium'] = function(): string
-        local g: number = game.GameId
-        if g == 994732206 then return "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua" -- Blox Fruits
-        elseif g == 5750914919 then return "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua" -- Fisch
-        elseif g == 9186719164 then return "v4/loaders/8c219a97dcd2aa32daf8dca778f0e597.lua" -- Sailor Piece
-        elseif g == 8202280624 then return "v4/loaders/74c90589409ec0080d8ee7ed39a37f1a.lua" -- Bite By Night
-        elseif g == 10004244222 then return "v4/loaders/0d3a483a0e6724632760b31f17cb6460.lua" -- Kick A Lucky Block
-        elseif g == 9792947201 then return "v4/loaders/37e7223349dadb6dfa2dc97cd87b81b7.lua" -- Slime RNG
-        elseif g == 10006104044 then return "v4/loaders/bbdee73e6072228bf6544cb5a40fe35d.lua" -- Wizard Alchemy
-        elseif g == 10200395747 then return "v4/loaders/4e500bbbd086e52b12755981d7aa12d5.lua" -- Grow A Garden 2
+        local available: any = script_direct[g]
+        if available and typeof(available) == "table" then
+            return available.premium
         else
             errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
@@ -160,24 +172,12 @@ local alchemy_inc: array<string, any> = {
         return "\n"
     end;
     ['.npm run oneclick'] = function(): string
-        local g: number = game.GameId
-        if g == 9186719164 then return "v4/loaders/c2aae35c3b6e049f8251df0fb8dd0b63.lua" -- Sailor Piece
-        else
-            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
-            return "\n"
-        end
+        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#oneclick</i>")
+        return "\n"
     end;
     ['.npm run rollback'] = function(): string
         errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#rollback</i>")
         return "\n"
-    end;
-    ['.npm run no_key'] = function(): {}
-        local g: number = game.GameId;local list: {} = {
-            --['7709344486'] = "v4/loaders/4de229bec21d2dd035b058a5fc18599e.lua", -- Steal A Brainrot
-            --['7671049560'] = "v4/loaders/1a23f64e766871d6bd0e6de1d1a6e6db.lua", -- The Forge
-            --['5750914919'] = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua", -- Fisch
-        };for i, v in pairs(list) do if i == tostring(g) then return v end end
-        return nil
     end;
     ['.npm run build'] = function(s: string): nil (load or loadstring)(game:HttpGet(s))() end;
 }
@@ -584,13 +584,11 @@ if not(getgenv().run_time) then
 
     ---------/// Load Scripts ///---------
 
-    local tar: any = nil;local idc: any = alchemy_inc['.npm run no_key']();
-
+    local tar: any = nil
     if custom_mode then alchemy_inc['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
     elseif farmer_mode then tar = alchemy_inc['.npm run farmer'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar)
     elseif premium then tar = alchemy_inc['.npm run premium'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = alchemy_inc['.npm run oneclick'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
-    elseif rollback then tar = alchemy_inc['.npm run rollback'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
-    elseif idc and typeof(idc) == 'string' then alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..idc) 
+    elseif rollback then tar = alchemy_inc['.npm run rollback'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar)
     else getgenv().loader = alchemy_inc['.npm run game'](); alchemy_inc['.npm run build']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
