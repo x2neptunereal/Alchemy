@@ -579,10 +579,11 @@ if not(getgenv().run_time) then
     end
 
     if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
-        local og: number = tick() + 43200
+        local og: number = tick() + 10800
         task.spawn(function()
             repeat task.wait(1) until og < tick()
             errorMessage("Alchemy.inc", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
+            task.wait(8); getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer)
         end)
     end
 
