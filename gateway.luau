@@ -36,13 +36,13 @@
                +++                                                                ++*#              
                                                                                                      
 
-                                  ALCHEMY HUB SCRIPT (alchemy.inc)
+                                 ALCHEMY HUB SCRIPT (alchemy.inc)
 
-                       This was made by Alchemy Team ( discord.gg/alchemyhub )
-                         Modification of the script, including attempting to 
-                      bypass or crack the script for any reason is not allowed.
+                      This was made by Alchemy Team ( discord.gg/alchemyhub )
+                        Modification of the script, including attempting to 
+                     bypass or crack the script for any reason is not allowed.
 
-                      Copyright © 2023-2026 Alchemy Team - All Rights Reserved.
+                     Copyright © 2023-2026 Alchemy Team - All Rights Reserved.
 
 
 ]]--
