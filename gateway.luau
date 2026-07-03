@@ -36,6 +36,14 @@
                +++                                                                ++*#              
                                                                                                      
 
+                                  ALCHEMY HUB SCRIPT ( alchemy.inc )
+
+                       This was made by Alchemy Team ( discord.gg/alchemyhub )
+                      Modification of the script, including attempting to bypass
+                          or crack the script for any reason is not allowed.
+
+                       Copyright © 2023-2026 Alchemy Team. All Rights Reserved.
+
 ]]--
 
 for __, _ in pairs({
@@ -50,13 +58,6 @@ end end --.cc
  ╱  ╱___  ╱╱╱   ╱    ╱╱  ╱     ╱  ╱_╱   ╱╱╱  ╱___  ╱        ╱╱   _╱    ╱   ╱  ╱_╱   ╱╱   __╱   ╱╱       ╲
 ╱         ╱    ╱____╱   ╱_____╱   __    ╱     ____╱   ╱  ╱  ╱╲____   ╱╱   ╱   __    ╱         ╱╱   __╱   ╱
 ╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
-ALCHEMY HUB SCRIPT ( alchemy.inc // buyalchemy.net )
-
-This was made by Alchemy Team ( discord.gg/alchemyhub )
-Modification of the script, including attempting to bypass
-or crack the script for any reason is not allowed.
-
-Copyright © 2023-2026 Alchemy Team. All Rights Reserved.
 
 ]]--
 
