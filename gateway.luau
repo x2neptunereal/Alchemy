@@ -36,30 +36,21 @@
                +++                                                                ++*#              
                                                                                                      
 
-                                  ALCHEMY HUB SCRIPT ( alchemy.inc )
+                                  ALCHEMY HUB SCRIPT (alchemy.inc)
 
                        This was made by Alchemy Team ( discord.gg/alchemyhub )
-                      Modification of the script, including attempting to bypass
-                          or crack the script for any reason is not allowed.
+                       Modification of the script, including attempting to bypass
+                       or crack the script for any reason is not allowed.
 
-                       Copyright © 2023-2026 Alchemy Team. All Rights Reserved.
+                       ** Copyright © 2023-2026 Alchemy Team. All Rights Reserved.
+
 
 ]]--
 
 for __, _ in pairs({
 function() return true end
 }) do if not(_()) then return
-end end --.cc
-
---[[
-
-   _______    __       ________  ___  ___   _______  _______   ________      ___  ___  ________   _______
-  ╱       ╲╲╱╱  ╲     ╱╱  ____ ╲╱  ╱ ╱  ╲╲╱╱       ╲╱       ╲╲╱    ╱   ╲    ╱  ╱ ╱  ╲╲╱     ╱  ╲╱╱  __  ╱
- ╱  ╱___  ╱╱╱   ╱    ╱╱  ╱     ╱  ╱_╱   ╱╱╱  ╱___  ╱        ╱╱   _╱    ╱   ╱  ╱_╱   ╱╱   __╱   ╱╱       ╲
-╱         ╱    ╱____╱   ╱_____╱   __    ╱     ____╱   ╱  ╱  ╱╲____   ╱╱   ╱   __    ╱         ╱╱   __╱   ╱
-╲___╱____╱╲________╱╲________╱╲__╱ ╱___╱╲________╱╲__╱__╱__╱     ╱__╱╱    ╲__╱ ╱___╱╲________╱╱╲________╱ 
-
-]]--
+end end --.cc // www.buyalchemy.net
 
 repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game.Players.LocalPlayer
