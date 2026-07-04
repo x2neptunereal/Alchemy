@@ -47,10 +47,10 @@
 
 ]]--
 
-for __, _ in pairs({
-function() return true end
-}) do if not(_()) then return
-end end --.cc // www.buyalchemy.net
+for alchemy, inc in pairs({
+function(is) return is end
+}) do if not inc(true) then
+return end end --[[ASOE.]]
 
 repeat task.wait() until game:IsLoaded()
 repeat task.wait() until game.Players.LocalPlayer
@@ -164,11 +164,11 @@ local script_direct: array<number, any> = {
         free = "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua",
         premium = "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua"
 	};[5750914919] = { -- Fisch
-        autoexec = true,
+        autoexec = false,
         free = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua",
         premium = "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua"
 	};[10200395747] = { -- Grow a Garden 2
-        autoexec = true,
+        autoexec = false,
         free = "v4/loaders/81528a9442b3fd960f553c790e9e0d37.lua",
         premium = "v4/loaders/4e500bbbd086e52b12755981d7aa12d5.lua"
 	};
