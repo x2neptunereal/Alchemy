@@ -188,8 +188,8 @@ local script_direct: array<number, any> = {
 
 if cometeleport then
     local available: any = script_direct[g]
-    if not(available and typeof(available) == "table") then getgenv().cometeleport = false; return end
-    if not(available.autoexec) then getgenv().cometeleport = false; return end
+    if not(available and typeof(available) == "table") then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
+    if not(available.autoexec) then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
 
     print('</> Auto Execute Active'); task.wait(3)
 end; if (oneclick or kaitan or kaitun) then task.wait(3) end
