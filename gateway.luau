@@ -70,6 +70,7 @@ repeat task.wait() until game.Players.LocalPlayer
 getgenv().script_key= script_key or nil
 getgenv().custom_mode = custom_mode or nil
 getgenv().skip_loading = skip_loading or false
+getgenv().auto_execute = auto_execute or false
 getgenv().disable_auto_exec = disable_auto_exec or false
 getgenv().delay_execute = delay_execute or 0
 
@@ -159,37 +160,47 @@ local setAutoExec = function(): nil
     end
 end
 
----------/// Set Auto Execute ///---------
-
-setAutoExec()
-
 ---------/// Script Data ///---------
 
-type array<I,V> = {[I]: V}
 local g: number = game.GameId
+type array<I,V> = {[I]: V}
 
 local script_direct: array<number, any> = {
     [994732206] = { -- Blox Fruits
-        autoexec = true,
+        force_autoexec = true,
+        skip_autoexec = false,
         free = "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua",
         premium = "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua"
 	};[5750914919] = { -- Fisch
-        autoexec = false,
+        force_autoexec = false,
+        skip_autoexec = false,
         free = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua",
         premium = "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua"
 	};[10200395747] = { -- Grow a Garden 2
-        autoexec = false,
+        force_autoexec = false,
+        skip_autoexec = false,
         free = "v4/loaders/81528a9442b3fd960f553c790e9e0d37.lua",
         premium = "v4/loaders/4e500bbbd086e52b12755981d7aa12d5.lua"
 	};
 }
+
+---------/// Set Auto Execute ///---------
+
+do
+    local available: any = script_direct[g]
+    if available and typeof(available) == "table" then
+        if available.force_autoexec or auto_execute then
+            setAutoExec()
+        end
+    end
+end
 
 ---------/// Check Environment ///---------
 
 if cometeleport then
     local available: any = script_direct[g]
     if not(available and typeof(available) == "table") then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
-    if not(available.autoexec) then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
+    if available.skip_autoexec then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
 
     print('</> Auto Execute Active'); task.wait(3)
 end; if (oneclick or kaitan or kaitun) then task.wait(3) end
@@ -340,7 +351,7 @@ xpcall(function()
                 for i, v in pairs(getService.Players:GetPlayers()) do
                     if table.find(avoid_player, v.UserId) then
                         warn(string.format('Found User: %s (%d)\nTry to Hop Server...', tostring(v.Name), v.UserId))
-                        hopServer()
+                        setAutoExec();task.wait();hopServer()
                     end
                 end
             end
@@ -371,7 +382,7 @@ if auto_rejoin or (oneclick or kaitan or kaitun or rollback) then
         xpcall(function()
             getService.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(Child: Instance)
                 if Child.Name == 'ErrorPrompt' and Child:FindFirstChild('MessageArea') and Child.MessageArea:FindFirstChild("ErrorFrame") then
-                    task.wait(5)
+                    setAutoExec(); task.wait(5)
                     getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer) 
                 end
             end)
@@ -495,13 +506,14 @@ end)
 
 ---------/// Fully Rejoin ///---------
 
-if fully_rejoin then
+if fully_rejoin and typeof(fully_rejoin) == "number" then
     getgenv().start_fully_rejoin = tick()
 
     task.spawn(function()
         while true do task.wait()
             xpcall(function()
-                if tick() - start_fully_rejoin >= 1200 then
+                if tick() - start_fully_rejoin >= (fully_rejoin or 1200) then
+                    setAutoExec(); task.wait(1)
                     getService.TeleportService:Teleport(game.PlaceId) 
                 end
             end, function(err: string)
