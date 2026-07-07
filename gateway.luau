@@ -41,7 +41,7 @@
                +++                                                                ++*#              
                                                                                                      
 
-                                 ALCHEMY HUB SCRIPT (alchemy.inc)
+                                       ALCHEMY HUB SCRIPT
 
                       This was made by Alchemy Team ( discord.gg/alchemyhub )
                         Modification of the script, including attempting to 
@@ -57,9 +57,9 @@
 
 ]]--
 
-for alchemy, inc in pairs({
+for alchemy, hub in pairs({
 function(is) return is end
-}) do if not inc(true) then
+}) do if not hub(true) then
 return end end --[[ASOE.]]
 
 repeat task.wait() until game:IsLoaded()
@@ -207,7 +207,7 @@ end; if (oneclick or kaitan or kaitun) then task.wait(3) end
 
 ---------/// Main Function ///---------
 
-local alchemy_inc: array<string, any> = {
+local alchemy: array<string, any> = {
     ['.npm run game'] = function(): string
         local available: any = script_direct[g]
         if available and typeof(available) == "table" then
@@ -215,7 +215,7 @@ local alchemy_inc: array<string, any> = {
             ".lua", ""), "v4/loaders/", ""))
             return available.free
         else
-            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
+            errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
     end;
@@ -226,20 +226,20 @@ local alchemy_inc: array<string, any> = {
             ".lua", ""), "v4/loaders/", ""))
             return available.premium
         else
-            errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
+            errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
         end
     end;
     ['.npm run farmer'] = function(): string
-        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#farmer_mode</i>")
+        errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#farmer_mode</i>")
         return "\n"
     end;
     ['.npm run oneclick'] = function(): string
-        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#oneclick</i>")
+        errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#oneclick</i>")
         return "\n"
     end;
     ['.npm run rollback'] = function(): string
-        errorMessage("Alchemy.inc", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#rollback</i>")
+        errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#rollback</i>")
         return "\n"
     end;
     ['.npm run build'] = function(s: string): nil (load or loadstring)(game:HttpGet(s))() end;
@@ -642,7 +642,7 @@ if not(getgenv().run_time) then
         local og: number = tick() + 21600
         task.spawn(function()
             repeat task.wait(1) until og < tick()
-            errorMessage("Alchemy.inc", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
+            errorMessage("Alchemy", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
             task.wait(8); getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer)
         end)
     end
@@ -652,10 +652,10 @@ if not(getgenv().run_time) then
     getgenv().gateway = {setAutoExec = setAutoExec}
 
     local tar: any = nil
-    if custom_mode then alchemy_inc['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
-    elseif farmer_mode then tar = alchemy_inc['.npm run farmer'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar)
-    elseif premium then tar = alchemy_inc['.npm run premium'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
-    elseif oneclick then tar = alchemy_inc['.npm run oneclick'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar) 
-    elseif rollback then tar = alchemy_inc['.npm run rollback'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar)
-    else getgenv().loader = alchemy_inc['.npm run game'](); alchemy_inc['.npm run build']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
+    if custom_mode then alchemy['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
+    elseif farmer_mode then tar = alchemy['.npm run farmer'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar)
+    elseif premium then tar = alchemy['.npm run premium'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar) 
+    elseif oneclick then tar = alchemy['.npm run oneclick'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar) 
+    elseif rollback then tar = alchemy['.npm run rollback'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar)
+    else getgenv().loader = alchemy['.npm run game'](); alchemy['.npm run build']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
 end
