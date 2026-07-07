@@ -649,6 +649,8 @@ if not(getgenv().run_time) then
 
     ---------/// Load Scripts ///---------
 
+    getgenv().gateway = {setAutoExec = setAutoExec}
+
     local tar: any = nil
     if custom_mode then alchemy_inc['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
     elseif farmer_mode then tar = alchemy_inc['.npm run farmer'](); alchemy_inc['.npm run build']("https://api.luarmor.net/files/"..tar)
