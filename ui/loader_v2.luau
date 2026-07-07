@@ -45,7 +45,7 @@ function Loader.animate(instance: Instance, properties: {[string]: any}, duratio
 end;
 
 function Loader.new()
-    LoaderContent = LoaderContent or "Alchemy.inc";
+    LoaderContent = LoaderContent or "alchemy";
     TitleContent = TitleContent or "../gateway.luau";
 
     local Payback = {};
