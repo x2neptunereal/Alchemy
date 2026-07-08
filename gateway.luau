@@ -285,7 +285,7 @@ end)()
 
 xpcall(function()
     if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
-        local LoaderLib: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/loader_v2.luau"))()
+        local LoaderLib: {} = (load or loadstring)(getGit('Alchemy', 'ui/loader_v2.luau'))()
         LoaderWindow = LoaderLib.new();
         LoadingDelay = 1
     end
