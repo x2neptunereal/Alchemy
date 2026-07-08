@@ -6,7 +6,63 @@ local CoreGui: PlayerGui = (gethui and gethui())
 	or cloneref(game:FindFirstChild("CoreGui"))
 	or cloneref(game.Players.LocalPlayer.PlayerGui)
 
-local drag: any = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/mercury/trash.lua"))()
+local drag: any = (function()
+    local cloneref = cloneref or function(ref) return ref end
+    local UserInputService = cloneref(game:GetService("UserInputService"))
+    local TweenService = cloneref(game:GetService("TweenService"))
+
+    local dragify = function(Frame, object)
+        dragToggle = nil
+        dragSpeed = 0
+        dragInput = nil
+        dragStart = nil
+        dragPos = nil
+        function updateInput(input)
+            Delta = input.Position - dragStart
+            Position =
+                UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+            TweenService:Create(object, TweenInfo.new(dragSpeed), {Position = Position}):Play()
+        end
+        Frame.InputBegan:Connect(
+            function(input)
+                if
+                    (input.UserInputType == Enum.UserInputType.MouseButton1 or
+                        input.UserInputType == Enum.UserInputType.Touch)
+                then
+                    dragToggle = true
+                    dragStart = input.Position
+                    startPos = object.Position
+                    input.Changed:Connect(
+                        function()
+                            if (input.UserInputState == Enum.UserInputState.End) then
+                                dragToggle = false
+                            end
+                        end
+                    )
+                end
+            end
+        )
+        Frame.InputChanged:Connect(
+            function(input)
+                if
+                    (input.UserInputType == Enum.UserInputType.MouseMovement or
+                        input.UserInputType == Enum.UserInputType.Touch)
+                then
+                    dragInput = input
+                end
+            end
+        )
+        UserInputService.InputChanged:Connect(
+            function(input)
+                if (input == dragInput and dragToggle) then
+                    updateInput(input)
+                end
+            end
+        )
+    end
+
+    return dragify
+end)()
 
 getgenv().acm_accentcolor = acm_accentcolor or Color3.fromRGB(0, 255, 132)
 
