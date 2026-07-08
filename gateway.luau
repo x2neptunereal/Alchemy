@@ -163,14 +163,14 @@ pcall(function()
 end)
 
 getgenv().getGit = getGit or function(project: string, path: string): string
-    local first = (project == "Alchemy")
-    local branch = (first and alchemyBranch) or 'main'
-    local githubUrl = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
-    local jsdelivrUrl = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
+    local first: boolean = (project == "Alchemy")
+    local branch: string = (first and alchemyBranch) or 'main'
+    local githubUrl: string = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
+    local jsdelivrUrl: string = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
 
     if first and alchemyBranch and not(alchemyBranch == "main") and not(string.find(path, ".png")) then
-        local prework = false
-        local file = string.gsub(project .. "_" .. path, "/", "_")
+        local prework: boolean = false
+        local file: string = string.gsub(project .. "_" .. path, "/", "_")
 
         if not isfolder("alchemy") then
 			makefolder("alchemy")
@@ -702,8 +702,6 @@ if not(getgenv().run_time) then
     end
 
     ---------/// Load Scripts ///---------
-
-    getgenv().gateway = {setAutoExec = setAutoExec}
 
     local tar: any = nil
     if custom_mode then alchemy['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
