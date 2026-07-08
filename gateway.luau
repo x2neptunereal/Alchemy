@@ -168,7 +168,7 @@ getgenv().getGit = getGit or function(project: string, path: string): string
     local githubUrl = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
     local jsdelivrUrl = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
 
-    if first and alchemyBranch and not(alchemyBranch == "main") and string.find(path, ".png") then
+    if first and alchemyBranch and not(alchemyBranch == "main") and not(string.find(path, ".png")) then
         local prework = false
         local file = string.gsub(project .. "_" .. path, "/", "_")
 
