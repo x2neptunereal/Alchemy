@@ -162,7 +162,7 @@ pcall(function()
     getgenv().alchemyBranch = commit and #commit == 40 and commit or 'main'
 end)
 
-getgenv().getGit = function(project: string, path: string): string
+getgenv().getGit = getGit or function(project: string, path: string): string
     local branch = (project == "Alchemy" and alchemyBranch) or 'main'
     local githubUrl = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
     local jsdelivrUrl = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
