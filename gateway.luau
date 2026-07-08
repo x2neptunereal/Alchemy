@@ -163,9 +163,49 @@ pcall(function()
 end)
 
 getgenv().getGit = getGit or function(project: string, path: string): string
-    local branch = (project == "Alchemy" and alchemyBranch) or 'main'
+    local first = (project == "Alchemy")
+    local branch = (first and alchemyBranch) or 'main'
     local githubUrl = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
     local jsdelivrUrl = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
+
+    if first and alchemyBranch and not(alchemyBranch == "main") and string.find(path, ".png") then
+        local prework = false
+        local file = string.gsub(project .. "_" .. path, "/", "_")
+
+        if not isfolder("alchemy") then
+			makefolder("alchemy")
+		end
+
+		if not isfolder("alchemy/preload") then
+			makefolder("alchemy/preload")
+		end
+
+        if isfile("alchemy/preload/branch.txt") then
+            if readfile("alchemy/preload/branch.txt") == alchemyBranch then
+                prework = true
+            end
+        else
+            writefile("alchemy/preload/branch.txt", alchemyBranch)
+        end
+
+        if isfile("alchemy/preload/" .. file) and prework then
+            return readfile("alchemy/preload/" .. file)
+        else
+            local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
+            if git_succ and git_result then
+                writefile("alchemy/preload/" .. file, git_result)
+                return git_result
+            end
+
+            local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
+            if jsd_succ and jsd_result then
+                writefile("alchemy/preload/" .. file, jsd_result)
+                return jsd_result
+            end
+        end
+
+        return "warn('noooo way')"
+    end
 
     local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
     if git_succ and git_result then return git_result end
@@ -173,7 +213,7 @@ getgenv().getGit = getGit or function(project: string, path: string): string
     local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
     if jsd_succ and jsd_result then return jsd_result end
     
-    return ""
+    return "warn('noooo way')"
 end
 
 local errorMessage = (load or loadstring)(getGit('Alchemy', 'library/debug/removed.lua'))()
