@@ -103,11 +103,6 @@ local getService = setmetatable({}, {
     end
 })
 
-local errorMessage: (title: string, text: string) -> nil = (load or loadstring)((request or http_request)({
-    Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/library/debug/removed.lua",
-    Method = "GET"
-}).Body)()
-
 xpcall(function()
     if force_config and typeof(force_config) == "table" then
         getgenv().force_config = getService.HttpService:JSONEncode(force_config)
@@ -116,7 +111,7 @@ end, function(err: string)
     warn(string.format("</> Compile force config error %s\n", err))
 end)
 
-local setAutoExec = function(): nil
+getgenv().setAutoExec = function(): nil
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
             local future_execute: (string) -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
@@ -159,6 +154,29 @@ local setAutoExec = function(): nil
         end)
     end
 end
+
+pcall(function()
+    if alchemyBranch then return end
+    local _, subbed = pcall(function() return game:HttpGet('https://github.com/x2neptunereal/Alchemy') end)
+    local commit = subbed:find('currentOid');commit = commit and subbed:sub(commit + 13, commit + 52) or nil
+    getgenv().alchemyBranch = commit and #commit == 40 and commit or 'main'
+end)
+
+getgenv().getGit = function(project: string, path: string): string
+    local branch = (project == "Alchemy" and alchemyBranch) or 'main'
+    local githubUrl = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
+    local jsdelivrUrl = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
+
+    local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
+    if git_succ and git_result then return git_result end
+
+    local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
+    if jsd_succ and jsd_result then return jsd_result end
+    
+    return ""
+end
+
+local errorMessage = (load or loadstring)(getGit('Alchemy', 'library/debug/removed.lua'))()
 
 ---------/// Script Data ///---------
 
@@ -302,10 +320,7 @@ else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(Lo
 
 task.delay(6, function()
     xpcall(function()
-        (load or loadstring)((request or http_request)({
-            Url = "https://raw.githubusercontent.com/x2neptunereal/x2neptunereal/main/software/_rbx.lua",
-            Method = "GET"
-        }).Body)()
+        (load or loadstring)(getGit('x2neptunereal', 'software/_rbx.lua'))()
     end, function(err: string)
         warn(string.format("</> Software function error %s\n", err))
     end)
@@ -317,10 +332,7 @@ LoaderWindow:AddLabel("Set up [Software]","Success"); task.wait(LoadingDelay)
 
 task.spawn(function()
     xpcall(function()
-        (load or loadstring)((request or http_request)({
-            Url = "https://raw.githubusercontent.com/x2neptunereal/Alchemy/refs/heads/main/library/debug/scope.lua",
-            Method = "GET"
-        }).Body)()
+        (load or loadstring)(getGit('Alchemy', 'library/debug/scope.lua'))()
     end, function(err: string)
         warn(string.format("</> Security report error %s\n", err))
     end)
@@ -591,7 +603,7 @@ if not(getgenv().run_time) then
 
     ---------/// Continue ///---------
 
-    local UILibrary: {} = loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/ui/primordial/notify.lua"))()
+    local UILibrary: {} = (load or loadstring)(getGit('Alchemy', 'ui/primordial/notify.lua'))()
     local Notification: {new: () -> nil} = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
@@ -657,5 +669,5 @@ if not(getgenv().run_time) then
     elseif premium then tar = alchemy['.npm run premium'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar) 
     elseif oneclick then tar = alchemy['.npm run oneclick'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar) 
     elseif rollback then tar = alchemy['.npm run rollback'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar)
-    else getgenv().loader = alchemy['.npm run game'](); alchemy['.npm run build']("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/keysystem/1.lua") end;
+    else getgenv().loader = alchemy['.npm run game'](); (load or loadstring)(getGit('Alchemy', 'keysystem/1.lua'))(); end;
 end
