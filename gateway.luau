@@ -183,6 +183,8 @@ getgenv().getGit = getGit or function(project: string, path: string): string
         if isfile("alchemy/preload/branch.txt") then
             if readfile("alchemy/preload/branch.txt") == alchemyBranch then
                 prework = true
+            else
+                writefile("alchemy/preload/branch.txt", alchemyBranch)
             end
         else
             writefile("alchemy/preload/branch.txt", alchemyBranch)
