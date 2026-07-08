@@ -156,6 +156,18 @@ getgenv().setAutoExec = function(): nil
 end
 
 pcall(function()
+    if not(PreLoad) then
+        if isfolder("alchemy/preload") then
+            delfolder("alchemy/preload")
+        end
+
+        if isfolder("alchemy/language") then
+            delfolder("alchemy/language")
+        end
+    end
+end)
+
+pcall(function()
     if alchemyBranch then return end
     local _, subbed = pcall(function() return game:HttpGet('https://github.com/x2neptunereal/Alchemy') end)
     local commit = subbed:find('currentOid');commit = commit and subbed:sub(commit + 13, commit + 52) or nil
