@@ -657,7 +657,7 @@ if not(getgenv().run_time) then
 
     ---------/// Continue ///---------
 
-    local UILibrary: {} = (load or loadstring)(getGit('Alchemy', 'ui/primordial/notify.lua'))()
+    local UILibrary: {} = (load or loadstring)(getGit('Alchemy', 'ui/quintus/notify.luau'))()
     local Notification: {new: () -> nil} = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
