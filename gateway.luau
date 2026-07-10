@@ -202,7 +202,7 @@ getgenv().getGit = getGit or function(project: string, path: string): string
             writefile("alchemy/preload/branch.txt", alchemyBranch)
         end]]
 
-        if isfile("alchemy/preload/" .. file) and prework then
+        if isfile("alchemy/preload/" .. file) --[[and prework]] then
             return readfile("alchemy/preload/" .. file)
         else
             local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
