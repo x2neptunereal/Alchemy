@@ -604,6 +604,9 @@ function Loader.new()
     end;
 
     function Payback:Close()
+        Loader.animate(MainFrame,{
+            Size = UDim2.new(0, 300, 0, 37)
+        },0.5);
 
         Loader.animate(Title,{
             TextTransparency = 1
@@ -617,37 +620,6 @@ function Loader.new()
             TextTransparency = 1
         },0.3);
 
-        if Loader.connectToMain then
-            local decat = {}
-
-            task.delay(0.45,Loader.animate , MainFrame,{
-                Size = UDim2.new(0, 50, 0, 50)
-            },0.5);
-
-            task.delay(0.75,Loader.animate , MainFrame,{
-                Position = UDim2.new(1, -14, 1, -14)
-            },0.5);
-
-            decat.Stopped = false
-            task.spawn(function()
-                repeat
-                    task.wait(1.2)
-                    Loader.animate(MainFrame,{
-                        Rotation = MainFrame.Rotation + 360
-                    },0.7);
-                    task.wait(0.7)
-                    MainFrame.Rotation = MainFrame.Rotation - 360
-                until decat.Stopped
-            end)
-            
-            decat.Frame = MainFrame
-            return decat
-        end
-
-        Loader.animate(MainFrame,{
-            Size = UDim2.new(0, 300, 0, 37)
-        },0.5);
-
         task.delay(0.45,Loader.animate , MainFrame,{
             Size = UDim2.new(0, 0, 0, 37)
         },0.5);
@@ -655,8 +627,6 @@ function Loader.new()
         task.delay(1,function()
             LoaderManager:Destroy();
         end)
-        
-        return nil
     end;
 
     return Payback;
