@@ -772,5 +772,5 @@ if not(getgenv().run_time) then
     elseif premium then tar = alchemy['.npm run game'](); alchemy['.npm run build'](loadService("services", tar)) 
     elseif oneclick then tar = alchemy['.npm run oneclick'](); alchemy['.npm run build'](loadService("oneclick", tar)) 
     elseif rollback then tar = alchemy['.npm run rollback'](); alchemy['.npm run build'](loadService("rollback", tar))
-    else getgenv().loader = alchemy['.npm run game'](); getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/1.lua'))(); end;
+    else getgenv().loader = alchemy['.npm run game'](); getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end;
 end
