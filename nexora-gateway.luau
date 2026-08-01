@@ -67,7 +67,7 @@ repeat task.wait() until game.Players.LocalPlayer
 
 ---------/// Set All Config to Global ///---------
 
-getgenv().script_key= license or script_key or nil
+getgenv().script_key = license or script_key or nil
 getgenv().skip_loading = skip_loading or false
 getgenv().auto_execute = auto_execute or false
 getgenv().disable_auto_exec = disable_auto_exec or false
@@ -767,10 +767,9 @@ if not(getgenv().run_time) then
         return "warn('noooo way')"
     end
 
-    local tar: any = nil
-    if farmer_mode then tar = alchemy['.npm run farmer'](); alchemy['.npm run build'](loadService("farmer_mode", tar))
-    elseif premium then tar = alchemy['.npm run game'](); alchemy['.npm run build'](loadService("services", tar)) 
-    elseif oneclick then tar = alchemy['.npm run oneclick'](); alchemy['.npm run build'](loadService("oneclick", tar)) 
-    elseif rollback then tar = alchemy['.npm run rollback'](); alchemy['.npm run build'](loadService("rollback", tar))
+    if farmer_mode then alchemy['.npm run build'](loadService("farmer_mode", alchemy['.npm run farmer']()))
+    elseif premium then alchemy['.npm run build'](loadService("services", alchemy['.npm run game']())) 
+    elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
+    elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
     else getgenv().loader = alchemy['.npm run game'](); getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end;
 end
