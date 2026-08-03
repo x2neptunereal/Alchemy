@@ -30,7 +30,7 @@ TextLabel.BorderSizePixel = 0
 TextLabel.Position = UDim2.new(0.498601556, 0, 0.362899572, 0)
 TextLabel.Size = UDim2.new(0, 368, 0, 113)
 TextLabel.Font = Enum.Font.Gotham
-TextLabel.Text = "The gateway you are using may be shut down soon. You can change the gateway to a new one by going to our discord (<font color='rgb(0, 255, 136)'>discord.gg/alchemyhub</font>) or changing the link on your script to '<font color='rgb(125, 127, 255)'>getalchemy.net/r</font>'."
+TextLabel.Text = "The gateway you are using may be shut down soon. You can change the gateway to a new one by going to our discord (<font color='rgb(0, 255, 136)'>discord.gg/alchemyhub</font>) or changing the link on your script to '<font color='rgb(125, 127, 255)'>getalchemy.net/n</font>'."
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 16.000
 TextLabel.TextWrapped = true
