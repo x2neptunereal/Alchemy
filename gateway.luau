@@ -67,8 +67,7 @@ repeat task.wait() until game.Players.LocalPlayer
 
 ---------/// Set All Config to Global ///---------
 
-getgenv().script_key= script_key or nil
-getgenv().custom_mode = custom_mode or nil
+getgenv().script_key = license or script_key or nil
 getgenv().skip_loading = skip_loading or false
 getgenv().auto_execute = auto_execute or false
 getgenv().disable_auto_exec = disable_auto_exec or false
@@ -192,7 +191,7 @@ getgenv().getGit = getGit or function(project: string, path: string): string
 			makefolder("alchemy/preload")
 		end
 
-        --[[if isfile("alchemy/preload/branch.txt") then
+        if isfile("alchemy/preload/branch.txt") then
             if readfile("alchemy/preload/branch.txt") == alchemyBranch then
                 prework = true
             else
@@ -200,9 +199,9 @@ getgenv().getGit = getGit or function(project: string, path: string): string
             end
         else
             writefile("alchemy/preload/branch.txt", alchemyBranch)
-        end]]
+        end
 
-        if isfile("alchemy/preload/" .. file) --[[and prework]] then
+        if isfile("alchemy/preload/" .. file) and prework then
             return readfile("alchemy/preload/" .. file)
         else
             local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
@@ -239,20 +238,17 @@ type array<I,V> = {[I]: V}
 
 local script_direct: array<number, any> = {
     [994732206] = { -- Blox Fruits
+        name = "bloxfruits",
         force_autoexec = true,
         skip_autoexec = false,
-        free = "v4/loaders/311ad7329b80c2117f4bdbf46582dcc6.lua",
-        premium = "v4/loaders/a1a6b1634179469cd1b8f22b2a32492d.lua"
 	};[5750914919] = { -- Fisch
+        name = "fisch",
         force_autoexec = false,
         skip_autoexec = false,
-        free = "v4/loaders/40142043704f8ec418b59eddd1cb1949.lua",
-        premium = "v4/loaders/b483c866b947fd0b7a2558cf67ae1417.lua"
 	};[10200395747] = { -- Grow a Garden 2
+        name = "growagarden2",
         force_autoexec = false,
         skip_autoexec = false,
-        free = "v4/loaders/81528a9442b3fd960f553c790e9e0d37.lua",
-        premium = "v4/loaders/4e500bbbd086e52b12755981d7aa12d5.lua"
 	};
 }
 
@@ -283,20 +279,8 @@ local alchemy: array<string, any> = {
     ['.npm run game'] = function(): string
         local available: any = script_direct[g]
         if available and typeof(available) == "table" then
-            print("</> " .. string.gsub(string.gsub(available.free,
-            ".lua", ""), "v4/loaders/", ""))
-            return available.free
-        else
-            errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
-            return "\n"
-        end
-    end;
-    ['.npm run premium'] = function(): string
-        local available: any = script_direct[g]
-        if available and typeof(available) == "table" then
-            print("</> " .. string.gsub(string.gsub(available.premium,
-            ".lua", ""), "v4/loaders/", ""))
-            return available.premium
+            print("</> Loading: " .. available.name)
+            return available.name
         else
             errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
@@ -314,7 +298,7 @@ local alchemy: array<string, any> = {
         errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis product wasn't activated anymore.\n<i>#rollback</i>")
         return "\n"
     end;
-    ['.npm run build'] = function(s: string): nil (load or loadstring)(game:HttpGet(s))() end;
+    ['.npm run build'] = function(s: string): nil (load or loadstring)(s)() end;
 }
 
 ---------/// Old Script Config ///---------
@@ -642,7 +626,7 @@ if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
 end
 
 LoaderWindow:AddLabel("Loading [Gateway] successful","Success"); task.wait(LoadingDelay)
-LoaderWindow:AddLabel("Starting connect Luarmor","Success"); task.wait(LoadingDelay)
+LoaderWindow:AddLabel("Starting connect Nexora","Success"); task.wait(LoadingDelay)
 LoaderWindow:AddLabel("Starting connect Alchemy's API","Success"); task.wait(LoadingDelay)
 LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(2.5, LoaderWindow.Close);
 task.wait(LoadingDelay * 3.68);
@@ -715,11 +699,77 @@ if not(getgenv().run_time) then
 
     ---------/// Load Scripts ///---------
 
-    local tar: any = nil
-    if custom_mode then alchemy['.npm run build']("https://api.luarmor.net/files/v4/loaders/"..custom_mode..".lua")
-    elseif farmer_mode then tar = alchemy['.npm run farmer'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar)
-    elseif premium then tar = alchemy['.npm run premium'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar) 
-    elseif oneclick then tar = alchemy['.npm run oneclick'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar) 
-    elseif rollback then tar = alchemy['.npm run rollback'](); alchemy['.npm run build']("https://api.luarmor.net/files/"..tar)
-    else getgenv().loader = alchemy['.npm run game'](); (load or loadstring)(getGit('Alchemy', 'keysystem/1.lua'))(); end;
+    local serviceBranch = "main"
+    pcall(function()
+        local _, subbed = pcall(function() return game:HttpGet('https://github.com/x2neptunereal/Alchemy-Station') end)
+        local commit = subbed:find('currentOid');commit = commit and subbed:sub(commit + 13, commit + 52) or nil
+        serviceBranch = commit and #commit == 40 and commit or 'main'
+    end)
+
+    local loadService = function(called: string, path: string): string
+        local project: string = "Alchemy-Station"
+        local branch: string = serviceBranch or 'main'
+        local location: string = called or "services"
+        local githubUrl: string = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/alchemy/" .. location .. "/" .. path .. ".lua"
+        local jsdelivrUrl: string = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/alchemy/" .. location .. "/" .. path .. ".lua"
+
+        if serviceBranch and not(serviceBranch == "main") then
+            local prework: boolean = false
+            local file: string = string.gsub(path, "/", "_")
+
+            if not isfolder("alchemy") then
+                makefolder("alchemy")
+            end
+
+            if not isfolder("alchemy/collector") then
+                makefolder("alchemy/collector")
+            end
+
+            if not isfolder("alchemy/collector/" .. file) then
+                makefolder("alchemy/collector/" .. file)
+            end
+
+            if isfile("alchemy/collector/" .. file .. "/branch.txt") then
+                if readfile("alchemy/collector/" .. file .. "/branch.txt") == serviceBranch then
+                    prework = true
+                else
+                    writefile("alchemy/collector/" .. file .. "/branch.txt", serviceBranch)
+                end
+            else
+                writefile("alchemy/collector/" .. file .. "/branch.txt", serviceBranch)
+            end
+
+            if isfile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt") and prework then
+                return readfile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt")
+            else
+                local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
+                if git_succ and git_result then
+                    writefile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt", git_result)
+                    return git_result
+                end
+
+                local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
+                if jsd_succ and jsd_result then
+                    writefile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt", jsd_result)
+                    return jsd_result
+                end
+            end
+
+            return "warn('noooo way')"
+        end
+
+        local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
+        if git_succ and git_result then return git_result end
+
+        local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
+        if jsd_succ and jsd_result then return jsd_result end
+        
+        return "warn('noooo way')"
+    end
+
+    if farmer_mode then alchemy['.npm run build'](loadService("farmer_mode", alchemy['.npm run farmer']()))
+    elseif premium then alchemy['.npm run build'](loadService("services", alchemy['.npm run game']())) 
+    elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
+    elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
+    else getgenv().loader = alchemy['.npm run game'](); getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end;
 end
