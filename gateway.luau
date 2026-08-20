@@ -767,6 +767,17 @@ if not(getgenv().run_time) then
         return "warn('noooo way')"
     end
 
+    do
+        local mainFolder = "alchemy"
+	    if not isfolder(mainFolder) then
+		    makefolder(mainFolder)
+	    end
+
+	    if not isfile(mainFolder .. "/bg-opacity.txt") then
+		    writefile(mainFolder .. "/bg-opacity.txt", tostring(0))
+	    end
+    end
+
     if farmer_mode then alchemy['.npm run build'](loadService("farmer_mode", alchemy['.npm run farmer']()))
     elseif premium then alchemy['.npm run build'](loadService("services", alchemy['.npm run game']())) 
     elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
