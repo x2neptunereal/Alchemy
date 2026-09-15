@@ -163,6 +163,11 @@ pcall(function()
         if isfolder("alchemy/language") then
             delfolder("alchemy/language")
         end
+
+        
+        if isfolder("alchemy/collector") then
+            delfolder("alchemy/collector")
+        end
     end
 end)
 
@@ -243,10 +248,6 @@ local script_direct: array<number, any> = {
         skip_autoexec = false,
 	};[5750914919] = { -- Fisch
         name = "fisch",
-        force_autoexec = false,
-        skip_autoexec = false,
-	};[10200395747] = { -- Grow a Garden 2
-        name = "growagarden2",
         force_autoexec = false,
         skip_autoexec = false,
 	};
