@@ -47,7 +47,7 @@
                         Modification of the script, including attempting to 
                      bypass or crack the script for any reason is not allowed.
 
-                     Copyright © 2023-2026 Alchemy Team - All Rights Reserved.
+                      Copyright © 2023-2026 Alchemy Hub. All rights reserved.
 
 
 
