@@ -47,7 +47,7 @@
                         Modification of the script, including attempting to 
                      bypass or crack the script for any reason is not allowed.
 
-                      Copyright © 2023-2026 Alchemy Hub. All rights reserved.
+                     Copyright © 2023-2026 Alchemy Team - All Rights Reserved.
 
 
 
@@ -246,10 +246,12 @@ local script_direct: array<number, any> = {
         name = "bloxfruits",
         force_autoexec = true,
         skip_autoexec = false,
+        premium = true,
 	};[5750914919] = { -- Fisch
         name = "fisch",
         force_autoexec = false,
         skip_autoexec = false,
+        premium = false,
 	};
 }
 
@@ -281,6 +283,11 @@ local alchemy: array<string, any> = {
         local available: any = script_direct[g]
         if available and typeof(available) == "table" then
             print("</> Loading: " .. available.name)
+            if available.premium and not(getgenv().premium) then
+                errorMessage("Alchemy", "<b>(ERROR-419)</b>\nThis product counts as BETA.\nYou can upgrade your license to access this.\n<i>#at -> \"www.buyalchemy.net\"</i>")
+                return "\n"
+            end
+
             return available.name
         else
             errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
