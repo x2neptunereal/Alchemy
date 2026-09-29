@@ -32,7 +32,7 @@ end;
 
 local current = 0
 function module:getRanColor()
-    current = current + 1
+    --[[current = current + 1
 
     print(current)
     if current == 1 then -- A
@@ -50,7 +50,7 @@ function module:getRanColor()
     elseif current == 7 then -- Y
         current = 0
         return Color3.fromRGB(221, 176, 255)
-    end
+    end]]
     
     return Color3.fromRGB(255, 255, 255)
 end
