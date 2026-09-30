@@ -81,6 +81,7 @@ getgenv().fully_rejoin = fully_rejoin or false
 getgenv().avoid_player = avoid_player or nil
 
 getgenv().premium = premium or false
+getgenv().force_key = force_key or false
 getgenv().farmer_mode = farmer_mode or false
 getgenv().oneclick = oneclick or kaitan or kaitun or false
 
@@ -136,13 +137,13 @@ getgenv().setAutoExec = function(): nil
                 
                 if script_key or premium or rollback then
                     future_execute(
-                        string.format('%s%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
+                        string.format('%s%s%sgetgenv().cometeleport=true;script_key="%s";premium=%s;rollback=%s;force_key=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        raw_specific_config, rawsetting, raw_avoidplayer, tostring(script_key), tostring(premium), tostring(rollback), tostring(force_key), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
                     )
                 else
                     future_execute(
-                        string.format('%s%s%sgetgenv().cometeleport=true;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
-                        raw_specific_config,rawsetting, raw_avoidplayer, tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
+                        string.format('%s%s%sgetgenv().cometeleport=true;force_key=%s;auto_rejoin=%s;streamer_mode=%s;fully_rejoin=%s;whitescreen=%s;blackscreen=%s;skip_loading=%s;loadstring(game:HttpGet("https://raw.githubusercontent.com/x2neptunereal/Alchemy/main/gateway.luau"))()',
+                        raw_specific_config,rawsetting, raw_avoidplayer, tostring(force_key), tostring(auto_rejoin), tostring(streamer_mode), tostring(fully_rejoin), tostring(whitescreen), tostring(blackscreen), tostring(skip_loading))
                     )
                 end
             end
@@ -244,14 +245,16 @@ type array<I,V> = {[I]: V}
 local script_direct: array<number, any> = {
     [994732206] = { -- Blox Fruits
         name = "bloxfruits",
-        force_autoexec = true,
+        force_autoexec = false,
         skip_autoexec = false,
-        premium = true,
+        fully_free = true,
+        premium_only = false,
 	};[5750914919] = { -- Fisch
         name = "fisch",
         force_autoexec = false,
         skip_autoexec = false,
-        premium = false,
+        fully_free = false,
+        premium_only = false,
 	};
 }
 
@@ -283,9 +286,13 @@ local alchemy: array<string, any> = {
         local available: any = script_direct[g]
         if available and typeof(available) == "table" then
             print("</> Loading: " .. available.name)
-            if available.premium and not(getgenv().premium) then
+            if available.premium_only and not(premium) then
                 errorMessage("Alchemy", "<b>(ERROR-419)</b>\nThis product counts as BETA.\nYou can upgrade your license to access this.\n<i>#at -> \"www.buyalchemy.net\"</i>")
                 return "\n"
+            end
+
+            if available.fully_free and not(force_key or premium or script_key) then
+                return available.name .. "_trial"
             end
 
             return available.name
@@ -779,5 +786,35 @@ if not(getgenv().run_time) then
     elseif premium then alchemy['.npm run build'](loadService("services", alchemy['.npm run game']())) 
     elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
     elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
-    else getgenv().loader = alchemy['.npm run game'](); getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end;
+    else
+        local available: any = script_direct[g]
+        if available.fully_free then
+            local answer = false
+            Notification.new({
+                Icon = "fingerprint",
+                Title = "Wanna Get Key?",
+                Description = "This product is marked as Trial.\nIf you choose key system, you will\naccess the real-time update.",
+                Dialog = true,
+                Buttons = {
+                    {
+                        Title = "Let's get the key!",
+                        Callback = function()
+                            getgenv().force_key = true
+                            answer = true
+                        end,
+                    },
+                    {
+                        Title = "No Thanks",
+                        Callback = function()
+                            answer = true
+                        end,
+                    }
+                }
+            })
+            repeat task.wait() until answer
+        end
+
+        getgenv().loader = alchemy['.npm run game'](); if string.find(loader, "_trial") then alchemy['.npm run build'](loadService("services", loader))
+        else getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end
+    end;
 end
