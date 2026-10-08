@@ -156,6 +156,10 @@ getgenv().setAutoExec = function(): nil
 end
 
 pcall(function()
+    if not isfolder("alchemy_inc") then
+        delfolder("alchemy_inc")
+    end
+
     if not(PreLoad) then
         if isfolder("alchemy/preload") then
             delfolder("alchemy/preload")
