@@ -1759,7 +1759,7 @@ function Library:CreateWindow(p)
 							Position = UDim2.new(0, 0,0.5, 0)
 						}}):Play()
 				end
-				pcall(Callback, Value)
+				task.spawn(Callback, Value)
 			end
 
 			Toggle:GetPropertyChangedSignal("BackgroundColor3"):Connect(function()
