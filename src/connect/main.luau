@@ -4,18 +4,18 @@ getgenv().synchronization = synchronization or {
     refresh_time = 10
 }
 
-local getService = setmetatable({}, {
-    __index = function(selff: {}, serviceName: any)
+local getService: any = setmetatable({}, {
+    __index = function(selff: {}, serviceName: any): any
         local service = cloneref(game:GetService(serviceName))
         rawset(selff, serviceName, service)
         return service
     end
 })
 
-local http = getService.HttpService
-local rep = getService.ReplicatedStorage
-local plr = getService.Players.LocalPlayer
-local ws = WebSocket.connect("ws://" .. synchronization.base_url .. ":" .. tostring(synchronization.port) .. "/connect/" .. tostring(plr.UserId))
+local http: HttpService = getService.HttpService
+local rep: ReplicatedStorage = getService.ReplicatedStorage
+local plr: any = getService.Players.LocalPlayer
+local ws: any = WebSocket.connect("ws://" .. synchronization.base_url .. ":" .. tostring(synchronization.port) .. "/connect/" .. tostring(plr.UserId))
 
 ws:Send(http:JSONEncode({
     types = "link",
