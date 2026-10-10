@@ -68,10 +68,11 @@ getgenv().acm_accentcolor = acm_accentcolor or Color3.fromRGB(0, 255, 132)
 
 ---------/// Lerp Color ///---------
 
-local lerp: (a: number, b: number, t: number) -> number = function(a: number, b: number, t: number) return a + (b - a) * t end
-local colorLerp: (c1: Color3, c2: Color3, t: any) -> Color3 = function(c1: Color3, c2: Color3, t: any) return Color3.new(lerp(c1.R, c2.R, t), lerp(c1.G, c2.G, t), lerp(c1.B, c2.B, t)) end
+local lerp = function(a: number, b: number, t: number): number
+return a + (b - a) * t end;local colorLerp = function(c1: Color3, c2: Color3, t: any): Color3
+return Color3.new(lerp(c1.R, c2.R, t), lerp(c1.G, c2.G, t), lerp(c1.B, c2.B, t)) end
 
-local colorToHex: (color: Color3) -> string = function(color: Color3)
+local colorToHex = function(color: Color3): string
     return string.format("#%02X%02X%02X", math.floor(color.R * 255), math.floor(color.G * 255), math.floor(color.B * 255))
 end
 
@@ -167,28 +168,28 @@ UIGradient.Color = ColorSequence.new{
 
 ---------/// Watermark Function ///---------
 
-local openUI: () -> nil = function()
+local openUI = function(): nil
     watermark.Enabled = true
     tws:Create(Frame, TweenInfo.new(2), {Position = UDim2.new(0.5, 0, 0, -45)}):Play()
 end
 
-local closeUI: () -> nil = function()
+local closeUI = function(): nil
     Frame.Position = UDim2.new(0.5, 0, 0, -200)
 end
 
-local crossToName: () -> nil = function()
+local crossToName = function(): nil
     tws:Create(hub, TweenInfo.new(0.3), {TextTransparency = 0}):Play()
     tws:Create(time, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
     tws:Create(network, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
 end
 
-local crossToTime: () -> nil = function()
+local crossToTime = function(): nil
     tws:Create(hub, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
     tws:Create(time, TweenInfo.new(0.3), {TextTransparency = 0}):Play()
     tws:Create(network, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
 end
 
-local crossToNetwork: () -> nil = function()
+local crossToNetwork = function(): nil
     tws:Create(hub, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
     tws:Create(time, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
     tws:Create(network, TweenInfo.new(0.3), {TextTransparency = 0}):Play()
@@ -196,7 +197,7 @@ end
 
 ---------/// Check Time ///---------
 
-local formatTime: (seconds: number) -> string = function(seconds: number)
+local formatTime = function(seconds: number): string
     local minutes: number = math.floor(seconds / 60)
     local hours: number = math.floor(minutes / 60)
     minutes = minutes % 60
@@ -209,7 +210,7 @@ end
 
 ---------/// Check Ping ///---------
 
-local getPingColor: (ping: number) -> string = function(ping: number)
+local getPingColor = function(ping: number): string
     if ping < 100 then ping = 0 end
 
     local minPing: number = 0
@@ -233,7 +234,7 @@ end
 
 ---------/// Check FPS ///---------
 
-local getFpsColor: (fps: number) -> string = function(fps: number)
+local getFpsColor = function(fps: number): string
     local minFPS: number = 0
     local maxFPS: number = 60
     
