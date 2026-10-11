@@ -259,6 +259,12 @@ local script_direct: array<number, any> = {
         skip_autoexec = false,
         fully_free = false,
         premium_only = false,
+	};[10512942223] = { -- Anime Zero
+        name = "animezero",
+        force_autoexec = true,
+        skip_autoexec = false,
+        fully_free = false,
+        premium_only = false,
 	};
 }
 
