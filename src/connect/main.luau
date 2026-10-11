@@ -14,8 +14,8 @@ local getService: any = setmetatable({}, {
 
 local http: HttpService = getService.HttpService
 local rep: ReplicatedStorage = getService.ReplicatedStorage
-local plr: any = getService.Players.LocalPlayer
-local ws: any = WebSocket.connect("ws://" .. synchronization.base_url .. ":" .. tostring(synchronization.port) .. "/connect/" .. tostring(plr.UserId))
+local plr: Player = getService.Players.LocalPlayer
+local ws: {} = WebSocket.connect("ws://" .. synchronization.base_url .. ":" .. tostring(synchronization.port) .. "/connect/" .. tostring(plr.UserId))
 
 ws:Send(http:JSONEncode({
     types = "link",
@@ -170,7 +170,7 @@ if game.GameId == 994732206 then -- BLOX FRUITS
         }))
     end
 
-    repeat task.wait(synchronization.refresh_time); pcall(updating) until false
+    repeat pcall(updating);task.wait(synchronization.refresh_time); until false
 else
     ws:Send(http:JSONEncode({
         types = "stats",
