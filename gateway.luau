@@ -286,6 +286,7 @@ if cometeleport then
     if not(available and typeof(available) == "table") then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
     if available.skip_autoexec then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
 
+    getgenv().force_skip = true
     print('</> Auto Execute Active'); task.wait(3)
 end; if (oneclick or kaitan or kaitun) then task.wait(3) end
 
@@ -347,7 +348,7 @@ local LoaderWindow: () -> {} = (function()
 end)()
 
 xpcall(function()
-    if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading) then
+    if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading or force_skip) then
         local LoaderLib: {} = (load or loadstring)(getGit('Alchemy', 'ui/loader_v2.luau'))()
         LoaderWindow = LoaderLib.new();
         LoadingDelay = 1
