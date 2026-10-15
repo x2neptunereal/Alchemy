@@ -475,49 +475,17 @@ LoaderWindow:AddLabel("Set up [Auto Rejoin]","Success"); task.wait(LoadingDelay)
 if streamer_mode then
     xpcall(function()
         local protectMessage = function(messageTarget: string, messageChange: string): nil
-            local allSpace = game:GetDescendants()
-        
-            for i=1, #allSpace do
-                if allSpace[i].ClassName == "TextLabel" then
-                    if string.find(allSpace[i].Text, messageTarget) then
-                        allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                        allSpace[i].Changed:Connect(function()
-                            allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                        end)
-                    end
-                elseif allSpace[i].ClassName == "TextButton" then
-                    if string.find(allSpace[i].Text, messageTarget) then
-                        allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                        allSpace[i].Changed:Connect(function()
-                            allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                        end)
-                    end
-                elseif allSpace[i].ClassName == "TextBox" then
-                    if string.find(allSpace[i].Text, messageTarget) then
-                        allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                        allSpace[i].Changed:Connect(function()
-                            allSpace[i].Text = string.gsub(allSpace[i].Text, messageTarget, messageChange)
-                        end)
-                    end
+            for index, obj in game:QueryDescendants("TextLabel, TextButton, TextBox") do
+                if string.find(obj.Text, messageTarget) then
+                    obj.Text = string.gsub(obj.Text, messageTarget, messageChange)
+                    obj:GetPropertyChangedSignal("Text"):Connect(function()
+                        obj.Text = string.gsub(obj.Text, messageTarget, messageChange)
+                    end)
                 end
             end
         
             game.DescendantAdded:Connect(function(descendant: Instance)
-                if descendant.ClassName == "TextLabel" then
-                    if string.find(descendant.Text, messageTarget) then
-                        descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-                        descendant.Changed:Connect(function()
-                            descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-                        end)
-                    end
-                elseif descendant.ClassName == "TextButton" then
-                    if string.find(descendant.Text, messageTarget) then
-                        descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-                        descendant.Changed:Connect(function()
-                            descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
-                        end)
-                    end
-                elseif descendant.ClassName == "TextBox" then
+                if descendant.ClassName == "TextLabel" or descendant.ClassName == "TextButton" or descendant.ClassName == "TextBox" then
                     if string.find(descendant.Text, messageTarget) then
                         descendant.Text = string.gsub(descendant.Text, messageTarget, messageChange)
                         descendant.Changed:Connect(function()
