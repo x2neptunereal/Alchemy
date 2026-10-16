@@ -767,6 +767,10 @@ if not(getgenv().run_time) then
     elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
     else
         local available: any = script_direct[g]
+        if not(available and typeof(available) == "table") then
+            errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
+            return "\n"
+        end
         if available.fully_free then
             local answer = false
             Notification.new({
