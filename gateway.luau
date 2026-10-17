@@ -396,7 +396,9 @@ LoaderWindow:AddLabel("Set up [Software]","Success"); task.wait(LoadingDelay)
 
 task.spawn(function()
     xpcall(function()
-        (load or loadstring)(getGit('Alchemy', 'library/debug/scope.lua'))()
+        getgenv().preparingApi = true;
+        (load or loadstring)(getGit('Alchemy', 'library/api.lua'))();
+        (load or loadstring)(getGit('Alchemy', 'library/debug/scope.lua'))();
     end, function(err: string)
         warn(string.format("</> Security report error %s\n", err))
     end)
