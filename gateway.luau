@@ -380,6 +380,17 @@ end)
 if disable_auto_exec then LoaderWindow:AddLabel("Skipped set up [Auto Execute]","Error")
 else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(LoadingDelay)
 
+---------/// PeCDA ///---------
+
+xpcall(function()
+    local settingIns = setthreadcontext or setthreadidentity or set_thread_context or set_thread_identity
+    if settingIns then
+        settingIns(8)
+    end
+end, function(err: string)
+    warn(string.format("</> PeCDA error %s\n", err))
+end)
+
 ---------/// x2Neptune's Software ///---------
 
 task.delay(6, function()
