@@ -265,6 +265,12 @@ local script_direct: array<number, any> = {
         skip_autoexec = false,
         fully_free = false,
         premium_only = false,
+	};[10708913337] = { -- Anime Dice
+        name = "animedice",
+        force_autoexec = false,
+        skip_autoexec = false,
+        fully_free = false,
+        premium_only = false,
 	};
 }
 
@@ -384,9 +390,7 @@ else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(Lo
 
 xpcall(function()
     local settingIns = setthreadcontext or setthreadidentity or set_thread_context or set_thread_identity
-    if settingIns then
-        settingIns(8)
-    end
+    if settingIns then settingIns(8) end
 end, function(err: string)
     warn(string.format("</> PeCDA error %s\n", err))
 end)
