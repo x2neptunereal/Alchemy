@@ -391,18 +391,6 @@ end, function(err: string)
     warn(string.format("</> PeCDA error %s\n", err))
 end)
 
----------/// x2Neptune's Software ///---------
-
-task.delay(6, function()
-    xpcall(function()
-        (load or loadstring)(getGit('x2neptunereal', 'software/_rbx.lua'))()
-    end, function(err: string)
-        warn(string.format("</> Software function error %s\n", err))
-    end)
-end)
-
-LoaderWindow:AddLabel("Set up [Software]","Success"); task.wait(LoadingDelay)
-
 ---------/// Security Report ///---------
 
 task.spawn(function()
