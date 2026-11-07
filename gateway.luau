@@ -95,9 +95,9 @@ task.wait(delay_execute or 0)
 
 ---------/// Set Necessary Function ///---------
 
-local getService = setmetatable({}, {
+const getService = setmetatable({}, {
     __index = function(selff: {}, serviceName: any)
-        local service = cloneref(game:GetService(serviceName))
+        const service = cloneref(game:GetService(serviceName))
         rawset(selff, serviceName, service)
         return service
     end
@@ -114,7 +114,7 @@ end)
 getgenv().setAutoExec = function(): nil
     if not(disable_auto_exec) and not(already_set_auto_exec) then
         xpcall(function()
-            local future_execute: (string) -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+            const future_execute: (string) -> nil = queueonteleport or queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
             if future_execute and not(farmer_mode or oneclick or kaitan or kaitun) then
                 print("</> Set Auto Execute")
 
@@ -184,14 +184,14 @@ pcall(function()
 end)
 
 getgenv().getGit = getGit or function(project: string, path: string): string
-    local first: boolean = (project == "Alchemy")
-    local branch: string = (first and alchemyBranch) or 'main'
-    local githubUrl: string = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
-    local jsdelivrUrl: string = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
+    const first: boolean = (project == "Alchemy")
+    const branch: string = (first and alchemyBranch) or 'main'
+    const githubUrl: string = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/" .. path
+    const jsdelivrUrl: string = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/" .. path
 
     if first and alchemyBranch and not(alchemyBranch == "main") and not(string.find(path, ".png")) then
         local prework: boolean = false
-        local file: string = string.gsub(project .. "_" .. path, "/", "_")
+        const file: string = string.gsub(project .. "_" .. path, "/", "_")
 
         if not isfolder("alchemy") then
 			makefolder("alchemy")
@@ -239,14 +239,14 @@ getgenv().getGit = getGit or function(project: string, path: string): string
     return "warn('noooo way')"
 end
 
-local errorMessage = (load or loadstring)(getGit('Alchemy', 'library/debug/removed.lua'))()
+const errorMessage = (load or loadstring)(getGit('Alchemy', 'library/debug/removed.lua'))()
 
 ---------/// Script Data ///---------
 
-local g: number = game.GameId
-type array<I,V> = {[I]: V}
+const g: number = game.GameId
+type array<I, V> = {[I]: V}
 
-local script_direct: array<number, any> = {
+const script_direct: array<number, {[string]: string | boolean}> = {
     [994732206] = { -- Blox Fruits
         name = "bloxfruits",
         force_autoexec = false,
@@ -277,7 +277,7 @@ local script_direct: array<number, any> = {
 ---------/// Set Auto Execute ///---------
 
 do
-    local available: any = script_direct[g]
+    const available: any = script_direct[g]
     if available and typeof(available) == "table" then
         if available.force_autoexec or auto_execute then
             setAutoExec()
@@ -288,7 +288,7 @@ end
 ---------/// Check Environment ///---------
 
 if cometeleport then
-    local available: any = script_direct[g]
+    const available: any = script_direct[g]
     if not(available and typeof(available) == "table") then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
     if available.skip_autoexec then getgenv().cometeleport = false; return print('</> Auto Execute Skip'); end
 
@@ -298,9 +298,9 @@ end; if (oneclick or kaitan or kaitun) then task.wait(3) end
 
 ---------/// Main Function ///---------
 
-local alchemy: array<string, any> = {
+const alchemy: array<string, () -> string?> = {
     ['.npm run game'] = function(): string
-        local available: any = script_direct[g]
+        const available: any = script_direct[g]
         if available and typeof(available) == "table" then
             print("</> Loading: " .. available.name)
             if available.premium_only and not(premium) then
@@ -333,10 +333,6 @@ local alchemy: array<string, any> = {
     ['.npm run build'] = function(s: string): nil (load or loadstring)(s)() end;
 }
 
----------/// Old Script Config ///---------
-
-_G.Config = setting or _G.Config
-
 ---------/// Disable Debug File ///---------
 
 getgenv().diableFile = true
@@ -355,7 +351,7 @@ end)()
 
 xpcall(function()
     if not(oneclick or kaitan or kaitun or rollback) and not(skip_loading or force_skip) then
-        local LoaderLib: {} = (load or loadstring)(getGit('Alchemy', 'ui/loader_v2.luau'))()
+        const LoaderLib: {} = (load or loadstring)(getGit('Alchemy', 'ui/loader_v2.luau'))()
         LoaderWindow = LoaderLib.new();
         LoadingDelay = 1
     end
@@ -389,7 +385,7 @@ else LoaderWindow:AddLabel("Set up [Auto Execute]","Success"); end; task.wait(Lo
 ---------/// PeCDA ///---------
 
 xpcall(function()
-    local settingIns = setthreadcontext or setthreadidentity or set_thread_context or set_thread_identity
+    const settingIns = setthreadcontext or setthreadidentity or set_thread_context or set_thread_identity
     if settingIns then settingIns(8) end
 end, function(err: string)
     warn(string.format("</> PeCDA error %s\n", err))
@@ -423,9 +419,9 @@ LoaderWindow:AddLabel("Set up [Security Report]","Success"); task.wait(LoadingDe
 
 ---------/// Avoid Players ///---------
 
-local hopServer = function(): nil
-    local req: {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
-    local body: {} = getService.HttpService:JSONDecode(req.Body)
+const hopServer = function(): nil
+    const req: {} = (request or http_request)({Url = string.format('https://games.roblox.com/v1/games/%d/servers/Public?sortOrder=Asc&limit=100&excludeFullGames=true', game.PlaceId)})
+    const body: {} = getService.HttpService:JSONDecode(req.Body)
 
     if body and body.data then
         for i, v in next, body.data do
@@ -491,7 +487,7 @@ LoaderWindow:AddLabel("Set up [Auto Rejoin]","Success"); task.wait(LoadingDelay)
 
 if streamer_mode then
     xpcall(function()
-        local protectMessage = function(messageTarget: string, messageChange: string): nil
+        const protectMessage = function(messageTarget: string, messageChange: string): nil
             for index, obj in game:QueryDescendants("TextLabel, TextButton, TextBox") do
                 if string.find(obj.Text, messageTarget) then
                     obj.Text = string.gsub(obj.Text, messageTarget, messageChange)
@@ -608,7 +604,7 @@ LoaderWindow:AddLabel("Set up [Anti AFK]","Success"); task.wait(LoadingDelay)
 
 if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
     xpcall(function()
-        local discord: () -> nil = function()
+        const discord: () -> nil = function()
             (request or http_request)({
                 Url = "http://127.0.0.1:6463/rpc?v=1",
                 Method = "POST",
@@ -653,7 +649,7 @@ if not(getgenv().run_time) then
     ---------/// Continue ///---------
 
     local UILibrary: {} = (load or loadstring)(getGit('Alchemy', 'ui/quintus/notify.luau'))()
-    local Notification: {new: () -> nil} = UILibrary:Notification();
+    local Notification: {new: (array<string, string | number | {}>) -> nil} = UILibrary:Notification();
     
     ---------/// Send Notify ///---------
 
@@ -700,7 +696,7 @@ if not(getgenv().run_time) then
     end
 
     if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
-        local og: number = tick() + 21600
+        const og: number = tick() + 21600
         task.spawn(function()
             repeat task.wait(1) until og < tick()
             errorMessage("Alchemy", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
@@ -717,7 +713,7 @@ if not(getgenv().run_time) then
         serviceBranch = commit and #commit == 40 and commit or 'main'
     end)
 
-    local loadService = function(called: string, path: string): string
+    const loadService = function(called: string, path: string): string
         local project: string = "Alchemy-Station"
         local branch: string = serviceBranch or 'main'
         local location: string = called or "services"
@@ -783,7 +779,7 @@ if not(getgenv().run_time) then
     elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
     elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
     else
-        local available: any = script_direct[g]
+        const available: any = script_direct[g]
         if not(available and typeof(available) == "table") then
             errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
             return "\n"
