@@ -626,179 +626,207 @@ LoaderWindow:AddLabel("Starting connect Alchemy's API","Success"); task.wait(Loa
 LoaderWindow:AddLabel("Preparing best experience for you <3","Success"); task.delay(2.5, LoaderWindow.Close);
 task.wait(LoadingDelay * 3.68);
 
+---------/// Continue ///---------
+
+local UILibrary: {} = (load or loadstring)(getGit('Alchemy', 'ui/quintus/notify.luau'))()
+local Notification: {new: (array<string, string | number | {}>) -> nil} = UILibrary:Notification();
+
 ---------/// Check if not execute 2 times ///---------
 
-if not(getgenv().run_time) then
+local cancelProcess: boolean = false
+if getgenv().run_time then
+    local answer = false
+    Notification.new({
+        Icon = "fingerprint",
+        Title = "Re-execute?",
+        Description = "Wanna execute this script again?",
+        Dialog = true,
+        Buttons = {
+            {
+                Title = "Of course!",
+                Callback = function()
+                    cancelProcess = true
+                    answer = true
+                end,
+            },
+            {
+                Title = "Nope",
+                Callback = function()
+                    answer = true
+                end,
+            }
+        }
+    })
+    repeat task.wait() until answer
+end
 
-    ---------/// Mark as already execute ///---------
+---------/// Cancel Process?? ///---------
 
-    getgenv().run_time = true
+if cancelProcess then return "\n" end
 
-    ---------/// Continue ///---------
+---------/// Mark as already execute ///---------
 
-    local UILibrary: {} = (load or loadstring)(getGit('Alchemy', 'ui/quintus/notify.luau'))()
-    local Notification: {new: (array<string, string | number | {}>) -> nil} = UILibrary:Notification();
+getgenv().run_time = true
+
+---------/// Send Notify ///---------
+
+if premium or farmer_mode or (oneclick or kaitan or kaitun or rollback) then
+    Notification.new({
+        Icon = "tag-sparkle-bold",
+        Title = "Thank you all for the support!",
+        Description = "Enjoy scripts and features.\nAlso, don't forget to write a review.",
+        Duration = 10,
+    })
+else
+    Notification.new({
+        Icon = "discord-bold",
+        Title = "Wanna join our Discord community?",
+        Description = "We have a huge community, and\nour community has a news update.\nThank you all for the support!! ",
+        Dialog = true,
+        Buttons = {
+            {
+                Title = "Sure!",
+                Callback = function()
+                    if setclipboard then
+                        Notification.new({
+                            Icon = "discord-bold",
+                            Title = "Copied completed!",
+                            Description = "We have sent the server invite link\nto your clipboard.",
+                            Duration = 6,
+                        })
+                        setclipboard("https://discord.gg/alchemyhub")
+                    end
+                end,
+            },
+            {
+                Title = "No Thanks",
+                Callback = function() return end,
+            }
+        }
+    })
+end
+
+---------/// Miscellaneous ///---------
+
+if script_key then
+    print(string.format("</> Key: %s\n", script_key))
+end
+
+if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
+    const og: number = tick() + 21600
+    task.spawn(function()
+        repeat task.wait(1) until og < tick()
+        errorMessage("Alchemy", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
+        task.wait(8); getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer)
+    end)
+end
+
+---------/// Load Scripts ///---------
+
+local serviceBranch = "main"
+pcall(function()
+    local _, subbed = pcall(function() return game:HttpGet('https://github.com/x2neptunereal/Alchemy-Station') end)
+    local commit = subbed:find('currentOid');commit = commit and subbed:sub(commit + 13, commit + 52) or nil
+    serviceBranch = commit and #commit == 40 and commit or 'main'
+end)
+
+const loadService = function(called: string, path: string): string
+    local project: string = "Alchemy-Station"
+    local branch: string = serviceBranch or 'main'
+    local location: string = called or "services"
+    local githubUrl: string = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/alchemy/" .. location .. "/" .. path .. ".lua"
+    local jsdelivrUrl: string = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/alchemy/" .. location .. "/" .. path .. ".lua"
+
+    if serviceBranch and not(serviceBranch == "main") then
+        local prework: boolean = false
+        local file: string = string.gsub(path, "/", "_")
+
+        if not isfolder("alchemy") then
+            makefolder("alchemy")
+        end
+
+        if not isfolder("alchemy/collector") then
+            makefolder("alchemy/collector")
+        end
+
+        if not isfolder("alchemy/collector/" .. file) then
+            makefolder("alchemy/collector/" .. file)
+        end
+
+        if isfile("alchemy/collector/" .. file .. "/branch.txt") then
+            if readfile("alchemy/collector/" .. file .. "/branch.txt") == serviceBranch then
+                prework = true
+            else
+                writefile("alchemy/collector/" .. file .. "/branch.txt", serviceBranch)
+            end
+        else
+            writefile("alchemy/collector/" .. file .. "/branch.txt", serviceBranch)
+        end
+
+        if isfile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt") and prework then
+            return readfile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt")
+        else
+            local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
+            if git_succ and git_result then
+                writefile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt", git_result)
+                return git_result
+            end
+
+            local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
+            if jsd_succ and jsd_result then
+                writefile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt", jsd_result)
+                return jsd_result
+            end
+        end
+
+        return "warn('noooo way')"
+    end
+
+    local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
+    if git_succ and git_result then return git_result end
+
+    local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
+    if jsd_succ and jsd_result then return jsd_result end
     
-    ---------/// Send Notify ///---------
+    return "warn('noooo way')"
+end
 
-    if premium or farmer_mode or (oneclick or kaitan or kaitun or rollback) then
+if farmer_mode then alchemy['.npm run build'](loadService("farmer_mode", alchemy['.npm run farmer']()))
+elseif premium then alchemy['.npm run build'](loadService("services", alchemy['.npm run game']())) 
+elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
+elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
+else
+    const available: any = script_direct[g]
+    if not(available and typeof(available) == "table") then
+        errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
+        return "\n"
+    end
+    if available.fully_free then
+        local answer = false
         Notification.new({
-	        Icon = "tag-sparkle-bold",
-            Title = "Thank you all for the support!",
-            Description = "Enjoy scripts and features.\nAlso, don't forget to write a review.",
-            Duration = 10,
-        })
-    else
-        Notification.new({
-	        Icon = "discord-bold",
-            Title = "Wanna join our Discord community?",
-            Description = "We have a huge community, and\nour community has a news update.\nThank you all for the support!! ",
+            Icon = "fingerprint",
+            Title = "Wanna Get Key?",
+            Description = "This product is marked as Trial.\nIf you choose key system, you will\naccess the real-time update.",
             Dialog = true,
             Buttons = {
                 {
-                    Title = "Sure!",
+                    Title = "Let's get the key!",
                     Callback = function()
-                        if setclipboard then
-                            Notification.new({
-                                Icon = "discord-bold",
-                                Title = "Copied completed!",
-                                Description = "We have sent the server invite link\nto your clipboard.",
-                                Duration = 6,
-                            })
-                            setclipboard("https://discord.gg/alchemyhub")
-                        end
+                        getgenv().force_key = true
+                        answer = true
                     end,
                 },
                 {
                     Title = "No Thanks",
-                    Callback = function() return end,
+                    Callback = function()
+                        answer = true
+                    end,
                 }
             }
         })
+        repeat task.wait() until answer
     end
 
-    ---------/// Miscellaneous ///---------
-
-    if script_key then
-        print(string.format("</> Key: %s\n", script_key))
-    end
-
-    if not(premium or farmer_mode or oneclick or kaitan or kaitun or rollback) then
-        const og: number = tick() + 21600
-        task.spawn(function()
-            repeat task.wait(1) until og < tick()
-            errorMessage("Alchemy", "<b>(ERROR-429)</b>\nYou have reached the product usage limit.\nYou can upgrade your plan to have unlimited usage.\n<i>#at -> \"www.buyalchemy.net\"</i>")
-            task.wait(8); getService.TeleportService:Teleport(game.PlaceId, getService.Players.LocalPlayer)
-        end)
-    end
-
-    ---------/// Load Scripts ///---------
-
-    local serviceBranch = "main"
-    pcall(function()
-        local _, subbed = pcall(function() return game:HttpGet('https://github.com/x2neptunereal/Alchemy-Station') end)
-        local commit = subbed:find('currentOid');commit = commit and subbed:sub(commit + 13, commit + 52) or nil
-        serviceBranch = commit and #commit == 40 and commit or 'main'
-    end)
-
-    const loadService = function(called: string, path: string): string
-        local project: string = "Alchemy-Station"
-        local branch: string = serviceBranch or 'main'
-        local location: string = called or "services"
-        local githubUrl: string = "https://raw.githubusercontent.com/x2neptunereal/" .. project .. "/" .. branch .. "/alchemy/" .. location .. "/" .. path .. ".lua"
-        local jsdelivrUrl: string = "https://cdn.jsdelivr.net/gh/x2neptunereal/" .. project .. "@" .. branch .. "/alchemy/" .. location .. "/" .. path .. ".lua"
-
-        if serviceBranch and not(serviceBranch == "main") then
-            local prework: boolean = false
-            local file: string = string.gsub(path, "/", "_")
-
-            if not isfolder("alchemy") then
-                makefolder("alchemy")
-            end
-
-            if not isfolder("alchemy/collector") then
-                makefolder("alchemy/collector")
-            end
-
-            if not isfolder("alchemy/collector/" .. file) then
-                makefolder("alchemy/collector/" .. file)
-            end
-
-            if isfile("alchemy/collector/" .. file .. "/branch.txt") then
-                if readfile("alchemy/collector/" .. file .. "/branch.txt") == serviceBranch then
-                    prework = true
-                else
-                    writefile("alchemy/collector/" .. file .. "/branch.txt", serviceBranch)
-                end
-            else
-                writefile("alchemy/collector/" .. file .. "/branch.txt", serviceBranch)
-            end
-
-            if isfile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt") and prework then
-                return readfile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt")
-            else
-                local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
-                if git_succ and git_result then
-                    writefile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt", git_result)
-                    return git_result
-                end
-
-                local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
-                if jsd_succ and jsd_result then
-                    writefile("alchemy/collector/" .. file .. "/DONT_EDIT_THIS.txt", jsd_result)
-                    return jsd_result
-                end
-            end
-
-            return "warn('noooo way')"
-        end
-
-        local git_succ, git_result = pcall(function() return game:HttpGet(githubUrl) end)
-        if git_succ and git_result then return git_result end
-
-        local jsd_succ, jsd_result = pcall(function() return game:HttpGet(jsdelivrUrl) end)
-        if jsd_succ and jsd_result then return jsd_result end
-        
-        return "warn('noooo way')"
-    end
-
-    if farmer_mode then alchemy['.npm run build'](loadService("farmer_mode", alchemy['.npm run farmer']()))
-    elseif premium then alchemy['.npm run build'](loadService("services", alchemy['.npm run game']())) 
-    elseif oneclick then alchemy['.npm run build'](loadService("oneclick", alchemy['.npm run oneclick']())) 
-    elseif rollback then alchemy['.npm run build'](loadService("rollback", alchemy['.npm run rollback']()))
-    else
-        const available: any = script_direct[g]
-        if not(available and typeof(available) == "table") then
-            errorMessage("Alchemy", "<b>(ERROR-404)</b>\nThis game, our product wasn't supported.\n<i>#" .. tostring(game.GameId) .. "</i>")
-            return "\n"
-        end
-        if available.fully_free then
-            local answer = false
-            Notification.new({
-                Icon = "fingerprint",
-                Title = "Wanna Get Key?",
-                Description = "This product is marked as Trial.\nIf you choose key system, you will\naccess the real-time update.",
-                Dialog = true,
-                Buttons = {
-                    {
-                        Title = "Let's get the key!",
-                        Callback = function()
-                            getgenv().force_key = true
-                            answer = true
-                        end,
-                    },
-                    {
-                        Title = "No Thanks",
-                        Callback = function()
-                            answer = true
-                        end,
-                    }
-                }
-            })
-            repeat task.wait() until answer
-        end
-
-        getgenv().loader = alchemy['.npm run game'](); if string.find(loader, "_trial") then alchemy['.npm run build'](loadService("services", loader))
-        else getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end
-    end;
+    getgenv().loader = alchemy['.npm run game'](); if string.find(loader, "_trial") then alchemy['.npm run build'](loadService("services", loader))
+    else getgenv().loadService = loadService; (load or loadstring)(getGit('Alchemy', 'keysystem/nexora.lua'))(); end
 end
