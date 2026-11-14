@@ -408,8 +408,8 @@ end)
 task.spawn(function()
     xpcall(function()
         getgenv().preparingApi = true;
-        loadstring(getGit('Alchemy', 'library/api.lua'))();
         loadstring(getGit('Alchemy', 'library/debug/scope.lua'))();
+        loadstring(getGit('Alchemy', 'library/api.lua'))();
     end, function(err: string)
         warn(string.format("</> Security report error %s\n", err))
     end)
