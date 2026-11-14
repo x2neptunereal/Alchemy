@@ -85,7 +85,7 @@ getgenv().force_key = force_key or false
 getgenv().farmer_mode = farmer_mode or false
 getgenv().oneclick = oneclick or kaitan or kaitun or false
 
-getgenv().addons = aimbot or false
+getgenv().addons = addons or aimbot or false
 
 getgenv().setting = setting or nil
 getgenv().force_config = force_config or nil
@@ -153,7 +153,7 @@ getgenv().setAutoExec = function(): ()
 end
 
 pcall(function()
-    if not isfolder("alchemy_inc") then
+    if isfolder("alchemy_inc") then
         delfolder("alchemy_inc")
     end
 
@@ -166,7 +166,6 @@ pcall(function()
             delfolder("alchemy/language")
         end
 
-        
         if isfolder("alchemy/collector") then
             delfolder("alchemy/collector")
         end
